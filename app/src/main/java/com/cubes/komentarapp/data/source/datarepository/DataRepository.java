@@ -53,9 +53,9 @@ public class DataRepository {
     }
 
     //VIDEOS
-    public void loadVideoData(NewsResponseListener listener){
+    public void loadVideoData(int page, NewsResponseListener listener){
 
-        service.getVideoNews(1).enqueue(new Callback<ResponseNews>() {
+        service.getVideoNews(page).enqueue(new Callback<ResponseNews>() {
 
             @Override
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
@@ -82,8 +82,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }
@@ -97,9 +96,9 @@ public class DataRepository {
 
     // LATEST
 
-    public void loadLatestData(NewsResponseListener listener){
+    public void loadLatestData(int page, NewsResponseListener listener){
 
-        service.getLatestNews(1).enqueue(new Callback<ResponseNews>() {
+        service.getLatestNews(page).enqueue(new Callback<ResponseNews>() {
 
             @Override
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
@@ -124,8 +123,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }
@@ -166,8 +164,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }
@@ -181,9 +178,9 @@ public class DataRepository {
 
     // SEARCH
 
-    public void loadSearchData(String term, NewsResponseListener listener){
+    public void loadSearchData(String term, int page, NewsResponseListener listener){
 
-        service.getSearchNews(term,1).enqueue(new Callback<ResponseNews>() {
+        service.getSearchNews(term,page).enqueue(new Callback<ResponseNews>() {
 
             @Override
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
@@ -207,8 +204,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }
@@ -222,9 +218,9 @@ public class DataRepository {
 
     // TAG NEWS
 
-    public void loadTagData(int id, NewsResponseListener listener){
+    public void loadTagData(int id, int page, NewsResponseListener listener){
 
-        service.getTagNews(id,1).enqueue(new Callback<ResponseNews>() {
+        service.getTagNews(id,page).enqueue(new Callback<ResponseNews>() {
 
             @Override
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
@@ -249,8 +245,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }

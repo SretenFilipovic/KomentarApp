@@ -63,7 +63,7 @@ public class LatestFragment extends Fragment {
 
     private void loadData(){
 
-        DataRepository.getInstance().loadLatestData(new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadLatestData(DataContainer.page, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ResponseNews response) {
                 newsList = response.data.news;

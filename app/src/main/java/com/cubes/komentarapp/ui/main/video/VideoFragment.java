@@ -64,7 +64,7 @@ public class VideoFragment extends Fragment {
 
     private void loadData(){
 
-        DataRepository.getInstance().loadVideoData(new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadVideoData(DataContainer.page, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ResponseNews response) {
                 newsList = response.data.news;

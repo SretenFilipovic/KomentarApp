@@ -82,7 +82,7 @@ public class SearchFragment extends Fragment {
                 // poziva se server
                 else {
 
-                    DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), new DataRepository.NewsResponseListener() {
+                    DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()),DataContainer.page, new DataRepository.NewsResponseListener() {
                         @Override
                         public void onResponse(ResponseNews response) {
                             newsList = response.data.news;

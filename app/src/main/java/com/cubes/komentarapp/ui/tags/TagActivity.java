@@ -51,7 +51,7 @@ public class TagActivity extends AppCompatActivity {
 
     private void loadData(){
 
-        DataRepository.getInstance().loadTagData(tag.id, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadTagData(tag.id, DataContainer.page, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ResponseNews response) {
                 newsList = response.data.news;

@@ -52,7 +52,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        DataRepository.getInstance().loadCategoryData(category.id, 1, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadCategoryData(category.id, DataContainer.page, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ResponseNews response) {
                 if (response!=null){
