@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".ui.detail.NewsDetailActivity">
+
+    <Button
+        android:id="@+id/buttonTag"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:background="@drawable/tag_background"
+        android:text="@string/text_tag_example"
+        android:textColor="@drawable/tag_text_color"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:paddingStart="@dimen/margin_main"
+        android:paddingEnd="@dimen/margin_main"/>
+
+</LinearLayout>

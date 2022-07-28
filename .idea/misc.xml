@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.19427558257345492" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.12" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/button_circle.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/edit_text_outline.xml" value="0.15" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/edit_text_outline_blue.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_comment.xml" value="0.1225" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_comment_blue.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_search.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_thumbs_down.xml" value="0.12" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_thumbs_down_voted.xml" value="0.12" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_thumbs_up.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_thumbs_up_filled.xml" value="0.12" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/ic_video_play.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/selected_dot.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/tab_selector.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/tab_underline.xml" value="0.13" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/tag_background.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/tag_text_color.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/unselected_dot.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/drawable/upvote_downvote_circle.xml" value="0.1165" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_comments.xml" value="0.34629629629629627" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_currency.xml" value="0.1644021739130435" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_horoscope.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_main.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_news_detail.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_post_comment.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_post_reply.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_splashscreen.xml" value="0.22" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_subcategory.xml" value="0.22" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_tag.xml" value="0.22" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/activity_weather.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/expandable_list_group.xml" value="0.24598269468479605" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/expandable_list_item.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_home.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_home_page_category.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_latest.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_most_read.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_newest.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_recycler_view.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_rv_item_head_slider.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_search.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_simple.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_slider.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/fragment_video.xml" value="0.17028985507246377" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_big_news.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_big_news_homepage.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_category_in_menu.xml" value="0.22" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_comment.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_comment_children.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_comment_parents.xml" value="0.2" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_comments_button_comment.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_head_most_read.xml" value="0.22" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_head_newest.xml" value="0.36310679611650487" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_head_slider.xml" value="0.22" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_head_top.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_head_video.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_items_in_menu.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_loading.xml" value="0.5" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_comments.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_related.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_share.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_tags.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_tags_and_news.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_top.xml" value="0.2714078374455733" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_news_detail_web_view.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_slider.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_slider_view.xml" value="0.15534420289855072" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_small_news.xml" value="0.25" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_small_news_homepage.xml" value="0.36310679611650487" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_smallest_news.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_social_network.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_social_network_icons.xml" value="0.67" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/layout/rv_item_tag.xml" value="0.33" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/menu/home_menu.xml" value="0.196875" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1225" />
+        <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1225" />
+        <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1855" />
+        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1855" />
+        <entry key="app/src/main/res/drawable/unselected_dot.xml" value="0.1855" />
+        <entry key="app/src/main/res/layout/rv_item_comment.xml" value="0.36367753623188404" />
+        <entry key="app/src/main/res/layout/rv_item_comment_second_level.xml" value="0.36367753623188404" />
+        <entry key="app/src/main/res/layout/rv_item_head_top.xml" value="0.20652173913043478" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

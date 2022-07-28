@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_editors_choice"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_biggest"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/margin_main"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_main"
+            android:layout_gravity="start"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blue_lightest"
+            android:layout_marginTop="@dimen/margin_main"
+            android:layout_marginEnd="@dimen/margin_main"
+            android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_gravity="bottom"/>
+        <View
+            android:layout_width="50dp"
+            android:layout_height="2dp"
+            android:background="@color/red"
+            android:layout_marginTop="@dimen/margin_main"
+            android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_gravity="bottom"/>
+    </FrameLayout>
+
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.cubes.komentarapp.ui.NestedScrollableHost
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.cubes.komentarapp.ui.NestedScrollableHost>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"/>
+    </FrameLayout>
+
+
+
+</LinearLayout>

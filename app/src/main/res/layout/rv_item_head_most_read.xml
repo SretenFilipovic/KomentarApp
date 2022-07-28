@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.home.HomeFragment"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/margin_main"
+    android:layout_marginStart="@dimen/margin_main"
+    android:layout_marginEnd="@dimen/margin_main">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        android:background="@color/transparent"
+        app:tabTextColor="@color/gray"
+        app:tabSelectedTextColor="@color/black"
+        app:tabIndicatorColor="@color/red"/>
+    <com.cubes.komentarapp.ui.NestedScrollableHost
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.cubes.komentarapp.ui.NestedScrollableHost>
+
+
+</LinearLayout>

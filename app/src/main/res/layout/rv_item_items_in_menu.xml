@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/blue">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginTop="30dp"/>
+    <TextView
+        android:id="@+id/textViewWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_vremenska_prognoza"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/textViewCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_kursna_lista"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/textViewHoroscope"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_horoskop"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:id="@+id/textViewPushNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_push_notifikacije"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/textViewMarketing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_marketing"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/textViewTermsAndConditions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_uslovi_koriscenja"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"/>
+    <TextView
+        android:id="@+id/textViewContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_kontakt"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/white_opacity_70"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="30dp"/>
+
+
+
+
+</LinearLayout>
