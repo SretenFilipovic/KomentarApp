@@ -52,7 +52,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        DataRepository.getInstance().loadCategoryData(category.id, DataContainer.page, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadCategoryNewsData(category.id, DataContainer.page, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ResponseNews response) {
                 if (response!=null){
@@ -88,7 +88,7 @@ public class SubcategoryActivity extends AppCompatActivity {
             @Override
             public void loadMoreNews(int page) {
 
-                DataRepository.getInstance().loadMoreCategoryNews(category.id, page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadCategoryNewsData(category.id, page, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(ResponseNews response) {
                         adapter.addNewNewsList(response.data.news);

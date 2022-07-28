@@ -99,7 +99,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void loadMoreNews(int page) {
 
-                DataRepository.getInstance().loadMoreVideos(page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadVideoData(page, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(ResponseNews response) {
                         adapter.addNewNewsList(response.data.news);

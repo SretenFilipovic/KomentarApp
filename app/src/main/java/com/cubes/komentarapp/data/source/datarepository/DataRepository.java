@@ -62,8 +62,7 @@ public class DataRepository {
 
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
 
@@ -75,24 +74,6 @@ public class DataRepository {
         });
     }
 
-    public void loadMoreVideos(int page, NewsResponseListener listener){
-
-        service.getVideoNews(page).enqueue(new Callback<ResponseNews>() {
-            @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
-                if (response.body() != null
-                        && response.isSuccessful()
-                        && response.body().data != null){
-                    listener.onResponse(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);
-            }
-        });
-    }
 
     // LATEST
 
@@ -104,8 +85,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }
@@ -116,50 +96,13 @@ public class DataRepository {
         });
     }
 
-    public void loadMoreLatest(int page, NewsResponseListener listener){
-
-        service.getLatestNews(page).enqueue(new Callback<ResponseNews>() {
-            @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
-                if (response.body() != null
-                        && response.isSuccessful()
-                        && response.body().data != null){
-                    listener.onResponse(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);
-            }
-        });
-    }
 
     // CATEGORIES AND SUBCATEGORIES
 
-    public void loadCategoryData(int id, int page, NewsResponseListener listener){
+    public void loadCategoryNewsData(int id, int page, NewsResponseListener listener){
 
         service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNews>() {
 
-            @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
-                if (response.body() != null
-                        && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
-                    listener.onResponse(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);            }
-        });
-    }
-
-    public void loadMoreCategoryNews(int id, int page, NewsResponseListener listener){
-
-        service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNews>() {
             @Override
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
@@ -171,10 +114,10 @@ public class DataRepository {
 
             @Override
             public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);
-            }
+                listener.onFailure(t);            }
         });
     }
+
 
     // SEARCH
 
@@ -186,24 +129,6 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
-                    listener.onResponse(response.body());
-                }            }
-
-            @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);            }
-        });
-    }
-
-    public void loadMoreSearchNews(String term, int page, NewsResponseListener listener){
-
-        service.getSearchNews(term, page).enqueue(new Callback<ResponseNews>() {
-            @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
-                if (response.body() != null
-                        && response.isSuccessful()
                         && response.body().data != null){
                     listener.onResponse(response.body());
                 }
@@ -211,10 +136,10 @@ public class DataRepository {
 
             @Override
             public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);
-            }
+                listener.onFailure(t);            }
         });
     }
+
 
     // TAG NEWS
 
@@ -226,8 +151,7 @@ public class DataRepository {
             public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.news.isEmpty()){
+                        && response.body().data != null){
                     listener.onResponse(response.body());
                 }
             }
@@ -238,24 +162,6 @@ public class DataRepository {
         });
     }
 
-    public void loadMoreTagNews(int id, int page, NewsResponseListener listener){
-
-        service.getTagNews(id, page).enqueue(new Callback<ResponseNews>() {
-            @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
-                if (response.body() != null
-                        && response.isSuccessful()
-                        && response.body().data != null){
-                    listener.onResponse(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
-                listener.onFailure(t);
-            }
-        });
-    }
 
     // HEAD NEWS
 

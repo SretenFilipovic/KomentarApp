@@ -97,7 +97,7 @@ public class LatestFragment extends Fragment {
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
             public void loadMoreNews(int page) {
-                DataRepository.getInstance().loadMoreLatest(page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadLatestData(page, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(ResponseNews response) {
                         adapter.addNewNewsList(response.data.news);

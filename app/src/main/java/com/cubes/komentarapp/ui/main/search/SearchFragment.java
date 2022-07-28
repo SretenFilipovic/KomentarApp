@@ -128,7 +128,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void loadMoreNews(int page) {
 
-                DataRepository.getInstance().loadMoreSearchNews(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(ResponseNews response) {
                         adapter.addNewNewsList(response.data.news);

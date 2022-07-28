@@ -69,7 +69,7 @@ public class HomePageCategoryFragment extends Fragment {
     // nakon odgovora servera potrebno je napuniti staticku listu koja se nalazi u klasi DataContainer i pozvati metodu UpdateUI() kojom se setuje adapter za prikazivanje trazene liste
      private void loadData() {
 
-         DataRepository.getInstance().loadCategoryData(category.id, DataContainer.page, new DataRepository.NewsResponseListener() {
+         DataRepository.getInstance().loadCategoryNewsData(category.id, DataContainer.page, new DataRepository.NewsResponseListener() {
              @Override
              public void onResponse(ResponseNews response) {
                 if (response!=null){
@@ -112,7 +112,7 @@ public class HomePageCategoryFragment extends Fragment {
             @Override
             public void loadMoreNews(int page) {
 
-                DataRepository.getInstance().loadMoreCategoryNews(category.id, page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadCategoryNewsData(category.id, page, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(ResponseNews response) {
                         adapter.addNewNewsList(response.data.news);
