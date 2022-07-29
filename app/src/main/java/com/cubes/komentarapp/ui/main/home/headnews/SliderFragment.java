@@ -52,18 +52,9 @@ public class SliderFragment extends Fragment {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageViewNews);
 
-        binding.imageViewNews.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataRepository.getInstance().getNewsDetails(getContext(), news);
-            }
-        });
-        binding.textViewTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataRepository.getInstance().getNewsDetails(getContext(), news);
-            }
-        });
+        binding.imageViewNews.setOnClickListener(view1 -> DataRepository.getInstance().getNewsDetails(getContext(), news));
+
+        binding.textViewTitle.setOnClickListener(view12 -> DataRepository.getInstance().getNewsDetails(getContext(), news));
     }
 
 }

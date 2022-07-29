@@ -46,9 +46,9 @@ public class RvItemHeadMostRead implements RvItemHead{
         Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
 
         adapter = new HeadNewsMostReadVPAdapter(fm, lc, latestList, mostReadList, mostCommentedList);
-        binding.viewPager.setAdapter(adapter);
+        binding.viewPagerHome.setAdapter(adapter);
 
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> {
+        new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, (tab, position) -> {
             if (position == 0){
                 tab.setText("NAJNOVIJE");
             }

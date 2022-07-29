@@ -30,7 +30,7 @@ public class RvItemDetailComments implements RvItemDetail{
 
     @Override
     public int getType() {
-        return 4;
+        return 2;
     }
 
     @Override

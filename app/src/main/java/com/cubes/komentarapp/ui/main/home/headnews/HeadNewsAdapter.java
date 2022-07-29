@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
@@ -32,20 +34,34 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
 
     private Context context;
     private ArrayList<RvItemHead> items;
-    private ArrayList<News> sliderList;
-    private ArrayList<News> topList;
-    private ArrayList<News> editorsChoiceList;
-    private ArrayList<News> videosList;
-    private ArrayList<News> mostReadList;
-    private ArrayList<News> latestList;
-    private ArrayList<News> mostCommentedList;
+    private ArrayList<CategoryHomePage> fromCategoryList;
 
-    public HeadNewsAdapter(Context context) {
+    public HeadNewsAdapter(Context context, ArrayList<News> sliderList, ArrayList<News> topList,
+                           ArrayList<News> editorsChoiceList, ArrayList<News> videosList,
+                           ArrayList<News> mostReadList, ArrayList<News> latestList, ArrayList<News> mostCommentedList, ArrayList<CategoryHomePage> fromCategoryList) {
 
         items = new ArrayList<>();
         this.context = context;
+        this.fromCategoryList = fromCategoryList;
 
-        loadData();
+        items.add(new RvItemHeadSlider(context, sliderList));
+        items.add(new RvItemHeadTop(topList));
+        items.add(new RvItemHeadMostRead(context, latestList, mostReadList, mostCommentedList));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Sport"), "Sport"));
+        items.add(new RvItemHeadEditorsChoiceSlider(context, editorsChoiceList));
+        items.add(new RvItemHeadVideo(videosList));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Aktuelno"), "Aktuelno"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Politika"), "Politika"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Svet"), "Svet"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Hronika"), "Hronika"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Društvo"), "Društvo"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Ekonomija"), "Ekonomija"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Stil života"), "Stil života"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Kultura"), "Kultura"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Zabava"), "Zabava"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Srbija"), "Srbija"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Beograd"), "Beograd"));
+        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Region"), "Region"));
 
     }
 
@@ -86,6 +102,22 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
         return this.items.get(position).getType();
     }
 
+    public ArrayList<News> getNewsFromCategoryList(String category){
+        ArrayList<News> allNewsList = new ArrayList<>();
+        ArrayList<News> categoryList = new ArrayList<>();
+
+        for(CategoryHomePage cat : fromCategoryList){
+            allNewsList = cat.news;
+
+            for (News news : allNewsList) {
+
+                if(news.category.name.equalsIgnoreCase(category)){
+                    categoryList.add(news);
+                }
+            }
+        }
+        return categoryList;
+    }
 
     public class HeadNewsViewHolder extends RecyclerView.ViewHolder{
 
@@ -95,51 +127,6 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
             super(binding.getRoot());
             this.binding = binding;
         }
-    }
-
-    private void loadData(){
-
-        DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
-            @Override
-            public void onResponse(ResponseNews response) {
-                sliderList = response.data.slider;
-                topList = response.data.top;
-                editorsChoiceList = response.data.editors_choice;
-                videosList = response.data.videos;
-                mostReadList = response.data.most_read;
-                latestList = response.data.latest;
-                mostCommentedList = response.data.most_comented;
-
-                items.add(new RvItemHeadSlider(context, sliderList));
-                items.add(new RvItemHeadTop(topList));
-                items.add(new RvItemHeadMostRead(context, latestList, mostReadList, mostCommentedList));
-                items.add(new RvItemHeadCategory("Sport"));
-                items.add(new RvItemHeadEditorsChoiceSlider(context, editorsChoiceList));
-                items.add(new RvItemHeadVideo(videosList));
-                items.add(new RvItemHeadCategory("Aktuelno"));
-                items.add(new RvItemHeadCategory("Politika"));
-                items.add(new RvItemHeadCategory("Svet"));
-                items.add(new RvItemHeadCategory("Hronika"));
-                items.add(new RvItemHeadCategory("Društvo"));
-                items.add(new RvItemHeadCategory("Ekonomija"));
-                items.add(new RvItemHeadCategory("Stil života"));
-                items.add(new RvItemHeadCategory("Kultura"));
-                items.add(new RvItemHeadCategory("Zabava"));
-                items.add(new RvItemHeadCategory("Srbija"));
-                items.add(new RvItemHeadCategory("Beograd"));
-                items.add(new RvItemHeadCategory("Region"));
-
-                notifyDataSetChanged();
-
-                Log.d("TAG", "Home news load data success");
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d("TAG", "Home news load data failure");
-
-            }
-        });
     }
 
 }

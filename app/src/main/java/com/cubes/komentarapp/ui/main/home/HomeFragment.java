@@ -52,10 +52,10 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         HomePageAdapter adapter = new HomePageAdapter(getActivity(), DataContainer.categoryList);
-        binding.viewPager.setAdapter(adapter);
+        binding.viewPagerHome.setAdapter(adapter);
 
         // u ViewPager2 se drugacije setuje tabLayout i nazivi tabova se daju preko TabLayoutMediator-a (nasao na stackoverflow)
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+        new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 if (position == 0){

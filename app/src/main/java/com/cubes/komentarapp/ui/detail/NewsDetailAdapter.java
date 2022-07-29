@@ -40,9 +40,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
 
         this.items = new ArrayList<>();
 
-        this.items.add(new RvItemDetailTop(this.news));
         this.items.add(new RvItemDetailWebView(this.news));
-        this.items.add(new RvItemDetailShare(context, this.news));
         this.items.add(new RvItemDetailTags(this.news.tags));
         this.items.add(new RvItemDetailComments(this.news, this.news.comments_top_n));
         this.items.add(new RvItemDetailRelatedNews(this.news.related_news));
@@ -60,15 +58,9 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
 
         switch (viewType){
             case 0:
-                binding = RvItemNewsDetailTopBinding.inflate(inflater,parent,false);
-                break;
-            case 1:
                 binding = RvItemNewsDetailWebViewBinding.inflate(inflater, parent, false);
                 break;
             case 2:
-                binding = RvItemNewsDetailShareBinding.inflate(inflater, parent, false);
-                break;
-            case 4:
                 binding = RvItemNewsDetailCommentsBinding.inflate(inflater, parent, false);
                 break;
             default:

@@ -15,7 +15,7 @@ public class RvItemDetailWebView implements RvItemDetail{
 
     @Override
     public int getType() {
-        return 1;
+        return 0;
     }
 
     @Override

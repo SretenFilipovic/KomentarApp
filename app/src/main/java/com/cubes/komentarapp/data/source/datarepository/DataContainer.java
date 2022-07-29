@@ -14,8 +14,4 @@ public class DataContainer {
     // staticka lista koju popunjavamo listom kategorija koju dobijemo sa servera
     public static ArrayList<Category> categoryList = new ArrayList<>();
 
-    // staticka lista koju popunjavamo listom komentara za izabranu vest
-    public static ArrayList<Comments> commentList = new ArrayList<>();
-
-
 }

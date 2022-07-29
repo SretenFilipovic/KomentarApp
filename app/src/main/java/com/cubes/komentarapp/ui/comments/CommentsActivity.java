@@ -7,9 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.source.datarepository.DataContainer;
+import com.cubes.komentarapp.data.source.datarepository.DataRepository;
+import com.cubes.komentarapp.data.source.remote.response.ResponseComments;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+
+import java.util.ArrayList;
 
 // ComentsActivity preko RecyclerView-a prikazuje sve komentare prvog nivoa za otvorenu vest
 
@@ -17,6 +23,8 @@ public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
     private News news;
+    public ArrayList<Comments> commentList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +50,21 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        binding.recyclerView.setAdapter(new CommentsFirstLevelAdapter(getApplicationContext(), DataContainer.commentList));
+        DataRepository.getInstance().loadCommentsData(news.id, new DataRepository.CommentsResponseListener() {
+            @Override
+            public void onResponse(ResponseComments response) {
+                commentList = response.data;
+
+                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                binding.recyclerView.setAdapter(new CommentsFirstLevelAdapter(getApplicationContext(), commentList));
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
+
     }
 }

@@ -271,21 +271,10 @@ public class DataRepository {
             public void onResponse(Call<ResponseNewsDetail> call, Response<ResponseNewsDetail> response) {
                 News newsDetails = response.body().data;
 
-                DataRepository.getInstance().loadCommentsData(news.id, new CommentsResponseListener() {
-                    @Override
-                    public void onResponse(ResponseComments response) {
-                        DataContainer.commentList = response.data;
+                Intent i = new Intent(context, NewsDetailActivity.class);
+                i.putExtra("news",newsDetails);
+                context.startActivity(i);
 
-                        Intent i = new Intent(context, NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        context.startActivity(i);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
             @Override
             public void onFailure(Call<ResponseNewsDetail> call, Throwable t) {

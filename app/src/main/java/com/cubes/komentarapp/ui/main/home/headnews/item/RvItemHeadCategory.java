@@ -19,11 +19,9 @@ public class RvItemHeadCategory implements RvItemHead{
     private ArrayList<News> list;
     private HeadNewsCategoryAdapter adapter;
     private String categoryName;
-    private ArrayList<CategoryHomePage> fromCategoryList;
 
-    public RvItemHeadCategory(String categoryName) {
-        fromCategoryList = new ArrayList<>();
-        loadData();
+    public RvItemHeadCategory(ArrayList<News> list, String categoryName) {
+        this.list = list;
         this.categoryName = categoryName;
     }
 
@@ -86,37 +84,4 @@ public class RvItemHeadCategory implements RvItemHead{
 
     }
 
-    private void loadData(){
-
-        DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
-            @Override
-            public void onResponse(ResponseNews response) {
-                fromCategoryList = response.data.category;
-
-                list = getNewsFromCategoryList(categoryName);
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-    }
-
-    public ArrayList<News> getNewsFromCategoryList(String category){
-        ArrayList<News> allNewsList = new ArrayList<>();
-        ArrayList<News> categoryList = new ArrayList<>();
-
-        for(CategoryHomePage cat : fromCategoryList){
-            allNewsList = cat.news;
-
-            for (News news : allNewsList) {
-
-                if(news.category.name.equalsIgnoreCase(category)){
-                    categoryList.add(news);
-                }
-            }
-        }
-        return categoryList;
-    }
 }

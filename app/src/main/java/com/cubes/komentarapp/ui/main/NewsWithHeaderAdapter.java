@@ -99,8 +99,8 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAd
 
         else{
             if (isFinished){
-                holder.bindingLoading.progressBar.setVisibility(View.INVISIBLE);
-                holder.bindingLoading.textView.setVisibility(View.INVISIBLE);
+                holder.bindingLoading.progressBar.setVisibility(View.GONE);
+                holder.bindingLoading.textView.setVisibility(View.GONE);
             }
 
             if (!isLoading & !isFinished & loadingNewsListener != null){

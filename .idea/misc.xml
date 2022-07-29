@@ -85,12 +85,16 @@
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1855" />
         <entry key="app/src/main/res/drawable/unselected_dot.xml" value="0.1855" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.36367753623188404" />
+        <entry key="app/src/main/res/layout/expandable_list_group.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/expandable_list_item.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.36367753623188404" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.36367753623188404" />
         <entry key="app/src/main/res/layout/rv_item_comment.xml" value="0.36367753623188404" />
         <entry key="app/src/main/res/layout/rv_item_comment_second_level.xml" value="0.36367753623188404" />
         <entry key="app/src/main/res/layout/rv_item_head_top.xml" value="0.20652173913043478" />
         <entry key="app/src/main/res/layout/rv_item_loading.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_comments.xml" value="0.36594202898550726" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_tags_and_news.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_web_view.xml" value="0.20516304347826086" />
       </map>
     </option>

@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container,HomeFragment.newInstance(DataContainer.categoryList)).commit();
 
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
         fullyOpenDrawer(binding.drawerNavigationView);
 
         binding.imageViewMenu.setOnClickListener(new View.OnClickListener() {
@@ -65,15 +67,19 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.home:
                         selectedFragment = HomeFragment.newInstance(DataContainer.categoryList);
+                    {binding.imageViewMenu.setVisibility(View.VISIBLE);}
                         break;
                     case R.id.search:
                         selectedFragment = SearchFragment.newInstance();
+                    {binding.imageViewMenu.setVisibility(View.GONE);}
                         break;
                     case R.id.latest:
                         selectedFragment = LatestFragment.newInstance();
+                    {binding.imageViewMenu.setVisibility(View.GONE);}
                         break;
                     case R.id.video:
                         selectedFragment = VideoFragment.newInstance();
+                    {binding.imageViewMenu.setVisibility(View.GONE);}
                         break;
                 }
 

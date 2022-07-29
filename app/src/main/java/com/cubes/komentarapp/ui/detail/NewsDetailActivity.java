@@ -71,23 +71,4 @@ public class NewsDetailActivity extends AppCompatActivity {
         binding.recyclerView.setAdapter(adapter);
 
     }
-
-    // u onResume ponovo se poziva getComments da bi se staticka lista komentara popunila dobrim podacima kada se klikne na neku povezanu vest, pa vrati na prethodnu vest
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        DataRepository.getInstance().loadCommentsData(news.id, new DataRepository.CommentsResponseListener() {
-            @Override
-            public void onResponse(ResponseComments response) {
-                DataContainer.commentList = response.data;
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-
-    }
 }

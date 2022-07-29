@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.source.datarepository.DataContainer;
@@ -21,7 +22,6 @@ import com.cubes.komentarapp.databinding.ExpandableListGroupBinding;
 import com.cubes.komentarapp.databinding.RvItemItemsInMenuBinding;
 import com.cubes.komentarapp.databinding.RvItemSocialNetworkBinding;
 import com.cubes.komentarapp.data.model.Category;
-import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -73,7 +73,7 @@ public class MenuAdapter extends RecyclerView.Adapter {
             headerHolder.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
             headerHolder.binding.textViewCategory.setText(R.string.text_naslovna);
 
-            // buduci da Naslovne vesti nisu vezane za kategoriju, klik na "Naslovna" u meniju samo zatvara meni i pozicionira na Naslovne vesti
+            // Klik na "Naslovna" u meniju samo zatvara meni i pozicionira na Naslovne vesti
             headerHolder.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -207,13 +207,16 @@ public class MenuAdapter extends RecyclerView.Adapter {
                 });
             }
 
-            // klik na kategoriju/podkategoriju vodi na novi aktiviti koji prikazuje vesti samo iz te kategorije/podkategorije
+            // klik na kategoriju zatvara meni i pozicionira ViewPager na izabranu kategoriju
             holderCategory.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, SubcategoryActivity.class);
-                    i.putExtra("category", list.get(position - 1));
-                    context.startActivity(i);
+
+                    DrawerLayout drawer = ((MainActivity) context).findViewById(R.id.drawerLayout);
+                    ViewPager2 viewPager2 = ((MainActivity) context).findViewById(R.id.viewPagerHome);
+                    drawer.closeDrawer(((MainActivity) context).findViewById(R.id.drawerNavigationView));
+                    viewPager2.setCurrentItem(position);
+
                 }
             });
 
