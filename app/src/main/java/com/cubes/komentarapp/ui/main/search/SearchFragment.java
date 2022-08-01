@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.search;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,15 +11,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
+import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
-import com.cubes.komentarapp.data.tools.LoadingNewsListener;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
 import java.util.ArrayList;
@@ -63,49 +67,68 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadData();
-    }
-
-    private void loadData() {
-
         binding.imageViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // prvo proveravamo da li je korisnik uneo pojam u traku za pretragu i da li je pojam dovoljne duzine
-                if (binding.editText.getText().length() == 0){
-                    Toast.makeText(getContext(), "Unesite pojam u traku za pretragu.", Toast.LENGTH_SHORT).show();
-                }
-                else if (binding.editText.getText().length() <= 2){
-                    Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
-                }
-                // poziva se server
-                else {
-
-                    DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()),DataContainer.page, new DataRepository.NewsResponseListener() {
-                        @Override
-                        public void onResponse(ResponseNews response) {
-                            newsList = response.data.news;
-
-                            if(newsList.size()>0){
-                                binding.textViewNoContent.setVisibility(View.GONE);
-                            }
-                            // ako server nije nasao nijednu vest za uneti pojam, pojavice se poruka
-                            else{
-                                binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
-                                binding.textViewNoContent.setVisibility(View.VISIBLE);
-                            }
-                            updateUI();
-                        }
-
-                        @Override
-                        public void onFailure(Throwable t) {
-
-                        }
-                    });
-                }
+                loadData();
             }
         });
+
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(300);
+                binding.refresh.startAnimation(rotate);
+
+                loadData();
+            }
+        });
+    }
+
+    private void loadData() {
+
+        int page = 1;
+
+        // prvo proveravamo da li je korisnik uneo pojam u traku za pretragu i da li je pojam dovoljne duzine
+        if (binding.editText.getText().length() == 0){
+            Toast.makeText(getContext(), "Unesite pojam u traku za pretragu.", Toast.LENGTH_SHORT).show();
+        }
+        else if (binding.editText.getText().length() <= 2){
+            Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
+        }
+        // poziva se server
+        else {
+
+            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
+                @Override
+                public void onResponse(NewsData response) {
+                    newsList = response.news;
+
+                    if(newsList.size()>0){
+                        binding.textViewNoContent.setVisibility(View.GONE);
+                    }
+                    // ako server nije nasao nijednu vest za uneti pojam, pojavice se poruka
+                    else{
+                        binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
+                        binding.textViewNoContent.setVisibility(View.VISIBLE);
+                    }
+
+                    binding.refresh.setVisibility(View.GONE);
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    updateUI();
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    binding.refresh.setVisibility(View.VISIBLE);
+                    binding.textViewNoContent.setVisibility(View.GONE);
+                    binding.recyclerView.setVisibility(View.GONE);
+                }
+            });
+        }
+
     }
 
     private void updateUI(){
@@ -115,7 +138,21 @@ public class SearchFragment extends Fragment {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(getContext(), news);
+                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+                    @Override
+                    public void onResponse(News response) {
+                        News newsDetails = response;
+
+                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                        i.putExtra("news",newsDetails);
+                        getContext().startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
             }
         });
         loadMoreNews();
@@ -130,19 +167,22 @@ public class SearchFragment extends Fragment {
 
                 DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
                     @Override
-                    public void onResponse(ResponseNews response) {
-                        adapter.addNewNewsList(response.data.news);
-                        if(response.data.news.size()<20){
+                    public void onResponse(NewsData response) {
+                        adapter.addNewNewsList(response.news);
+                        if(response.news.size()<20){
                             adapter.setFinished(true);
                         }
                     }
                     @Override
                     public void onFailure(Throwable t) {
+                        binding.refresh.setVisibility(View.VISIBLE);
+                        binding.recyclerView.setVisibility(View.GONE);
                         adapter.setFinished(true);
                     }
                 });
             }
         });
     }
+
 
 }

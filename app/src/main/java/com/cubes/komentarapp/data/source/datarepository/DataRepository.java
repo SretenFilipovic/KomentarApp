@@ -1,18 +1,22 @@
 package com.cubes.komentarapp.data.source.datarepository;
 
-import android.content.Context;
-import android.content.Intent;
-
+import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.Comments;
+import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.model.Horoscope;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.Weather;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.remote.networking.RetrofitService;
-import com.cubes.komentarapp.data.source.remote.response.PostComment;
-import com.cubes.komentarapp.data.source.remote.response.ResponseCategory;
-import com.cubes.komentarapp.data.source.remote.response.ResponseComments;
+import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
+import com.cubes.komentarapp.data.source.remote.response.ResponseCategoryList;
+import com.cubes.komentarapp.data.source.remote.response.ResponseCommentList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseHoroscope;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
+import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsDetail;
 import com.cubes.komentarapp.data.source.remote.response.ResponseWeather;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DataRepository {
 
     private static DataRepository instance;
-    private Retrofit retrofit;
     private RetrofitService service;
 
     private DataRepository() {
@@ -38,182 +41,164 @@ public class DataRepository {
     }
 
     public void callRetrofit(){
-        retrofit = new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DataContainer.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(RetrofitService.class);
     }
 
-    // NEWS LIST LISTENER
     public interface NewsResponseListener {
-        void onResponse(ResponseNews response);
+        void onResponse(NewsData response);
 
         void onFailure(Throwable t);
     }
 
-    //VIDEOS
     public void loadVideoData(int page, NewsResponseListener listener){
 
-        service.getVideoNews(page).enqueue(new Callback<ResponseNews>() {
+        service.getVideoNews(page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
+            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
 
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
 
             }
 
             @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
+            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
-
-
-    // LATEST
 
     public void loadLatestData(int page, NewsResponseListener listener){
 
-        service.getLatestNews(page).enqueue(new Callback<ResponseNews>() {
+        service.getLatestNews(page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
+            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
+            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
-
-
-    // CATEGORIES AND SUBCATEGORIES
 
     public void loadCategoryNewsData(int id, int page, NewsResponseListener listener){
 
-        service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNews>() {
+        service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
+            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
+            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
-
-
-    // SEARCH
 
     public void loadSearchData(String term, int page, NewsResponseListener listener){
 
-        service.getSearchNews(term,page).enqueue(new Callback<ResponseNews>() {
+        service.getSearchNews(term,page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
+            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
+            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
-
-
-    // TAG NEWS
 
     public void loadTagData(int id, int page, NewsResponseListener listener){
 
-        service.getTagNews(id,page).enqueue(new Callback<ResponseNews>() {
+        service.getTagNews(id,page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
+            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
+            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
-
-
-    // HEAD NEWS
 
     public void loadHeadNewsData(NewsResponseListener listener){
 
-        service.getHomepageNews().enqueue(new Callback<ResponseNews>() {
+        service.getHomepageNews().enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNews> call, Response<ResponseNews> response) {
+            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseNews> call, Throwable t) {
+            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
 
-    // CATEGORY LISTENER
     public interface CategoryResponseListener {
-        void onResponse(ResponseCategory response);
+        void onResponse(ArrayList<Category> response);
 
         void onFailure(Throwable t);
     }
 
     public void loadCategoryData(CategoryResponseListener listener){
 
-        service.getCategories().enqueue(new Callback<ResponseCategory>() {
+        service.getCategories().enqueue(new Callback<ResponseCategoryList>() {
 
             @Override
-            public void onResponse(Call<ResponseCategory> call, Response<ResponseCategory> response) {
+            public void onResponse(Call<ResponseCategoryList> call, Response<ResponseCategoryList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null
                         && !response.body().data.isEmpty()){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseCategory> call, Throwable t) {
+            public void onFailure(Call<ResponseCategoryList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
 
-    // HOROSCOPE LISTENER
+
     public interface HoroscopeResponseListener {
-        void onResponse(ResponseHoroscope response);
+        void onResponse(Horoscope response);
 
         void onFailure(Throwable t);
     }
@@ -227,7 +212,7 @@ public class DataRepository {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
@@ -237,9 +222,9 @@ public class DataRepository {
         });
     }
 
-    // WEATHER LISTENER
+
     public interface WeatherResponseListener {
-        void onResponse(ResponseWeather response);
+        void onResponse(Weather response);
 
         void onFailure(Throwable t);
     }
@@ -253,7 +238,7 @@ public class DataRepository {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null){
-                    listener.onResponse(response.body());
+                    listener.onResponse(response.body().data);
                 }
             }
 
@@ -263,100 +248,94 @@ public class DataRepository {
         });
     }
 
-    // NEWS DETAILS
-    public void getNewsDetails(Context context, News news){
+
+    public interface NewsDetailListener {
+        void onResponse(News response);
+
+        void onFailure(Throwable t);
+    }
+
+    public void getNewsDetails(News news, NewsDetailListener listener){
 
         service.getNewsDetail(news.id).enqueue(new Callback<ResponseNewsDetail>() {
             @Override
             public void onResponse(Call<ResponseNewsDetail> call, Response<ResponseNewsDetail> response) {
-                News newsDetails = response.body().data;
 
-                Intent i = new Intent(context, NewsDetailActivity.class);
-                i.putExtra("news",newsDetails);
-                context.startActivity(i);
+                listener.onResponse(response.body().data);
 
             }
             @Override
             public void onFailure(Call<ResponseNewsDetail> call, Throwable t) {
-
+                listener.onFailure(t);
             }
         });
     }
 
-    // COMMENTS LISTENER
+
     public interface CommentsResponseListener {
-        void onResponse(ResponseComments response);
+        void onResponse(ArrayList<Comments> response);
 
         void onFailure(Throwable t);
     }
 
-    // LOAD COMMENTS
     public void loadCommentsData(int id, CommentsResponseListener listener){
 
-        service.getComments(id).enqueue(new Callback<ResponseComments>() {
+        service.getComments(id).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
-            public void onResponse(Call<ResponseComments> call, Response<ResponseComments> response) {
-                listener.onResponse(response.body());
+            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+                listener.onResponse(response.body().data);
             }
 
             @Override
-            public void onFailure(Call<ResponseComments> call, Throwable t) {
+            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }
 
-    // UPVOTE COMMENT
     public void upvoteComment(String id, boolean vote){
 
-        service.postUpvote(id, vote).enqueue(new Callback<ResponseComments>() {
+        service.postUpvote(id, vote).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
-            public void onResponse(Call<ResponseComments> call, Response<ResponseComments> response) {
+            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
             }
             @Override
-            public void onFailure(Call<ResponseComments> call, Throwable t) {
+            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
             }
         });
     }
-    // DOWNVOTE COMMENT
+
     public void downvoteComment(String id, boolean vote){
 
-        service.postDownvote(id, vote).enqueue(new Callback<ResponseComments>() {
+        service.postDownvote(id, vote).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
-            public void onResponse(Call<ResponseComments> call, Response<ResponseComments> response) {
+            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
             }
             @Override
-            public void onFailure(Call<ResponseComments> call, Throwable t) {
+            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
             }
         });
     }
 
-    // POST COMMENT LISTENER
     public interface PostCommentListener {
-        void onResponse(PostComment response);
+        void onResponse(ArrayList<String> response);
 
         void onFailure(Throwable t);
     }
 
-    // POST COMMENT
-    public void postCommentData(PostComment comment, PostCommentListener listener){
+    public void postCommentData(ResponseCommentPost comment, PostCommentListener listener){
 
-        service.postComment(comment).enqueue(new Callback<PostComment>() {
+        service.postComment(comment).enqueue(new Callback<ResponseCommentPost>() {
 
             @Override
-            public void onResponse(Call<PostComment> call, Response<PostComment> response) {
-                if (response.body() != null
-                        && response.isSuccessful()
-                        && response.body().data != null
-                        && !response.body().data.isEmpty()){
-                    listener.onResponse(response.body());
-                }
+            public void onResponse(Call<ResponseCommentPost> call, Response<ResponseCommentPost> response) {
+                listener.onResponse(response.body().data);
             }
 
             @Override
-            public void onFailure(Call<PostComment> call, Throwable t) {
+            public void onFailure(Call<ResponseCommentPost> call, Throwable t) {
                 listener.onFailure(t);            }
         });
     }

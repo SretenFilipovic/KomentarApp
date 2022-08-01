@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,11 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;

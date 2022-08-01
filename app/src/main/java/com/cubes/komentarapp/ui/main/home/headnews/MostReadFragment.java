@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
@@ -62,8 +63,21 @@ public class MostReadFragment extends Fragment {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(getContext(), news);
-            }
+                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+                    @Override
+                    public void onResponse(News response) {
+                        News newsDetails = response;
+
+                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                        i.putExtra("news",newsDetails);
+                        getContext().startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });            }
         });
 
         binding.recyclerView.setAdapter(adapter);

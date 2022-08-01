@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSliderBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.squareup.picasso.Picasso;
 
 // slajderFragment sluzi za Slajder vesti koje se prikazuju na Naslovnoj strani na vrhu
@@ -52,9 +53,37 @@ public class SliderFragment extends Fragment {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageViewNews);
 
-        binding.imageViewNews.setOnClickListener(view1 -> DataRepository.getInstance().getNewsDetails(getContext(), news));
+        binding.imageViewNews.setOnClickListener(view1 -> DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+            @Override
+            public void onResponse(News response) {
+                News newsDetails = response;
 
-        binding.textViewTitle.setOnClickListener(view12 -> DataRepository.getInstance().getNewsDetails(getContext(), news));
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news",newsDetails);
+                getContext().startActivity(i);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }));
+
+        binding.textViewTitle.setOnClickListener(view12 -> DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+            @Override
+            public void onResponse(News response) {
+                News newsDetails = response;
+
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news",newsDetails);
+                getContext().startActivity(i);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }));
     }
 
 }

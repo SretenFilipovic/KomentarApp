@@ -11,18 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 import com.cubes.komentarapp.data.model.CategoryHomePage;
+import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategory;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 
 import java.util.ArrayList;
 
@@ -70,6 +66,16 @@ public class HomePageHeadNewsFragment extends Fragment {
 
         loadData();
 
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(300);
+                binding.refresh.startAnimation(rotate);
+
+                loadData();
+            }
+        });
     }
 
 
@@ -77,27 +83,29 @@ public class HomePageHeadNewsFragment extends Fragment {
 
         DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(ResponseNews response) {
-                sliderList = response.data.slider;
-                topList = response.data.top;
-                editorsChoiceList = response.data.editors_choice;
-                videosList = response.data.videos;
-                mostReadList = response.data.most_read;
-                latestList = response.data.latest;
-                mostCommentedList = response.data.most_comented;
-                fromCategoryList = response.data.category;
+            public void onResponse(NewsData response) {
+                sliderList = response.slider;
+                topList = response.top;
+                editorsChoiceList = response.editors_choice;
+                videosList = response.videos;
+                mostReadList = response.most_read;
+                latestList = response.latest;
+                mostCommentedList = response.most_comented;
+                fromCategoryList = response.category;
 
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 adapter = new HeadNewsAdapter(getContext(), sliderList, topList, editorsChoiceList, videosList, mostReadList, latestList, mostCommentedList, fromCategoryList);
                 binding.recyclerView.setAdapter(adapter);
 
+                binding.refresh.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
                 Log.d("TAG", "Home news load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
                 Log.d("TAG", "Home news load data failure");
-
             }
         });
     }

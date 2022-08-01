@@ -41,8 +41,8 @@ public class HoroscopeActivity extends AppCompatActivity {
 
         DataRepository.getInstance().loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
             @Override
-            public void onResponse(ResponseHoroscope response) {
-                horoscope = response.data;
+            public void onResponse(Horoscope response) {
+                horoscope = response;
 
                 binding.textViewTitle.setText("Horoskop");
                 binding.textViewName.setText(horoscope.name);

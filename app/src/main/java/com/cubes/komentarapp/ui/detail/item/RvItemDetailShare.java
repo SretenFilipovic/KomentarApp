@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailShareBinding;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;

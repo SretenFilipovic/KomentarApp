@@ -3,17 +3,22 @@ package com.cubes.komentarapp.ui.subcategory;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
+import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivitySubcategoryBinding;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
-import com.cubes.komentarapp.data.tools.LoadingNewsListener;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
 import java.util.ArrayList;
@@ -45,6 +50,17 @@ public class SubcategoryActivity extends AppCompatActivity {
             }
         });
 
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(300);
+                binding.refresh.startAnimation(rotate);
+
+                loadData();
+            }
+        });
+
         binding.textViewSubcategoryTitle.setText(category.name);
 
         loadData();
@@ -52,17 +68,23 @@ public class SubcategoryActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        DataRepository.getInstance().loadCategoryNewsData(category.id, DataContainer.page, new DataRepository.NewsResponseListener() {
+        int page = 1;
+        DataRepository.getInstance().loadCategoryNewsData(category.id, page, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(ResponseNews response) {
+            public void onResponse(NewsData response) {
                 if (response!=null){
-                    newsList = response.data.news;
+                    newsList = response.news;
                 }
                 updateUI();
+
+                binding.refresh.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                Log.d("TAG", "Subcategory load data success");
             }
             @Override
             public void onFailure(Throwable t) {
-
+                binding.refresh.setVisibility(View.VISIBLE);
+                Log.d("TAG", "Subcategory load data failure");
             }
         });
     }
@@ -74,8 +96,21 @@ public class SubcategoryActivity extends AppCompatActivity {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(SubcategoryActivity.this, news);
-            }
+                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+                    @Override
+                    public void onResponse(News response) {
+                        News newsDetails = response;
+
+                        Intent i = new Intent(SubcategoryActivity.this, NewsDetailActivity.class);
+                        i.putExtra("news",newsDetails);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });            }
         });
 
         loadMoreNews();
@@ -90,14 +125,16 @@ public class SubcategoryActivity extends AppCompatActivity {
 
                 DataRepository.getInstance().loadCategoryNewsData(category.id, page, new DataRepository.NewsResponseListener() {
                     @Override
-                    public void onResponse(ResponseNews response) {
-                        adapter.addNewNewsList(response.data.news);
-                        if(response.data.news.size()<20){
+                    public void onResponse(NewsData response) {
+                        adapter.addNewNewsList(response.news);
+                        if(response.news.size()<20){
                             adapter.setFinished(true);
                         }
                     }
                     @Override
                     public void onFailure(Throwable t) {
+                        binding.refresh.setVisibility(View.VISIBLE);
+                        binding.recyclerView.setVisibility(View.GONE);
                         adapter.setFinished(true);
                     }
                 });

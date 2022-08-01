@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

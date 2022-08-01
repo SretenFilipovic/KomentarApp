@@ -39,8 +39,8 @@ public class WeatherActivity extends AppCompatActivity {
 
         DataRepository.getInstance().loadWeatherData(new DataRepository.WeatherResponseListener() {
             @Override
-            public void onResponse(ResponseWeather response) {
-                weather = response.data;
+            public void onResponse(Weather response) {
+                weather = response;
 
                 binding.textViewTitle.setText("Vremenska prognoza");
                 binding.textViewName.setText(weather.name);

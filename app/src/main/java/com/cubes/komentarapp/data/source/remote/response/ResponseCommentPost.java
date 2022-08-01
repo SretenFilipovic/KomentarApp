@@ -10,13 +10,11 @@ import java.util.ArrayList;
 // Kreiranje i slanje komentara se nalayi u klasama PostCommentActivity i PostReplyActivity
 // u nekom tutorijalu sam video da u @POST pozivima treba primitivne tipove podataka pretvoriti u kompleksne pa sam status promenio iz int u Integer
 
-public class PostComment implements Serializable {
+public class ResponseCommentPost extends ResponseParentClass implements Serializable {
 
-    public Integer status;
-    public String message;
     public ArrayList<String> data;
 
-    public PostComment(ArrayList<String> data) {
+    public ResponseCommentPost(ArrayList<String> data) {
         this.data = data;
     }
 }

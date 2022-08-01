@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
 import com.cubes.komentarapp.databinding.FragmentHomeBinding;
 import com.cubes.komentarapp.data.model.Category;
 import com.google.android.material.tabs.TabLayout;
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        HomePageAdapter adapter = new HomePageAdapter(getActivity(), DataContainer.categoryList);
+        HomePageAdapter adapter = new HomePageAdapter(getActivity(), categories);
         binding.viewPagerHome.setAdapter(adapter);
 
         // u ViewPager2 se drugacije setuje tabLayout i nazivi tabova se daju preko TabLayoutMediator-a (nasao na stackoverflow)

@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.remote.response.ResponseComments;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 
 // NewsDetailActivity prikazuje detalje vesti koju korisnik odabere

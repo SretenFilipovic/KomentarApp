@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -12,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.tools.LoadingNewsListener;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         if (position < list.size()){
             News news = list.get(position);

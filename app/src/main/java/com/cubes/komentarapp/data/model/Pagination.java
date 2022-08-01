@@ -2,7 +2,7 @@ package com.cubes.komentarapp.data.model;
 
 import java.io.Serializable;
 
-public class Pagination implements Serializable {
+public class Pagination {
 
     public int total;
     public int count;

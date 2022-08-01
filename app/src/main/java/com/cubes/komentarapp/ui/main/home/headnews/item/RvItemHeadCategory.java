@@ -1,14 +1,13 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
+import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.CategoryHomePage;
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsCategoryAdapter;
 
@@ -79,7 +78,21 @@ public class RvItemHeadCategory implements RvItemHead{
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         adapter = new HeadNewsCategoryAdapter(holder.itemView.getContext(), list);
 
-        adapter.setNewsListener(news -> DataRepository.getInstance().getNewsDetails(holder.itemView.getContext(), news));
+        adapter.setNewsListener(news ->                 DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+            @Override
+            public void onResponse(News response) {
+                News newsDetails = response;
+
+                Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
+                i.putExtra("news",newsDetails);
+                holder.itemView.getContext().startActivity(i);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }));
         binding.recyclerView.setAdapter(adapter);
 
     }

@@ -2,7 +2,7 @@ package com.cubes.komentarapp.data.model;
 
 import java.io.Serializable;
 
-public class Horoscope implements Serializable {
+public class Horoscope {
 
     public String name;
     public String date;

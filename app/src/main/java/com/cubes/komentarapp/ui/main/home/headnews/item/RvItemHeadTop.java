@@ -1,12 +1,14 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
+import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 
@@ -39,8 +41,21 @@ public class RvItemHeadTop implements RvItemHead{
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(holder.itemView.getContext(), news);
-            }
+                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+                    @Override
+                    public void onResponse(News response) {
+                        News newsDetails = response;
+
+                        Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
+                        i.putExtra("news",newsDetails);
+                        holder.itemView.getContext().startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });            }
         });
         binding.recyclerView.setAdapter(adapter);
 

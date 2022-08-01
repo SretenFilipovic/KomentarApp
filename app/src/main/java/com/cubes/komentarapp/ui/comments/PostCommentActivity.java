@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.remote.response.PostComment;
+import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
 
 import java.util.ArrayList;
 
@@ -52,16 +52,13 @@ public class PostCommentActivity extends AppCompatActivity {
                 commentData.add(email);
                 commentData.add(content);
 
-                PostComment commentsPost = new PostComment(commentData);
+                ResponseCommentPost commentsPost = new ResponseCommentPost(commentData);
 
                 DataRepository.getInstance().postCommentData(commentsPost, new DataRepository.PostCommentListener() {
                     @Override
-                    public void onResponse(PostComment response) {
+                    public void onResponse(ArrayList<String> response) {
                         if (binding.editTextName.getText().length() > 0){
                             if (binding.editTextContent.getText().length() > 0){
-
-                                // provera za response code
-                                //Toast.makeText(PostCommentActivity.this, "Response code: " + response.code(), Toast.LENGTH_SHORT).show();
 
                                 Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
                                 finish();

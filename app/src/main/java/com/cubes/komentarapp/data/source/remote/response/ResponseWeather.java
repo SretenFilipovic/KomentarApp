@@ -4,10 +4,8 @@ import com.cubes.komentarapp.data.model.Weather;
 
 import java.io.Serializable;
 
-public class ResponseWeather implements Serializable {
+public class ResponseWeather extends ResponseParentClass implements Serializable {
 
-    public int status;
-    public String message;
     public Weather data;
 
 }

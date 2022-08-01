@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 

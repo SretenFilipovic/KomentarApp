@@ -4,10 +4,8 @@ import com.cubes.komentarapp.data.model.News;
 
 import java.io.Serializable;
 
-public class ResponseNewsDetail implements Serializable {
+public class ResponseNewsDetail extends ResponseParentClass implements Serializable {
 
-    public int status;
-    public String message;
     public News data;
 
 }

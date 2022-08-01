@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.data.tools;
+package com.cubes.komentarapp.ui.tools;
 
 import com.cubes.komentarapp.data.model.News;
 

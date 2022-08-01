@@ -3,17 +3,19 @@ package com.cubes.komentarapp.ui.tags;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
+import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
 import com.cubes.komentarapp.data.model.Tags;
-import com.cubes.komentarapp.data.tools.LoadingNewsListener;
-import com.cubes.komentarapp.data.tools.NewsListener;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
 import java.util.ArrayList;
@@ -51,10 +53,11 @@ public class TagActivity extends AppCompatActivity {
 
     private void loadData(){
 
-        DataRepository.getInstance().loadTagData(tag.id, DataContainer.page, new DataRepository.NewsResponseListener() {
+        int page = 1;
+        DataRepository.getInstance().loadTagData(tag.id, page, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(ResponseNews response) {
-                newsList = response.data.news;
+            public void onResponse(NewsData response) {
+                newsList = response.news;
                 updateUI();
             }
 
@@ -73,7 +76,21 @@ public class TagActivity extends AppCompatActivity {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(TagActivity.this, news);
+                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
+                    @Override
+                    public void onResponse(News response) {
+                        News newsDetails = response;
+
+                        Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
+                        i.putExtra("news",newsDetails);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
             }
         });
 
@@ -90,10 +107,10 @@ public class TagActivity extends AppCompatActivity {
 
                 DataRepository.getInstance().loadTagData(tag.id, page, new DataRepository.NewsResponseListener() {
                     @Override
-                    public void onResponse(ResponseNews response) {
-                        adapter.addNewNewsList(response.data.news);
+                    public void onResponse(NewsData response) {
+                        adapter.addNewNewsList(response.news);
 
-                        if(response.data.news.size()<20){
+                        if(response.news.size()<20){
                             adapter.setFinished(true);
                         }
                     }

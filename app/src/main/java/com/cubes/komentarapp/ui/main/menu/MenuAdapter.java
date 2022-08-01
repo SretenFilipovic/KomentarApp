@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.ExpandableListGroupBinding;
 import com.cubes.komentarapp.databinding.RvItemItemsInMenuBinding;
 import com.cubes.komentarapp.databinding.RvItemSocialNetworkBinding;

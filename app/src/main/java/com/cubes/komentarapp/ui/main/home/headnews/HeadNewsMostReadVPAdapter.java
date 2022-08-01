@@ -1,20 +1,12 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.source.datarepository.DataContainer;
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNews;
-import com.cubes.komentarapp.ui.main.home.headnews.MostReadFragment;
 
 import java.util.ArrayList;
 // Ovaj adapter sluzi da prikaze fragmente koji nose Najnovije, Najcitanije i najkomentarisanije vesti na Nslovnoj strani

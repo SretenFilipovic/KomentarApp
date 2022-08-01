@@ -3,7 +3,7 @@ package com.cubes.komentarapp.data.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Comments implements Serializable {
+public class Comments implements Serializable{
 
     public int negative_votes;
     public int positive_votes;

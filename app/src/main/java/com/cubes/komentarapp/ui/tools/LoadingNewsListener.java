@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.data.tools;
+package com.cubes.komentarapp.ui.tools;
 
 public interface LoadingNewsListener {
 
