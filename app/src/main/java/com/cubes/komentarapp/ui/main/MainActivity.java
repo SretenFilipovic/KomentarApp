@@ -21,9 +21,6 @@ import com.cubes.komentarapp.ui.main.video.VideoFragment;
 
 import java.util.ArrayList;
 
-// MainActivity je glavni aktiviti u aplikaciji i u njega su neposredno smestena 4 fragmenta (Home, Latest, Video i Search)
-// Posredno, u MainActivity-ju se nalaze i fragmenti za Naslovne vesti i vesti po kategorijama (ViewPager) koji su smesteni u HomeFragment
-
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // metoda kojom se drawerLayout otvara preko celog ekrana (preuzeto sa Stackoverflow)
     private void fullyOpenDrawer (View view){
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);

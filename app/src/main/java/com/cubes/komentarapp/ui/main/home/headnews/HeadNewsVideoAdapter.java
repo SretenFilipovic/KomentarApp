@@ -16,9 +16,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-// ovaj adapter se koristi za prikaz video vesti na Naslovnoj strani
-// setuje se na RV u RvItemHeadVideo
-
 public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdapter.NewsViewHolder> {
 
     private ArrayList<News> list;
@@ -60,7 +57,6 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
         }
 
         else {
-            // ako se ne nalazi na prvom mestu razlikuje se samo u tome sto nece imati naslov kategorije iznad
             holder.binding.frameLayout.setVisibility(View.GONE);
 
             holder.binding.textViewCategory.setText(news.category.name);

@@ -16,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import com.cubes.komentarapp.data.model.NewsData;
-import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.News;
@@ -26,9 +25,6 @@ import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
 import java.util.ArrayList;
-
-// u ovom fragmentu prikazuju se najnovije vesti sa servera
-// P.S. komentari za metode sa dna su identicni komentarima napisanim u HomePageCategoryFragment
 
 public class LatestFragment extends Fragment {
 
@@ -92,7 +88,7 @@ public class LatestFragment extends Fragment {
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
 
-                Log.d("TAG", "Latest news load data success");
+                Log.d("LATEST", "Latest news load data success");
 
             }
 
@@ -100,7 +96,7 @@ public class LatestFragment extends Fragment {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
 
-                Log.d("TAG", "Latest news load data failure");
+                Log.d("LATEST", "Latest news load data failure");
 
             }
         });
@@ -113,21 +109,11 @@ public class LatestFragment extends Fragment {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                    @Override
-                    public void onResponse(News response) {
-                        News newsDetails = response;
 
-                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        getContext().startActivity(i);
-                    }
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news",news.id);
+                getContext().startActivity(i);
 
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
         });
 

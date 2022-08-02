@@ -39,7 +39,6 @@ public class RvItemDetailTags implements RvItemDetail{
         else{
             binding.textViewTitle.setText(R.string.text_tagovi);
 
-            // setovanje recycler view za tagove
             binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
             binding.recyclerView.setAdapter(new NewsDetailTagAdapter(tags));
         }

@@ -2,7 +2,6 @@ package com.cubes.komentarapp.ui.main.home.headnews.item;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -11,7 +10,6 @@ import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsMostReadVPAdapter;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ public class RvItemHeadMostRead implements RvItemHead{
     @Override
     public void bind(HeadNewsAdapter.HeadNewsViewHolder holder) {
 
-        // OVDE SE SETUJE ADAPTER ZA VIEWPAGER KOJI PRIKAZUJE NAJNOVIJE, NAJCITANIJE, NAJKOMENTARISANIJE
         RvItemHeadMostReadBinding binding = (RvItemHeadMostReadBinding) holder.binding;
 
         FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
@@ -59,7 +56,6 @@ public class RvItemHeadMostRead implements RvItemHead{
                 tab.setText("KOMENTARI");
             }
         }).attach();
-
 
     }
 }

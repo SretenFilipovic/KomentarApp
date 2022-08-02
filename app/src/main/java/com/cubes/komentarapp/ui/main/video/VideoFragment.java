@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import com.cubes.komentarapp.data.model.NewsData;
-import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.News;
@@ -25,9 +25,6 @@ import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
 import java.util.ArrayList;
-
-// u ovom fragmentu prikazuju se video vesti
-// P.S. komentari za metode sa dna su identicni komentarima napisanim u HomePageCategoryFragment
 
 public class VideoFragment extends Fragment {
 
@@ -88,10 +85,15 @@ public class VideoFragment extends Fragment {
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+
+                Log.d("VIDEO", "Video news load data success");
+
             }
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+
+                Log.d("VIDEO", "Video news load data failure");
             }
         });
 
@@ -104,21 +106,11 @@ public class VideoFragment extends Fragment {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                    @Override
-                    public void onResponse(News response) {
-                        News newsDetails = response;
 
-                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        getContext().startActivity(i);
-                    }
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news",news.id);
+                getContext().startActivity(i);
 
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
         });
 

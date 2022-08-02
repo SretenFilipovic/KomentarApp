@@ -9,24 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
-import com.cubes.komentarapp.databinding.RvItemNewsDetailShareBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.databinding.RvItemNewsDetailTopBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetail;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailComments;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailRelatedNews;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailSameCategoryNews;
-import com.cubes.komentarapp.ui.detail.item.RvItemDetailShare;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailTags;
-import com.cubes.komentarapp.ui.detail.item.RvItemDetailTop;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailWebView;
 
 import java.util.ArrayList;
-
-// Ovaj adapter sluzi za prikaz detalja izabrane vesti
-// Setuje se na RV u NewsDetailActivity
 
 public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.NewsDetailViewHolder> {
 

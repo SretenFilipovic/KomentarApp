@@ -22,9 +22,6 @@ import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 
 import java.util.ArrayList;
 
-
-// U ovom fragmentu prikazuju se Naslovne vesti
-
 public class HomePageHeadNewsFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
@@ -78,7 +75,6 @@ public class HomePageHeadNewsFragment extends Fragment {
         });
     }
 
-
     private void loadData(){
 
         DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
@@ -99,13 +95,15 @@ public class HomePageHeadNewsFragment extends Fragment {
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
-                Log.d("TAG", "Home news load data success");
+
+                Log.d("HEAD", "Head news load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                Log.d("TAG", "Home news load data failure");
+
+                Log.d("HEAD", "Head news load data failure");
             }
         });
     }

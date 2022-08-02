@@ -20,8 +20,6 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
-// Adapter koji sluzi za prikaz komentara prvog nivoa (komentar koji se dodaje direkno na vest, a ne kao odgovor na drugi komentar)
-// Setuje se u RV u CommentsActivity
 
 public class CommentsFirstLevelAdapter extends RecyclerView.Adapter<CommentsFirstLevelAdapter.CommentsHolder> {
 
@@ -56,7 +54,8 @@ public class CommentsFirstLevelAdapter extends RecyclerView.Adapter<CommentsFirs
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                    i.putExtra("comment", comment);
+                    i.putExtra("commentId", comment.id);
+                    i.putExtra("commentName", comment.news);
                     holder.itemView.getContext().startActivity(i);
                 }
             });
@@ -64,7 +63,8 @@ public class CommentsFirstLevelAdapter extends RecyclerView.Adapter<CommentsFirs
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                    i.putExtra("comment", comment);
+                    i.putExtra("commentId", comment.id);
+                    i.putExtra("commentName", comment.news);
                     holder.itemView.getContext().startActivity(i);
                 }
             });
@@ -76,16 +76,12 @@ public class CommentsFirstLevelAdapter extends RecyclerView.Adapter<CommentsFirs
                 if (!comment.isVoted){
                     DataRepository.getInstance().upvoteComment(comment.id, true);
 
-                    // Animacija cisto da bude lepse
                     YoYo.with(Techniques.Tada).duration(1000).playOn(holder.bindingComment.imageViewUpVote);
 
                     holder.bindingComment.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes +1));
                     holder.bindingComment.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
                     comment.isVoted = true;
 
-                    //Proba sa SharedPreferences
-                    //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    //comment.isVoted = prefs.edit().putBoolean("isVoted", true).commit();
                 }
                 else{
                     Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
@@ -99,14 +95,13 @@ public class CommentsFirstLevelAdapter extends RecyclerView.Adapter<CommentsFirs
             public void onClick(View view) {
                 if (!comment.isVoted){
                     DataRepository.getInstance().downvoteComment(comment.id, true);
+
                     YoYo.with(Techniques.Tada).duration(1000).playOn(holder.bindingComment.imageViewDownVote);
+
                     holder.bindingComment.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes +1));
                     holder.bindingComment.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
                     comment.isVoted = true;
 
-                    //Proba sa SharedPreferences
-                    //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                    //comment.isVoted = prefs.edit().putBoolean("isVoted", true).commit();
                 }
                 else{
                     Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();

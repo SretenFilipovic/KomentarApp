@@ -13,16 +13,14 @@ import android.view.animation.RotateAnimation;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
-import com.cubes.komentarapp.data.model.News;
 
 import java.util.ArrayList;
 
-// ComentsActivity preko RecyclerView-a prikazuje sve komentare prvog nivoa za otvorenu vest
 
 public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
-    private News news;
+    private int id;
     public ArrayList<Comments> commentList = new ArrayList<>();
 
 
@@ -32,7 +30,7 @@ public class CommentsActivity extends AppCompatActivity {
         binding = ActivityCommentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        news = (News) getIntent().getSerializableExtra("news");
+        id = (int) getIntent().getSerializableExtra("news");
 
         binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +43,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
-                i.putExtra("news", news);
+                i.putExtra("news", id);
                 startActivity(i);
             }
         });
@@ -66,7 +64,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private  void loadData(){
-        DataRepository.getInstance().loadCommentsData(news.id, new DataRepository.CommentsResponseListener() {
+        DataRepository.getInstance().loadCommentsData(id, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
                 commentList = response;
@@ -77,14 +75,14 @@ public class CommentsActivity extends AppCompatActivity {
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
 
-                Log.d("TAG", "Comment load data success");
+                Log.d("COMMENT", "Comment load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
 
-                Log.d("TAG", "Comment load data failure");
+                Log.d("COMMENT", "Comment load data failure");
             }
         });
     }

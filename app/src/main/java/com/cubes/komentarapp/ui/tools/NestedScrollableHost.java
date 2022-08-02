@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.ui;
+package com.cubes.komentarapp.ui.tools;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,12 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
 
 // resenje preuzeto sa: https://stackoverflow.com/questions/57587618/viewpager2-with-horizontal-scrollview-inside
-
-// ViewPager2 ne podrzava skrolovanje ugnjezdenih elemenata u istom pravcu sa roditeljskim ViePager2
-// Resenje za skrol sam pronasao na stackoverflow i prekopirao ga u projekat
-// U sustini, resenje je da se napravi custom Layout kojim se obuhvataju skrolabilni elementi unutar roditeljskog ViewPager2
-// Implementacija je primenjena na Slider ViewPager2 (unutar rv_item_head_slider) i ViewPager2 za najcitanije/najkomentarisanije/najnovije (unutar rv_item_head_most_read)
-
 
 public class NestedScrollableHost extends FrameLayout {
 

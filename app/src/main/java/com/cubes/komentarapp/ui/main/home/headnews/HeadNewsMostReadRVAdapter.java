@@ -14,9 +14,6 @@ import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
-// Ovaj adapter sluzi da prikaze liste vesti sa naslovima i vremenom objavljivanja u ViewPager-u na Naslovnoj strani (Najnovije, Najcitanije i najkomentarisanije)
-// Setuje se na RV u MostReadFragment
-
 public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder>{
 
     private ArrayList<News> list;

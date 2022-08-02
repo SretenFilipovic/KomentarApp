@@ -1,7 +1,5 @@
 package com.cubes.komentarapp.data.model;
 
-import java.io.Serializable;
-
 public class Pagination {
 
     public int total;

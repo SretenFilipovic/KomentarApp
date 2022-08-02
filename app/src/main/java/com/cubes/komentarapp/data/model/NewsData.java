@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.data.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class NewsData {
@@ -16,7 +15,5 @@ public class NewsData {
     public ArrayList<News> latest;
     public ArrayList<News> most_comented; // imaju slovnu gresku sa backend strane
     public ArrayList<News> videos;
-
-
 
 }

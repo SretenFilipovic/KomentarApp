@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import com.cubes.komentarapp.data.model.NewsData;
-import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
 import com.cubes.komentarapp.data.model.News;
@@ -26,12 +26,6 @@ import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
 import java.util.ArrayList;
-
-
-// u ovom fragmentu prikazuju se vesti keje dobijamo pretragom
-
-// P.S. komentari za metode sa dna su slicni komentarima napisanim u HomePageCategoryFragment,
-// razlikuje se se samo metoda loadData() u tome sto se u SearchFragment vesti ne ucitavaju automatski vec je potrebno uneti termin za koji ce nam server vratiti listu vesti
 
 public class SearchFragment extends Fragment {
 
@@ -91,14 +85,12 @@ public class SearchFragment extends Fragment {
 
         int page = 1;
 
-        // prvo proveravamo da li je korisnik uneo pojam u traku za pretragu i da li je pojam dovoljne duzine
         if (binding.editText.getText().length() == 0){
             Toast.makeText(getContext(), "Unesite pojam u traku za pretragu.", Toast.LENGTH_SHORT).show();
         }
         else if (binding.editText.getText().length() <= 2){
             Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
         }
-        // poziva se server
         else {
 
             DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
@@ -109,7 +101,6 @@ public class SearchFragment extends Fragment {
                     if(newsList.size()>0){
                         binding.textViewNoContent.setVisibility(View.GONE);
                     }
-                    // ako server nije nasao nijednu vest za uneti pojam, pojavice se poruka
                     else{
                         binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
                         binding.textViewNoContent.setVisibility(View.VISIBLE);
@@ -118,6 +109,8 @@ public class SearchFragment extends Fragment {
                     binding.refresh.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     updateUI();
+
+                    Log.d("SEARCH", "Search load data success");
                 }
 
                 @Override
@@ -125,6 +118,8 @@ public class SearchFragment extends Fragment {
                     binding.refresh.setVisibility(View.VISIBLE);
                     binding.textViewNoContent.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.GONE);
+
+                    Log.d("SEARCH", "Search load data failure");
                 }
             });
         }
@@ -138,21 +133,11 @@ public class SearchFragment extends Fragment {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                    @Override
-                    public void onResponse(News response) {
-                        News newsDetails = response;
 
-                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        getContext().startActivity(i);
-                    }
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news",news.id);
+                getContext().startActivity(i);
 
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
         });
         loadMoreNews();

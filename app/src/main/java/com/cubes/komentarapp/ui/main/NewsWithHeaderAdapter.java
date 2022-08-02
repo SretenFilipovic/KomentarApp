@@ -19,9 +19,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-// Ovaj adapter se koristi kada imamo fragment ili aktiviti u kojem se prikazuje lista vesti sa dva tipa celije
-// Prvi tip treba da bude velika vest, drugi tip male vesti
-// Setuje se na RV u HomePageCategoryFragment
 
 public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAdapter.NewsViewHolder> {
 

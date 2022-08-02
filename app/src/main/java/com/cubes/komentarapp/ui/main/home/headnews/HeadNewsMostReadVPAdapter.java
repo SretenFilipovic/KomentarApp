@@ -9,8 +9,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.cubes.komentarapp.data.model.News;
 
 import java.util.ArrayList;
-// Ovaj adapter sluzi da prikaze fragmente koji nose Najnovije, Najcitanije i najkomentarisanije vesti na Nslovnoj strani
-// Setuje se na VP2 u RvItemHeadMostRead
+
 
 public class HeadNewsMostReadVPAdapter extends FragmentStateAdapter {
 

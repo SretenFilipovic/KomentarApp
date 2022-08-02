@@ -15,9 +15,6 @@ import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
 
 import java.util.ArrayList;
 
-// Adapter za podkategorije u Meniju
-// setuje se na ugnjezdeni recyclerView u kategorijama u MenuAdapter (expandable_list_group (naziv ostao iz verzije sa ELV))
-
 public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategoryAdapter.SubcategoryHolder> {
 
     private ArrayList<Category> list;
@@ -42,12 +39,12 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
 
         holder.binding.textViewSubcategory.setText(subcategory.name);
 
-        // na klik se otvara aktiviti sa vestima iz te kategorije/podkategorije
         holder.binding.textViewSubcategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, SubcategoryActivity.class);
-                i.putExtra("category", list.get(position));
+                i.putExtra("categoryId", list.get(position).id);
+                i.putExtra("categoryName", list.get(position).name);
                 context.startActivity(i);
             }
         });

@@ -39,16 +39,9 @@ public class RvItemHeadSlider implements RvItemHead{
         FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
 
-//      SETOVANJE ADAPTERA ZA VIEWPAGER2
         adapter = new HeadNewsSliderAdapter(fm, lc, sliderNews);
         binding.slider.setAdapter(adapter);
         new TabLayoutMediator(binding.indicator, binding.slider, (tab, position) -> {}).attach();
-
-
-//      SETOVANJE ADAPTERa ZA VIEWPAGER (stara verzija)
-//      adapter = new SliderAdapter(fm, sliderNews);
-//      binding.slider.setAdapter(adapter);
-//      binding.indicator.setupWithViewPager(binding.slider);
     }
 
 }

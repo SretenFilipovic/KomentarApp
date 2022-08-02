@@ -19,9 +19,6 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
-// ovaj adapter se koristi za prikaz istaknutih komentara u NewsDetail aktivitiju
-// setuje se na RV u RvItemDetailComments
-
 public class NewsDetailCommentsAdapter extends RecyclerView.Adapter<NewsDetailCommentsAdapter.CommentsHolder>{
 
     private ArrayList<Comments> commentsList;
@@ -53,7 +50,8 @@ public class NewsDetailCommentsAdapter extends RecyclerView.Adapter<NewsDetailCo
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("comment", comment);
+                i.putExtra("commentId", comment.id);
+                i.putExtra("commentName", comment.news);
                 holder.itemView.getContext().startActivity(i);
             }
         });
@@ -61,7 +59,8 @@ public class NewsDetailCommentsAdapter extends RecyclerView.Adapter<NewsDetailCo
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("comment", comment);
+                i.putExtra("commentId", comment.id);
+                i.putExtra("commentNews", comment.news);
                 holder.itemView.getContext().startActivity(i);
             }
         });

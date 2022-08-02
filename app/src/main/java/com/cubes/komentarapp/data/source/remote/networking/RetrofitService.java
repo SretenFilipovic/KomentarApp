@@ -46,7 +46,6 @@ public interface RetrofitService {
 
     @POST("api/commentinsert")
     Call<ResponseCommentPost> postComment(@Body ResponseCommentPost comment);
-    //pokusavao sam i na ovaj nacin, da umesto tela komentara prosledim fildove
     //(@Field("news") String news, @Field("reply_id") String reply_id, @Field("name") String name, @Field("email") String email, @Field("content") String content);
 
     @POST("api/commentvote")

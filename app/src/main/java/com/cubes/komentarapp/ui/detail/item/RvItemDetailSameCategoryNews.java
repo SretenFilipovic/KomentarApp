@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
@@ -51,21 +50,12 @@ public class RvItemDetailSameCategoryNews implements RvItemDetail{
             adapter.setNewsListener(new NewsListener() {
                 @Override
                 public void onNewsClicked(News news) {
-                    DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                        @Override
-                        public void onResponse(News response) {
-                            News newsDetails = response;
 
-                            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-                            i.putExtra("news",newsDetails);
-                            holder.itemView.getContext().startActivity(i);
-                        }
+                    Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
+                    i.putExtra("news",news.id);
+                    holder.itemView.getContext().startActivity(i);
 
-                        @Override
-                        public void onFailure(Throwable t) {
-
-                        }
-                    });                }
+                }
             });
             binding.recyclerView.setAdapter(adapter);
         }

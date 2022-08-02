@@ -3,15 +3,13 @@ package com.cubes.komentarapp.ui.main.menu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityWeatherBinding;
-import com.cubes.komentarapp.data.source.remote.response.ResponseWeather;
 import com.cubes.komentarapp.data.model.Weather;
 import com.squareup.picasso.Picasso;
-
-// WeatherActivity prikazuje podatke za vremensku prognozu koju dobijemo sa servera
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -71,11 +69,14 @@ public class WeatherActivity extends AppCompatActivity {
 
                 binding.textViewTempDay6.setText(weather.day_6.temp_max + " / " + weather.day_6.temp_min);
                 Picasso.get().load(weather.day_6.icon_url).into(binding.imageViewIconDay6);
+
+                Log.d("WEATHER", "Weather load data success");
+
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                Log.d("WEATHER", "Weather load data failure");
             }
         });
 

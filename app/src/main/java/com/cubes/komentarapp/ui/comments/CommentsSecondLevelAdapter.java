@@ -20,9 +20,6 @@ import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
-// Adapter koji sluzi za prikaz komentara drugog nivoa (ogdovor na komentar prvog nivoa)
-// Setuje se na RV u CommentsFirstLevelAdapter
-
 public class CommentsSecondLevelAdapter extends RecyclerView.Adapter<CommentsSecondLevelAdapter.CommentsHolder> {
 
     private ArrayList<Comments> commentsList;
@@ -55,7 +52,8 @@ public class CommentsSecondLevelAdapter extends RecyclerView.Adapter<CommentsSec
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("comment", comment);
+                i.putExtra("commentId", comment.id);
+                i.putExtra("commentName", comment.news);
                 holder.itemView.getContext().startActivity(i);
             }
         });
@@ -63,7 +61,8 @@ public class CommentsSecondLevelAdapter extends RecyclerView.Adapter<CommentsSec
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("comment", comment);
+                i.putExtra("commentId", comment.id);
+                i.putExtra("commentName", comment.news);
                 holder.itemView.getContext().startActivity(i);
             }
         });
@@ -108,7 +107,6 @@ public class CommentsSecondLevelAdapter extends RecyclerView.Adapter<CommentsSec
             holder.binding.recyclerViewChildren.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
             holder.binding.recyclerViewChildren.setAdapter(new CommentsThirdLevelAdapter(context, comment.children));
         }
-
 
     }
 

@@ -1,9 +1,8 @@
 package com.cubes.komentarapp.data.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Category implements Serializable{
+public class Category {
 
     public String type;
     public int id;

@@ -23,14 +23,10 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 
 import java.util.ArrayList;
 
-// HeadNewsAdapter sluzi za prikaz Naslovne stranice
-// setuje se na RV u HomePageHeadNewsFragment-u
-
 public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNewsViewHolder> {
 
     private Context context;
     private ArrayList<RvItemHead> items;
-    private ArrayList<CategoryHomePage> fromCategoryList;
 
     public HeadNewsAdapter(Context context, ArrayList<News> sliderList, ArrayList<News> topList,
                            ArrayList<News> editorsChoiceList, ArrayList<News> videosList,
@@ -38,27 +34,25 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
 
         items = new ArrayList<>();
         this.context = context;
-        this.fromCategoryList = fromCategoryList;
 
         items.add(new RvItemHeadSlider(context, sliderList));
         items.add(new RvItemHeadTop(topList));
         items.add(new RvItemHeadMostRead(context, latestList, mostReadList, mostCommentedList));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Sport"), "Sport"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Sport"));
         items.add(new RvItemHeadEditorsChoiceSlider(context, editorsChoiceList));
         items.add(new RvItemHeadVideo(videosList));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Aktuelno"), "Aktuelno"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Politika"), "Politika"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Svet"), "Svet"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Hronika"), "Hronika"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Društvo"), "Društvo"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Ekonomija"), "Ekonomija"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Stil života"), "Stil života"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Kultura"), "Kultura"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Zabava"), "Zabava"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Srbija"), "Srbija"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Beograd"), "Beograd"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Region"), "Region"));
-
+        items.add(new RvItemHeadCategory(fromCategoryList, "Aktuelno"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Politika"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Svet"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Hronika"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Društvo"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Ekonomija"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Stil života"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Kultura"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Zabava"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Srbija"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Beograd"));
+        items.add(new RvItemHeadCategory(fromCategoryList, "Region"));
     }
 
     @NonNull
@@ -98,22 +92,6 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
         return this.items.get(position).getType();
     }
 
-    public ArrayList<News> getNewsFromCategoryList(String category){
-        ArrayList<News> allNewsList = new ArrayList<>();
-        ArrayList<News> categoryList = new ArrayList<>();
-
-        for(CategoryHomePage cat : fromCategoryList){
-            allNewsList = cat.news;
-
-            for (News news : allNewsList) {
-
-                if(news.category.name.equalsIgnoreCase(category)){
-                    categoryList.add(news);
-                }
-            }
-        }
-        return categoryList;
-    }
 
     public class HeadNewsViewHolder extends RecyclerView.ViewHolder{
 

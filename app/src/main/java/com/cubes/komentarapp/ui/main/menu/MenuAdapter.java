@@ -27,13 +27,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-// prva verzija Menija je napravljena preko expandableListView
-// presao sam na obican recyclerView sa Kategorijama koje u sebi nose recyclerView sa listom podkategorija (adapter za ugnjezdeni rv je MenuSubcategoryAdapter)
-// cini mi se da je na kraju krajeva ovaj nacin jednostavniji i klikove je lakse odraditi jer kod ELV klik na kategoriju otvara listu podkategorija
-// sto dovodi do konflikata ako hocu da otvorim aktiviti sa vestima iz te kategorije
-
-// Ovaj adapter se setuje na RV (recyclerViewMenu) u MainActivity
-
 public class MenuAdapter extends RecyclerView.Adapter {
 
     private Context context;
@@ -73,7 +66,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
             headerHolder.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
             headerHolder.binding.textViewCategory.setText(R.string.text_naslovna);
 
-            // Klik na "Naslovna" u meniju samo zatvara meni i pozicionira na Naslovne vesti
             headerHolder.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -88,8 +80,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
         else if (position == list.size() + 1){
             ItemsHolder itemsHolder = (ItemsHolder) holder;
 
-            // klik liseneri za Notifikacije, Uslove koriscenja, Marketing i Kontakt,
-            // link vodi ka sajtu komentar.rs (metoda je na dnu pre holder klasa)
             itemsHolder.binding.textViewContact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -115,7 +105,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
                 }
             });
 
-            //klik liseneri za kursnu listu, horoskop i vremensku prognozu (otvaraju se novi aktivitiji)
             itemsHolder.binding.textViewCurrency.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -142,7 +131,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
         else if (position == list.size() + 2){
             SocialNetworkHolder holderSocial = (SocialNetworkHolder) holder;
 
-            // klik liseneri za deljenje na drustvene mreze (metoda je na dnu pre holder klasa)
             holderSocial.binding.imageViewFacebook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -183,7 +171,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
             holderCategory.binding.viewCategoryColor.setBackgroundColor(Color.parseColor(category.color));
             holderCategory.binding.viewSubcategoryColor.setBackgroundColor(Color.parseColor(category.color));
 
-            // Ako nema podkategorija ne treba da se vidi ikonica za sirenje i skupljanje liste podkategorija
             if (category.subcategories.size() == 0){
                 holderCategory.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
             }
@@ -192,13 +179,10 @@ public class MenuAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View view) {
 
-                        // Na klik se prvo proveri da li je liste podkategorija vec otvorena
-                        // ako nije, otvara se lista i menja se ikonica za otvaranje da pokazuje nagore
                         if (holderCategory.binding.subcategoryContainer.getVisibility() == View.GONE){
                             holderCategory.binding.subcategoryContainer.setVisibility(View.VISIBLE);
                             holderCategory.binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
                         }
-                        // ako jeste, zatvara se lista i menja se ikonica za otvaranje da pokazuje nadole
                         else{
                             holderCategory.binding.subcategoryContainer.setVisibility(View.GONE);
                             holderCategory.binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
@@ -207,7 +191,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
                 });
             }
 
-            // klik na kategoriju zatvara meni i pozicionira ViewPager na izabranu kategoriju
             holderCategory.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -243,7 +226,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
-    // metoda za deljenje na drustvene mreze
     private void shareOnSocialNetworks(String networkUrl){
         try {
             Intent i = new Intent();
@@ -258,7 +240,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
-    // metoda za otvaranje web browser-a
     private void openWebBrowser(String link){
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
@@ -270,7 +251,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
     }
 
 
-    // Holder klasa za element "Naslovna" i kategorije sa servera
     public class HeaderHolder extends RecyclerView.ViewHolder{
 
         private ExpandableListGroupBinding binding;
@@ -281,7 +261,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
-    // Holder klasa za item-e ispod kategorija u meniju
     public class ItemsHolder extends RecyclerView.ViewHolder{
 
         private RvItemItemsInMenuBinding binding;
@@ -292,7 +271,6 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
-    // holder za ikonice za deljenje
     public class SocialNetworkHolder extends RecyclerView.ViewHolder{
 
         private RvItemSocialNetworkBinding binding;

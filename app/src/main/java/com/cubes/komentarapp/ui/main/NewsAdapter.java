@@ -19,9 +19,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-// Ovaj adapter se koristi kada imamo fragment ili aktiviti u kojem se prikazuje lista vesti sa samo jednim tipom celije
-// Setuje se na RV na vise mesta, npr. u LatestFragment, SearchFragment, VideoFragment, CategoryActivity, TagActivity, RvItemHeadTop, RvItemDetailRelatedNews, RvItemDetailSameCategoryNews
-
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
     private ArrayList<News> list;
@@ -54,7 +51,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     RvItemLoadingBinding.inflate(LayoutInflater.from(context), parent, false);
             return new NewsViewHolder(binding);
         }
-
     }
 
     @Override
@@ -87,7 +83,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                 isLoading = true;
                 loadingNewsListener.loadMoreNews(page);
             }
-
         }
     }
 

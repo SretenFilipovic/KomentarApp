@@ -49,9 +49,7 @@ public class RvItemDetailComments implements RvItemDetail{
             binding.recyclerView.setAdapter(new NewsDetailCommentsAdapter(comments));
         }
 
-        // klikovi
-
-        binding.buttonShowAllComments.setOnClickListener(new View.OnClickListener() {
+        binding.textViewShowAllComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -61,10 +59,9 @@ public class RvItemDetailComments implements RvItemDetail{
                 }
                 else{
                     Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                    i.putExtra("news", news);
+                    i.putExtra("news", news.id);
                     holder.itemView.getContext().startActivity(i);
                 }
-
             }
         });
         binding.frameLayoutShowAll.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +73,7 @@ public class RvItemDetailComments implements RvItemDetail{
                 }
                 else{
                     Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                    i.putExtra("news", news);
+                    i.putExtra("news", news.id);
                     holder.itemView.getContext().startActivity(i);
                 }
             }
@@ -90,7 +87,7 @@ public class RvItemDetailComments implements RvItemDetail{
                 }
                 else{
                     Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                    i.putExtra("news", news);
+                    i.putExtra("news", news.id);
                     holder.itemView.getContext().startActivity(i);
                 }
             }
@@ -100,7 +97,7 @@ public class RvItemDetailComments implements RvItemDetail{
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(holder.itemView.getContext(), PostCommentActivity.class);
-                i.putExtra("news", news);
+                i.putExtra("news", news.id);
                 holder.itemView.getContext().startActivity(i);
             }
         });

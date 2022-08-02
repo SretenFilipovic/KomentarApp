@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.data.model.News;
@@ -17,18 +18,16 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-// Ovaj adapter se koristi za prikaz vesti po kategorijama na stranici Naslovna
-// Slican je kao i kao i NewsWithHeaderAdapter s tim sto se prikaz vesti malo razlikuje i ima maksimalno 5 clanova
-// Setuje se na RV u RvItemHeadCategory
-
 public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCategoryAdapter.NewsViewHolder> {
 
     private ArrayList<News> list;
     private Context context;
+    private CategoryHomePage category;
     private NewsListener newsListener;
 
-    public HeadNewsCategoryAdapter(Context context, ArrayList<News> list) {
+    public HeadNewsCategoryAdapter(Context context, ArrayList<News> list, CategoryHomePage category) {
         this.list = list;
+        this.category = category;
         this.context = context;
     }
 
@@ -54,8 +53,8 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
         News news = list.get(position);
 
         if (position == 0){
-            holder.bindingBig.textViewCategoryTitle.setText(news.category.name);
-            holder.bindingBig.viewColor.setBackgroundColor(Color.parseColor(news.category.color));
+            holder.bindingBig.textViewCategoryTitle.setText(category.title);
+            holder.bindingBig.viewColor.setBackgroundColor(Color.parseColor(category.color));
             holder.bindingBig.textViewCreatedAt.setText(news.created_at.substring(11,16));
             holder.bindingBig.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(holder.bindingBig.imageView);

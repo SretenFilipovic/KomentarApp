@@ -3,6 +3,7 @@ package com.cubes.komentarapp.ui.comments;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,12 +14,10 @@ import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
 
 import java.util.ArrayList;
 
-// PostCommentActivity daje korisniku mogucnost da postavi komentar na odredjenu vest
-
 public class PostCommentActivity extends AppCompatActivity {
 
     private ActivityPostCommentBinding binding;
-    private News newsForComment;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,7 @@ public class PostCommentActivity extends AppCompatActivity {
         binding = ActivityPostCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        newsForComment = (News) getIntent().getSerializableExtra("news");
+        id = (int) getIntent().getSerializableExtra("news");
 
         binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +38,7 @@ public class PostCommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String news = String.valueOf(newsForComment.id);
+                String news = String.valueOf(id);
                 String reply_id = "0";
                 String name = String.valueOf(binding.editTextName.getText());
                 String email = String.valueOf(binding.editTextEmail.getText());
@@ -70,11 +69,13 @@ public class PostCommentActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
                         }
+
+                        Log.d("POST", "Post comment data success");
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-
+                        Log.d("POST", "Post comment data failure");
                     }
                 });
 

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 import com.cubes.komentarapp.data.model.NewsData;
-import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.Category;
@@ -26,9 +26,6 @@ import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
 
 import java.util.ArrayList;
-
-
-// U ovom fragmentu prikazuju se vesti u ViewPager-u HomeFragment-a, ali samo vesti iz kategorija koje dobijemo od servera, ne i za Naslovne
 
 public class HomePageCategoryFragment extends Fragment {
 
@@ -80,8 +77,6 @@ public class HomePageCategoryFragment extends Fragment {
         });
     }
 
-    // u metodi loadData() pozivamo server da nam vrati listu vesti koju treba prikazati u fragmentu
-    // nakon odgovora servera potrebno je napuniti staticku listu koja se nalazi u klasi DataContainer i pozvati metodu UpdateUI() kojom se setuje adapter za prikazivanje trazene liste
      private void loadData() {
          int page = 1;
 
@@ -95,20 +90,19 @@ public class HomePageCategoryFragment extends Fragment {
 
                  binding.refresh.setVisibility(View.GONE);
                  binding.recyclerView.setVisibility(View.VISIBLE);
+
+                 Log.d("CATEGORY", "Category news load data success");
              }
              @Override
              public void onFailure(Throwable t) {
                  binding.refresh.setVisibility(View.VISIBLE);
+
+                 Log.d("CATEGORY", "Category news load data failure");
              }
          });
 
     }
 
-    // metoda updateUI() sluzi da se setuje adapter preko kojeg ce se prikazati vesti.
-    // unutar metode, potrebno je pozvati metodu koja sluzi da se na klik na vest otvori aktiviti koji prikazuje detalje kliknute vesti kao i metodu za ucitavanje dodatnih vesti
-    // na klik pravi se poziv ka serveru koji treba da vrati detalje kliknute vesti
-    // ukoliko server odgovori, pravi se novi poziv koji treba da nam vrati detalje o komentarima za kliknutu vest.
-    // nakon odgovora servera otvara se NewsDetailActivity
     private void updateUI(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsWithHeaderAdapter(getContext(), newsList);
@@ -116,21 +110,11 @@ public class HomePageCategoryFragment extends Fragment {
         adapter.setNewsListener(new NewsListener() {
             @Override
             public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                    @Override
-                    public void onResponse(News response) {
-                        News newsDetails = response;
 
-                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        getContext().startActivity(i);
-                    }
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news",news.id);
+                getContext().startActivity(i);
 
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
         });
 
@@ -139,7 +123,6 @@ public class HomePageCategoryFragment extends Fragment {
         binding.recyclerView.setAdapter(adapter);
     }
 
-    // Metoda loadMoreNews() sluzi za ucitavanje dodatnih vesti kada se skroluje do dna liste vesti koje su prethodno pozvane
     private void loadMoreNews(){
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override

@@ -68,7 +68,6 @@ public class RvItemDetailShare implements RvItemDetail{
 
     }
 
-    // metoda za deljenje na drustvene mreze
     private void shareOnSocialNetworks(String networkUrl){
         try {
             Intent i = new Intent();

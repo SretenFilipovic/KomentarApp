@@ -36,8 +36,6 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
 
         RvItemHeadSliderBinding binding = (RvItemHeadSliderBinding) holder.binding;
 
-        // ako ima vesti u listi Izbor Urednika onda ce frameLayout koji nosi naslov rubrike postati vidljiv na ekranu
-        // u suprotnom nece se prikazati na naslovnoj stranici
         if(editorsChoiceNews.size() > 0){
             binding.frameLayout.setVisibility(View.VISIBLE);
         }
@@ -45,7 +43,6 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
         FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
 
-//      ADAPTER ZA VIEWPAGER2
         adapter = new HeadNewsSliderAdapter(fm, lc, editorsChoiceNews);
         binding.slider.setAdapter(adapter);
         new TabLayoutMediator(binding.indicator, binding.slider, (tab, position) -> {

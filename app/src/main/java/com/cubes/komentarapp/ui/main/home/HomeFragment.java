@@ -17,8 +17,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-// HomeFragment je fragment u kojem se prikazuje Naslovna strana i stranice sa vestima po kategorijama u ViewPager-u
-
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
@@ -53,7 +51,6 @@ public class HomeFragment extends Fragment {
         HomePageAdapter adapter = new HomePageAdapter(getActivity(), categories);
         binding.viewPagerHome.setAdapter(adapter);
 
-        // u ViewPager2 se drugacije setuje tabLayout i nazivi tabova se daju preko TabLayoutMediator-a (nasao na stackoverflow)
         new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {

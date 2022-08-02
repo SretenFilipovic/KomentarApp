@@ -66,7 +66,6 @@ public class DataRepository {
                         && response.body().data != null){
                     listener.onResponse(response.body().data);
                 }
-
             }
 
             @Override
@@ -255,9 +254,9 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void getNewsDetails(News news, NewsDetailListener listener){
+    public void getNewsDetails(int id, NewsDetailListener listener){
 
-        service.getNewsDetail(news.id).enqueue(new Callback<ResponseNewsDetail>() {
+        service.getNewsDetail(id).enqueue(new Callback<ResponseNewsDetail>() {
             @Override
             public void onResponse(Call<ResponseNewsDetail> call, Response<ResponseNewsDetail> response) {
 
@@ -336,7 +335,8 @@ public class DataRepository {
 
             @Override
             public void onFailure(Call<ResponseCommentPost> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 

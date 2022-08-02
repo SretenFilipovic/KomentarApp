@@ -14,9 +14,6 @@ import com.cubes.komentarapp.ui.tags.TagActivity;
 
 import java.util.ArrayList;
 
-// Ovaj adapter sluzi za prikaz liste tagova
-// setuje se na RV u RvItemDetailTags
-
 public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdapter.TagHolder> {
 
     private ArrayList<Tags> tagList;
@@ -39,14 +36,13 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
             Tags tag = tagList.get(position);
             holder.binding.buttonTag.setText(tag.title);
 
-        //klik na tag
 
         holder.binding.buttonTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent i = new Intent(holder.itemView.getContext(), TagActivity.class);
-                i.putExtra("tag", tag);
+                i.putExtra("tag", tag.id);
                 holder.itemView.getContext().startActivity(i);
             }
         });
@@ -57,7 +53,6 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     public int getItemCount() {
         return tagList.size();
     }
-
 
 
     public class TagHolder extends RecyclerView.ViewHolder{

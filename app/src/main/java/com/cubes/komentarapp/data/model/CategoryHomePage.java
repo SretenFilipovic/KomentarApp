@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.data.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CategoryHomePage {

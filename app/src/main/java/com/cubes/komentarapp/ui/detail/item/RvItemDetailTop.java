@@ -20,7 +20,7 @@ public class RvItemDetailTop implements RvItemDetail{
     @Override
     public void bind(NewsDetailAdapter.NewsDetailViewHolder holder) {
 
-        RvItemNewsDetailTopBinding binding = (RvItemNewsDetailTopBinding) holder.binding;
+        com.cubes.komentarapp.databinding.RvItemNewsDetailTopBinding binding = (RvItemNewsDetailTopBinding) holder.binding;
 
             binding.textViewTitle.setText(news.title);
             binding.textViewAuthor.setText(news.author_name);
