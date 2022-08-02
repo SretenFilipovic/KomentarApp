@@ -1,17 +1,16 @@
 package com.cubes.komentarapp.ui.main.menu;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.view.View;
-
+import com.cubes.komentarapp.R;
+import com.cubes.komentarapp.data.model.Weather;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityWeatherBinding;
-import com.cubes.komentarapp.data.source.remote.response.ResponseWeather;
-import com.cubes.komentarapp.data.model.Weather;
 import com.squareup.picasso.Picasso;
-
-// WeatherActivity prikazuje podatke za vremensku prognozu koju dobijemo sa servera
 
 public class WeatherActivity extends AppCompatActivity {
 
@@ -24,25 +23,19 @@ public class WeatherActivity extends AppCompatActivity {
         binding = ActivityWeatherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.imageViewBack.setOnClickListener(view -> finish());
 
         loadData();
-
     }
 
-    private void loadData(){
+    private void loadData() {
 
         DataRepository.getInstance().loadWeatherData(new DataRepository.WeatherResponseListener() {
             @Override
             public void onResponse(Weather response) {
                 weather = response;
 
-                binding.textViewTitle.setText("Vremenska prognoza");
+                binding.textViewTitle.setText(R.string.text_weather_forcast);
                 binding.textViewName.setText(weather.name);
                 binding.textViewTemp.setText(weather.temp + " °C");
                 binding.textViewHumidity.setText("Vlažnost vazduha: " + weather.humidity + "%");
@@ -71,11 +64,16 @@ public class WeatherActivity extends AppCompatActivity {
 
                 binding.textViewTempDay6.setText(weather.day_6.temp_max + " / " + weather.day_6.temp_min);
                 Picasso.get().load(weather.day_6.icon_url).into(binding.imageViewIconDay6);
+
+                Log.d("WEATHER", "Weather load data success");
+
             }
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(WeatherActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
+                Log.d("WEATHER", "Weather load data failure");
             }
         });
 

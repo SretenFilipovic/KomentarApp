@@ -19,14 +19,14 @@
         app:tabTextColor="@color/gray"
         app:tabSelectedTextColor="@color/black"
         app:tabIndicatorColor="@color/red"/>
-    <com.cubes.komentarapp.ui.NestedScrollableHost
+    <com.cubes.komentarapp.ui.tools.NestedScrollableHost
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPagerHome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </com.cubes.komentarapp.ui.NestedScrollableHost>
+    </com.cubes.komentarapp.ui.tools.NestedScrollableHost>
 
 
 </LinearLayout>

@@ -1,24 +1,26 @@
 package com.cubes.komentarapp.ui.comments;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
+import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
 
 import java.util.ArrayList;
-
-// PostCommentActivity daje korisniku mogucnost da postavi komentar na odredjenu vest
 
 public class PostCommentActivity extends AppCompatActivity {
 
     private ActivityPostCommentBinding binding;
-    private News newsForComment;
+    private String commentId = "0";
+    private String newsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,60 +28,80 @@ public class PostCommentActivity extends AppCompatActivity {
         binding = ActivityPostCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        newsForComment = (News) getIntent().getSerializableExtra("news");
+        commentId = (String) getIntent().getSerializableExtra("commentId");
+        newsId = (String) getIntent().getSerializableExtra("newsId");
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        binding.imageViewBack.setOnClickListener(view -> finish());
+
+        binding.buttonPostComment.setOnClickListener(view -> {
+            postComment();
+            hideKeyboard(PostCommentActivity.this);
         });
 
-        binding.buttonPostComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.editTextContent.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_SEND) {
+                postComment();
+                hideKeyboard(PostCommentActivity.this);
+                return true;
+            }
+            return false;
+        });
 
-                String news = String.valueOf(newsForComment.id);
-                String reply_id = "0";
-                String name = String.valueOf(binding.editTextName.getText());
-                String email = String.valueOf(binding.editTextEmail.getText());
-                String content = String.valueOf(binding.editTextContent.getText());
+    }
 
-                ArrayList<String> commentData = new ArrayList<>();
-                commentData.add(news);
-                commentData.add(reply_id);
-                commentData.add(name);
-                commentData.add(email);
-                commentData.add(content);
+    private void postComment(){
+        String news = String.valueOf(newsId);
+        String reply_id = commentId;
+        String name = String.valueOf(binding.editTextName.getText());
+        String email = String.valueOf(binding.editTextEmail.getText());
+        String content = String.valueOf(binding.editTextContent.getText());
 
-                ResponseCommentPost commentsPost = new ResponseCommentPost(commentData);
+        ArrayList<String> commentData = new ArrayList<>();
+        commentData.add(news);
+        commentData.add(reply_id);
+        commentData.add(name);
+        commentData.add(email);
+        commentData.add(content);
+
+        ResponseCommentPost commentsPost = new ResponseCommentPost(commentData);
+
+        if (binding.editTextName.getText().length() > 0) {
+
+            if (binding.editTextContent.getText().length() > 0) {
 
                 DataRepository.getInstance().postCommentData(commentsPost, new DataRepository.PostCommentListener() {
                     @Override
                     public void onResponse(ArrayList<String> response) {
-                        if (binding.editTextName.getText().length() > 0){
-                            if (binding.editTextContent.getText().length() > 0){
 
-                                Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                            else {
-                                Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
+                        finish();
+
+                        Log.d("POST", "Post comment data success");
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
+                        Toast.makeText(PostCommentActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
+                        Log.d("POST", "Post comment data failure");
                     }
                 });
-
+            } else {
+                Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
             }
-        });
-
+        } else {
+            Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
+    private void hideKeyboard(Activity activity) {
+        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view = activity.getCurrentFocus();
+        if (view == null) {
+            view = new View(activity);
+        }
+        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 }

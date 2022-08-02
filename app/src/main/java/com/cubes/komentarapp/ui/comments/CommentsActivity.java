@@ -1,30 +1,26 @@
 package com.cubes.komentarapp.ui.comments;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.ui.tools.CommentsListener;
 
 import java.util.ArrayList;
-
-// ComentsActivity preko RecyclerView-a prikazuje sve komentare prvog nivoa za otvorenu vest
 
 public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
-    private News news;
-    public ArrayList<Comments> commentList = new ArrayList<>();
-
+    private CommentsAdapter adapter;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,59 +28,94 @@ public class CommentsActivity extends AppCompatActivity {
         binding = ActivityCommentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        news = (News) getIntent().getSerializableExtra("news");
+        id = (int) getIntent().getSerializableExtra("news");
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        binding.imageViewBack.setOnClickListener(view -> finish());
+
+        binding.buttonLeaveComment.setOnClickListener(view -> {
+            Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
+            i.putExtra("newsId", String.valueOf(id));
+            startActivity(i);
         });
 
-        binding.buttonLeaveComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
-                i.putExtra("news", news);
-                startActivity(i);
-            }
+        binding.refresh.setOnClickListener(view -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loadData();
         });
 
-        binding.refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(300);
-                binding.refresh.startAnimation(rotate);
-
-                loadData();
-            }
-        });
+        setupRecyclerView();
 
         loadData();
-
     }
 
-    private  void loadData(){
-        DataRepository.getInstance().loadCommentsData(news.id, new DataRepository.CommentsResponseListener() {
+    private void setupRecyclerView() {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new CommentsAdapter();
+        binding.recyclerView.setAdapter(adapter);
+
+        adapter.setCommentListener(new CommentsListener() {
+            @Override
+            public void onCommentsClicked(Comments comment) {
+                Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
+                i.putExtra("commentId", comment.id);
+                i.putExtra("newsId", comment.news);
+                startActivity(i);
+            }
+
+            @Override
+            public void upvote(String id) {
+                DataRepository.getInstance().upvoteComment(id, new DataRepository.voteListener() {
+                    @Override
+                    public void onResponse(ArrayList<Comments> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void downvote(String id) {
+                DataRepository.getInstance().downvoteComment(id, new DataRepository.voteListener() {
+                    @Override
+                    public void onResponse(ArrayList<Comments> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void loadData() {
+        DataRepository.getInstance().loadCommentsData(id, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
-                commentList = response;
 
-                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                binding.recyclerView.setAdapter(new CommentsFirstLevelAdapter(getApplicationContext(), commentList));
+                adapter.setData(response);
 
                 binding.refresh.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
 
-                Log.d("TAG", "Comment load data success");
+                Log.d("COMMENT", "Comment load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
-                Log.d("TAG", "Comment load data failure");
+                Log.d("COMMENT", "Comment load data failure");
             }
         });
     }

@@ -1,19 +1,16 @@
 package com.cubes.komentarapp.ui.main.menu;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.view.View;
-
+import com.cubes.komentarapp.data.model.Horoscope;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
-import com.cubes.komentarapp.data.model.Horoscope;
-import com.cubes.komentarapp.data.source.remote.response.ResponseHoroscope;
 import com.squareup.picasso.Picasso;
-
-// HoroscopeActivity prikazuje horoskop
-// posto je za sada prikazan samo jedan horoskopski znak ostavio sam jednostavan prikaz na ekranu
-// kada se aktivnost pokrene prikaz treba uraditi u RecyclerView-u
 
 public class HoroscopeActivity extends AppCompatActivity {
 
@@ -26,18 +23,13 @@ public class HoroscopeActivity extends AppCompatActivity {
         binding = ActivityHoroscopeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.imageViewBack.setOnClickListener(view -> finish());
 
         loadData();
 
     }
 
-    private void loadData(){
+    private void loadData() {
 
         DataRepository.getInstance().loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
             @Override
@@ -49,11 +41,15 @@ public class HoroscopeActivity extends AppCompatActivity {
                 binding.textViewDate.setText(horoscope.date);
                 binding.textViewDescription.setText(horoscope.horoscope);
                 Picasso.get().load(horoscope.image_url).into(binding.imageViewHoroscope);
+
+                Log.d("HOROSCOPE", "Horoscope load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(HoroscopeActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
+                Log.d("HOROSCOPE", "Horoscope load data failure");
             }
         });
 

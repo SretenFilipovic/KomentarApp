@@ -66,4 +66,7 @@
     <string name="text_seven_day_forcast">Prognoza za narednih sedam dana</string>
     <string name="text_min_max">max/min</string>
     <string name="text_wind">Brzina vetra</string>
+    <string name="text_refresh">Osveži</string>
+    <string name="text_weather_forcast">Vremenska prognoza</string>
+    <string name="text_loading_news">Vesti se učitavaju...</string>
 </resources>

@@ -1,15 +1,11 @@
 package com.cubes.komentarapp.ui.main.menu;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 
-import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.databinding.ActivityCurrencyBinding;
-import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
+import androidx.appcompat.app.AppCompatActivity;
 
-// CurrencyActivity treba da prikazuje Kursnu listu, ali posto ova aktivnost ne postoji trenutno prikazuje ekran na kome se korisniku stavlja do znanja da je aktivnost u izradi
+import com.cubes.komentarapp.databinding.ActivityCurrencyBinding;
 
 public class CurrencyActivity extends AppCompatActivity {
 
@@ -21,12 +17,7 @@ public class CurrencyActivity extends AppCompatActivity {
         binding = ActivityCurrencyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.imageViewBack.setOnClickListener(view -> finish());
 
     }
 }

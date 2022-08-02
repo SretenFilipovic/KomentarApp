@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.menu;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -14,214 +15,121 @@ import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.source.local.DataContainer;
-import com.cubes.komentarapp.databinding.ExpandableListGroupBinding;
-import com.cubes.komentarapp.databinding.RvItemItemsInMenuBinding;
-import com.cubes.komentarapp.databinding.RvItemSocialNetworkBinding;
 import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.source.local.DataContainer;
+import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
+import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
+import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-// prva verzija Menija je napravljena preko expandableListView
-// presao sam na obican recyclerView sa Kategorijama koje u sebi nose recyclerView sa listom podkategorija (adapter za ugnjezdeni rv je MenuSubcategoryAdapter)
-// cini mi se da je na kraju krajeva ovaj nacin jednostavniji i klikove je lakse odraditi jer kod ELV klik na kategoriju otvara listu podkategorija
-// sto dovodi do konflikata ako hocu da otvorim aktiviti sa vestima iz te kategorije
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
 
-// Ovaj adapter se setuje na RV (recyclerViewMenu) u MainActivity
+    private ArrayList<Category> list = new ArrayList<>();
 
-public class MenuAdapter extends RecyclerView.Adapter {
-
-    private Context context;
-    private ArrayList<Category> list;
-
-    public MenuAdapter(Context context, ArrayList<Category> categoryList) {
-        list = categoryList;
-        this.context = context;
+    public MenuAdapter() {
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MenuHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (viewType == 0){
-            ExpandableListGroupBinding binding =
-                    ExpandableListGroupBinding.inflate(LayoutInflater.from(context), parent,false);
-            return new HeaderHolder(binding);
+        ViewBinding binding;
+
+        if (viewType == 0) {
+            binding = RvItemMenuCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        } else if (viewType == 1) {
+            binding = RvItemMenuItemsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        } else {
+            binding = RvItemMenuSocialNetworkBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
-        else if (viewType == 1){
-            RvItemItemsInMenuBinding binding =
-                    RvItemItemsInMenuBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new ItemsHolder(binding);
-        }
-        else {
-            RvItemSocialNetworkBinding binding =
-                    RvItemSocialNetworkBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new SocialNetworkHolder(binding);
-        }
+        return new MenuHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MenuHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        if (position == 0){
-            HeaderHolder headerHolder = (HeaderHolder) holder;
-            headerHolder.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
-            headerHolder.binding.textViewCategory.setText(R.string.text_naslovna);
+        if (position == 0) {
 
-            // Klik na "Naslovna" u meniju samo zatvara meni i pozicionira na Naslovne vesti
-            headerHolder.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DrawerLayout drawer = ((MainActivity) context).findViewById(R.id.drawerLayout);
-                    BottomNavigationView bottomNavigationView = ((MainActivity) context).findViewById(R.id.bottomNavigationView);
-                    drawer.closeDrawer(((MainActivity) context).findViewById(R.id.drawerNavigationView));
-                    bottomNavigationView.setSelectedItemId(R.id.home);
-                }
-            });
-        }
+            RvItemMenuCategoryBinding binding = (RvItemMenuCategoryBinding) holder.binding;
 
-        else if (position == list.size() + 1){
-            ItemsHolder itemsHolder = (ItemsHolder) holder;
+            binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
+            binding.textViewCategory.setText(R.string.text_naslovna);
 
-            // klik liseneri za Notifikacije, Uslove koriscenja, Marketing i Kontakt,
-            // link vodi ka sajtu komentar.rs (metoda je na dnu pre holder klasa)
-            itemsHolder.binding.textViewContact.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
-                }
+            binding.textViewCategory.setOnClickListener(view -> {
+                DrawerLayout drawer = ((MainActivity) holder.itemView.getContext()).findViewById(R.id.drawerLayout);
+                BottomNavigationView bottomNavigationView = ((MainActivity) holder.itemView.getContext()).findViewById(R.id.bottomNavigationView);
+                drawer.closeDrawer(((MainActivity) holder.itemView.getContext()).findViewById(R.id.drawerNavigationView));
+                bottomNavigationView.setSelectedItemId(R.id.home);
             });
-            itemsHolder.binding.textViewTermsAndConditions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
-                }
+        } else if (position == list.size() + 1) {
+            RvItemMenuItemsBinding binding = (RvItemMenuItemsBinding) holder.binding;
+
+            binding.textViewContact.setOnClickListener(view -> openWebBrowser(holder.itemView.getContext(), "https://komentar.rs"));
+            binding.textViewTermsAndConditions.setOnClickListener(view -> openWebBrowser(holder.itemView.getContext(), "https://komentar.rs"));
+            binding.textViewPushNotification.setOnClickListener(view -> openWebBrowser(holder.itemView.getContext(), "https://komentar.rs"));
+            binding.textViewMarketing.setOnClickListener(view -> openWebBrowser(holder.itemView.getContext(), "https://komentar.rs"));
+            binding.textViewCurrency.setOnClickListener(view -> {
+                Intent i = new Intent(holder.itemView.getContext(), CurrencyActivity.class);
+                holder.itemView.getContext().startActivity(i);
             });
-            itemsHolder.binding.textViewPushNotification.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
-                }
+            binding.textViewHoroscope.setOnClickListener(view -> {
+                Intent i = new Intent(holder.itemView.getContext(), HoroscopeActivity.class);
+                holder.itemView.getContext().startActivity(i);
             });
-            itemsHolder.binding.textViewMarketing.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
-                }
+            binding.textViewWeather.setOnClickListener(view -> {
+                Intent i = new Intent(holder.itemView.getContext(), WeatherActivity.class);
+                holder.itemView.getContext().startActivity(i);
             });
 
-            //klik liseneri za kursnu listu, horoskop i vremensku prognozu (otvaraju se novi aktivitiji)
-            itemsHolder.binding.textViewCurrency.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, CurrencyActivity.class);
-                    context.startActivity(i);
-                }
-            });
-            itemsHolder.binding.textViewHoroscope.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, HoroscopeActivity.class);
-                    context.startActivity(i);
-                }
-            });
-            itemsHolder.binding.textViewWeather.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(context, WeatherActivity.class);
-                    context.startActivity(i);
-                }
-            });
+        } else if (position == list.size() + 2) {
+            RvItemMenuSocialNetworkBinding binding = (RvItemMenuSocialNetworkBinding) holder.binding;
 
-        }
-        else if (position == list.size() + 2){
-            SocialNetworkHolder holderSocial = (SocialNetworkHolder) holder;
-
-            // klik liseneri za deljenje na drustvene mreze (metoda je na dnu pre holder klasa)
-            holderSocial.binding.imageViewFacebook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shareOnSocialNetworks("com.facebook.katana");
-                }
-            });
-            holderSocial.binding.imageViewInstagram.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shareOnSocialNetworks("com.instagram.android");
-                }
-            });
-            holderSocial.binding.imageViewTwitter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shareOnSocialNetworks("com.twitter.android");
-                }
-            });
-            holderSocial.binding.imageViewViber.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shareOnSocialNetworks("com.viber.voip");
-                }
-            });
-            holderSocial.binding.imageViewWhatsapp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shareOnSocialNetworks("com.whatsapp");
-                }
-            });
-        }
-
-        else {
+            binding.imageViewFacebook.setOnClickListener(view -> shareOnSocialNetworks(holder.itemView.getContext(), "com.facebook.katana"));
+            binding.imageViewInstagram.setOnClickListener(view -> shareOnSocialNetworks(holder.itemView.getContext(), "com.instagram.android"));
+            binding.imageViewTwitter.setOnClickListener(view -> shareOnSocialNetworks(holder.itemView.getContext(), "com.twitter.android"));
+            binding.imageViewViber.setOnClickListener(view -> shareOnSocialNetworks(holder.itemView.getContext(), "com.viber.voip"));
+            binding.imageViewWhatsapp.setOnClickListener(view -> shareOnSocialNetworks(holder.itemView.getContext(), "com.whatsapp"));
+        } else {
             Category category = list.get(position - 1);
-            HeaderHolder holderCategory = (HeaderHolder) holder;
 
-            holderCategory.binding.textViewCategory.setText(category.name);
-            holderCategory.binding.viewCategoryColor.setBackgroundColor(Color.parseColor(category.color));
-            holderCategory.binding.viewSubcategoryColor.setBackgroundColor(Color.parseColor(category.color));
+            RvItemMenuCategoryBinding binding = (RvItemMenuCategoryBinding) holder.binding;
 
-            // Ako nema podkategorija ne treba da se vidi ikonica za sirenje i skupljanje liste podkategorija
-            if (category.subcategories.size() == 0){
-                holderCategory.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
-            }
-            else{
-                holderCategory.binding.imageViewExpandSubcategoryList.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+            binding.textViewCategory.setText(category.name);
+            binding.viewCategoryColor.setBackgroundColor(Color.parseColor(category.color));
+            binding.viewSubcategoryColor.setBackgroundColor(Color.parseColor(category.color));
 
-                        // Na klik se prvo proveri da li je liste podkategorija vec otvorena
-                        // ako nije, otvara se lista i menja se ikonica za otvaranje da pokazuje nagore
-                        if (holderCategory.binding.subcategoryContainer.getVisibility() == View.GONE){
-                            holderCategory.binding.subcategoryContainer.setVisibility(View.VISIBLE);
-                            holderCategory.binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
-                        }
-                        // ako jeste, zatvara se lista i menja se ikonica za otvaranje da pokazuje nadole
-                        else{
-                            holderCategory.binding.subcategoryContainer.setVisibility(View.GONE);
-                            holderCategory.binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
-                        }
+            if (category.subcategories.size() == 0) {
+                binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
+            } else {
+                binding.imageViewExpandSubcategoryList.setOnClickListener(view -> {
+
+                    if (binding.subcategoryContainer.getVisibility() == View.GONE) {
+                        binding.subcategoryContainer.setVisibility(View.VISIBLE);
+                        binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
+                    } else {
+                        binding.subcategoryContainer.setVisibility(View.GONE);
+                        binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
                     }
                 });
             }
 
-            // klik na kategoriju zatvara meni i pozicionira ViewPager na izabranu kategoriju
-            holderCategory.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            binding.textViewCategory.setOnClickListener(view -> {
+                DrawerLayout drawer = ((MainActivity) view.getContext()).findViewById(R.id.drawerLayout);
+                ViewPager2 viewPager2 = ((MainActivity) view.getContext()).findViewById(R.id.viewPagerHome);
+                drawer.closeDrawer(((MainActivity) view.getContext()).findViewById(R.id.drawerNavigationView));
+                viewPager2.setCurrentItem(position);
 
-                    DrawerLayout drawer = ((MainActivity) context).findViewById(R.id.drawerLayout);
-                    ViewPager2 viewPager2 = ((MainActivity) context).findViewById(R.id.viewPagerHome);
-                    drawer.closeDrawer(((MainActivity) context).findViewById(R.id.drawerNavigationView));
-                    viewPager2.setCurrentItem(position);
-
-                }
             });
 
-            holderCategory.binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            holderCategory.binding.recyclerView.setAdapter(new MenuSubcategoryAdapter(context, category.subcategories));
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            binding.recyclerView.setAdapter(new MenuSubcategoryAdapter(category.subcategories));
         }
     }
 
@@ -232,19 +140,16 @@ public class MenuAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if(position == list.size() + 2){
+        if (position == list.size() + 2) {
             return 2;
-        }
-        else if (position == list.size() + 1){
+        } else if (position == list.size() + 1) {
             return 1;
-        }
-        else{
+        } else {
             return 0;
         }
     }
 
-    // metoda za deljenje na drustvene mreze
-    private void shareOnSocialNetworks(String networkUrl){
+    private void shareOnSocialNetworks(Context context, String networkUrl) {
         try {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
@@ -253,54 +158,35 @@ public class MenuAdapter extends RecyclerView.Adapter {
             i.setPackage(networkUrl);
             context.startActivity(i);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Nemate instaliranu neophodnu aplikaciju.",  Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
-    // metoda za otvaranje web browser-a
-    private void openWebBrowser(String link){
+    private void openWebBrowser(Context context, String link) {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "Nemate instaliranu neophodnu aplikaciju.",  Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
 
+    public void setData(ArrayList<Category> categoryList) {
+        list = categoryList;
+        notifyDataSetChanged();
+    }
 
-    // Holder klasa za element "Naslovna" i kategorije sa servera
-    public class HeaderHolder extends RecyclerView.ViewHolder{
+    public class MenuHolder extends RecyclerView.ViewHolder {
 
-        private ExpandableListGroupBinding binding;
+        public ViewBinding binding;
 
-        public HeaderHolder(ExpandableListGroupBinding binding) {
+        public MenuHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
     }
 
-    // Holder klasa za item-e ispod kategorija u meniju
-    public class ItemsHolder extends RecyclerView.ViewHolder{
-
-        private RvItemItemsInMenuBinding binding;
-
-        public ItemsHolder(RvItemItemsInMenuBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
-    // holder za ikonice za deljenje
-    public class SocialNetworkHolder extends RecyclerView.ViewHolder{
-
-        private RvItemSocialNetworkBinding binding;
-
-        public SocialNetworkHolder(RvItemSocialNetworkBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
 
 }

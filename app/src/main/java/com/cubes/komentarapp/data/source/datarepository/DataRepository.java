@@ -1,19 +1,21 @@
 package com.cubes.komentarapp.data.source.datarepository;
 
+import android.util.Log;
+
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.data.model.Horoscope;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.model.Weather;
 import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.remote.networking.RetrofitService;
-import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCategoryList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCommentList;
+import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseHoroscope;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsDetail;
+import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseWeather;
 
 import java.util.ArrayList;
@@ -33,14 +35,13 @@ public class DataRepository {
         callRetrofit();
     }
 
-    public static DataRepository getInstance()
-    {
-        if (instance==null)
+    public static DataRepository getInstance() {
+        if (instance == null)
             instance = new DataRepository();
         return instance;
     }
 
-    public void callRetrofit(){
+    public void callRetrofit() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(DataContainer.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -49,12 +50,12 @@ public class DataRepository {
     }
 
     public interface NewsResponseListener {
-        void onResponse(NewsData response);
+        void onResponse(NewsList response);
 
         void onFailure(Throwable t);
     }
 
-    public void loadVideoData(int page, NewsResponseListener listener){
+    public void loadVideoData(int page, NewsResponseListener listener) {
 
         service.getVideoNews(page).enqueue(new Callback<ResponseNewsList>() {
 
@@ -63,19 +64,19 @@ public class DataRepository {
 
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
-
             }
 
             @Override
             public void onFailure(Call<ResponseNewsList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
-    public void loadLatestData(int page, NewsResponseListener listener){
+    public void loadLatestData(int page, NewsResponseListener listener) {
 
         service.getLatestNews(page).enqueue(new Callback<ResponseNewsList>() {
 
@@ -83,18 +84,19 @@ public class DataRepository {
             public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNewsList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
-    public void loadCategoryNewsData(int id, int page, NewsResponseListener listener){
+    public void loadCategoryNewsData(int id, int page, NewsResponseListener listener) {
 
         service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNewsList>() {
 
@@ -102,56 +104,59 @@ public class DataRepository {
             public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNewsList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
-    public void loadSearchData(String term, int page, NewsResponseListener listener){
+    public void loadSearchData(String term, int page, NewsResponseListener listener) {
 
-        service.getSearchNews(term,page).enqueue(new Callback<ResponseNewsList>() {
+        service.getSearchNews(term, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNewsList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
-    public void loadTagData(int id, int page, NewsResponseListener listener){
+    public void loadTagData(int id, int page, NewsResponseListener listener) {
 
-        service.getTagNews(id,page).enqueue(new Callback<ResponseNewsList>() {
+        service.getTagNews(id, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNewsList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
-    public void loadHeadNewsData(NewsResponseListener listener){
+    public void loadHeadNewsData(NewsResponseListener listener) {
 
         service.getHomepageNews().enqueue(new Callback<ResponseNewsList>() {
 
@@ -159,14 +164,15 @@ public class DataRepository {
             public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseNewsList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
@@ -176,7 +182,7 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void loadCategoryData(CategoryResponseListener listener){
+    public void loadCategoryData(CategoryResponseListener listener) {
 
         service.getCategories().enqueue(new Callback<ResponseCategoryList>() {
 
@@ -185,14 +191,15 @@ public class DataRepository {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null
-                        && !response.body().data.isEmpty()){
+                        && !response.body().data.isEmpty()) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseCategoryList> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
@@ -203,7 +210,7 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void loadHoroscopeData(HoroscopeResponseListener listener){
+    public void loadHoroscopeData(HoroscopeResponseListener listener) {
 
         service.getHoroscope().enqueue(new Callback<ResponseHoroscope>() {
 
@@ -211,14 +218,15 @@ public class DataRepository {
             public void onResponse(Call<ResponseHoroscope> call, Response<ResponseHoroscope> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseHoroscope> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
@@ -229,7 +237,7 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void loadWeatherData(WeatherResponseListener listener){
+    public void loadWeatherData(WeatherResponseListener listener) {
 
         service.getWeather().enqueue(new Callback<ResponseWeather>() {
 
@@ -237,14 +245,15 @@ public class DataRepository {
             public void onResponse(Call<ResponseWeather> call, Response<ResponseWeather> response) {
                 if (response.body() != null
                         && response.isSuccessful()
-                        && response.body().data != null){
+                        && response.body().data != null) {
                     listener.onResponse(response.body().data);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseWeather> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 
@@ -255,15 +264,16 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void getNewsDetails(News news, NewsDetailListener listener){
+    public void getNewsDetails(int id, NewsDetailListener listener) {
 
-        service.getNewsDetail(news.id).enqueue(new Callback<ResponseNewsDetail>() {
+        service.getNewsDetail(id).enqueue(new Callback<ResponseNewsDetail>() {
             @Override
             public void onResponse(Call<ResponseNewsDetail> call, Response<ResponseNewsDetail> response) {
 
                 listener.onResponse(response.body().data);
 
             }
+
             @Override
             public void onFailure(Call<ResponseNewsDetail> call, Throwable t) {
                 listener.onFailure(t);
@@ -278,43 +288,58 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void loadCommentsData(int id, CommentsResponseListener listener){
+    public void loadCommentsData(int id, CommentsResponseListener listener) {
 
         service.getComments(id).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+
                 listener.onResponse(response.body().data);
+
             }
 
             @Override
             public void onFailure(Call<ResponseCommentList> call, Throwable t) {
-                listener.onFailure(t);            }
-        });
-    }
-
-    public void upvoteComment(String id, boolean vote){
-
-        service.postUpvote(id, vote).enqueue(new Callback<ResponseCommentList>() {
-
-            @Override
-            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
-            }
-            @Override
-            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
+                listener.onFailure(t);
             }
         });
     }
 
-    public void downvoteComment(String id, boolean vote){
+    public interface voteListener {
+        void onResponse(ArrayList<Comments> response);
 
-        service.postDownvote(id, vote).enqueue(new Callback<ResponseCommentList>() {
+        void onFailure(Throwable t);
+    }
+
+    public void upvoteComment(String id, voteListener listener) {
+
+        service.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+                Log.d("UPVOTE", "Upvote success");
             }
+
             @Override
             public void onFailure(Call<ResponseCommentList> call, Throwable t) {
+                Log.d("UPVOTE", "Upvote failure");
+            }
+        });
+    }
+
+    public void downvoteComment(String id, voteListener listener) {
+
+        service.postDownvote(id, true).enqueue(new Callback<ResponseCommentList>() {
+
+            @Override
+            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+                Log.d("DOWNVOTE", "Downvote success");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
+                Log.d("DOWNVOTE", "Downvote failure");
             }
         });
     }
@@ -325,7 +350,7 @@ public class DataRepository {
         void onFailure(Throwable t);
     }
 
-    public void postCommentData(ResponseCommentPost comment, PostCommentListener listener){
+    public void postCommentData(ResponseCommentPost comment, PostCommentListener listener) {
 
         service.postComment(comment).enqueue(new Callback<ResponseCommentPost>() {
 
@@ -336,7 +361,8 @@ public class DataRepository {
 
             @Override
             public void onFailure(Call<ResponseCommentPost> call, Throwable t) {
-                listener.onFailure(t);            }
+                listener.onFailure(t);
+            }
         });
     }
 

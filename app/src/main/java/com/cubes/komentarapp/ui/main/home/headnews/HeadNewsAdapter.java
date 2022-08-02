@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.CategoryHomePage;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.CategoryNews;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
@@ -23,42 +22,11 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 
 import java.util.ArrayList;
 
-// HeadNewsAdapter sluzi za prikaz Naslovne stranice
-// setuje se na RV u HomePageHeadNewsFragment-u
-
 public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNewsViewHolder> {
 
-    private Context context;
-    private ArrayList<RvItemHead> items;
-    private ArrayList<CategoryHomePage> fromCategoryList;
+    private ArrayList<RvItemHead> items = new ArrayList<>();
 
-    public HeadNewsAdapter(Context context, ArrayList<News> sliderList, ArrayList<News> topList,
-                           ArrayList<News> editorsChoiceList, ArrayList<News> videosList,
-                           ArrayList<News> mostReadList, ArrayList<News> latestList, ArrayList<News> mostCommentedList, ArrayList<CategoryHomePage> fromCategoryList) {
-
-        items = new ArrayList<>();
-        this.context = context;
-        this.fromCategoryList = fromCategoryList;
-
-        items.add(new RvItemHeadSlider(context, sliderList));
-        items.add(new RvItemHeadTop(topList));
-        items.add(new RvItemHeadMostRead(context, latestList, mostReadList, mostCommentedList));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Sport"), "Sport"));
-        items.add(new RvItemHeadEditorsChoiceSlider(context, editorsChoiceList));
-        items.add(new RvItemHeadVideo(videosList));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Aktuelno"), "Aktuelno"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Politika"), "Politika"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Svet"), "Svet"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Hronika"), "Hronika"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Društvo"), "Društvo"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Ekonomija"), "Ekonomija"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Stil života"), "Stil života"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Kultura"), "Kultura"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Zabava"), "Zabava"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Srbija"), "Srbija"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Beograd"), "Beograd"));
-        items.add(new RvItemHeadCategory(getNewsFromCategoryList("Region"), "Region"));
-
+    public HeadNewsAdapter() {
     }
 
     @NonNull
@@ -68,10 +36,10 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        switch (viewType){
+        switch (viewType) {
             case 0:
             case 4:
-                binding = RvItemHeadSliderBinding.inflate(inflater,parent,false);
+                binding = RvItemHeadSliderBinding.inflate(inflater, parent, false);
                 break;
             case 2:
                 binding = RvItemHeadMostReadBinding.inflate(inflater, parent, false);
@@ -98,24 +66,26 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
         return this.items.get(position).getType();
     }
 
-    public ArrayList<News> getNewsFromCategoryList(String category){
-        ArrayList<News> allNewsList = new ArrayList<>();
-        ArrayList<News> categoryList = new ArrayList<>();
 
-        for(CategoryHomePage cat : fromCategoryList){
-            allNewsList = cat.news;
+    public void setData(NewsList response) {
 
-            for (News news : allNewsList) {
+        items.add(new RvItemHeadSlider(response.slider));
+        items.add(new RvItemHeadTop(response.top));
+        items.add(new RvItemHeadMostRead(response.latest, response.most_read, response.most_comented));
+        items.add(new RvItemHeadCategory(response.category, "Sport"));
+        items.add(new RvItemHeadEditorsChoiceSlider(response.editors_choice));
+        items.add(new RvItemHeadVideo(response.videos));
 
-                if(news.category.name.equalsIgnoreCase(category)){
-                    categoryList.add(news);
-                }
+        for (CategoryNews category : response.category) {
+            if (!category.title.equalsIgnoreCase("Sport")) {
+                items.add(new RvItemHeadCategory(response.category, category.title));
             }
         }
-        return categoryList;
+
+        notifyDataSetChanged();
     }
 
-    public class HeadNewsViewHolder extends RecyclerView.ViewHolder{
+    public class HeadNewsViewHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

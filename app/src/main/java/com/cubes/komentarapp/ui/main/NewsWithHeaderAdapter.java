@@ -1,6 +1,6 @@
 package com.cubes.komentarapp.ui.main;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,126 +8,108 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
+import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-// Ovaj adapter se koristi kada imamo fragment ili aktiviti u kojem se prikazuje lista vesti sa dva tipa celije
-// Prvi tip treba da bude velika vest, drugi tip male vesti
-// Setuje se na RV u HomePageCategoryFragment
-
 public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAdapter.NewsViewHolder> {
 
-    private ArrayList<News> list;
-    private Context context;
+    private ArrayList<News> list = new ArrayList<>();
     private NewsListener newsListener;
     private LoadingNewsListener loadingNewsListener;
-    private int page;
     private boolean isLoading;
     private boolean isFinished;
 
-    public NewsWithHeaderAdapter(Context context, ArrayList<News> list) {
-        this.list = list;
-        this.context = context;
-        this.page = 2;
-        this.isLoading = false;
-        this.isFinished = false;
+    public NewsWithHeaderAdapter() {
     }
 
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (viewType == 0){
-            RvItemBigNewsBinding binding =
-                    RvItemBigNewsBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new NewsViewHolder(binding);
+        ViewBinding binding;
+
+        if (viewType == 0) {
+            binding = RvItemBigNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        } else if (viewType == 1) {
+            binding = RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        } else {
+            binding = RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
         }
-        else if (viewType == 1) {
-            RvItemSmallNewsBinding binding =
-                    RvItemSmallNewsBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new NewsViewHolder(binding);
-        }
-        else {
-            RvItemLoadingBinding binding =
-                    RvItemLoadingBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new NewsViewHolder(binding);
-        }
+        return new NewsViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        if (position == 0){
+        if (position == 0) {
             News news = list.get(position);
-            holder.bindingBig.textViewCategory.setText(news.category.name);
-            holder.bindingBig.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            holder.bindingBig.textViewCreatedAt.setText(news.created_at.substring(11,16));
-            holder.bindingBig.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(holder.bindingBig.imageView);
+            RvItemBigNewsBinding binding = (RvItemBigNewsBinding) holder.binding;
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
-                }
-            });
+            binding.textViewCategory.setText(news.category.name);
+            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
+
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
         }
-
-        else if (position>0 & position<list.size()) {
+        else if (position > 0 & position < list.size()) {
             News news = list.get(position);
-            holder.bindingSmall.textViewCategory.setText(news.category.name);
-            holder.bindingSmall.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            holder.bindingSmall.textViewCreatedAt.setText(news.created_at.substring(11,16));
-            holder.bindingSmall.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(holder.bindingSmall.imageView);
+            RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
-                }
-            });
+            binding.textViewCategory.setText(news.category.name);
+            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
+
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
         }
+        else {
+            RvItemLoadingBinding binding = (RvItemLoadingBinding) holder.binding;
 
-        else{
-            if (isFinished){
-                holder.bindingLoading.progressBar.setVisibility(View.GONE);
-                holder.bindingLoading.textView.setVisibility(View.GONE);
+            if (isFinished) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.textView.setVisibility(View.GONE);
             }
 
-            if (!isLoading & !isFinished & loadingNewsListener != null){
+            if (!isLoading & !isFinished & loadingNewsListener != null) {
                 isLoading = true;
-                loadingNewsListener.loadMoreNews(page);
+                loadingNewsListener.loadMoreNews();
             }
         }
     }
 
     @Override
     public int getItemCount() {
-        if(list == null){
+        if (list == null) {
             return 0;
+        } else if (list.size() >= 20) {
+            return list.size() + 1;
+        } else {
+            return list.size();
         }
-        return list.size()+1;
     }
 
     @Override
     public int getItemViewType(int position) {
 
-        if(position == 0){
+        if (position == 0) {
             return 0;
-        }
-        else if(position == list.size()){
+        } else if (position == list.size()) {
             return 2;
-        }
-        else {
+        } else {
             return 1;
         }
     }
@@ -144,35 +126,30 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAd
         isFinished = finished;
     }
 
-    public void addNewNewsList(ArrayList<News> newsList){
+    public void addNewNewsList(ArrayList<News> newsList) {
         this.list.addAll(newsList);
+
+        if (newsList.size() < 20) {
+            setFinished(true);
+        }
+
         this.isLoading = false;
-        this.page = this.page + 1;
         notifyDataSetChanged();
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
+    public void setData(NewsList data) {
+        this.list = data.news;
+        notifyDataSetChanged();
+    }
 
-        private RvItemSmallNewsBinding bindingSmall;
-        private RvItemBigNewsBinding bindingBig;
-        private RvItemLoadingBinding bindingLoading;
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        public NewsViewHolder(RvItemSmallNewsBinding binding) {
+        public ViewBinding binding;
+
+        public NewsViewHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
-            this.bindingSmall = binding;
+            this.binding = binding;
         }
-
-        public NewsViewHolder(RvItemBigNewsBinding binding) {
-            super(binding.getRoot());
-            this.bindingBig = binding;
-        }
-
-        public NewsViewHolder(RvItemLoadingBinding binding) {
-            super(binding.getRoot());
-            this.bindingLoading = binding;
-        }
-
-
     }
 
 }

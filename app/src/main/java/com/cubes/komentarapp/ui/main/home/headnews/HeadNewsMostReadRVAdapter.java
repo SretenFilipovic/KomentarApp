@@ -1,55 +1,48 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
-// Ovaj adapter sluzi da prikaze liste vesti sa naslovima i vremenom objavljivanja u ViewPager-u na Naslovnoj strani (Najnovije, Najcitanije i najkomentarisanije)
-// Setuje se na RV u MostReadFragment
+public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder> {
 
-public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder>{
-
-    private ArrayList<News> list;
-    private Context context;
+    private final ArrayList<News> list;
     private NewsListener newsListener;
 
-    public HeadNewsMostReadRVAdapter(Context context, ArrayList<News> list) {
+    public HeadNewsMostReadRVAdapter(ArrayList<News> list) {
         this.list = list;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public HeadNewsMostReadRVAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RvItemSmallestNewsBinding binding =
-                RvItemSmallestNewsBinding.inflate(LayoutInflater.from(context), parent, false);
+        ViewBinding binding =
+                RvItemSmallestNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new NewsViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HeadNewsMostReadRVAdapter.NewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HeadNewsMostReadRVAdapter.NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         News news = list.get(position);
 
-        holder.binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
-        holder.binding.textViewTitle.setText(news.title);
+        RvItemSmallestNewsBinding binding = (RvItemSmallestNewsBinding) holder.binding;
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newsListener.onNewsClicked(list.get(position));
-            }
-        });
+        binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+        binding.textViewTitle.setText(news.title);
+
+        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
     }
 
     @Override
@@ -63,9 +56,9 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
 
-        private RvItemSmallestNewsBinding binding;
+        public ViewBinding binding;
 
-        public NewsViewHolder(RvItemSmallestNewsBinding binding) {
+        public NewsViewHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

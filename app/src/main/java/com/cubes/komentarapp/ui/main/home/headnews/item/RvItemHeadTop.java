@@ -4,20 +4,17 @@ import android.content.Intent;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 
 import java.util.ArrayList;
 
+public class RvItemHeadTop implements RvItemHead {
 
-public class RvItemHeadTop implements RvItemHead{
-
-    private ArrayList<News> topNews;
+    private final ArrayList<News> topNews;
     private NewsAdapter adapter;
 
     public RvItemHeadTop(ArrayList<News> topNews) {
@@ -35,27 +32,14 @@ public class RvItemHeadTop implements RvItemHead{
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new NewsAdapter(holder.itemView.getContext(), topNews);
+        adapter = new NewsAdapter(topNews);
         adapter.setFinished(true);
 
-        adapter.setNewsListener(new NewsListener() {
-            @Override
-            public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                    @Override
-                    public void onResponse(News response) {
-                        News newsDetails = response;
+        adapter.setNewsListener(news -> {
 
-                        Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        holder.itemView.getContext().startActivity(i);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });            }
+            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
+            i.putExtra("news", news.id);
+            holder.itemView.getContext().startActivity(i);
         });
         binding.recyclerView.setAdapter(adapter);
 

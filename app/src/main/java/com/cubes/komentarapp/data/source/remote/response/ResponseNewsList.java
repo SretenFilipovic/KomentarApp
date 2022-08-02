@@ -1,11 +1,9 @@
 package com.cubes.komentarapp.data.source.remote.response;
 
-import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.model.NewsList;
 
-import java.io.Serializable;
+public class ResponseNewsList extends ResponseParentClass {
 
-public class ResponseNewsList extends ResponseParentClass implements Serializable {
-
-    public NewsData data;
+    public NewsList data;
 
 }

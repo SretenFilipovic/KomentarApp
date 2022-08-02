@@ -49,14 +49,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.cubes.komentarapp.ui.NestedScrollableHost
+        <com.cubes.komentarapp.ui.tools.NestedScrollableHost
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-        </com.cubes.komentarapp.ui.NestedScrollableHost>
+        </com.cubes.komentarapp.ui.tools.NestedScrollableHost>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/indicator"

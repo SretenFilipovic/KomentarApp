@@ -7,19 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.databinding.RvItemTagBinding;
 import com.cubes.komentarapp.data.model.Tags;
+import com.cubes.komentarapp.databinding.RvItemTagBinding;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 
 import java.util.ArrayList;
 
-// Ovaj adapter sluzi za prikaz liste tagova
-// setuje se na RV u RvItemDetailTags
-
 public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdapter.TagHolder> {
 
-    private ArrayList<Tags> tagList;
+    private final ArrayList<Tags> tagList;
 
     public NewsDetailTagAdapter(ArrayList<Tags> tagList) {
         this.tagList = tagList;
@@ -28,7 +26,7 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     @NonNull
     @Override
     public TagHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RvItemTagBinding binding =
+        ViewBinding binding =
                 RvItemTagBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new NewsDetailTagAdapter.TagHolder(binding);
     }
@@ -36,21 +34,18 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     @Override
     public void onBindViewHolder(@NonNull TagHolder holder, int position) {
 
-            Tags tag = tagList.get(position);
-            holder.binding.buttonTag.setText(tag.title);
+        Tags tag = tagList.get(position);
 
-        //klik na tag
+        RvItemTagBinding binding = (RvItemTagBinding) holder.binding;
 
-        holder.binding.buttonTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.buttonTag.setText(tag.title);
 
-                Intent i = new Intent(holder.itemView.getContext(), TagActivity.class);
-                i.putExtra("tag", tag);
-                holder.itemView.getContext().startActivity(i);
-            }
+        binding.buttonTag.setOnClickListener(view -> {
+
+            Intent i = new Intent(holder.itemView.getContext(), TagActivity.class);
+            i.putExtra("tag", tag.id);
+            holder.itemView.getContext().startActivity(i);
         });
-
     }
 
     @Override
@@ -59,15 +54,15 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     }
 
 
+    public class TagHolder extends RecyclerView.ViewHolder {
 
-    public class TagHolder extends RecyclerView.ViewHolder{
+        public ViewBinding binding;
 
-        public RvItemTagBinding binding;
-
-        public TagHolder(@NonNull RvItemTagBinding binding) {
+        public TagHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
+
     }
 
 }

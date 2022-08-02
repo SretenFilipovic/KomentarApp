@@ -4,23 +4,22 @@ import android.content.Intent;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsVideoAdapter;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
-public class RvItemHeadVideo implements RvItemHead{
+public class RvItemHeadVideo implements RvItemHead {
 
-    private ArrayList<News> topNews;
+    private final ArrayList<News> videoNews;
     private HeadNewsVideoAdapter adapter;
 
-    public RvItemHeadVideo(ArrayList<News> topNews) {
-        this.topNews = topNews;
+    public RvItemHeadVideo(ArrayList<News> videoNews) {
+        this.videoNews = videoNews;
     }
 
     @Override
@@ -34,27 +33,14 @@ public class RvItemHeadVideo implements RvItemHead{
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new HeadNewsVideoAdapter(holder.itemView.getContext(), topNews);
+        adapter = new HeadNewsVideoAdapter(videoNews);
 
-        adapter.setNewsListener(new NewsListener() {
-            @Override
-            public void onNewsClicked(News news) {
-                DataRepository.getInstance().getNewsDetails(news, new DataRepository.NewsDetailListener() {
-                    @Override
-                    public void onResponse(News response) {
-                        News newsDetails = response;
-
-                        Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-                        i.putExtra("news",newsDetails);
-                        holder.itemView.getContext().startActivity(i);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });            }
+        adapter.setNewsListener(news -> {
+            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
+            i.putExtra("news", news.id);
+            holder.itemView.getContext().startActivity(i);
         });
+
         binding.recyclerView.setAdapter(adapter);
 
     }

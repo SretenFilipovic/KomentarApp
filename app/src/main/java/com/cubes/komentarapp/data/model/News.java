@@ -1,9 +1,8 @@
 package com.cubes.komentarapp.data.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class News implements  Serializable{
+public class News {
 
     public int id;
     public String image;
