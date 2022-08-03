@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
+import com.cubes.komentarapp.ui.comments.CommentsAdapter;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
-import com.cubes.komentarapp.ui.detail.NewsDetailCommentsAdapter;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.daimajia.androidanimations.library.Techniques;
@@ -46,7 +46,7 @@ public class RvItemDetailComments implements RvItemDetail{
         }
         else{
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            binding.recyclerView.setAdapter(new NewsDetailCommentsAdapter(comments));
+            binding.recyclerView.setAdapter(new CommentsAdapter(comments));
         }
 
         binding.textViewShowAllComments.setOnClickListener(new View.OnClickListener() {

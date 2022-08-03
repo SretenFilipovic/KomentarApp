@@ -18,12 +18,10 @@ public class RvItemHeadCategory implements RvItemHead{
 
     private ArrayList<News> list;
     private HeadNewsCategoryAdapter adapter;
-    private ArrayList<CategoryHomePage> fromCategoryList;
     private CategoryHomePage category;
     private String categoryName;
 
     public RvItemHeadCategory(ArrayList<CategoryHomePage> fromCategoryList, String categoryName) {
-        this.fromCategoryList = fromCategoryList;
         this.categoryName = categoryName;
 
         for(CategoryHomePage cat : fromCategoryList){

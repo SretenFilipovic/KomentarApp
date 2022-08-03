@@ -53,31 +53,33 @@ public class PostCommentActivity extends AppCompatActivity {
 
                 ResponseCommentPost commentsPost = new ResponseCommentPost(commentData);
 
-                DataRepository.getInstance().postCommentData(commentsPost, new DataRepository.PostCommentListener() {
-                    @Override
-                    public void onResponse(ArrayList<String> response) {
-                        if (binding.editTextName.getText().length() > 0){
-                            if (binding.editTextContent.getText().length() > 0){
+                if (binding.editTextName.getText().length() > 0){
+
+                    if (binding.editTextContent.getText().length() > 0){
+
+                        DataRepository.getInstance().postCommentData(commentsPost, new DataRepository.PostCommentListener() {
+                            @Override
+                            public void onResponse(ArrayList<String> response) {
 
                                 Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
                                 finish();
-                            }
-                            else {
-                                Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else {
-                            Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
-                        }
 
-                        Log.d("POST", "Post comment data success");
-                    }
+                                Log.d("POST", "Post comment data success");
+                            }
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.d("POST", "Post comment data failure");
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.d("POST", "Post comment data failure");
+                            }
+                        });
                     }
-                });
+                    else {
+                        Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

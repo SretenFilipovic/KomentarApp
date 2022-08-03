@@ -43,6 +43,5 @@ public class RvItemDetailTags implements RvItemDetail{
             binding.recyclerView.setAdapter(new NewsDetailTagAdapter(tags));
         }
 
-
     }
 }

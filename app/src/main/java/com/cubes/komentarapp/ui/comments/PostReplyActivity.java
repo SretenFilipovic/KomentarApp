@@ -54,33 +54,33 @@ public class PostReplyActivity extends AppCompatActivity {
 
                 ResponseCommentPost replyPost = new ResponseCommentPost(commentData);
 
-                DataRepository.getInstance().postCommentData(replyPost, new DataRepository.PostCommentListener() {
-                    @Override
-                    public void onResponse(ArrayList<String> response) {
-                        if (binding.editTextName.getText().length() > 0){
+                if (binding.editTextName.getText().length() > 0){
 
-                            if (binding.editTextContent.getText().length() > 0){
+                    if (binding.editTextContent.getText().length() > 0){
+
+                        DataRepository.getInstance().postCommentData(replyPost, new DataRepository.PostCommentListener() {
+                            @Override
+                            public void onResponse(ArrayList<String> response) {
 
                                 Toast.makeText(PostReplyActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
                                 finish();
+
+                                Log.d("REPLY", "Post reply data success");
                             }
-                            else {
-                                Toast.makeText(PostReplyActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                Log.d("REPLY", "Post reply data failure");
                             }
-
-                        }
-                        else {
-                            Toast.makeText(PostReplyActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
-                        }
-
-                        Log.d("REPLY", "Post reply data success");
+                        });
                     }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.d("REPLY", "Post reply data failure");
+                    else {
+                        Toast.makeText(PostReplyActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
                     }
-                });
+                }
+                else {
+                    Toast.makeText(PostReplyActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

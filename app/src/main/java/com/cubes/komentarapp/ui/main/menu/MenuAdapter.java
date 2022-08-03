@@ -18,9 +18,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.source.local.DataContainer;
-import com.cubes.komentarapp.databinding.ExpandableListGroupBinding;
-import com.cubes.komentarapp.databinding.RvItemItemsInMenuBinding;
-import com.cubes.komentarapp.databinding.RvItemSocialNetworkBinding;
+import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
+import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
+import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,18 +42,18 @@ public class MenuAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (viewType == 0){
-            ExpandableListGroupBinding binding =
-                    ExpandableListGroupBinding.inflate(LayoutInflater.from(context), parent,false);
+            RvItemMenuCategoryBinding binding =
+                    RvItemMenuCategoryBinding.inflate(LayoutInflater.from(context), parent,false);
             return new HeaderHolder(binding);
         }
         else if (viewType == 1){
-            RvItemItemsInMenuBinding binding =
-                    RvItemItemsInMenuBinding.inflate(LayoutInflater.from(context), parent, false);
+            RvItemMenuItemsBinding binding =
+                    RvItemMenuItemsBinding.inflate(LayoutInflater.from(context), parent, false);
             return new ItemsHolder(binding);
         }
         else {
-            RvItemSocialNetworkBinding binding =
-                    RvItemSocialNetworkBinding.inflate(LayoutInflater.from(context), parent, false);
+            RvItemMenuSocialNetworkBinding binding =
+                    RvItemMenuSocialNetworkBinding.inflate(LayoutInflater.from(context), parent, false);
             return new SocialNetworkHolder(binding);
         }
     }
@@ -253,9 +253,9 @@ public class MenuAdapter extends RecyclerView.Adapter {
 
     public class HeaderHolder extends RecyclerView.ViewHolder{
 
-        private ExpandableListGroupBinding binding;
+        private RvItemMenuCategoryBinding binding;
 
-        public HeaderHolder(ExpandableListGroupBinding binding) {
+        public HeaderHolder(RvItemMenuCategoryBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -263,9 +263,9 @@ public class MenuAdapter extends RecyclerView.Adapter {
 
     public class ItemsHolder extends RecyclerView.ViewHolder{
 
-        private RvItemItemsInMenuBinding binding;
+        private RvItemMenuItemsBinding binding;
 
-        public ItemsHolder(RvItemItemsInMenuBinding binding) {
+        public ItemsHolder(RvItemMenuItemsBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -273,9 +273,9 @@ public class MenuAdapter extends RecyclerView.Adapter {
 
     public class SocialNetworkHolder extends RecyclerView.ViewHolder{
 
-        private RvItemSocialNetworkBinding binding;
+        private RvItemMenuSocialNetworkBinding binding;
 
-        public SocialNetworkHolder(RvItemSocialNetworkBinding binding) {
+        public SocialNetworkHolder(RvItemMenuSocialNetworkBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

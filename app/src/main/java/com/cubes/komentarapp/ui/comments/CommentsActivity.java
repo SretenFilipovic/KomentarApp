@@ -16,13 +16,11 @@ import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
 
 import java.util.ArrayList;
 
-
 public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
     private int id;
     public ArrayList<Comments> commentList = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +68,7 @@ public class CommentsActivity extends AppCompatActivity {
                 commentList = response;
 
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                binding.recyclerView.setAdapter(new CommentsFirstLevelAdapter(getApplicationContext(), commentList));
+                binding.recyclerView.setAdapter(new CommentsAdapter(commentList));
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
