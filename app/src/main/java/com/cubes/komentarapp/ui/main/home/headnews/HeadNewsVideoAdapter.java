@@ -19,19 +19,17 @@ import java.util.ArrayList;
 public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdapter.NewsViewHolder> {
 
     private ArrayList<News> list;
-    private Context context;
     private NewsListener newsListener;
 
-    public HeadNewsVideoAdapter(Context context, ArrayList<News> list) {
+    public HeadNewsVideoAdapter(ArrayList<News> list) {
         this.list = list;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             RvItemHeadVideoBinding binding =
-                    RvItemHeadVideoBinding.inflate(LayoutInflater.from(context), parent, false);
+                    RvItemHeadVideoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new NewsViewHolder(binding);
     }
 

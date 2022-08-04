@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class RvItemDetailSameCategoryNews implements RvItemDetail{
 
     private ArrayList<News> categoryNews;
-    private NewsAdapter adapter;
 
     public RvItemDetailSameCategoryNews(ArrayList<News> categoryNews) {
         this.categoryNews = categoryNews;
@@ -44,7 +43,7 @@ public class RvItemDetailSameCategoryNews implements RvItemDetail{
             binding.textViewTitle.setText(R.string.text_same_category_news);
 
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            adapter = new NewsAdapter(holder.itemView.getContext(), categoryNews);
+            NewsAdapter adapter = new NewsAdapter(categoryNews);
             adapter.setFinished(true);
 
             adapter.setNewsListener(new NewsListener() {

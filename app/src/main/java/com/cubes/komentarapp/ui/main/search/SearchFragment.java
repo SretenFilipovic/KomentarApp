@@ -31,7 +31,6 @@ public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
     private NewsAdapter adapter;
-    private ArrayList<News> newsList;
 
     public SearchFragment() {
     }
@@ -52,14 +51,14 @@ public class SearchFragment extends Fragment {
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
 
-        newsList = new ArrayList<>();
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setupRecyclerView();
 
         binding.imageViewSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,54 +80,10 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void loadData() {
-
-        int page = 1;
-
-        if (binding.editText.getText().length() == 0){
-            Toast.makeText(getContext(), "Unesite pojam u traku za pretragu.", Toast.LENGTH_SHORT).show();
-        }
-        else if (binding.editText.getText().length() <= 2){
-            Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
-        }
-        else {
-
-            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
-                @Override
-                public void onResponse(NewsData response) {
-                    newsList = response.news;
-
-                    if(newsList.size()>0){
-                        binding.textViewNoContent.setVisibility(View.GONE);
-                    }
-                    else{
-                        binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
-                        binding.textViewNoContent.setVisibility(View.VISIBLE);
-                    }
-
-                    binding.refresh.setVisibility(View.GONE);
-                    binding.recyclerView.setVisibility(View.VISIBLE);
-                    updateUI();
-
-                    Log.d("SEARCH", "Search load data success");
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    binding.refresh.setVisibility(View.VISIBLE);
-                    binding.textViewNoContent.setVisibility(View.GONE);
-                    binding.recyclerView.setVisibility(View.GONE);
-
-                    Log.d("SEARCH", "Search load data failure");
-                }
-            });
-        }
-
-    }
-
-    private void updateUI(){
+    private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsAdapter(getContext(), newsList);
+        adapter = new NewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
 
         adapter.setNewsListener(new NewsListener() {
             @Override
@@ -140,12 +95,7 @@ public class SearchFragment extends Fragment {
 
             }
         });
-        loadMoreNews();
 
-        binding.recyclerView.setAdapter(adapter);
-    }
-
-    private void loadMoreNews(){
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
             public void loadMoreNews(int page) {
@@ -167,6 +117,52 @@ public class SearchFragment extends Fragment {
                 });
             }
         });
+
+    }
+
+    private void loadData() {
+
+        int page = 1;
+
+        if (binding.editText.getText().length() == 0){
+            Toast.makeText(getContext(), "Unesite pojam u traku za pretragu.", Toast.LENGTH_SHORT).show();
+        }
+        else if (binding.editText.getText().length() <= 2){
+            Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
+                @Override
+                public void onResponse(NewsData response) {
+
+                    if(response.news.size()>0){
+                        binding.textViewNoContent.setVisibility(View.GONE);
+                        adapter.setData(response);
+                    }
+                    else{
+                        binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
+                        binding.textViewNoContent.setVisibility(View.VISIBLE);
+                    }
+
+
+                    binding.refresh.setVisibility(View.GONE);
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+
+                    Log.d("SEARCH", "Search load data success");
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    binding.refresh.setVisibility(View.VISIBLE);
+                    binding.textViewNoContent.setVisibility(View.GONE);
+                    binding.recyclerView.setVisibility(View.GONE);
+
+                    Log.d("SEARCH", "Search load data failure");
+                }
+            });
+        }
+
     }
 
 

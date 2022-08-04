@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.ui.main.home.categories.HomePageCategoryFragment;
-import com.cubes.komentarapp.ui.main.home.headnews.HomePageHeadNewsFragment;
+import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsFragment;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class HomePageAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if(position == 0){
-            HomePageHeadNewsFragment fragment = HomePageHeadNewsFragment.newInstance();
+            HeadNewsFragment fragment = HeadNewsFragment.newInstance();
             return fragment;
         }
         else {

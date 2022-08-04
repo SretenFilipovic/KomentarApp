@@ -30,10 +30,8 @@ public class VideoFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private NewsAdapter adapter;
-    private ArrayList<News> newsList;
 
     public VideoFragment() {
-
     }
 
     public static VideoFragment newInstance() {
@@ -51,14 +49,14 @@ public class VideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
-        newsList = new ArrayList<>();
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setupRecyclerView();
 
         loadData();
 
@@ -74,34 +72,10 @@ public class VideoFragment extends Fragment {
         });
     }
 
-    private void loadData(){
-        int page = 1;
-
-        DataRepository.getInstance().loadVideoData(page, new DataRepository.NewsResponseListener() {
-            @Override
-            public void onResponse(NewsData response) {
-                newsList = response.news;
-                updateUI();
-
-                binding.refresh.setVisibility(View.GONE);
-                binding.recyclerView.setVisibility(View.VISIBLE);
-
-                Log.d("VIDEO", "Video news load data success");
-
-            }
-            @Override
-            public void onFailure(Throwable t) {
-                binding.refresh.setVisibility(View.VISIBLE);
-
-                Log.d("VIDEO", "Video news load data failure");
-            }
-        });
-
-    }
-
-    private void updateUI(){
+    private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsAdapter(getContext(), newsList);
+        adapter = new NewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
 
         adapter.setNewsListener(new NewsListener() {
             @Override
@@ -114,12 +88,6 @@ public class VideoFragment extends Fragment {
             }
         });
 
-        loadMoreNews();
-
-        binding.recyclerView.setAdapter(adapter);
-    }
-
-    private void loadMoreNews(){
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
             public void loadMoreNews(int page) {
@@ -139,6 +107,33 @@ public class VideoFragment extends Fragment {
                         adapter.setFinished(true);
                     }
                 });
+            }
+        });
+
+    }
+
+    private void loadData(){
+        int page = 1;
+
+        DataRepository.getInstance().loadVideoData(page, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsData response) {
+
+                if (response!=null){
+                    adapter.setData(response);
+                }
+
+                binding.refresh.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+
+                Log.d("VIDEO", "Video news load data success");
+
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+
+                Log.d("VIDEO", "Video news load data failure");
             }
         });
     }

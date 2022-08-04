@@ -22,8 +22,7 @@ import java.util.ArrayList;
 public class MostReadFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
-    private ArrayList<News> list;
-    private HeadNewsMostReadRVAdapter adapter;
+    private ArrayList<News> mostReadNews;
 
     public MostReadFragment() {
 
@@ -31,7 +30,7 @@ public class MostReadFragment extends Fragment {
 
     public static MostReadFragment newInstance(ArrayList<News> list) {
         MostReadFragment fragment = new MostReadFragment();
-        fragment.list = list;
+        fragment.mostReadNews = list;
         return fragment;
     }
 
@@ -54,7 +53,7 @@ public class MostReadFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new HeadNewsMostReadRVAdapter(getContext(), list);
+        HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter(mostReadNews);
 
         adapter.setNewsListener(new NewsListener() {
             @Override

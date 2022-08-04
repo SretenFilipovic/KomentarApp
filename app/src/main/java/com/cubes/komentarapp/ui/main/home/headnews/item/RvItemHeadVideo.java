@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 public class RvItemHeadVideo implements RvItemHead{
 
-    private ArrayList<News> topNews;
+    private ArrayList<News> videoNews;
     private HeadNewsVideoAdapter adapter;
 
-    public RvItemHeadVideo(ArrayList<News> topNews) {
-        this.topNews = topNews;
+    public RvItemHeadVideo(ArrayList<News> videoNews) {
+        this.videoNews = videoNews;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class RvItemHeadVideo implements RvItemHead{
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new HeadNewsVideoAdapter(holder.itemView.getContext(), topNews);
+        adapter = new HeadNewsVideoAdapter(videoNews);
 
         adapter.setNewsListener(new NewsListener() {
             @Override

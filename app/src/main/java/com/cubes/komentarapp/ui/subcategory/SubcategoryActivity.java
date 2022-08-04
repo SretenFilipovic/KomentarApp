@@ -19,15 +19,12 @@ import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
-import java.util.ArrayList;
-
 public class SubcategoryActivity extends AppCompatActivity {
 
     private ActivitySubcategoryBinding binding;
     private int categoryId;
     private String categoryName;
     private NewsAdapter adapter;
-    private ArrayList<News> newsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +34,6 @@ public class SubcategoryActivity extends AppCompatActivity {
 
         categoryId = (int) getIntent().getSerializableExtra("categoryId");
         categoryName = (String) getIntent().getSerializableExtra("categoryName");
-
-        newsList = new ArrayList<>();
 
         binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,35 +55,17 @@ public class SubcategoryActivity extends AppCompatActivity {
 
         binding.textViewSubcategoryTitle.setText(categoryName);
 
+        setupRecyclerView();
+
         loadData();
 
     }
 
-    private void loadData() {
-        int page = 1;
-        DataRepository.getInstance().loadCategoryNewsData(categoryId, page, new DataRepository.NewsResponseListener() {
-            @Override
-            public void onResponse(NewsData response) {
-                if (response!=null){
-                    newsList = response.news;
-                }
-                updateUI();
 
-                binding.refresh.setVisibility(View.GONE);
-                binding.recyclerView.setVisibility(View.VISIBLE);
-                Log.d("SUBCATEGORY", "Subcategory load data success");
-            }
-            @Override
-            public void onFailure(Throwable t) {
-                binding.refresh.setVisibility(View.VISIBLE);
-                Log.d("SUBCATEGORY", "Subcategory load data failure");
-            }
-        });
-    }
-
-    private void updateUI(){
+    private void setupRecyclerView(){
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter(getApplicationContext(), newsList);
+        adapter = new NewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
 
         adapter.setNewsListener(new NewsListener() {
             @Override
@@ -101,12 +78,6 @@ public class SubcategoryActivity extends AppCompatActivity {
            }
         });
 
-        loadMoreNews();
-
-        binding.recyclerView.setAdapter(adapter);
-    }
-
-    private void loadMoreNews(){
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
             public void loadMoreNews(int page) {
@@ -128,5 +99,29 @@ public class SubcategoryActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
+
+    private void loadData() {
+        int page = 1;
+        DataRepository.getInstance().loadCategoryNewsData(categoryId, page, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsData response) {
+
+                if (response!=null){
+                    adapter.setData(response);
+                }
+
+                binding.refresh.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                Log.d("SUBCATEGORY", "Subcategory load data success");
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                Log.d("SUBCATEGORY", "Subcategory load data failure");
+            }
+        });
+    }
+
 }

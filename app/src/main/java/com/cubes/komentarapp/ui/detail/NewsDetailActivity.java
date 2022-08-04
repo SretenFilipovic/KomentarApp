@@ -68,7 +68,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 });
 
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                adapter = new NewsDetailAdapter(NewsDetailActivity.this, news);
+                adapter = new NewsDetailAdapter(news);
                 binding.recyclerView.setAdapter(adapter);
 
                 Log.d("DETAIL", "Detail load data success");

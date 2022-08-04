@@ -34,7 +34,7 @@ public class RvItemHeadTop implements RvItemHead{
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new NewsAdapter(holder.itemView.getContext(), topNews);
+        adapter = new NewsAdapter(topNews);
         adapter.setFinished(true);
 
         adapter.setNewsListener(new NewsListener() {

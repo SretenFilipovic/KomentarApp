@@ -129,7 +129,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     }
                 }
             });
-
         }
 
         else {
@@ -219,7 +218,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         public RvItemCommentParentBinding bindingParentComment;
         public RvItemCommentChildBinding bindingChildComment;
 
-
         public CommentsHolder(@NonNull RvItemCommentParentBinding binding) {
             super(binding.getRoot());
             this.bindingParentComment = binding;
@@ -229,7 +227,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             super(binding.getRoot());
             this.bindingChildComment = binding;
         }
-
     }
 
 }

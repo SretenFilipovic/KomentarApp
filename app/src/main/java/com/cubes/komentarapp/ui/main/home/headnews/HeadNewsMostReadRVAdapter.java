@@ -17,19 +17,17 @@ import java.util.ArrayList;
 public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder>{
 
     private ArrayList<News> list;
-    private Context context;
     private NewsListener newsListener;
 
-    public HeadNewsMostReadRVAdapter(Context context, ArrayList<News> list) {
+    public HeadNewsMostReadRVAdapter(ArrayList<News> list) {
         this.list = list;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public HeadNewsMostReadRVAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RvItemSmallestNewsBinding binding =
-                RvItemSmallestNewsBinding.inflate(LayoutInflater.from(context), parent, false);
+                RvItemSmallestNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new NewsViewHolder(binding);
     }
 

@@ -20,7 +20,6 @@ public class RvItemHeadSlider implements RvItemHead{
 
     private ArrayList<News> sliderNews;
     private Context context;
-    private HeadNewsSliderAdapter adapter;
 
     public RvItemHeadSlider(Context context, ArrayList<News> sliderNews) {
         this.sliderNews = sliderNews;
@@ -39,7 +38,7 @@ public class RvItemHeadSlider implements RvItemHead{
         FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
 
-        adapter = new HeadNewsSliderAdapter(fm, lc, sliderNews);
+        HeadNewsSliderAdapter adapter = new HeadNewsSliderAdapter(fm, lc, sliderNews);
         binding.slider.setAdapter(adapter);
         new TabLayoutMediator(binding.indicator, binding.slider, (tab, position) -> {}).attach();
     }

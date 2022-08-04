@@ -19,7 +19,6 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
 
     private ArrayList<News> editorsChoiceNews;
     private Context context;
-    private HeadNewsSliderAdapter adapter;
 
     public RvItemHeadEditorsChoiceSlider(Context context, ArrayList<News> sliderNews) {
         this.editorsChoiceNews = sliderNews;
@@ -43,7 +42,7 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
         FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
 
-        adapter = new HeadNewsSliderAdapter(fm, lc, editorsChoiceNews);
+        HeadNewsSliderAdapter adapter = new HeadNewsSliderAdapter(fm, lc, editorsChoiceNews);
         binding.slider.setAdapter(adapter);
         new TabLayoutMediator(binding.indicator, binding.slider, (tab, position) -> {
         }).attach();

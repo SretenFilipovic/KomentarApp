@@ -10,6 +10,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
@@ -91,7 +92,6 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
     public int getItemViewType(int position) {
         return this.items.get(position).getType();
     }
-
 
     public class HeadNewsViewHolder extends RecyclerView.ViewHolder{
 

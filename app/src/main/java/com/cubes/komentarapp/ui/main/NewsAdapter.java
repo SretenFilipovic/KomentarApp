@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.main;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.data.model.News;
@@ -21,20 +21,18 @@ import java.util.ArrayList;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
-    private ArrayList<News> list;
-    private Context context;
+    private ArrayList<News> list = new ArrayList<>();
     private NewsListener newsListener;
     private LoadingNewsListener loadingNewsListener;
-    private int page;
+    private int page = 2;
     private boolean isLoading;
     private boolean isFinished;
 
-    public NewsAdapter(Context context, ArrayList<News> list) {
+    public NewsAdapter() {
+    }
+
+    public NewsAdapter(ArrayList<News> list) {
         this.list = list;
-        this.context = context;
-        this.page = 2; // 2 je zato sto ucitavanje novih vesti treba da krene od druge strane
-        this.isLoading = false;
-        this.isFinished = false;
     }
 
     @NonNull
@@ -43,12 +41,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         if(viewType == 0){
             RvItemSmallNewsBinding binding =
-                    RvItemSmallNewsBinding.inflate(LayoutInflater.from(context), parent, false);
+                    RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new NewsViewHolder(binding);
         }
         else{
             RvItemLoadingBinding binding =
-                    RvItemLoadingBinding.inflate(LayoutInflater.from(context), parent, false);
+                    RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new NewsViewHolder(binding);
         }
     }
@@ -67,7 +65,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
+                    newsListener.onNewsClicked(news);
                 }
             });
         }
@@ -91,7 +89,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if(list == null){
             return 0;
         }
-        return list.size()+1;
+        else if (list.size() >= 20){
+            return list.size() + 1;
+        }
+        else{
+            return list.size();
+        }
     }
 
     @Override
@@ -118,6 +121,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         this.list.addAll(newsList);
         this.isLoading = false;
         this.page = this.page + 1;
+        notifyDataSetChanged();
+    }
+
+    public void setData(NewsData data){
+        this.list = data.news;
         notifyDataSetChanged();
     }
 

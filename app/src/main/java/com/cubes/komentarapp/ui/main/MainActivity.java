@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Category;
@@ -32,6 +34,22 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        loadData();
+
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(300);
+                binding.refresh.startAnimation(rotate);
+
+                loadData();
+            }
+        });
+
+    }
+
+    private void loadData(){
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
@@ -46,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
 
                 binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
+
+                binding.refresh.setVisibility(View.GONE);
 
                 binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
@@ -83,10 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-
+                binding.refresh.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
     private void fullyOpenDrawer (View view){
@@ -96,5 +115,6 @@ public class MainActivity extends AppCompatActivity {
         params.width = metrics.widthPixels;
         view.setLayoutParams(params);
     }
+
 
 }

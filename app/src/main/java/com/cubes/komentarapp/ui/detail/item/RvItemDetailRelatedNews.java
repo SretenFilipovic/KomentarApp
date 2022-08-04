@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class RvItemDetailRelatedNews implements RvItemDetail{
 
     private ArrayList<News> relatedNews;
-    private NewsAdapter adapter;
 
     public RvItemDetailRelatedNews(ArrayList<News> relatedNews) {
         this.relatedNews = relatedNews;
@@ -45,7 +44,7 @@ public class RvItemDetailRelatedNews implements RvItemDetail{
             binding.textViewTitle.setText(R.string.text_povezane_vesti);
 
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            adapter = new NewsAdapter(holder.itemView.getContext(), relatedNews);
+            NewsAdapter adapter = new NewsAdapter(relatedNews);
             adapter.setFinished(true);
 
             adapter.setNewsListener(new NewsListener() {

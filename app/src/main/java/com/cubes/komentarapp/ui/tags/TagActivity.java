@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 
 import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -17,14 +19,12 @@ import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 
-import java.util.ArrayList;
 
 public class TagActivity extends AppCompatActivity {
 
     private ActivityTagBinding binding;
     private int tagId;
     private NewsAdapter adapter;
-    private ArrayList<News> newsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,6 @@ public class TagActivity extends AppCompatActivity {
 
         tagId = (int) getIntent().getSerializableExtra("tag");
 
-        newsList = new ArrayList<>();
-
         binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,33 +41,27 @@ public class TagActivity extends AppCompatActivity {
             }
         });
 
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(300);
+                binding.refresh.startAnimation(rotate);
+
+                loadData();
+            }
+        });
+
+        setupRecyclerView();
+
         loadData();
 
     }
 
-    private void loadData(){
-
-        int page = 1;
-        DataRepository.getInstance().loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
-            @Override
-            public void onResponse(NewsData response) {
-                newsList = response.news;
-                updateUI();
-
-                Log.d("TAG", "Tag load data success");
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d("TAG", "Tag load data failure");
-            }
-        });
-
-    }
-
-    private void updateUI(){
+    private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter(getApplicationContext(), newsList);
+        adapter = new NewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
 
         adapter.setNewsListener(new NewsListener() {
             @Override
@@ -79,13 +71,6 @@ public class TagActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-        loadMoreNews();
-
-        binding.recyclerView.setAdapter(adapter);
-    }
-
-    private void loadMoreNews(){
 
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
@@ -102,11 +87,41 @@ public class TagActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Throwable t) {
+                        binding.refresh.setVisibility(View.VISIBLE);
+                        binding.recyclerView.setVisibility(View.GONE);
                         adapter.setFinished(true);
                     }
                 });
             }
         });
     }
+
+    private void loadData(){
+
+        int page = 1;
+        DataRepository.getInstance().loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsData response) {
+
+                if (response!=null){
+                    adapter.setData(response);
+                }
+
+                binding.refresh.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+
+                Log.d("TAG", "Tag load data success");
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+
+                Log.d("TAG", "Tag load data failure");
+            }
+        });
+
+    }
+
 
 }

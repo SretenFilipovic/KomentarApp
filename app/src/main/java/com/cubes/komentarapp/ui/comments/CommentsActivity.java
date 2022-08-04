@@ -20,7 +20,6 @@ public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
     private int id;
-    public ArrayList<Comments> commentList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +57,15 @@ public class CommentsActivity extends AppCompatActivity {
         });
 
         loadData();
-
     }
 
     private  void loadData(){
         DataRepository.getInstance().loadCommentsData(id, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
-                commentList = response;
 
                 binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                binding.recyclerView.setAdapter(new CommentsAdapter(commentList));
+                binding.recyclerView.setAdapter(new CommentsAdapter(response));
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);

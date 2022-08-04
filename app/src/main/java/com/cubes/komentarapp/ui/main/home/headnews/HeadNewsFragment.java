@@ -22,7 +22,7 @@ import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 
 import java.util.ArrayList;
 
-public class HomePageHeadNewsFragment extends Fragment {
+public class HeadNewsFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private HeadNewsAdapter adapter;
@@ -35,12 +35,12 @@ public class HomePageHeadNewsFragment extends Fragment {
     private ArrayList<News> mostCommentedList;
     private ArrayList<CategoryHomePage> fromCategoryList;
 
-    public HomePageHeadNewsFragment() {
+    public HeadNewsFragment() {
 
     }
 
-    public static HomePageHeadNewsFragment newInstance() {
-        HomePageHeadNewsFragment fragment = new HomePageHeadNewsFragment();
+    public static HeadNewsFragment newInstance() {
+        HeadNewsFragment fragment = new HeadNewsFragment();
         return fragment;
     }
 

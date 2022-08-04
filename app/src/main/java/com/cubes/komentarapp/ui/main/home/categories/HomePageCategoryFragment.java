@@ -32,7 +32,6 @@ public class HomePageCategoryFragment extends Fragment {
     private FragmentRecyclerViewBinding binding;
     private Category category;
     private NewsWithHeaderAdapter adapter;
-    private ArrayList<News> newsList;
 
     public HomePageCategoryFragment() {
 
@@ -54,14 +53,14 @@ public class HomePageCategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
-        newsList = new ArrayList<>();
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setupRecyclerView();
 
         loadData();
 
@@ -77,35 +76,11 @@ public class HomePageCategoryFragment extends Fragment {
         });
     }
 
-     private void loadData() {
-         int page = 1;
 
-         DataRepository.getInstance().loadCategoryNewsData(category.id, page, new DataRepository.NewsResponseListener() {
-             @Override
-             public void onResponse(NewsData response) {
-                if (response!=null){
-                    newsList = response.news;
-                }
-                 updateUI();
-
-                 binding.refresh.setVisibility(View.GONE);
-                 binding.recyclerView.setVisibility(View.VISIBLE);
-
-                 Log.d("CATEGORY", "Category news load data success");
-             }
-             @Override
-             public void onFailure(Throwable t) {
-                 binding.refresh.setVisibility(View.VISIBLE);
-
-                 Log.d("CATEGORY", "Category news load data failure");
-             }
-         });
-
-    }
-
-    private void updateUI(){
+    private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter(getContext(), newsList);
+        adapter = new NewsWithHeaderAdapter();
+        binding.recyclerView.setAdapter(adapter);
 
         adapter.setNewsListener(new NewsListener() {
             @Override
@@ -118,12 +93,6 @@ public class HomePageCategoryFragment extends Fragment {
             }
         });
 
-        loadMoreNews();
-
-        binding.recyclerView.setAdapter(adapter);
-    }
-
-    private void loadMoreNews(){
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
             public void loadMoreNews(int page) {
@@ -145,5 +114,31 @@ public class HomePageCategoryFragment extends Fragment {
                 });
             }
         });
+    }
+
+    private void loadData() {
+
+        int page = 1;
+        DataRepository.getInstance().loadCategoryNewsData(category.id, page, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsData response) {
+
+                if (response!=null){
+                    adapter.setData(response);
+                }
+
+                binding.refresh.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+
+                Log.d("CATEGORY", "Category news load data success");
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+
+                Log.d("CATEGORY", "Category news load data failure");
+            }
+        });
+
     }
 }
