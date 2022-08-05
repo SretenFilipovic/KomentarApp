@@ -24,7 +24,7 @@ public class HeadNewsSliderAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return SliderFragment.newInstance(sliderNews.get(position));
+        return HeadNewsSliderFragment.newInstance(sliderNews.get(position));
     }
 
     @Override

@@ -76,6 +76,8 @@ public class NewsDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(NewsDetailActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
                 Log.d("DETAIL", "Detail load data failure");
             }
         });

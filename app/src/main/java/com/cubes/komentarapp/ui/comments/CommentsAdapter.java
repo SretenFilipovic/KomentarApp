@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -39,16 +40,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @Override
     public CommentsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        ViewBinding binding;
+
         if (viewType == 0){
-            RvItemCommentParentBinding binding =
-                    RvItemCommentParentBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new CommentsAdapter.CommentsHolder(binding);
+            binding = RvItemCommentParentBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
         else{
-            RvItemCommentChildBinding binding =
-                    RvItemCommentChildBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new CommentsAdapter.CommentsHolder(binding);
+            binding = RvItemCommentChildBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
+        return new CommentsAdapter.CommentsHolder(binding);
     }
 
     @Override
@@ -57,14 +57,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         Comments comment = allComments.get(position);
 
         if(allComments.get(position).parent_comment.equals("0")){
+            RvItemCommentParentBinding binding = (RvItemCommentParentBinding) holder.binding;
 
-            holder.bindingParentComment.textViewName.setText(comment.name);
-            holder.bindingParentComment.textViewContent.setText(comment.content);
-            holder.bindingParentComment.textViewCreatedAt.setText(comment.created_at);
-            holder.bindingParentComment.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
-            holder.bindingParentComment.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
+            binding.textViewName.setText(comment.name);
+            binding.textViewContent.setText(comment.content);
+            binding.textViewCreatedAt.setText(comment.created_at);
+            binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
+            binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
 
-            holder.bindingParentComment.imageViewReply.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
@@ -73,7 +74,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     holder.itemView.getContext().startActivity(i);
                 }
             });
-            holder.bindingParentComment.textViewReply.setOnClickListener(new View.OnClickListener() {
+            binding.textViewReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
@@ -83,16 +84,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             });
 
-            holder.bindingParentComment.imageViewUpVote.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewUpVote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!comment.isVoted){
                         DataRepository.getInstance().upvoteComment(comment.id, true);
 
-                        YoYo.with(Techniques.Tada).duration(1000).playOn(holder.bindingParentComment.imageViewUpVote);
+                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
 
-                        holder.bindingParentComment.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes +1));
-                        holder.bindingParentComment.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+                        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes +1));
+                        binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
                         comment.isVoted = true;
 
                     }
@@ -102,16 +103,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             });
 
-            holder.bindingParentComment.imageViewDownVote.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewDownVote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!comment.isVoted){
                         DataRepository.getInstance().downvoteComment(comment.id, true);
 
-                        YoYo.with(Techniques.Tada).duration(1000).playOn(holder.bindingParentComment.imageViewDownVote);
+                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
 
-                        holder.bindingParentComment.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes +1));
-                        holder.bindingParentComment.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
+                        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes +1));
+                        binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
                         comment.isVoted = true;
 
                     }
@@ -123,13 +124,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
 
         else {
-            holder.bindingChildComment.textViewName.setText(comment.name);
-            holder.bindingChildComment.textViewContent.setText(comment.content);
-            holder.bindingChildComment.textViewCreatedAt.setText(comment.created_at);
-            holder.bindingChildComment.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
-            holder.bindingChildComment.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
+            RvItemCommentChildBinding binding = (RvItemCommentChildBinding) holder.binding;
 
-            holder.bindingChildComment.imageViewReply.setOnClickListener(new View.OnClickListener() {
+            binding.textViewName.setText(comment.name);
+            binding.textViewContent.setText(comment.content);
+            binding.textViewCreatedAt.setText(comment.created_at);
+            binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
+            binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
+
+            binding.imageViewReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
@@ -138,7 +141,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     holder.itemView.getContext().startActivity(i);
                 }
             });
-            holder.bindingChildComment.textViewReply.setOnClickListener(new View.OnClickListener() {
+            binding.textViewReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
@@ -148,16 +151,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             });
 
-            holder.bindingChildComment.imageViewUpVote.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewUpVote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!comment.isVoted){
                         DataRepository.getInstance().upvoteComment(comment.id, true);
 
-                        YoYo.with(Techniques.Tada).duration(1000).playOn(holder.bindingChildComment.imageViewUpVote);
+                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
 
-                        holder.bindingChildComment.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes +1));
-                        holder.bindingChildComment.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+                        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes +1));
+                        binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
                         comment.isVoted = true;
 
                     }
@@ -167,16 +170,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 }
             });
 
-            holder.bindingChildComment.imageViewDownVote.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewDownVote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!comment.isVoted){
                         DataRepository.getInstance().downvoteComment(comment.id, true);
 
-                        YoYo.with(Techniques.Tada).duration(1000).playOn(holder.bindingChildComment.imageViewDownVote);
+                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
 
-                        holder.bindingChildComment.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes +1));
-                        holder.bindingChildComment.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
+                        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes +1));
+                        binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
                         comment.isVoted = true;
 
                     }
@@ -223,17 +226,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     public class CommentsHolder extends RecyclerView.ViewHolder{
 
-        public RvItemCommentParentBinding bindingParentComment;
-        public RvItemCommentChildBinding bindingChildComment;
+        public ViewBinding binding;
 
-        public CommentsHolder(@NonNull RvItemCommentParentBinding binding) {
+        public CommentsHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
-            this.bindingParentComment = binding;
-        }
-
-        public CommentsHolder(@NonNull RvItemCommentChildBinding binding) {
-            super(binding.getRoot());
-            this.bindingChildComment = binding;
+            this.binding = binding;
         }
     }
 

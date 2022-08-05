@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
@@ -35,29 +37,30 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
     @Override
     public HeadNewsCategoryAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        ViewBinding binding;
+
         if (viewType == 0){
-            RvItemBigNewsHomepageBinding binding =
-                    RvItemBigNewsHomepageBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new NewsViewHolder(binding);
+            binding = RvItemBigNewsHomepageBinding.inflate(LayoutInflater.from(context), parent, false);
         }
         else {
-            RvItemSmallNewsHomepageBinding binding =
-                    RvItemSmallNewsHomepageBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new HeadNewsCategoryAdapter.NewsViewHolder(binding);
+            binding = RvItemSmallNewsHomepageBinding.inflate(LayoutInflater.from(context), parent, false);
         }
+        return new NewsViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HeadNewsCategoryAdapter.NewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HeadNewsCategoryAdapter.NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         News news = list.get(position);
 
         if (position == 0){
-            holder.bindingBig.textViewCategoryTitle.setText(category.title);
-            holder.bindingBig.viewColor.setBackgroundColor(Color.parseColor(category.color));
-            holder.bindingBig.textViewCreatedAt.setText(news.created_at.substring(11,16));
-            holder.bindingBig.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(holder.bindingBig.imageView);
+            RvItemBigNewsHomepageBinding binding = (RvItemBigNewsHomepageBinding) holder.binding;
+
+            binding.textViewCategoryTitle.setText(category.title);
+            binding.viewColor.setBackgroundColor(Color.parseColor(category.color));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -68,9 +71,11 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
         }
 
         else {
-            holder.bindingSmall.textViewCreatedAt.setText(news.created_at.substring(11,16));
-            holder.bindingSmall.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(holder.bindingSmall.imageView);
+            RvItemSmallNewsHomepageBinding binding = (RvItemSmallNewsHomepageBinding) holder.binding;
+
+            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,17 +119,11 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
 
     public class NewsViewHolder extends RecyclerView.ViewHolder{
 
-        private RvItemSmallNewsHomepageBinding bindingSmall;
-        private RvItemBigNewsHomepageBinding bindingBig;
+        public ViewBinding binding;
 
-        public NewsViewHolder(RvItemSmallNewsHomepageBinding binding) {
+        public NewsViewHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
-            this.bindingSmall = binding;
-        }
-
-        public NewsViewHolder(RvItemBigNewsHomepageBinding binding) {
-            super(binding.getRoot());
-            this.bindingBig = binding;
+            this.binding = binding;
         }
     }
 }

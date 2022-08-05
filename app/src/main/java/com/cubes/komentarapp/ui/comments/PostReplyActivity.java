@@ -70,6 +70,8 @@ public class PostReplyActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Throwable t) {
+                                Toast.makeText(PostReplyActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
                                 Log.d("REPLY", "Post reply data failure");
                             }
                         });

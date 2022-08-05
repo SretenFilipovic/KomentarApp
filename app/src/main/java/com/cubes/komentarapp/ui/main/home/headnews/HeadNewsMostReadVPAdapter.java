@@ -30,13 +30,13 @@ public class HeadNewsMostReadVPAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
 
         if (position == 0){
-            return MostReadFragment.newInstance(latestList);
+            return HeadNewsMostReadFragment.newInstance(latestList);
         }
         else if (position == 1){
-            return MostReadFragment.newInstance(mostReadList);
+            return HeadNewsMostReadFragment.newInstance(mostReadList);
         }
         else{
-            return MostReadFragment.newInstance(mostCommentedList);
+            return HeadNewsMostReadFragment.newInstance(mostCommentedList);
         }
     }
 

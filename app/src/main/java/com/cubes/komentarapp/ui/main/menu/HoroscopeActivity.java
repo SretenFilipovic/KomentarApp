@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
@@ -51,6 +52,8 @@ public class HoroscopeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(HoroscopeActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
                 Log.d("HOROSCOPE", "Horoscope load data failure");
             }
         });

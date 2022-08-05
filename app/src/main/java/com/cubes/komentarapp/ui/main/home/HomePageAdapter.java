@@ -20,11 +20,6 @@ public class HomePageAdapter extends FragmentStateAdapter {
         this.categoryList = categoryList;
     }
 
-    public HomePageAdapter(@NonNull Fragment fragment, ArrayList<Category> categoryList) {
-        super(fragment);
-        this.categoryList = categoryList;
-    }
-
     @NonNull
     @Override
     public Fragment createFragment(int position) {

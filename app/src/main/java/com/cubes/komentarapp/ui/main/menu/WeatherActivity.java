@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityWeatherBinding;
@@ -76,6 +77,8 @@ public class WeatherActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
+                Toast.makeText(WeatherActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
                 Log.d("WEATHER", "Weather load data failure");
             }
         });

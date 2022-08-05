@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -94,15 +95,11 @@ public class LatestFragment extends Fragment {
                     public void onResponse(NewsData response) {
                         adapter.addNewNewsList(response.news);
 
-                        if(response.news.size()<20){
-                            adapter.setFinished(true);
-                        }
                     }
                     @Override
                     public void onFailure(Throwable t) {
                         binding.refresh.setVisibility(View.VISIBLE);
                         binding.recyclerView.setVisibility(View.GONE);
-                        adapter.setFinished(true);
                     }
                 });
             }
@@ -129,6 +126,7 @@ public class LatestFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("LATEST", "Latest news load data failure");
             }

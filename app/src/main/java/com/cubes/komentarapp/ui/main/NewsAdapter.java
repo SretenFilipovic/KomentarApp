@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
@@ -39,16 +40,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
+        ViewBinding binding;
+
         if(viewType == 0){
-            RvItemSmallNewsBinding binding =
-                    RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            binding = RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new NewsViewHolder(binding);
         }
         else{
-            RvItemLoadingBinding binding =
-                    RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new NewsViewHolder(binding);
+            binding = RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
+        return new NewsViewHolder(binding);
+
     }
 
     @Override
@@ -56,11 +58,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         if (position < list.size()){
             News news = list.get(position);
-            holder.bindingNews.textViewCategory.setText(news.category.name);
-            holder.bindingNews.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            holder.bindingNews.textViewCreatedAt.setText(news.created_at.substring(11,16));
-            holder.bindingNews.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(holder.bindingNews.imageView);
+            RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
+
+            binding.textViewCategory.setText(news.category.name);
+            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -71,10 +75,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         }
 
         else{
+            RvItemLoadingBinding binding = (RvItemLoadingBinding) holder.binding;
+
 
             if (isFinished){
-                holder.bindingLoading.progressBar.setVisibility(View.GONE);
-                holder.bindingLoading.textView.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
+                binding.textView.setVisibility(View.GONE);
             }
 
             if (!isLoading & !isFinished & loadingNewsListener != null){
@@ -120,6 +126,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public void addNewNewsList(ArrayList<News> newsList){
         this.list.addAll(newsList);
         this.isLoading = false;
+        if(newsList.size()<20){
+            setFinished(true);
+        }
         this.page = this.page + 1;
         notifyDataSetChanged();
     }
@@ -131,21 +140,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     public class NewsViewHolder extends RecyclerView.ViewHolder{
 
-        private RvItemSmallNewsBinding bindingNews;
-        private RvItemLoadingBinding bindingLoading;
+        public ViewBinding binding;
 
-        public NewsViewHolder(RvItemSmallNewsBinding binding) {
+        public NewsViewHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
-
-            this.bindingNews = binding;
+            this.binding = binding;
         }
-
-        public NewsViewHolder(RvItemLoadingBinding binding) {
-            super(binding.getRoot());
-
-            this.bindingLoading = binding;
-        }
-
     }
 
 }

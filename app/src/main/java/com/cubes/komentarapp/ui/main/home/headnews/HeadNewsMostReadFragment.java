@@ -6,27 +6,31 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cubes.komentarapp.databinding.FragmentSliderBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.squareup.picasso.Picasso;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
-public class SliderFragment extends Fragment {
+import java.util.ArrayList;
 
-    private FragmentSliderBinding binding;
-    private News news;
+public class HeadNewsMostReadFragment extends Fragment {
 
-    public SliderFragment() {
+    private FragmentRecyclerViewBinding binding;
+    private ArrayList<News> mostReadNews;
+
+    public HeadNewsMostReadFragment() {
+
     }
 
-    public static SliderFragment newInstance(News news) {
-        SliderFragment fragment = new SliderFragment();
-        fragment.news = news;
+    public static HeadNewsMostReadFragment newInstance(ArrayList<News> list) {
+        HeadNewsMostReadFragment fragment = new HeadNewsMostReadFragment();
+        fragment.mostReadNews = list;
         return fragment;
     }
 
@@ -38,7 +42,8 @@ public class SliderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentSliderBinding.inflate(inflater, container, false);
+
+        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -47,28 +52,18 @@ public class SliderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.textViewTitle.setText(news.title);
-        Picasso.get().load(news.image).into(binding.imageViewNews);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter(mostReadNews);
 
-
-        binding.imageViewNews.setOnClickListener(new View.OnClickListener() {
+        adapter.setNewsListener(new NewsListener() {
             @Override
-            public void onClick(View view) {
+            public void onNewsClicked(News news) {
                 Intent i = new Intent(getContext(), NewsDetailActivity.class);
                 i.putExtra("news",news.id);
                 getContext().startActivity(i);
             }
         });
 
-        binding.textViewTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                i.putExtra("news",news.id);
-                getContext().startActivity(i);
-            }
-        });
-
+        binding.recyclerView.setAdapter(adapter);
     }
-
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -80,6 +81,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("COMMENT", "Comment load data failure");
             }

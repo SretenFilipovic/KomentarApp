@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.menu;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
@@ -27,184 +29,180 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class MenuAdapter extends RecyclerView.Adapter {
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
 
-    private Context context;
-    private ArrayList<Category> list;
+    private ArrayList<Category> list = new ArrayList<>();
 
-    public MenuAdapter(Context context, ArrayList<Category> categoryList) {
-        list = categoryList;
-        this.context = context;
+    public MenuAdapter() {
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MenuHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        ViewBinding binding;
 
         if (viewType == 0){
-            RvItemMenuCategoryBinding binding =
-                    RvItemMenuCategoryBinding.inflate(LayoutInflater.from(context), parent,false);
-            return new HeaderHolder(binding);
+            binding = RvItemMenuCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent,false);
         }
         else if (viewType == 1){
-            RvItemMenuItemsBinding binding =
-                    RvItemMenuItemsBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new ItemsHolder(binding);
+            binding = RvItemMenuItemsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
         else {
-            RvItemMenuSocialNetworkBinding binding =
-                    RvItemMenuSocialNetworkBinding.inflate(LayoutInflater.from(context), parent, false);
-            return new SocialNetworkHolder(binding);
+            binding = RvItemMenuSocialNetworkBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
+        return new MenuHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MenuHolder holder, @SuppressLint("RecyclerView") int position) {
 
         if (position == 0){
-            HeaderHolder headerHolder = (HeaderHolder) holder;
-            headerHolder.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
-            headerHolder.binding.textViewCategory.setText(R.string.text_naslovna);
 
-            headerHolder.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
+            RvItemMenuCategoryBinding binding = (RvItemMenuCategoryBinding) holder.binding;
+
+            binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
+            binding.textViewCategory.setText(R.string.text_naslovna);
+
+            binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DrawerLayout drawer = ((MainActivity) context).findViewById(R.id.drawerLayout);
-                    BottomNavigationView bottomNavigationView = ((MainActivity) context).findViewById(R.id.bottomNavigationView);
-                    drawer.closeDrawer(((MainActivity) context).findViewById(R.id.drawerNavigationView));
+                    DrawerLayout drawer = ((MainActivity) holder.itemView.getContext()).findViewById(R.id.drawerLayout);
+                    BottomNavigationView bottomNavigationView = ((MainActivity) holder.itemView.getContext()).findViewById(R.id.bottomNavigationView);
+                    drawer.closeDrawer(((MainActivity) holder.itemView.getContext()).findViewById(R.id.drawerNavigationView));
                     bottomNavigationView.setSelectedItemId(R.id.home);
                 }
             });
         }
 
         else if (position == list.size() + 1){
-            ItemsHolder itemsHolder = (ItemsHolder) holder;
+            RvItemMenuItemsBinding binding = (RvItemMenuItemsBinding) holder.binding;
 
-            itemsHolder.binding.textViewContact.setOnClickListener(new View.OnClickListener() {
+            binding.textViewContact.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
+                    openWebBrowser(holder.itemView.getContext(),"https://komentar.rs");
                 }
             });
-            itemsHolder.binding.textViewTermsAndConditions.setOnClickListener(new View.OnClickListener() {
+            binding.textViewTermsAndConditions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
+                    openWebBrowser(holder.itemView.getContext(),"https://komentar.rs");
                 }
             });
-            itemsHolder.binding.textViewPushNotification.setOnClickListener(new View.OnClickListener() {
+            binding.textViewPushNotification.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
+                    openWebBrowser(holder.itemView.getContext(),"https://komentar.rs");
                 }
             });
-            itemsHolder.binding.textViewMarketing.setOnClickListener(new View.OnClickListener() {
+            binding.textViewMarketing.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openWebBrowser("https://komentar.rs");
+                    openWebBrowser(holder.itemView.getContext(), "https://komentar.rs");
                 }
             });
-
-            itemsHolder.binding.textViewCurrency.setOnClickListener(new View.OnClickListener() {
+            binding.textViewCurrency.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, CurrencyActivity.class);
-                    context.startActivity(i);
+                    Intent i = new Intent(holder.itemView.getContext(), CurrencyActivity.class);
+                    holder.itemView.getContext().startActivity(i);
                 }
             });
-            itemsHolder.binding.textViewHoroscope.setOnClickListener(new View.OnClickListener() {
+            binding.textViewHoroscope.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, HoroscopeActivity.class);
-                    context.startActivity(i);
+                    Intent i = new Intent(holder.itemView.getContext(), HoroscopeActivity.class);
+                    holder.itemView.getContext().startActivity(i);
                 }
             });
-            itemsHolder.binding.textViewWeather.setOnClickListener(new View.OnClickListener() {
+            binding.textViewWeather.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(context, WeatherActivity.class);
-                    context.startActivity(i);
+                    Intent i = new Intent(holder.itemView.getContext(), WeatherActivity.class);
+                    holder.itemView.getContext().startActivity(i);
                 }
             });
 
         }
         else if (position == list.size() + 2){
-            SocialNetworkHolder holderSocial = (SocialNetworkHolder) holder;
+            RvItemMenuSocialNetworkBinding binding = (RvItemMenuSocialNetworkBinding) holder.binding;
 
-            holderSocial.binding.imageViewFacebook.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewFacebook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    shareOnSocialNetworks("com.facebook.katana");
+                    shareOnSocialNetworks(holder.itemView.getContext(), "com.facebook.katana");
                 }
             });
-            holderSocial.binding.imageViewInstagram.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewInstagram.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    shareOnSocialNetworks("com.instagram.android");
+                    shareOnSocialNetworks(holder.itemView.getContext(),"com.instagram.android");
                 }
             });
-            holderSocial.binding.imageViewTwitter.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewTwitter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    shareOnSocialNetworks("com.twitter.android");
+                    shareOnSocialNetworks(holder.itemView.getContext(),"com.twitter.android");
                 }
             });
-            holderSocial.binding.imageViewViber.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewViber.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    shareOnSocialNetworks("com.viber.voip");
+                    shareOnSocialNetworks(holder.itemView.getContext(),"com.viber.voip");
                 }
             });
-            holderSocial.binding.imageViewWhatsapp.setOnClickListener(new View.OnClickListener() {
+            binding.imageViewWhatsapp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    shareOnSocialNetworks("com.whatsapp");
+                    shareOnSocialNetworks(holder.itemView.getContext(),"com.whatsapp");
                 }
             });
         }
 
         else {
             Category category = list.get(position - 1);
-            HeaderHolder holderCategory = (HeaderHolder) holder;
 
-            holderCategory.binding.textViewCategory.setText(category.name);
-            holderCategory.binding.viewCategoryColor.setBackgroundColor(Color.parseColor(category.color));
-            holderCategory.binding.viewSubcategoryColor.setBackgroundColor(Color.parseColor(category.color));
+            RvItemMenuCategoryBinding binding = (RvItemMenuCategoryBinding) holder.binding;
+
+            binding.textViewCategory.setText(category.name);
+            binding.viewCategoryColor.setBackgroundColor(Color.parseColor(category.color));
+            binding.viewSubcategoryColor.setBackgroundColor(Color.parseColor(category.color));
 
             if (category.subcategories.size() == 0){
-                holderCategory.binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
+                binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);
             }
             else{
-                holderCategory.binding.imageViewExpandSubcategoryList.setOnClickListener(new View.OnClickListener() {
+                binding.imageViewExpandSubcategoryList.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        if (holderCategory.binding.subcategoryContainer.getVisibility() == View.GONE){
-                            holderCategory.binding.subcategoryContainer.setVisibility(View.VISIBLE);
-                            holderCategory.binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
+                        if (binding.subcategoryContainer.getVisibility() == View.GONE){
+                            binding.subcategoryContainer.setVisibility(View.VISIBLE);
+                            binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
                         }
                         else{
-                            holderCategory.binding.subcategoryContainer.setVisibility(View.GONE);
-                            holderCategory.binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
+                            binding.subcategoryContainer.setVisibility(View.GONE);
+                            binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
                         }
                     }
                 });
             }
 
-            holderCategory.binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
+            binding.textViewCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    DrawerLayout drawer = ((MainActivity) context).findViewById(R.id.drawerLayout);
-                    ViewPager2 viewPager2 = ((MainActivity) context).findViewById(R.id.viewPagerHome);
-                    drawer.closeDrawer(((MainActivity) context).findViewById(R.id.drawerNavigationView));
+                    DrawerLayout drawer = ((MainActivity) view.getContext()).findViewById(R.id.drawerLayout);
+                    ViewPager2 viewPager2 = ((MainActivity) view.getContext()).findViewById(R.id.viewPagerHome);
+                    drawer.closeDrawer(((MainActivity) view.getContext()).findViewById(R.id.drawerNavigationView));
                     viewPager2.setCurrentItem(position);
 
                 }
             });
 
-            holderCategory.binding.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            holderCategory.binding.recyclerView.setAdapter(new MenuSubcategoryAdapter(context, category.subcategories));
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+            binding.recyclerView.setAdapter(new MenuSubcategoryAdapter(category.subcategories));
         }
     }
 
@@ -226,7 +224,7 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void shareOnSocialNetworks(String networkUrl){
+    private void shareOnSocialNetworks(Context context, String networkUrl){
         try {
             Intent i = new Intent();
             i.setAction(Intent.ACTION_SEND);
@@ -240,7 +238,7 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private void openWebBrowser(String link){
+    private void openWebBrowser(Context context, String link){
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
             context.startActivity(intent);
@@ -250,35 +248,20 @@ public class MenuAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public void setData(ArrayList<Category> categoryList) {
+        list = categoryList;
+        notifyDataSetChanged();
+    }
 
-    public class HeaderHolder extends RecyclerView.ViewHolder{
+    public class MenuHolder extends RecyclerView.ViewHolder{
 
-        private RvItemMenuCategoryBinding binding;
+        public ViewBinding binding;
 
-        public HeaderHolder(RvItemMenuCategoryBinding binding) {
+        public MenuHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
     }
 
-    public class ItemsHolder extends RecyclerView.ViewHolder{
-
-        private RvItemMenuItemsBinding binding;
-
-        public ItemsHolder(RvItemMenuItemsBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
-    public class SocialNetworkHolder extends RecyclerView.ViewHolder{
-
-        private RvItemMenuSocialNetworkBinding binding;
-
-        public SocialNetworkHolder(RvItemMenuSocialNetworkBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
 
 }

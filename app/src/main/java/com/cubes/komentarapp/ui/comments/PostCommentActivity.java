@@ -69,6 +69,8 @@ public class PostCommentActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Throwable t) {
+                                Toast.makeText(PostCommentActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
                                 Log.d("POST", "Post comment data failure");
                             }
                         });

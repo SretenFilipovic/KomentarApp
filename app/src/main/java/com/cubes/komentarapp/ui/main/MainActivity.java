@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Category;
@@ -26,13 +27,17 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private ArrayList<Category> categoryList;
+    private MenuAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new MenuAdapter();
+        binding.recyclerViewMenu.setAdapter(adapter);
 
         loadData();
 
@@ -53,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
-                categoryList = response;
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,HomeFragment.newInstance(categoryList)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,HomeFragment.newInstance(response)).commit();
 
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                     switch (item.getItemId()){
                         case R.id.home:
-                            selectedFragment = HomeFragment.newInstance(categoryList);
+                            selectedFragment = HomeFragment.newInstance(response);
                         {binding.imageViewMenu.setVisibility(View.VISIBLE);}
                         break;
                         case R.id.search:
@@ -97,13 +101,15 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 });
 
-                binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                binding.recyclerViewMenu.setAdapter(new MenuAdapter(MainActivity.this, categoryList));
+                adapter.setData(response);
+
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                Toast.makeText(MainActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

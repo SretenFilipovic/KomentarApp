@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.data.model.NewsData;
@@ -88,6 +89,7 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("HEAD", "Head news load data failure");
             }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.databinding.RvItemTagBinding;
 import com.cubes.komentarapp.data.model.Tags;
@@ -25,7 +26,7 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     @NonNull
     @Override
     public TagHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RvItemTagBinding binding =
+        ViewBinding binding =
                 RvItemTagBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new NewsDetailTagAdapter.TagHolder(binding);
     }
@@ -33,11 +34,13 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     @Override
     public void onBindViewHolder(@NonNull TagHolder holder, int position) {
 
-            Tags tag = tagList.get(position);
-            holder.binding.buttonTag.setText(tag.title);
+        Tags tag = tagList.get(position);
 
+        RvItemTagBinding binding = (RvItemTagBinding) holder.binding;
 
-        holder.binding.buttonTag.setOnClickListener(new View.OnClickListener() {
+        binding.buttonTag.setText(tag.title);
+
+        binding.buttonTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -46,7 +49,6 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
                 holder.itemView.getContext().startActivity(i);
             }
         });
-
     }
 
     @Override
@@ -57,12 +59,13 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
 
     public class TagHolder extends RecyclerView.ViewHolder{
 
-        public RvItemTagBinding binding;
+        public ViewBinding binding;
 
-        public TagHolder(@NonNull RvItemTagBinding binding) {
+        public TagHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
+
     }
 
 }

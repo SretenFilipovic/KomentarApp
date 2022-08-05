@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Toast;
 
 import com.cubes.komentarapp.data.model.NewsData;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -81,15 +82,11 @@ public class TagActivity extends AppCompatActivity {
                     public void onResponse(NewsData response) {
                         adapter.addNewNewsList(response.news);
 
-                        if(response.news.size()<20){
-                            adapter.setFinished(true);
-                        }
                     }
                     @Override
                     public void onFailure(Throwable t) {
                         binding.refresh.setVisibility(View.VISIBLE);
                         binding.recyclerView.setVisibility(View.GONE);
-                        adapter.setFinished(true);
                     }
                 });
             }
@@ -116,6 +113,7 @@ public class TagActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                Toast.makeText(TagActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("TAG", "Tag load data failure");
             }
