@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.detail;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -23,20 +22,9 @@ import java.util.ArrayList;
 
 public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.NewsDetailViewHolder> {
 
-    private News news;
-    private ArrayList<RvItemDetail> items;
+    private ArrayList<RvItemDetail> items = new ArrayList<>();
 
-    public NewsDetailAdapter(News news) {
-        this.news = news;
-
-        this.items = new ArrayList<>();
-
-        this.items.add(new RvItemDetailWebView(this.news));
-        this.items.add(new RvItemDetailTags(this.news.tags));
-        this.items.add(new RvItemDetailComments(this.news, this.news.comments_top_n));
-        this.items.add(new RvItemDetailRelatedNews(this.news.related_news));
-        this.items.add(new RvItemDetailSameCategoryNews(this.news.category_news));
-
+    public NewsDetailAdapter() {
     }
 
     @NonNull
@@ -76,6 +64,18 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
     public int getItemViewType(int position) {
         return this.items.get(position).getType();
     }
+
+    public void setData(News response){
+
+        this.items.add(new RvItemDetailWebView(response));
+        this.items.add(new RvItemDetailTags(response.tags));
+        this.items.add(new RvItemDetailComments(response, response.comments_top_n));
+        this.items.add(new RvItemDetailRelatedNews(response.related_news));
+        this.items.add(new RvItemDetailSameCategoryNews(response.category_news));
+
+        notifyDataSetChanged();
+    }
+
 
     public class NewsDetailViewHolder extends RecyclerView.ViewHolder{
 

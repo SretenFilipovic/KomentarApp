@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
+    private CommentsAdapter adapter;
     private int id;
 
     @Override
@@ -56,6 +57,10 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
 
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new CommentsAdapter();
+        binding.recyclerView.setAdapter(adapter);
+
         loadData();
     }
 
@@ -64,8 +69,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onResponse(ArrayList<Comments> response) {
 
-                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                binding.recyclerView.setAdapter(new CommentsAdapter(response));
+                adapter.setData(response);
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);

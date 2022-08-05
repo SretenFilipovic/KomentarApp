@@ -18,11 +18,9 @@ import java.util.ArrayList;
 public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
 
     private ArrayList<News> editorsChoiceNews;
-    private Context context;
 
-    public RvItemHeadEditorsChoiceSlider(Context context, ArrayList<News> sliderNews) {
+    public RvItemHeadEditorsChoiceSlider(ArrayList<News> sliderNews) {
         this.editorsChoiceNews = sliderNews;
-        this.context = context;
     }
 
     @Override
@@ -39,8 +37,8 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
             binding.frameLayout.setVisibility(View.VISIBLE);
         }
 
-        FragmentManager fm = ((AppCompatActivity) context).getSupportFragmentManager();
-        Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
+        FragmentManager fm = ((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager();
+        Lifecycle lc = ((AppCompatActivity) holder.itemView.getContext()).getLifecycle();
 
         HeadNewsSliderAdapter adapter = new HeadNewsSliderAdapter(fm, lc, editorsChoiceNews);
         binding.slider.setAdapter(adapter);

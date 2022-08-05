@@ -16,13 +16,11 @@ import java.util.ArrayList;
 
 public class RvItemHeadMostRead implements RvItemHead{
 
-    private Context context;
     private ArrayList<News> mostReadList;
     private ArrayList<News> latestList;
     private ArrayList<News> mostCommentedList;
 
-    public RvItemHeadMostRead(Context context,ArrayList<News> latest, ArrayList<News> mostRead, ArrayList<News> mostCommented) {
-        this.context = context;
+    public RvItemHeadMostRead(ArrayList<News> latest, ArrayList<News> mostRead, ArrayList<News> mostCommented) {
         this.mostCommentedList = mostCommented;
         this.mostReadList = mostRead;
         this.latestList = latest;
@@ -38,8 +36,8 @@ public class RvItemHeadMostRead implements RvItemHead{
 
         RvItemHeadMostReadBinding binding = (RvItemHeadMostReadBinding) holder.binding;
 
-        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-        Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
+        FragmentManager fm = ((AppCompatActivity)holder.itemView.getContext()).getSupportFragmentManager();
+        Lifecycle lc = ((AppCompatActivity) holder.itemView.getContext()).getLifecycle();
 
         HeadNewsMostReadVPAdapter adapter = new HeadNewsMostReadVPAdapter(fm, lc, latestList, mostReadList, mostCommentedList);
         binding.viewPagerHome.setAdapter(adapter);

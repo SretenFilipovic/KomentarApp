@@ -17,7 +17,6 @@ import com.cubes.komentarapp.ui.comments.CommentsActivity;
 public class NewsDetailActivity extends AppCompatActivity {
 
     private ActivityNewsDetailBinding binding;
-    private News news;
     private NewsDetailAdapter adapter;
 
     @Override
@@ -28,25 +27,27 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         int id = (int) getIntent().getSerializableExtra("news");
 
+        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new NewsDetailAdapter();
+        binding.recyclerView.setAdapter(adapter);
 
         DataRepository.getInstance().getNewsDetails(id, new DataRepository.NewsDetailListener() {
             @Override
             public void onResponse(News response) {
-                news = response;
-
-                binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        finish();
-                    }
-                });
 
                 binding.imageViewShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent i = new Intent();
                         i.setAction(Intent.ACTION_SEND);
-                        i.putExtra(Intent.EXTRA_STREAM, news.url);
+                        i.putExtra(Intent.EXTRA_STREAM, response.url);
                         i.setType("text/plain");
                         startActivity(Intent.createChooser(i, null));
                     }
@@ -56,20 +57,18 @@ public class NewsDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        if (news.comments_count == 0){
+                        if (response.comments_count == 0){
                             Toast.makeText(NewsDetailActivity.this, "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Intent i = new Intent(NewsDetailActivity.this, CommentsActivity.class);
-                            i.putExtra("news", news.id);
+                            i.putExtra("news", response.id);
                             startActivity(i);
                         }
                     }
                 });
 
-                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                adapter = new NewsDetailAdapter(news);
-                binding.recyclerView.setAdapter(adapter);
+                adapter.setData(response);
 
                 Log.d("DETAIL", "Detail load data success");
 

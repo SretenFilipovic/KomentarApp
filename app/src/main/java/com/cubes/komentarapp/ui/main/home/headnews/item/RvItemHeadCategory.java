@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class RvItemHeadCategory implements RvItemHead{
 
     private ArrayList<News> list;
-    private HeadNewsCategoryAdapter adapter;
     private CategoryHomePage category;
     private String categoryName;
 
@@ -48,7 +47,7 @@ public class RvItemHeadCategory implements RvItemHead{
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new HeadNewsCategoryAdapter(holder.itemView.getContext(), list, category);
+        HeadNewsCategoryAdapter adapter = new HeadNewsCategoryAdapter(holder.itemView.getContext(), list, category);
 
         adapter.setNewsListener(new NewsListener() {
             @Override

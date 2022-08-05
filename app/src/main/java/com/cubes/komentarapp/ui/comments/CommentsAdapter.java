@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.data.model.Comments;
+import com.cubes.komentarapp.data.source.remote.response.ResponseCommentList;
 import com.cubes.komentarapp.databinding.RvItemCommentChildBinding;
 import com.cubes.komentarapp.databinding.RvItemCommentParentBinding;
 import com.daimajia.androidanimations.library.Techniques;
@@ -22,24 +23,15 @@ import java.util.ArrayList;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsHolder> {
 
-    private ArrayList<Comments> allComments;
+    private ArrayList<Comments> allComments = new ArrayList<>();
+
+    public CommentsAdapter(){
+    }
 
     public CommentsAdapter(ArrayList<Comments> commentsList) {
-        this.allComments = new ArrayList<>();
-
         for (Comments comment : commentsList){
             allComments.add(comment);
             addChildren(comment.children);
-        }
-    }
-
-    private void addChildren(ArrayList<Comments> comments) {
-
-        if (comments != null && !comments.isEmpty()) {
-            for (Comments comment : comments) {
-                allComments.add(comment);
-                addChildren(comment.children);
-            }
         }
     }
 
@@ -57,7 +49,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                     RvItemCommentChildBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new CommentsAdapter.CommentsHolder(binding);
         }
-
     }
 
     @Override
@@ -196,6 +187,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             });
         }
 
+    }
+
+    public void setData(ArrayList<Comments> responseComments){
+        for (Comments comment : responseComments){
+            allComments.add(comment);
+            addChildren(comment.children);
+        }
+        notifyDataSetChanged();
+    }
+
+    private void addChildren(ArrayList<Comments> comments) {
+        if (comments != null && !comments.isEmpty()) {
+            for (Comments comment : comments) {
+                allComments.add(comment);
+                addChildren(comment.children);
+            }
+        }
     }
 
     @Override

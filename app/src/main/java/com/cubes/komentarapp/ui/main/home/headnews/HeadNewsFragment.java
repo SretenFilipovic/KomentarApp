@@ -26,14 +26,6 @@ public class HeadNewsFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private HeadNewsAdapter adapter;
-    private ArrayList<News> sliderList;
-    private ArrayList<News> topList;
-    private ArrayList<News> editorsChoiceList;
-    private ArrayList<News> videosList;
-    private ArrayList<News> mostReadList;
-    private ArrayList<News> latestList;
-    private ArrayList<News> mostCommentedList;
-    private ArrayList<CategoryHomePage> fromCategoryList;
 
     public HeadNewsFragment() {
 
@@ -61,6 +53,10 @@ public class HeadNewsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new HeadNewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
+
         loadData();
 
         binding.refresh.setOnClickListener(new View.OnClickListener() {
@@ -80,18 +76,8 @@ public class HeadNewsFragment extends Fragment {
         DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(NewsData response) {
-                sliderList = response.slider;
-                topList = response.top;
-                editorsChoiceList = response.editors_choice;
-                videosList = response.videos;
-                mostReadList = response.most_read;
-                latestList = response.latest;
-                mostCommentedList = response.most_comented;
-                fromCategoryList = response.category;
 
-                binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter = new HeadNewsAdapter(getContext(), sliderList, topList, editorsChoiceList, videosList, mostReadList, latestList, mostCommentedList, fromCategoryList);
-                binding.recyclerView.setAdapter(adapter);
+                adapter.setData(response);
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);

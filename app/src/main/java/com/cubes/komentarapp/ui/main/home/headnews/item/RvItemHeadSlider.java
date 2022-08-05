@@ -19,11 +19,9 @@ import java.util.ArrayList;
 public class RvItemHeadSlider implements RvItemHead{
 
     private ArrayList<News> sliderNews;
-    private Context context;
 
-    public RvItemHeadSlider(Context context, ArrayList<News> sliderNews) {
+    public RvItemHeadSlider(ArrayList<News> sliderNews) {
         this.sliderNews = sliderNews;
-        this.context = context;
     }
 
     @Override
@@ -35,8 +33,8 @@ public class RvItemHeadSlider implements RvItemHead{
     public void bind(HeadNewsAdapter.HeadNewsViewHolder holder) {
 
         RvItemHeadSliderBinding binding = (RvItemHeadSliderBinding) holder.binding;
-        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-        Lifecycle lc = ((AppCompatActivity) context).getLifecycle();
+        FragmentManager fm = ((AppCompatActivity)holder.itemView.getContext()).getSupportFragmentManager();
+        Lifecycle lc = ((AppCompatActivity) holder.itemView.getContext()).getLifecycle();
 
         HeadNewsSliderAdapter adapter = new HeadNewsSliderAdapter(fm, lc, sliderNews);
         binding.slider.setAdapter(adapter);
