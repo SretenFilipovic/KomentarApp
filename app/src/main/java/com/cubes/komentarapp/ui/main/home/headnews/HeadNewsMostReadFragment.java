@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public class HeadNewsMostReadFragment extends Fragment {
 
-    private FragmentRecyclerViewBinding binding;
+    private FragmentMostReadNewsBinding binding;
     private ArrayList<News> mostReadNews;
 
     public HeadNewsMostReadFragment() {
@@ -43,7 +44,7 @@ public class HeadNewsMostReadFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+        binding = FragmentMostReadNewsBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }

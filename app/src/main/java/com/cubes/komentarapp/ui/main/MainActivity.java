@@ -1,24 +1,22 @@
 package com.cubes.komentarapp.ui.main;
 
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.Toast;
-
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityMainBinding;
-import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.cubes.komentarapp.ui.main.home.HomeFragment;
 import com.cubes.komentarapp.ui.main.latest.LatestFragment;
+import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
 import com.cubes.komentarapp.ui.main.video.VideoFragment;
 
@@ -44,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
         binding.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(300);
-                binding.refresh.startAnimation(rotate);
-
                 loadData();
             }
         });
@@ -102,14 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 adapter.setData(response);
-
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 Toast.makeText(MainActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

@@ -26,6 +26,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     private int categoryId;
     private String categoryName;
     private NewsAdapter adapter;
+    private int nextPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +47,7 @@ public class SubcategoryActivity extends AppCompatActivity {
         binding.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(300);
-                binding.refresh.startAnimation(rotate);
-
+                binding.progressBar.setVisibility(View.VISIBLE);
                 loadData();
             }
         });
@@ -81,13 +79,14 @@ public class SubcategoryActivity extends AppCompatActivity {
 
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
-            public void loadMoreNews(int page) {
+            public void loadMoreNews() {
 
-                DataRepository.getInstance().loadCategoryNewsData(categoryId, page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(NewsData response) {
                         adapter.addNewNewsList(response.news);
 
+                        nextPage++;
                     }
                     @Override
                     public void onFailure(Throwable t) {
@@ -110,13 +109,16 @@ public class SubcategoryActivity extends AppCompatActivity {
                     adapter.setData(response);
                 }
 
+                nextPage++;
                 binding.refresh.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 Log.d("SUBCATEGORY", "Subcategory load data success");
             }
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
                 Toast.makeText(SubcategoryActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("SUBCATEGORY", "Subcategory load data failure");

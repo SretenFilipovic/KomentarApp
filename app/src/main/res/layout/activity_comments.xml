@@ -8,6 +8,38 @@
     android:background="@color/white"
     tools:context=".ui.comments.CommentsActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="visible"
+        style="?android:attr/progressBarStyle"
+        android:indeterminateDrawable="@drawable/custom_progress_bar"
+        android:layout_marginBottom="@dimen/margin_big"
+        app:layout_constraintBottom_toTopOf="@+id/refresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/tag_background"
+        android:gravity="center"
+        android:padding="@dimen/margin_main"
+        android:src="@drawable/ic_refresh"
+        android:text="@string/text_refresh"
+        android:textAllCaps="true"
+        android:textColor="@drawable/tag_text_color"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <FrameLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
@@ -26,37 +58,31 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/frameLayout11"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBar">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/buttonLeaveComment"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:text="@string/text_add"
-            android:textSize="40sp"
-            android:paddingBottom="5dp"
-            android:textColor="@color/blue_lightest_transparent"
-            android:background="@drawable/button_circle"
             android:layout_gravity="end|bottom"
             android:layout_marginEnd="@dimen/margin_big"
-            android:layout_marginBottom="40dp"/>
-
-        <ImageView
-            android:id="@+id/refresh"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_refresh"
-            android:visibility="visible"
-            android:layout_gravity="center"/>
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/button_circle"
+            android:paddingBottom="5dp"
+            android:text="@string/text_add"
+            android:textColor="@color/blue_lightest_transparent"
+            android:textSize="40sp" />
 
     </FrameLayout>
 

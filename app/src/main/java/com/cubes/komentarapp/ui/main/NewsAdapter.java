@@ -25,7 +25,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private ArrayList<News> list = new ArrayList<>();
     private NewsListener newsListener;
     private LoadingNewsListener loadingNewsListener;
-    private int page = 2;
     private boolean isLoading;
     private boolean isFinished;
 
@@ -85,7 +84,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
             if (!isLoading & !isFinished & loadingNewsListener != null){
                 isLoading = true;
-                loadingNewsListener.loadMoreNews(page);
+                loadingNewsListener.loadMoreNews();
             }
         }
     }
@@ -129,7 +128,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if(newsList.size()<20){
             setFinished(true);
         }
-        this.page = this.page + 1;
         notifyDataSetChanged();
     }
 

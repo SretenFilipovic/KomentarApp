@@ -26,6 +26,7 @@ public class TagActivity extends AppCompatActivity {
     private ActivityTagBinding binding;
     private int tagId;
     private NewsAdapter adapter;
+    private int nextPage = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,7 @@ public class TagActivity extends AppCompatActivity {
         binding.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(300);
-                binding.refresh.startAnimation(rotate);
-
+                binding.progressBar.setVisibility(View.VISIBLE);
                 loadData();
             }
         });
@@ -75,13 +73,14 @@ public class TagActivity extends AppCompatActivity {
 
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
             @Override
-            public void loadMoreNews(int page) {
+            public void loadMoreNews() {
 
-                DataRepository.getInstance().loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
+                DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
                     @Override
                     public void onResponse(NewsData response) {
                         adapter.addNewNewsList(response.news);
 
+                        nextPage++;
                     }
                     @Override
                     public void onFailure(Throwable t) {
@@ -104,7 +103,9 @@ public class TagActivity extends AppCompatActivity {
                     adapter.setData(response);
                 }
 
+                nextPage++;
                 binding.refresh.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
 
                 Log.d("TAG", "Tag load data success");
@@ -113,6 +114,8 @@ public class TagActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+
                 Toast.makeText(TagActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("TAG", "Tag load data failure");

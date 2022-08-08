@@ -18,6 +18,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private ActivityNewsDetailBinding binding;
     private NewsDetailAdapter adapter;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         binding = ActivityNewsDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int id = (int) getIntent().getSerializableExtra("news");
+        id = (int) getIntent().getSerializableExtra("news");
 
         binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,10 +35,23 @@ public class NewsDetailActivity extends AppCompatActivity {
             }
         });
 
+        binding.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+                loadData();
+            }
+        });
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new NewsDetailAdapter();
         binding.recyclerView.setAdapter(adapter);
 
+        loadData();
+
+    }
+
+    private void loadData() {
         DataRepository.getInstance().getNewsDetails(id, new DataRepository.NewsDetailListener() {
             @Override
             public void onResponse(News response) {
@@ -57,10 +71,9 @@ public class NewsDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        if (response.comments_count == 0){
+                        if (response.comments_count == 0) {
                             Toast.makeText(NewsDetailActivity.this, "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
+                        } else {
                             Intent i = new Intent(NewsDetailActivity.this, CommentsActivity.class);
                             i.putExtra("news", response.id);
                             startActivity(i);
@@ -69,6 +82,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                 });
 
                 adapter.setData(response);
+                binding.refresh.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
 
                 Log.d("DETAIL", "Detail load data success");
 
@@ -77,11 +92,11 @@ public class NewsDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(NewsDetailActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
-
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
                 Log.d("DETAIL", "Detail load data failure");
             }
         });
-
-
     }
+
 }

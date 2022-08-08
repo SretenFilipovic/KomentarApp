@@ -1,27 +1,20 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.Toast;
-
-import com.cubes.komentarapp.data.model.CategoryHomePage;
 import com.cubes.komentarapp.data.model.NewsData;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
-
-import java.util.ArrayList;
 
 public class HeadNewsFragment extends Fragment {
 
@@ -63,10 +56,7 @@ public class HeadNewsFragment extends Fragment {
         binding.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(300);
-                binding.refresh.startAnimation(rotate);
-
+                binding.progressBar.setVisibility(View.VISIBLE);
                 loadData();
             }
         });
@@ -81,6 +71,7 @@ public class HeadNewsFragment extends Fragment {
                 adapter.setData(response);
 
                 binding.refresh.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
 
                 Log.d("HEAD", "Head news load data success");
@@ -89,6 +80,9 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("HEAD", "Head news load data failure");

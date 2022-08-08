@@ -50,10 +50,7 @@ public class CommentsActivity extends AppCompatActivity {
         binding.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(300);
-                binding.refresh.startAnimation(rotate);
-
+                binding.progressBar.setVisibility(View.VISIBLE);
                 loadData();
             }
         });
@@ -73,6 +70,7 @@ public class CommentsActivity extends AppCompatActivity {
                 adapter.setData(response);
 
                 binding.refresh.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
 
                 Log.d("COMMENT", "Comment load data success");
@@ -81,6 +79,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.GONE);
                 Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("COMMENT", "Comment load data failure");

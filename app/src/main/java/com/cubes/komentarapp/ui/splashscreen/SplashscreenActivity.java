@@ -25,6 +25,7 @@ public class SplashscreenActivity extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
+                finish();
             }
         }, 500);
 
