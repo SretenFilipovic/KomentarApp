@@ -1,15 +1,13 @@
 package com.cubes.komentarapp.ui.comments;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -31,28 +29,17 @@ public class CommentsActivity extends AppCompatActivity {
 
         id = (int) getIntent().getSerializableExtra("news");
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
+        binding.imageViewBack.setOnClickListener(view -> finish());
+
+        binding.buttonLeaveComment.setOnClickListener(view -> {
+            Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
+            i.putExtra("news", id);
+            startActivity(i);
         });
 
-        binding.buttonLeaveComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
-                i.putExtra("news", id);
-                startActivity(i);
-            }
-        });
-
-        binding.refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.progressBar.setVisibility(View.VISIBLE);
-                loadData();
-            }
+        binding.refresh.setOnClickListener(view -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loadData();
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -62,7 +49,7 @@ public class CommentsActivity extends AppCompatActivity {
         loadData();
     }
 
-    private  void loadData(){
+    private void loadData() {
         DataRepository.getInstance().loadCommentsData(id, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {

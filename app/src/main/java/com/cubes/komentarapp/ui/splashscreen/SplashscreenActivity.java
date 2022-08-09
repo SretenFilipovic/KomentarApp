@@ -1,10 +1,10 @@
 package com.cubes.komentarapp.ui.splashscreen;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.databinding.ActivitySplashscreenBinding;
 import com.cubes.komentarapp.ui.main.MainActivity;
@@ -20,13 +20,10 @@ public class SplashscreenActivity extends AppCompatActivity {
         binding = ActivitySplashscreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+            finish();
         }, 500);
 
     }

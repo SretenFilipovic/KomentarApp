@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
@@ -26,7 +26,6 @@ public class VideoFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private NewsAdapter adapter;
-    private int nextPage = 1;
 
     public VideoFragment() {
     }
@@ -57,12 +56,9 @@ public class VideoFragment extends Fragment {
 
         loadData();
 
-        binding.refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.progressBar.setVisibility(View.VISIBLE);
-                loadData();
-            }
+        binding.refresh.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loadData();
         });
     }
 
@@ -71,28 +67,26 @@ public class VideoFragment extends Fragment {
         adapter = new NewsAdapter();
         binding.recyclerView.setAdapter(adapter);
 
-        adapter.setNewsListener(new NewsListener() {
-            @Override
-            public void onNewsClicked(News news) {
-
-                Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                i.putExtra("news",news.id);
-                getContext().startActivity(i);
-
-            }
+        adapter.setNewsListener(news -> {
+            Intent i = new Intent(getContext(), NewsDetailActivity.class);
+            i.putExtra("news", news.id);
+            getContext().startActivity(i);
         });
 
         adapter.setLoadingNewsListener(new LoadingNewsListener() {
+            int nextPage = 2;
+
             @Override
             public void loadMoreNews() {
 
                 DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
                     @Override
-                    public void onResponse(NewsData response) {
+                    public void onResponse(NewsList response) {
                         adapter.addNewNewsList(response.news);
 
-                        nextPage ++;
+                        nextPage++;
                     }
+
                     @Override
                     public void onFailure(Throwable t) {
                         binding.refresh.setVisibility(View.VISIBLE);
@@ -104,18 +98,17 @@ public class VideoFragment extends Fragment {
 
     }
 
-    private void loadData(){
-        int page = 1;
+    private void loadData() {
 
+        int page = 1;
         DataRepository.getInstance().loadVideoData(page, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsData response) {
+            public void onResponse(NewsList response) {
 
-                if (response!=null){
+                if (response != null) {
                     adapter.setData(response);
                 }
 
-                nextPage++;
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
@@ -123,6 +116,7 @@ public class VideoFragment extends Fragment {
                 Log.d("VIDEO", "Video news load data success");
 
             }
+
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);

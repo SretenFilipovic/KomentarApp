@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.CategoryHomePage;
-import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.model.CategoryNews;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
@@ -36,10 +36,10 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        switch (viewType){
+        switch (viewType) {
             case 0:
             case 4:
-                binding = RvItemHeadSliderBinding.inflate(inflater,parent,false);
+                binding = RvItemHeadSliderBinding.inflate(inflater, parent, false);
                 break;
             case 2:
                 binding = RvItemHeadMostReadBinding.inflate(inflater, parent, false);
@@ -67,7 +67,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
     }
 
 
-    public void setData(NewsData response){
+    public void setData(NewsList response) {
 
         items.add(new RvItemHeadSlider(response.slider));
         items.add(new RvItemHeadTop(response.top));
@@ -76,8 +76,8 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
         items.add(new RvItemHeadEditorsChoiceSlider(response.editors_choice));
         items.add(new RvItemHeadVideo(response.videos));
 
-        for (CategoryHomePage category : response.category){
-            if (!category.title.equalsIgnoreCase("Sport")){
+        for (CategoryNews category : response.category) {
+            if (!category.title.equalsIgnoreCase("Sport")) {
                 items.add(new RvItemHeadCategory(response.category, category.title));
             }
         }
@@ -85,7 +85,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
         notifyDataSetChanged();
     }
 
-    public class HeadNewsViewHolder extends RecyclerView.ViewHolder{
+    public class HeadNewsViewHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

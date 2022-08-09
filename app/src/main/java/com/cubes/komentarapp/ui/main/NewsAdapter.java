@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.squareup.picasso.Picasso;
@@ -41,11 +41,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
         ViewBinding binding;
 
-        if(viewType == 0){
+        if (viewType == 0) {
             binding = RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new NewsViewHolder(binding);
-        }
-        else{
+        } else {
             binding = RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
         return new NewsViewHolder(binding);
@@ -55,34 +54,27 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        if (position < list.size()){
+        if (position < list.size()) {
             News news = list.get(position);
             RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
 
             binding.textViewCategory.setText(news.category.name);
             binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(news);
-                }
-            });
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
         }
-
-        else{
+        else {
             RvItemLoadingBinding binding = (RvItemLoadingBinding) holder.binding;
 
-
-            if (isFinished){
+            if (isFinished) {
                 binding.progressBar.setVisibility(View.GONE);
                 binding.textView.setVisibility(View.GONE);
             }
 
-            if (!isLoading & !isFinished & loadingNewsListener != null){
+            if (!isLoading & !isFinished & loadingNewsListener != null) {
                 isLoading = true;
                 loadingNewsListener.loadMoreNews();
             }
@@ -91,20 +83,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public int getItemCount() {
-        if(list == null){
+        if (list == null) {
             return 0;
-        }
-        else if (list.size() >= 20){
+        } else if (list.size() >= 20) {
             return list.size() + 1;
-        }
-        else{
+        } else {
             return list.size();
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position == list.size()){
+        if (position == list.size()) {
             return 1;
         }
         return 0;
@@ -122,21 +112,21 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         isFinished = finished;
     }
 
-    public void addNewNewsList(ArrayList<News> newsList){
+    public void addNewNewsList(ArrayList<News> newsList) {
         this.list.addAll(newsList);
         this.isLoading = false;
-        if(newsList.size()<20){
+        if (newsList.size() < 20) {
             setFinished(true);
         }
         notifyDataSetChanged();
     }
 
-    public void setData(NewsData data){
+    public void setData(NewsList data) {
         this.list = data.news;
         notifyDataSetChanged();
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

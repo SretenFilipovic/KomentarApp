@@ -1,7 +1,5 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import android.content.Context;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -14,11 +12,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class RvItemHeadMostRead implements RvItemHead{
+public class RvItemHeadMostRead implements RvItemHead {
 
-    private ArrayList<News> mostReadList;
-    private ArrayList<News> latestList;
-    private ArrayList<News> mostCommentedList;
+    private final ArrayList<News> mostReadList;
+    private final ArrayList<News> latestList;
+    private final ArrayList<News> mostCommentedList;
 
     public RvItemHeadMostRead(ArrayList<News> latest, ArrayList<News> mostRead, ArrayList<News> mostCommented) {
         this.mostCommentedList = mostCommented;
@@ -36,20 +34,18 @@ public class RvItemHeadMostRead implements RvItemHead{
 
         RvItemHeadMostReadBinding binding = (RvItemHeadMostReadBinding) holder.binding;
 
-        FragmentManager fm = ((AppCompatActivity)holder.itemView.getContext()).getSupportFragmentManager();
+        FragmentManager fm = ((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) holder.itemView.getContext()).getLifecycle();
 
         HeadNewsMostReadVPAdapter adapter = new HeadNewsMostReadVPAdapter(fm, lc, latestList, mostReadList, mostCommentedList);
         binding.viewPagerHome.setAdapter(adapter);
 
         new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, (tab, position) -> {
-            if (position == 0){
+            if (position == 0) {
                 tab.setText("NAJNOVIJE");
-            }
-            else if (position == 1){
+            } else if (position == 1) {
                 tab.setText("NAJČITANIJE");
-            }
-            else{
+            } else {
                 tab.setText("KOMENTARI");
             }
         }).attach();

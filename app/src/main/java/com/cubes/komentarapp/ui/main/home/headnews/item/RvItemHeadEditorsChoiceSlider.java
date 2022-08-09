@@ -1,14 +1,13 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import android.content.Context;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 
-import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsSliderAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -33,7 +32,7 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
 
         RvItemHeadSliderBinding binding = (RvItemHeadSliderBinding) holder.binding;
 
-        if(editorsChoiceNews.size() > 0){
+        if (editorsChoiceNews.size() > 0) {
             binding.frameLayout.setVisibility(View.VISIBLE);
         }
 

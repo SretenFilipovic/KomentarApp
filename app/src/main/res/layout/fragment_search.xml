@@ -23,6 +23,7 @@
             android:background="@drawable/edit_text_outline"
             android:hint="@string/text_pretrazi"
             android:inputType="text"
+            android:imeOptions="actionSearch"
             android:lines="1"
             android:paddingStart="@dimen/margin_main"
             android:textColor="@color/white"
@@ -72,6 +73,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/margin_biggest"
         android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:indeterminateDrawable="@drawable/custom_progress_bar"
         app:layout_constraintBottom_toTopOf="@+id/refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

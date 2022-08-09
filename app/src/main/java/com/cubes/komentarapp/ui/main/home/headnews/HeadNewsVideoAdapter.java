@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 
 public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdapter.NewsViewHolder> {
 
-    private ArrayList<News> list;
+    private final ArrayList<News> list;
     private NewsListener newsListener;
 
     public HeadNewsVideoAdapter(ArrayList<News> list) {
@@ -30,9 +29,9 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            ViewBinding binding =
-                    RvItemHeadVideoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new NewsViewHolder(binding);
+        ViewBinding binding =
+                RvItemHeadVideoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new NewsViewHolder(binding);
     }
 
     @Override
@@ -42,43 +41,31 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
         RvItemHeadVideoBinding binding = (RvItemHeadVideoBinding) holder.binding;
 
 
-        if (position == 0){
+        if (position == 0) {
 
             binding.textViewCategory.setText(news.category.name);
             binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
-                }
-            });
-        }
-
-        else {
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+        } else {
             binding.frameLayout.setVisibility(View.GONE);
 
             binding.textViewCategory.setText(news.category.name);
             binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
-                }
-            });
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
         }
     }
 
     @Override
     public int getItemCount() {
-        if(list == null){
+        if (list == null) {
             return 0;
         }
         return list.size();
@@ -88,7 +75,7 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
         this.newsListener = newsListener;
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

@@ -1,15 +1,15 @@
 package com.cubes.komentarapp.ui.main.menu;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.cubes.komentarapp.data.model.Horoscope;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
-import com.cubes.komentarapp.data.model.Horoscope;
 import com.squareup.picasso.Picasso;
 
 public class HoroscopeActivity extends AppCompatActivity {
@@ -23,18 +23,13 @@ public class HoroscopeActivity extends AppCompatActivity {
         binding = ActivityHoroscopeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        binding.imageViewBack.setOnClickListener(view -> finish());
 
         loadData();
 
     }
 
-    private void loadData(){
+    private void loadData() {
 
         DataRepository.getInstance().loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
             @Override

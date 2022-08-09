@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategoryAdapter.SubcategoryHolder> {
 
-    private ArrayList<Category> subcategoryList;
+    private final ArrayList<Category> subcategoryList;
 
     public MenuSubcategoryAdapter(ArrayList<Category> subcategoryList) {
         this.subcategoryList = subcategoryList;
@@ -27,7 +27,7 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
     @Override
     public SubcategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewBinding binding =
-                RvItemMenuSubcategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent,false);
+                RvItemMenuSubcategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new SubcategoryHolder(binding);
     }
 
@@ -39,14 +39,11 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
 
         binding.textViewSubcategory.setText(subcategory.name);
 
-        binding.textViewSubcategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(holder.itemView.getContext(), SubcategoryActivity.class);
-                i.putExtra("categoryId", subcategory.id);
-                i.putExtra("categoryName", subcategory.name);
-                holder.itemView.getContext().startActivity(i);
-            }
+        binding.textViewSubcategory.setOnClickListener(view -> {
+            Intent i = new Intent(holder.itemView.getContext(), SubcategoryActivity.class);
+            i.putExtra("categoryId", subcategory.id);
+            i.putExtra("categoryName", subcategory.name);
+            holder.itemView.getContext().startActivity(i);
         });
     }
 
@@ -56,7 +53,7 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
     }
 
 
-    public class SubcategoryHolder extends RecyclerView.ViewHolder{
+    public class SubcategoryHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

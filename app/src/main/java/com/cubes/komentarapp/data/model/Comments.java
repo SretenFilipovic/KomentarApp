@@ -2,7 +2,7 @@ package com.cubes.komentarapp.data.model;
 
 import java.util.ArrayList;
 
-public class Comments{
+public class Comments {
 
     public int negative_votes;
     public int positive_votes;

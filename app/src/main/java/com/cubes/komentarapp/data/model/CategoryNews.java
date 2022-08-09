@@ -2,7 +2,7 @@ package com.cubes.komentarapp.data.model;
 
 import java.util.ArrayList;
 
-public class CategoryHomePage {
+public class CategoryNews {
 
     public int id;
     public String title;

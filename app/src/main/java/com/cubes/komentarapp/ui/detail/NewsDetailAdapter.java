@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetail;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailComments;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailRelatedNews;
@@ -35,7 +35,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        switch (viewType){
+        switch (viewType) {
             case 0:
                 binding = RvItemNewsDetailWebViewBinding.inflate(inflater, parent, false);
                 break;
@@ -65,7 +65,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
         return this.items.get(position).getType();
     }
 
-    public void setData(News response){
+    public void setData(News response) {
 
         this.items.add(new RvItemDetailWebView(response));
         this.items.add(new RvItemDetailTags(response.tags));
@@ -77,7 +77,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
     }
 
 
-    public class NewsDetailViewHolder extends RecyclerView.ViewHolder{
+    public class NewsDetailViewHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

@@ -1,11 +1,11 @@
 package com.cubes.komentarapp.ui.detail.item;
 
+import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
 
-public class RvItemDetailWebView implements RvItemDetail{
+public class RvItemDetailWebView implements RvItemDetail {
 
     private News news;
 

@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.CategoryHomePage;
+import com.cubes.komentarapp.data.model.CategoryNews;
+import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 import com.squareup.picasso.Picasso;
 
@@ -22,15 +21,13 @@ import java.util.ArrayList;
 
 public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCategoryAdapter.NewsViewHolder> {
 
-    private ArrayList<News> list;
-    private Context context;
-    private CategoryHomePage category;
+    private final ArrayList<News> list;
+    private CategoryNews category;
     private NewsListener newsListener;
 
-    public HeadNewsCategoryAdapter(Context context, ArrayList<News> list, CategoryHomePage category) {
+    public HeadNewsCategoryAdapter(ArrayList<News> list, CategoryNews category) {
         this.list = list;
         this.category = category;
-        this.context = context;
     }
 
     @NonNull
@@ -39,11 +36,10 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
 
         ViewBinding binding;
 
-        if (viewType == 0){
-            binding = RvItemBigNewsHomepageBinding.inflate(LayoutInflater.from(context), parent, false);
-        }
-        else {
-            binding = RvItemSmallNewsHomepageBinding.inflate(LayoutInflater.from(context), parent, false);
+        if (viewType == 0) {
+            binding = RvItemBigNewsHomepageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        } else {
+            binding = RvItemSmallNewsHomepageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         }
         return new NewsViewHolder(binding);
     }
@@ -53,36 +49,24 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
 
         News news = list.get(position);
 
-        if (position == 0){
+        if (position == 0) {
             RvItemBigNewsHomepageBinding binding = (RvItemBigNewsHomepageBinding) holder.binding;
 
             binding.textViewCategoryTitle.setText(category.title);
             binding.viewColor.setBackgroundColor(Color.parseColor(category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
-                }
-            });
-        }
-
-        else {
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+        } else {
             RvItemSmallNewsHomepageBinding binding = (RvItemSmallNewsHomepageBinding) holder.binding;
 
-            binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    newsListener.onNewsClicked(list.get(position));
-                }
-            });
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
         }
 
     }
@@ -90,13 +74,12 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
     @Override
     public int getItemCount() {
 
-        if (list == null){
+        if (list == null) {
             return 0;
         }
-        if (list.size() < 5){
+        if (list.size() < 5) {
             return list.size();
-        }
-        else{
+        } else {
             return 5;
         }
     }
@@ -104,10 +87,9 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
     @Override
     public int getItemViewType(int position) {
 
-        if(position == 0){
+        if (position == 0) {
             return 0;
-        }
-        else {
+        } else {
             return 1;
         }
     }
@@ -117,7 +99,7 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
     }
 
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
+    public class NewsViewHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

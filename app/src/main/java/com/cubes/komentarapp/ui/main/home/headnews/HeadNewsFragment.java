@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsData;
+import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 
@@ -53,20 +53,17 @@ public class HeadNewsFragment extends Fragment {
 
         loadData();
 
-        binding.refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.progressBar.setVisibility(View.VISIBLE);
-                loadData();
-            }
+        binding.refresh.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loadData();
         });
     }
 
-    private void loadData(){
+    private void loadData() {
 
         DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsData response) {
+            public void onResponse(NewsList response) {
 
                 adapter.setData(response);
 

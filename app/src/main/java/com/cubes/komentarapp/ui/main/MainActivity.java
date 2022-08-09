@@ -39,29 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
         loadData();
 
-        binding.refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadData();
-            }
-        });
+        binding.refresh.setOnClickListener(view -> loadData());
+        binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
+        binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
     }
 
-    private void loadData(){
+    private void loadData() {
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,HomeFragment.newInstance(response)).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance(response)).commit();
 
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
                 fullyOpenDrawer(binding.drawerNavigationView);
-
-                binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
-
-                binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
                 binding.refresh.setVisibility(View.GONE);
 
@@ -69,27 +62,35 @@ public class MainActivity extends AppCompatActivity {
 
                     Fragment selectedFragment = null;
 
-                    switch (item.getItemId()){
+                    switch (item.getItemId()) {
                         case R.id.home:
                             selectedFragment = HomeFragment.newInstance(response);
-                        {binding.imageViewMenu.setVisibility(View.VISIBLE);}
+                        {
+                            binding.imageViewMenu.setVisibility(View.VISIBLE);
+                        }
                         break;
                         case R.id.search:
                             selectedFragment = SearchFragment.newInstance();
-                        {binding.imageViewMenu.setVisibility(View.GONE);}
+                        {
+                            binding.imageViewMenu.setVisibility(View.GONE);
+                        }
                         break;
                         case R.id.latest:
                             selectedFragment = LatestFragment.newInstance();
-                        {binding.imageViewMenu.setVisibility(View.GONE);}
+                        {
+                            binding.imageViewMenu.setVisibility(View.GONE);
+                        }
                         break;
                         case R.id.video:
                             selectedFragment = VideoFragment.newInstance();
-                        {binding.imageViewMenu.setVisibility(View.GONE);}
+                        {
+                            binding.imageViewMenu.setVisibility(View.GONE);
+                        }
                         break;
                     }
 
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container,selectedFragment)
+                            .replace(R.id.container, selectedFragment)
                             .commit();
 
                     return true;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void fullyOpenDrawer (View view){
+    private void fullyOpenDrawer(View view) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) view.getLayoutParams();

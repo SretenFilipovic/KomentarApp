@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.databinding.RvItemTagBinding;
 import com.cubes.komentarapp.data.model.Tags;
+import com.cubes.komentarapp.databinding.RvItemTagBinding;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 
 import java.util.ArrayList;
 
 public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdapter.TagHolder> {
 
-    private ArrayList<Tags> tagList;
+    private final ArrayList<Tags> tagList;
 
     public NewsDetailTagAdapter(ArrayList<Tags> tagList) {
         this.tagList = tagList;
@@ -40,14 +40,11 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
 
         binding.buttonTag.setText(tag.title);
 
-        binding.buttonTag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.buttonTag.setOnClickListener(view -> {
 
-                Intent i = new Intent(holder.itemView.getContext(), TagActivity.class);
-                i.putExtra("tag", tag.id);
-                holder.itemView.getContext().startActivity(i);
-            }
+            Intent i = new Intent(holder.itemView.getContext(), TagActivity.class);
+            i.putExtra("tag", tag.id);
+            holder.itemView.getContext().startActivity(i);
         });
     }
 
@@ -57,7 +54,7 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     }
 
 
-    public class TagHolder extends RecyclerView.ViewHolder{
+    public class TagHolder extends RecyclerView.ViewHolder {
 
         public ViewBinding binding;
 

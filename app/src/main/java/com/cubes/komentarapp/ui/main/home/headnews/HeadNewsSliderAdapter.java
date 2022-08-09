@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 public class HeadNewsSliderAdapter extends FragmentStateAdapter {
 
-    private ArrayList<News> sliderNews;
+    private final ArrayList<News> sliderNews;
 
     public HeadNewsSliderAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, ArrayList<News> sliderNews) {
         super(fragmentManager, lifecycle);
@@ -24,7 +23,7 @@ public class HeadNewsSliderAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return HeadNewsSliderFragment.newInstance(sliderNews.get(position));
+        return HeadNewsSliderFragment.newInstance(sliderNews.get(position).id, sliderNews.get(position).title, sliderNews.get(position).image);
     }
 
     @Override

@@ -4,8 +4,8 @@ import com.cubes.komentarapp.data.source.remote.response.ResponseCategoryList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCommentList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseHoroscope;
-import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsDetail;
+import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseWeather;
 
 import retrofit2.Call;
@@ -42,17 +42,17 @@ public interface RetrofitService {
     Call<ResponseNewsDetail> getNewsDetail(@Query("id") int id);
 
     @GET("api/comments")
-    Call<ResponseCommentList> getComments (@Query("id") int id);
+    Call<ResponseCommentList> getComments(@Query("id") int id);
 
     @POST("api/commentinsert")
     Call<ResponseCommentPost> postComment(@Body ResponseCommentPost comment);
     //(@Field("news") String news, @Field("reply_id") String reply_id, @Field("name") String name, @Field("email") String email, @Field("content") String content);
 
     @POST("api/commentvote")
-    Call<ResponseCommentList> postUpvote (@Query("comment") String id, @Query("vote") boolean vote);
+    Call<ResponseCommentList> postUpvote(@Query("comment") String id, @Query("vote") boolean vote);
 
     @POST("api/commentvote")
-    Call<ResponseCommentList> postDownvote (@Query("comment") String id, @Query("downvote") boolean vote);
+    Call<ResponseCommentList> postDownvote(@Query("comment") String id, @Query("downvote") boolean vote);
 
     @GET("api/horoscope")
     Call<ResponseHoroscope> getHoroscope();

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class HomePageAdapter extends FragmentStateAdapter {
 
-    private ArrayList<Category> categoryList;
+    private final ArrayList<Category> categoryList;
 
     public HomePageAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Category> categoryList) {
         super(fragmentActivity);
@@ -23,13 +23,12 @@ public class HomePageAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if(position == 0){
+        if (position == 0) {
             HeadNewsFragment fragment = HeadNewsFragment.newInstance();
             return fragment;
-        }
-        else {
-            Category category = categoryList.get(position-1);
-            HomePageCategoryFragment fragment = HomePageCategoryFragment.newInstance(category);
+        } else {
+            Category category = categoryList.get(position - 1);
+            HomePageCategoryFragment fragment = HomePageCategoryFragment.newInstance(category.id);
             return fragment;
         }
     }

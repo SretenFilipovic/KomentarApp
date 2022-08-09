@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
-public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder>{
+public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder> {
 
-    private ArrayList<News> list;
+    private final ArrayList<News> list;
     private NewsListener newsListener;
 
     public HeadNewsMostReadRVAdapter(ArrayList<News> list) {
@@ -40,15 +39,10 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
 
         RvItemSmallestNewsBinding binding = (RvItemSmallestNewsBinding) holder.binding;
 
-        binding.textViewCreatedAt.setText(news.created_at.substring(11,16));
+        binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
         binding.textViewTitle.setText(news.title);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newsListener.onNewsClicked(list.get(position));
-            }
-        });
+        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
     }
 
     @Override

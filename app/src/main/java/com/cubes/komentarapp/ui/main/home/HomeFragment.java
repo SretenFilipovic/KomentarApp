@@ -1,18 +1,16 @@
 package com.cubes.komentarapp.ui.main.home;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.cubes.komentarapp.databinding.FragmentHomeBinding;
 import com.cubes.komentarapp.data.model.Category;
-import com.google.android.material.tabs.TabLayout;
+import com.cubes.komentarapp.databinding.FragmentHomeBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -51,15 +49,11 @@ public class HomeFragment extends Fragment {
         HomePageAdapter adapter = new HomePageAdapter(getActivity(), categories);
         binding.viewPagerHome.setAdapter(adapter);
 
-        new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if (position == 0){
-                    tab.setText("Naslovna");
-                }
-                else {
-                    tab.setText(categories.get(position-1).name);
-                }
+        new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, (tab, position) -> {
+            if (position == 0) {
+                tab.setText("Naslovna");
+            } else {
+                tab.setText(categories.get(position - 1).name);
             }
         }).attach();
 

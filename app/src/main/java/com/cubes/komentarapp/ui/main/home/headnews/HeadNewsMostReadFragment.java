@@ -2,21 +2,18 @@ package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
-import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
@@ -56,13 +53,10 @@ public class HeadNewsMostReadFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter(mostReadNews);
 
-        adapter.setNewsListener(new NewsListener() {
-            @Override
-            public void onNewsClicked(News news) {
-                Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                i.putExtra("news",news.id);
-                getContext().startActivity(i);
-            }
+        adapter.setNewsListener(news -> {
+            Intent i = new Intent(getContext(), NewsDetailActivity.class);
+            i.putExtra("news", news.id);
+            getContext().startActivity(i);
         });
 
         binding.recyclerView.setAdapter(adapter);
