@@ -8,7 +8,6 @@ public class ResponseCommentPost extends ResponseParentClass {
 
 
     public ResponseCommentPost(ArrayList<String> data) {
-
         this.data = data;
     }
 }

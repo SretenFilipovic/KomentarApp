@@ -3,11 +3,9 @@ package com.cubes.komentarapp.ui.comments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +19,8 @@ import java.util.ArrayList;
 public class PostCommentActivity extends AppCompatActivity {
 
     private ActivityPostCommentBinding binding;
-    private int id;
+    private String commentId = "0";
+    private String newsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,8 @@ public class PostCommentActivity extends AppCompatActivity {
         binding = ActivityPostCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        id = (int) getIntent().getSerializableExtra("news");
+        commentId = (String) getIntent().getSerializableExtra("commentId");
+        newsId = (String) getIntent().getSerializableExtra("newsId");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -38,23 +38,20 @@ public class PostCommentActivity extends AppCompatActivity {
             hideKeyboard(PostCommentActivity.this);
         });
 
-        binding.editTextContent.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEND) {
-                    postComment();
-                    hideKeyboard(PostCommentActivity.this);
-                    return true;
-                }
-                return false;
+        binding.editTextContent.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_SEND) {
+                postComment();
+                hideKeyboard(PostCommentActivity.this);
+                return true;
             }
+            return false;
         });
 
     }
 
     private void postComment(){
-        String news = String.valueOf(id);
-        String reply_id = "0";
+        String news = String.valueOf(newsId);
+        String reply_id = commentId;
         String name = String.valueOf(binding.editTextName.getText());
         String email = String.valueOf(binding.editTextEmail.getText());
         String content = String.valueOf(binding.editTextContent.getText());
@@ -106,4 +103,5 @@ public class PostCommentActivity extends AppCompatActivity {
         }
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
 }

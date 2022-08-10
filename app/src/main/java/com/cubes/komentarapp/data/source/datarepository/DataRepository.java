@@ -1,5 +1,7 @@
 package com.cubes.komentarapp.data.source.datarepository;
 
+import android.util.Log;
+
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.model.Horoscope;
@@ -292,7 +294,9 @@ public class DataRepository {
 
             @Override
             public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+
                 listener.onResponse(response.body().data);
+
             }
 
             @Override
@@ -302,30 +306,40 @@ public class DataRepository {
         });
     }
 
-    public void upvoteComment(String id, boolean vote) {
+    public interface voteListener {
+        void onResponse(ArrayList<Comments> response);
 
-        service.postUpvote(id, vote).enqueue(new Callback<ResponseCommentList>() {
+        void onFailure(Throwable t);
+    }
+
+    public void upvoteComment(String id, voteListener listener) {
+
+        service.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+                Log.d("UPVOTE", "Upvote success");
             }
 
             @Override
             public void onFailure(Call<ResponseCommentList> call, Throwable t) {
+                Log.d("UPVOTE", "Upvote failure");
             }
         });
     }
 
-    public void downvoteComment(String id, boolean vote) {
+    public void downvoteComment(String id, voteListener listener) {
 
-        service.postDownvote(id, vote).enqueue(new Callback<ResponseCommentList>() {
+        service.postDownvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
+                Log.d("DOWNVOTE", "Downvote success");
             }
 
             @Override
             public void onFailure(Call<ResponseCommentList> call, Throwable t) {
+                Log.d("DOWNVOTE", "Downvote failure");
             }
         });
     }

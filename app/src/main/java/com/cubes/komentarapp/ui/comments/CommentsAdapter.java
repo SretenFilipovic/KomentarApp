@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.comments;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -11,9 +10,9 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.RvItemCommentChildBinding;
 import com.cubes.komentarapp.databinding.RvItemCommentParentBinding;
+import com.cubes.komentarapp.ui.tools.CommentsListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -23,6 +22,7 @@ import java.util.ArrayList;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsHolder> {
 
     private ArrayList<Comments> allComments = new ArrayList<>();
+    private CommentsListener commentsListener;
 
     public CommentsAdapter() {
     }
@@ -63,24 +63,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
 
             binding.imageViewReply.setOnClickListener(view -> {
-                Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("commentId", comment.id);
-                i.putExtra("commentName", comment.news);
-                holder.itemView.getContext().startActivity(i);
+                commentsListener.onCommentsClicked(comment);
             });
             binding.textViewReply.setOnClickListener(view -> {
-                Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("commentId", comment.id);
-                i.putExtra("commentName", comment.news);
-                holder.itemView.getContext().startActivity(i);
+                commentsListener.onCommentsClicked(comment);
             });
 
             binding.imageViewUpVote.setOnClickListener(view -> {
                 if (!comment.isVoted) {
-                    DataRepository.getInstance().upvoteComment(comment.id, true);
+
+                    commentsListener.upvote(comment.id);
 
                     YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
-
                     binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
                     binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
                     comment.isVoted = true;
@@ -92,10 +86,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             binding.imageViewDownVote.setOnClickListener(view -> {
                 if (!comment.isVoted) {
-                    DataRepository.getInstance().downvoteComment(comment.id, true);
+
+                    commentsListener.downvote(comment.id);
 
                     YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
-
                     binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
                     binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
                     comment.isVoted = true;
@@ -114,24 +108,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
 
             binding.imageViewReply.setOnClickListener(view -> {
-                Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("commentId", comment.id);
-                i.putExtra("commentName", comment.news);
-                holder.itemView.getContext().startActivity(i);
+                commentsListener.onCommentsClicked(comment);
             });
+
             binding.textViewReply.setOnClickListener(view -> {
-                Intent i = new Intent(holder.itemView.getContext(), PostReplyActivity.class);
-                i.putExtra("commentId", comment.id);
-                i.putExtra("commentName", comment.news);
-                holder.itemView.getContext().startActivity(i);
+                commentsListener.onCommentsClicked(comment);
             });
 
             binding.imageViewUpVote.setOnClickListener(view -> {
                 if (!comment.isVoted) {
-                    DataRepository.getInstance().upvoteComment(comment.id, true);
+
+                    commentsListener.upvote(comment.id);
 
                     YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
-
                     binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
                     binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
                     comment.isVoted = true;
@@ -143,10 +132,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
             binding.imageViewDownVote.setOnClickListener(view -> {
                 if (!comment.isVoted) {
-                    DataRepository.getInstance().downvoteComment(comment.id, true);
+
+                    commentsListener.downvote(comment.id);
 
                     YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
-
                     binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
                     binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
                     comment.isVoted = true;
@@ -157,6 +146,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             });
         }
 
+    }
+
+
+    public void setCommentListener(CommentsListener commentsListener) {
+        this.commentsListener = commentsListener;
     }
 
     public void setData(ArrayList<Comments> responseComments) {
@@ -189,6 +183,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             return 1;
         }
     }
+
 
     public class CommentsHolder extends RecyclerView.ViewHolder {
 

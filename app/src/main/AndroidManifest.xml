@@ -33,10 +33,6 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.comments.PostReplyActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.comments.PostCommentActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>

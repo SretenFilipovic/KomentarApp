@@ -13,6 +13,7 @@ import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.CommentsAdapter;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
+import com.cubes.komentarapp.ui.tools.CommentsListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -49,7 +50,6 @@ public class RvItemDetailComments implements RvItemDetail {
         }
 
         binding.textViewShowAllComments.setOnClickListener(view -> {
-
             if (news.comments_count == 0) {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
@@ -59,6 +59,7 @@ public class RvItemDetailComments implements RvItemDetail {
                 holder.itemView.getContext().startActivity(i);
             }
         });
+
         binding.frameLayoutShowAll.setOnClickListener(view -> {
             if (news.comments_count == 0) {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
@@ -69,6 +70,7 @@ public class RvItemDetailComments implements RvItemDetail {
                 holder.itemView.getContext().startActivity(i);
             }
         });
+
         binding.textViewButtonCount.setOnClickListener(view -> {
             if (news.comments_count == 0) {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
@@ -79,9 +81,10 @@ public class RvItemDetailComments implements RvItemDetail {
                 holder.itemView.getContext().startActivity(i);
             }
         });
+
         binding.buttonLeaveComment.setOnClickListener(view -> {
             Intent i = new Intent(holder.itemView.getContext(), PostCommentActivity.class);
-            i.putExtra("news", news.id);
+            i.putExtra("newsId", String.valueOf(news.id));
             holder.itemView.getContext().startActivity(i);
         });
 

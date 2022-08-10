@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
+import com.cubes.komentarapp.ui.tools.CommentsListener;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         binding.buttonLeaveComment.setOnClickListener(view -> {
             Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
-            i.putExtra("news", id);
+            i.putExtra("newsId", String.valueOf(id));
             startActivity(i);
         });
 
@@ -42,11 +43,56 @@ public class CommentsActivity extends AppCompatActivity {
             loadData();
         });
 
+        setupRecyclerView();
+
+        loadData();
+    }
+
+    private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new CommentsAdapter();
         binding.recyclerView.setAdapter(adapter);
 
-        loadData();
+        adapter.setCommentListener(new CommentsListener() {
+            @Override
+            public void onCommentsClicked(Comments comment) {
+                Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
+                i.putExtra("commentId", comment.id);
+                i.putExtra("newsId", comment.news);
+                startActivity(i);
+            }
+
+            @Override
+            public void upvote(String id) {
+                DataRepository.getInstance().upvoteComment(id, new DataRepository.voteListener() {
+                    @Override
+                    public void onResponse(ArrayList<Comments> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void downvote(String id) {
+                DataRepository.getInstance().downvoteComment(id, new DataRepository.voteListener() {
+                    @Override
+                    public void onResponse(ArrayList<Comments> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void loadData() {
