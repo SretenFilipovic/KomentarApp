@@ -61,37 +61,6 @@ public class CommentsActivity extends AppCompatActivity {
                 i.putExtra("newsId", comment.news);
                 startActivity(i);
             }
-
-            @Override
-            public void upvote(String id) {
-                DataRepository.getInstance().upvoteComment(id, new DataRepository.voteListener() {
-                    @Override
-                    public void onResponse(ArrayList<Comments> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void downvote(String id) {
-                DataRepository.getInstance().downvoteComment(id, new DataRepository.voteListener() {
-                    @Override
-                    public void onResponse(ArrayList<Comments> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
-            }
         });
     }
 
