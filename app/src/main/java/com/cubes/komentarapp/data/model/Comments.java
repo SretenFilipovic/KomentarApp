@@ -14,10 +14,5 @@ public class Comments {
     public String content;
     public ArrayList<Comments> children;
 
-    // za proveru da li je vec glasano na datom komentaru
-    public boolean isVoted = false;
-
-
-
-
+    public Vote commentVote;
 }

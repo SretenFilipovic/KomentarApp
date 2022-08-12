@@ -50,7 +50,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new CommentsAdapter();
+        adapter = new CommentsAdapter(this);
         binding.recyclerView.setAdapter(adapter);
 
         adapter.setCommentListener(new CommentsListener() {
@@ -60,6 +60,16 @@ public class CommentsActivity extends AppCompatActivity {
                 i.putExtra("commentId", comment.id);
                 i.putExtra("newsId", comment.news);
                 startActivity(i);
+            }
+
+            @Override
+            public void upvote(String commentId) {
+                DataRepository.getInstance().upvoteComment(commentId);
+            }
+
+            @Override
+            public void downVote(String commentId) {
+                DataRepository.getInstance().downvoteComment(commentId);
             }
         });
     }

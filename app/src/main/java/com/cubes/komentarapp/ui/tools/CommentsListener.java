@@ -6,4 +6,8 @@ public interface CommentsListener {
 
     void onCommentsClicked(Comments comment);
 
+    void upvote(String commentId);
+
+    void downVote(String commentId);
+
 }

@@ -306,7 +306,6 @@ public class DataRepository {
         });
     }
 
-
     public void upvoteComment(String id) {
 
         service.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
