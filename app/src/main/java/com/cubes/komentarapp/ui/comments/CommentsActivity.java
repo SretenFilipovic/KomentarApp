@@ -50,7 +50,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new CommentsAdapter();
+        adapter = new CommentsAdapter(this);
         binding.recyclerView.setAdapter(adapter);
 
         adapter.setCommentListener(new CommentsListener() {
@@ -63,34 +63,13 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void upvote(String id) {
-                DataRepository.getInstance().upvoteComment(id, new DataRepository.voteListener() {
-                    @Override
-                    public void onResponse(ArrayList<Comments> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
-
+            public void upvote(String commentId) {
+                DataRepository.getInstance().upvoteComment(commentId);
             }
 
             @Override
-            public void downvote(String id) {
-                DataRepository.getInstance().downvoteComment(id, new DataRepository.voteListener() {
-                    @Override
-                    public void onResponse(ArrayList<Comments> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
+            public void downVote(String commentId) {
+                DataRepository.getInstance().downvoteComment(commentId);
             }
         });
     }

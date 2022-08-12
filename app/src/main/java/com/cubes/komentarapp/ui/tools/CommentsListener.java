@@ -8,7 +8,6 @@ public interface CommentsListener {
 
     void upvote(String commentId);
 
-    void downvote(String commentId);
-
+    void downVote(String commentId);
 
 }

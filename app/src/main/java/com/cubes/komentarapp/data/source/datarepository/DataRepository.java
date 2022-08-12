@@ -306,13 +306,7 @@ public class DataRepository {
         });
     }
 
-    public interface voteListener {
-        void onResponse(ArrayList<Comments> response);
-
-        void onFailure(Throwable t);
-    }
-
-    public void upvoteComment(String id, voteListener listener) {
+    public void upvoteComment(String id) {
 
         service.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
@@ -328,7 +322,7 @@ public class DataRepository {
         });
     }
 
-    public void downvoteComment(String id, voteListener listener) {
+    public void downvoteComment(String id) {
 
         service.postDownvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
