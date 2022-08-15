@@ -17,11 +17,10 @@ import java.util.ArrayList;
 
 public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder> {
 
-    private final ArrayList<News> list;
+    private ArrayList<News> list;
     private NewsListener newsListener;
 
-    public HeadNewsMostReadRVAdapter(ArrayList<News> list) {
-        this.list = list;
+    public HeadNewsMostReadRVAdapter() {
     }
 
     @NonNull
@@ -42,7 +41,7 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
         binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
         binding.textViewTitle.setText(news.title);
 
-        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
     }
 
     @Override
@@ -52,6 +51,10 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
 
     public void setNewsListener(NewsListener newsListener) {
         this.newsListener = newsListener;
+    }
+
+    public void setMostReadData(ArrayList<News> list) {
+        this.list = list;
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {

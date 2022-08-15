@@ -1,8 +1,6 @@
 package com.cubes.komentarapp.ui.detail;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,16 +9,16 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.Tags;
 import com.cubes.komentarapp.databinding.RvItemTagBinding;
-import com.cubes.komentarapp.ui.tags.TagActivity;
+import com.cubes.komentarapp.ui.tools.NewsDetailListener;
 
 import java.util.ArrayList;
 
 public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdapter.TagHolder> {
 
-    private final ArrayList<Tags> tagList;
+    private ArrayList<Tags> tagList;
+    private NewsDetailListener listener;
 
-    public NewsDetailTagAdapter(ArrayList<Tags> tagList) {
-        this.tagList = tagList;
+    public NewsDetailTagAdapter() {
     }
 
     @NonNull
@@ -33,19 +31,11 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
 
     @Override
     public void onBindViewHolder(@NonNull TagHolder holder, int position) {
-
         Tags tag = tagList.get(position);
 
         RvItemTagBinding binding = (RvItemTagBinding) holder.binding;
-
         binding.buttonTag.setText(tag.title);
-
-        binding.buttonTag.setOnClickListener(view -> {
-
-            Intent i = new Intent(holder.itemView.getContext(), TagActivity.class);
-            i.putExtra("tag", tag.id);
-            holder.itemView.getContext().startActivity(i);
-        });
+        binding.buttonTag.setOnClickListener(view -> listener.onTagClicked(tag.id));
     }
 
     @Override
@@ -53,16 +43,18 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
         return tagList.size();
     }
 
+    public void setData(ArrayList<Tags> tagList, NewsDetailListener listener) {
+        this.tagList = tagList;
+        this.listener = listener;
+    }
 
     public class TagHolder extends RecyclerView.ViewHolder {
-
         public ViewBinding binding;
 
         public TagHolder(@NonNull ViewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
-
     }
 
 }

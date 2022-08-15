@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -9,11 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
-import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.CommentsAdapter;
-import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
-import com.cubes.komentarapp.ui.tools.CommentsListener;
+import com.cubes.komentarapp.ui.tools.NewsDetailListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -23,10 +20,12 @@ public class RvItemDetailComments implements RvItemDetail {
 
     private final ArrayList<Comments> comments;
     private News news;
+    private NewsDetailListener listener;
 
-    public RvItemDetailComments(News news, ArrayList<Comments> commentList) {
+    public RvItemDetailComments(News news, ArrayList<Comments> commentList, NewsDetailListener listener) {
         this.news = news;
         this.comments = commentList;
+        this.listener = listener;
     }
 
     @Override
@@ -54,9 +53,7 @@ public class RvItemDetailComments implements RvItemDetail {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {
-                Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
+                listener.onAllCommentsClicked(news.id);;
             }
         });
 
@@ -65,9 +62,7 @@ public class RvItemDetailComments implements RvItemDetail {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {
-                Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
+                listener.onAllCommentsClicked(news.id);
             }
         });
 
@@ -76,17 +71,11 @@ public class RvItemDetailComments implements RvItemDetail {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {
-                Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
+                listener.onAllCommentsClicked(news.id);
             }
         });
 
-        binding.buttonLeaveComment.setOnClickListener(view -> {
-            Intent i = new Intent(holder.itemView.getContext(), PostCommentActivity.class);
-            i.putExtra("newsId", String.valueOf(news.id));
-            holder.itemView.getContext().startActivity(i);
-        });
+        binding.buttonLeaveComment.setOnClickListener(view -> listener.onLeaveCommentClicked(String.valueOf(news.id)));
 
     }
 

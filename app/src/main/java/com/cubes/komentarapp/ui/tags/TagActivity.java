@@ -88,7 +88,7 @@ public class TagActivity extends AppCompatActivity {
             public void onResponse(NewsList response) {
 
                 if (response != null) {
-                    adapter.setData(response);
+                    adapter.setData(response.news);
                 }
 
                 binding.refresh.setVisibility(View.GONE);

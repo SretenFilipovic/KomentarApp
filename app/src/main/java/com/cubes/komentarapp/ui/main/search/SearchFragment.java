@@ -141,7 +141,7 @@ public class SearchFragment extends Fragment {
 
                     if (response.news.size() > 0) {
                         binding.textViewNoContent.setVisibility(View.GONE);
-                        adapter.setData(response);
+                        adapter.setData(response.news);
                     } else {
                         binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
                         binding.textViewNoContent.setVisibility(View.VISIBLE);

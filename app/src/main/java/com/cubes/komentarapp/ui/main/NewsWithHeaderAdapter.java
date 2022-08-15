@@ -137,8 +137,8 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAd
         notifyDataSetChanged();
     }
 
-    public void setData(NewsList data) {
-        this.list = data.news;
+    public void setData(ArrayList<News> list) {
+        this.list = list;
         notifyDataSetChanged();
     }
 

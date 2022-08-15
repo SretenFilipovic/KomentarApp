@@ -1,13 +1,10 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import android.content.Intent;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.CategoryNews;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsCategoryAdapter;
 import com.cubes.komentarapp.ui.tools.NewsListener;
@@ -19,9 +16,11 @@ public class RvItemHeadCategory implements RvItemHead {
     private ArrayList<News> list;
     private CategoryNews category;
     private String categoryName;
+    private final NewsListener listener;
 
-    public RvItemHeadCategory(ArrayList<CategoryNews> fromCategoryList, String categoryName) {
+    public RvItemHeadCategory(ArrayList<CategoryNews> fromCategoryList, String categoryName, NewsListener listener) {
         this.categoryName = categoryName;
+        this.listener = listener;
 
         for (CategoryNews cat : fromCategoryList) {
             if (cat.title.equalsIgnoreCase(categoryName)) {
@@ -46,15 +45,11 @@ public class RvItemHeadCategory implements RvItemHead {
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        HeadNewsCategoryAdapter adapter = new HeadNewsCategoryAdapter(list, category);
-
-        adapter.setNewsListener(news -> {
-            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            holder.itemView.getContext().startActivity(i);
-        });
-
+        HeadNewsCategoryAdapter adapter = new HeadNewsCategoryAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        adapter.setCategoryData(list, category);
+        adapter.setNewsListener(listener);
     }
 
 

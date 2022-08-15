@@ -13,11 +13,10 @@ import java.util.ArrayList;
 
 public class HomePageAdapter extends FragmentStateAdapter {
 
-    private final ArrayList<Category> categoryList;
+    private ArrayList<Category> categoryList;
 
-    public HomePageAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Category> categoryList) {
+    public HomePageAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        this.categoryList = categoryList;
     }
 
     @NonNull
@@ -36,6 +35,10 @@ public class HomePageAdapter extends FragmentStateAdapter {
     @Override
     public int getItemCount() {
         return categoryList.size() + 1;
+    }
+
+    public void setData(ArrayList<Category> categoryList){
+        this.categoryList = categoryList;
     }
 
 }

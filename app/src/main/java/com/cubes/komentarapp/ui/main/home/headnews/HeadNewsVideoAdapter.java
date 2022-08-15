@@ -19,11 +19,10 @@ import java.util.ArrayList;
 
 public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdapter.NewsViewHolder> {
 
-    private final ArrayList<News> list;
+    private ArrayList<News> list;
     private NewsListener newsListener;
 
-    public HeadNewsVideoAdapter(ArrayList<News> list) {
-        this.list = list;
+    public HeadNewsVideoAdapter() {
     }
 
     @NonNull
@@ -49,7 +48,7 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
         } else {
             binding.frameLayout.setVisibility(View.GONE);
 
@@ -59,7 +58,7 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
         }
     }
 
@@ -74,6 +73,11 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
     public void setNewsListener(NewsListener newsListener) {
         this.newsListener = newsListener;
     }
+
+    public void setVideoData(ArrayList<News> list){
+        this.list = list;
+    }
+
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
 

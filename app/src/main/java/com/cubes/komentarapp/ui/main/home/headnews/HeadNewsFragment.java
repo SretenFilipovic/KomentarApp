@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,9 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
 public class HeadNewsFragment extends Fragment {
 
@@ -65,7 +69,11 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onResponse(NewsList response) {
 
-                adapter.setData(response);
+                adapter.setData(response, news -> {
+                    Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                    i.putExtra("news", news.id);
+                    startActivity(i);
+                });
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);

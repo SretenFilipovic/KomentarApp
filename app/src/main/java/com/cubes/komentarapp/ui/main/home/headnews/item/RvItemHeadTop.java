@@ -1,24 +1,23 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import android.content.Intent;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
 public class RvItemHeadTop implements RvItemHead {
 
     private final ArrayList<News> topNews;
-    private NewsAdapter adapter;
+    private final NewsListener listener;
 
-    public RvItemHeadTop(ArrayList<News> topNews) {
+    public RvItemHeadTop(ArrayList<News> topNews, NewsListener listener) {
         this.topNews = topNews;
+        this.listener = listener;
     }
 
     @Override
@@ -32,16 +31,12 @@ public class RvItemHeadTop implements RvItemHead {
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new NewsAdapter(topNews);
-        adapter.setFinished(true);
-
-        adapter.setNewsListener(news -> {
-
-            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            holder.itemView.getContext().startActivity(i);
-        });
+        NewsAdapter adapter = new NewsAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        adapter.setData(topNews);
+        adapter.setNewsListener(listener);
+        adapter.setFinished(true);
 
     }
 }

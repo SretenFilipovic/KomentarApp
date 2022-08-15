@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,19 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.NewsDetailListener;
 
 import java.util.ArrayList;
 
 public class RvItemDetailRelatedNews implements RvItemDetail {
 
-    private ArrayList<News> relatedNews;
+    private final ArrayList<News> relatedNews;
+    private final NewsDetailListener listener;
 
-    public RvItemDetailRelatedNews(ArrayList<News> relatedNews) {
+
+    public RvItemDetailRelatedNews(ArrayList<News> relatedNews, NewsDetailListener listener) {
         this.relatedNews = relatedNews;
+        this.listener = listener;
     }
 
     @Override
@@ -42,16 +43,12 @@ public class RvItemDetailRelatedNews implements RvItemDetail {
             binding.textViewTitle.setText(R.string.text_povezane_vesti);
 
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            NewsAdapter adapter = new NewsAdapter(relatedNews);
-            adapter.setFinished(true);
-
-            adapter.setNewsListener(news -> {
-                Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
-
-            });
+            NewsAdapter adapter = new NewsAdapter();
             binding.recyclerView.setAdapter(adapter);
+
+            adapter.setData(relatedNews);
+            adapter.setFinished(true);
+            adapter.setNewsListener(news -> listener.onNewsClicked(news.id));
         }
 
     }

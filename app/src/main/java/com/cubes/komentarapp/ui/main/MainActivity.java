@@ -46,56 +46,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
+
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        fullyOpenDrawer(binding.drawerNavigationView);
+
+        binding.refresh.setVisibility(View.GONE);
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+
+            Fragment selectedFragment = null;
+
+            switch (item.getItemId()) {
+                case R.id.home:
+                    selectedFragment = HomeFragment.newInstance();
+                {
+                    binding.imageViewMenu.setVisibility(View.VISIBLE);
+                }
+                break;
+                case R.id.search:
+                    selectedFragment = SearchFragment.newInstance();
+                {
+                    binding.imageViewMenu.setVisibility(View.GONE);
+                }
+                break;
+                case R.id.latest:
+                    selectedFragment = LatestFragment.newInstance();
+                {
+                    binding.imageViewMenu.setVisibility(View.GONE);
+                }
+                break;
+                case R.id.video:
+                    selectedFragment = VideoFragment.newInstance();
+                {
+                    binding.imageViewMenu.setVisibility(View.GONE);
+                }
+                break;
+            }
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, selectedFragment)
+                    .commit();
+
+            return true;
+        });
+
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance(response)).commit();
-
-                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-                fullyOpenDrawer(binding.drawerNavigationView);
-
-                binding.refresh.setVisibility(View.GONE);
-
-                binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()) {
-                        case R.id.home:
-                            selectedFragment = HomeFragment.newInstance(response);
-                        {
-                            binding.imageViewMenu.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                        case R.id.search:
-                            selectedFragment = SearchFragment.newInstance();
-                        {
-                            binding.imageViewMenu.setVisibility(View.GONE);
-                        }
-                        break;
-                        case R.id.latest:
-                            selectedFragment = LatestFragment.newInstance();
-                        {
-                            binding.imageViewMenu.setVisibility(View.GONE);
-                        }
-                        break;
-                        case R.id.video:
-                            selectedFragment = VideoFragment.newInstance();
-                        {
-                            binding.imageViewMenu.setVisibility(View.GONE);
-                        }
-                        break;
-                    }
-
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, selectedFragment)
-                            .commit();
-
-                    return true;
-                });
-
                 adapter.setData(response);
             }
 

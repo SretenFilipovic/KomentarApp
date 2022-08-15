@@ -21,13 +21,11 @@ import java.util.ArrayList;
 
 public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCategoryAdapter.NewsViewHolder> {
 
-    private final ArrayList<News> list;
+    private ArrayList<News> list;
     private CategoryNews category;
     private NewsListener newsListener;
 
-    public HeadNewsCategoryAdapter(ArrayList<News> list, CategoryNews category) {
-        this.list = list;
-        this.category = category;
+    public HeadNewsCategoryAdapter() {
     }
 
     @NonNull
@@ -58,7 +56,7 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
         } else {
             RvItemSmallNewsHomepageBinding binding = (RvItemSmallNewsHomepageBinding) holder.binding;
 
@@ -66,7 +64,7 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
+            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
         }
 
     }
@@ -98,6 +96,10 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
         this.newsListener = newsListener;
     }
 
+    public void setCategoryData(ArrayList<News> list, CategoryNews category) {
+        this.list = list;
+        this.category = category;
+    }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
 

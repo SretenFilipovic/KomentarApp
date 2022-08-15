@@ -51,8 +51,9 @@ public class HeadNewsMostReadFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter(mostReadNews);
+        HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter();
 
+        adapter.setMostReadData(mostReadNews);
         adapter.setNewsListener(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);

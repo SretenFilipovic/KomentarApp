@@ -31,10 +31,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public NewsAdapter() {
     }
 
-    public NewsAdapter(ArrayList<News> list) {
-        this.list = list;
-    }
-
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -121,8 +117,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         notifyDataSetChanged();
     }
 
-    public void setData(NewsList data) {
-        this.list = data.news;
+    public void setData(ArrayList<News> list) {
+        this.list = list;
         notifyDataSetChanged();
     }
 

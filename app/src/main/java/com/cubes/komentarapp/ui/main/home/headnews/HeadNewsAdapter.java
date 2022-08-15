@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.CategoryNews;
+import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
@@ -19,12 +20,13 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
+import com.cubes.komentarapp.ui.tools.NewsListener;
 
 import java.util.ArrayList;
 
 public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNewsViewHolder> {
 
-    private ArrayList<RvItemHead> items = new ArrayList<>();
+    private final ArrayList<RvItemHead> items = new ArrayList<>();
 
     public HeadNewsAdapter() {
     }
@@ -67,18 +69,18 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
     }
 
 
-    public void setData(NewsList response) {
+    public void setData(NewsList response, NewsListener listener) {
 
         items.add(new RvItemHeadSlider(response.slider));
-        items.add(new RvItemHeadTop(response.top));
+        items.add(new RvItemHeadTop(response.top, listener));
         items.add(new RvItemHeadMostRead(response.latest, response.most_read, response.most_comented));
-        items.add(new RvItemHeadCategory(response.category, "Sport"));
+        items.add(new RvItemHeadCategory(response.category, "Sport", listener));
         items.add(new RvItemHeadEditorsChoiceSlider(response.editors_choice));
-        items.add(new RvItemHeadVideo(response.videos));
+        items.add(new RvItemHeadVideo(response.videos, listener));
 
         for (CategoryNews category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategory(response.category, category.title));
+                items.add(new RvItemHeadCategory(response.category, category.title, listener));
             }
         }
 

@@ -1,6 +1,5 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,18 +7,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.NewsDetailListener;
 
 import java.util.ArrayList;
 
 public class RvItemDetailSameCategoryNews implements RvItemDetail {
 
     private final ArrayList<News> categoryNews;
+    private final NewsDetailListener listener;
 
-    public RvItemDetailSameCategoryNews(ArrayList<News> categoryNews) {
+    public RvItemDetailSameCategoryNews(ArrayList<News> categoryNews, NewsDetailListener listener) {
         this.categoryNews = categoryNews;
+        this.listener = listener;
     }
 
     @Override
@@ -41,17 +42,12 @@ public class RvItemDetailSameCategoryNews implements RvItemDetail {
             binding.textViewTitle.setText(R.string.text_same_category_news);
 
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            NewsAdapter adapter = new NewsAdapter(categoryNews);
-            adapter.setFinished(true);
-
-            adapter.setNewsListener(news -> {
-
-                Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
-
-            });
+            NewsAdapter adapter = new NewsAdapter();
             binding.recyclerView.setAdapter(adapter);
+
+            adapter.setData(categoryNews);
+            adapter.setNewsListener(news -> listener.onNewsClicked(news.id));
+            adapter.setFinished(true);
         }
 
     }

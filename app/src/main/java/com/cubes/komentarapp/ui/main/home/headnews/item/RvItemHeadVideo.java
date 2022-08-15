@@ -1,12 +1,9 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import android.content.Intent;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsVideoAdapter;
 import com.cubes.komentarapp.ui.tools.NewsListener;
@@ -16,10 +13,11 @@ import java.util.ArrayList;
 public class RvItemHeadVideo implements RvItemHead {
 
     private final ArrayList<News> videoNews;
-    private HeadNewsVideoAdapter adapter;
+    private final NewsListener listener;
 
-    public RvItemHeadVideo(ArrayList<News> videoNews) {
+    public RvItemHeadVideo(ArrayList<News> videoNews, NewsListener listener) {
         this.videoNews = videoNews;
+        this.listener = listener;
     }
 
     @Override
@@ -33,15 +31,11 @@ public class RvItemHeadVideo implements RvItemHead {
         RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new HeadNewsVideoAdapter(videoNews);
-
-        adapter.setNewsListener(news -> {
-            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            holder.itemView.getContext().startActivity(i);
-        });
-
+        HeadNewsVideoAdapter adapter = new HeadNewsVideoAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        adapter.setVideoData(videoNews);
+        adapter.setNewsListener(listener);
 
     }
 }

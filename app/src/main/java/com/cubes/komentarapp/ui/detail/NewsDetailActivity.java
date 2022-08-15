@@ -13,6 +13,9 @@ import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
+import com.cubes.komentarapp.ui.comments.PostCommentActivity;
+import com.cubes.komentarapp.ui.tags.TagActivity;
+import com.cubes.komentarapp.ui.tools.NewsDetailListener;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -66,7 +69,35 @@ public class NewsDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                adapter.setData(response);
+                adapter.setData(response, new NewsDetailListener() {
+                    @Override
+                    public void onAllCommentsClicked(int newsId) {
+                        Intent i = new Intent(getApplicationContext(), CommentsActivity.class);
+                        i.putExtra("news", newsId);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onLeaveCommentClicked(String newsId) {
+                        Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
+                        i.putExtra("newsId", newsId);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onTagClicked(int tagId) {
+                        Intent i = new Intent(getApplicationContext(), TagActivity.class);
+                        i.putExtra("tag", tagId);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onNewsClicked(int newsId) {
+                        Intent i = new Intent(getApplicationContext(), NewsDetailActivity.class);
+                        i.putExtra("news", newsId);
+                        startActivity(i);
+                    }
+                });
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
 

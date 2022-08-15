@@ -9,15 +9,18 @@ import com.cubes.komentarapp.data.model.Tags;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
 import com.cubes.komentarapp.ui.detail.NewsDetailTagAdapter;
+import com.cubes.komentarapp.ui.tools.NewsDetailListener;
 
 import java.util.ArrayList;
 
 public class RvItemDetailTags implements RvItemDetail {
 
-    private ArrayList<Tags> tags;
+    private final ArrayList<Tags> tags;
+    private final NewsDetailListener listener;
 
-    public RvItemDetailTags(ArrayList<Tags> tags) {
+    public RvItemDetailTags(ArrayList<Tags> tags, NewsDetailListener tagListener) {
         this.tags = tags;
+        this.listener = tagListener;
     }
 
     @Override
@@ -39,8 +42,11 @@ public class RvItemDetailTags implements RvItemDetail {
             binding.textViewTitle.setText(R.string.text_tagovi);
 
             binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
-            binding.recyclerView.setAdapter(new NewsDetailTagAdapter(tags));
-        }
+            NewsDetailTagAdapter adapter = new NewsDetailTagAdapter();
+            binding.recyclerView.setAdapter(adapter);
 
+            adapter.setData(tags, listener);
+        }
     }
+
 }
