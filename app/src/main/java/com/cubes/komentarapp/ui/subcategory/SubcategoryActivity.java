@@ -9,14 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivitySubcategoryBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 
 public class SubcategoryActivity extends AppCompatActivity {
 
@@ -30,8 +28,8 @@ public class SubcategoryActivity extends AppCompatActivity {
         binding = ActivitySubcategoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        categoryId = (int) getIntent().getSerializableExtra("categoryId");
-        String categoryName = (String) getIntent().getSerializableExtra("categoryName");
+        categoryId = getIntent().getIntExtra("categoryId", -1);
+        String categoryName = getIntent().getStringExtra("categoryName");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 

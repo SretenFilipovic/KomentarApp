@@ -1,5 +1,8 @@
 package com.cubes.komentarapp.ui.main;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -13,12 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.ActivityMainBinding;
 import com.cubes.komentarapp.ui.main.home.HomeFragment;
 import com.cubes.komentarapp.ui.main.latest.LatestFragment;
+import com.cubes.komentarapp.ui.main.menu.CurrencyActivity;
+import com.cubes.komentarapp.ui.main.menu.HoroscopeActivity;
 import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
+import com.cubes.komentarapp.ui.main.menu.WeatherActivity;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
 import com.cubes.komentarapp.ui.main.video.VideoFragment;
+import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
+import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 import java.util.ArrayList;
 
@@ -33,20 +42,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new MenuAdapter();
-        binding.recyclerViewMenu.setAdapter(adapter);
-
-        loadData();
-
-        binding.refresh.setOnClickListener(view -> loadData());
-        binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
-        binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
-
-    }
-
-    private void loadData() {
-
         getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
 
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -55,7 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding.refresh.setVisibility(View.GONE);
 
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+        binding.refresh.setOnClickListener(view -> loadData());
+        binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
+        binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             Fragment selectedFragment = null;
 
@@ -86,17 +85,66 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, selectedFragment)
-                    .commit();
-
+            if (selectedFragment != null){
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
+            }
             return true;
         });
+
+        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new MenuAdapter();
+        binding.recyclerViewMenu.setAdapter(adapter);
+
+        loadData();
+    }
+
+    private void loadData() {
 
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
-                adapter.setData(response);
+                adapter.setData(response, new MenuListener() {
+                    @Override
+                    public void onSubcategoryClicked(Category category) {
+                        Intent i = new Intent(MainActivity.this, SubcategoryActivity.class);
+                        i.putExtra("categoryId", category.id);
+                        i.putExtra("categoryName", category.name);
+                        startActivity(i);
+                    }
+                    @Override
+                    public void onItemClicked() {
+                        openWebBrowser("https://komentar.rs");
+                    }
+                    @Override
+                    public void onHoroscopeClicked() {
+                        Intent i = new Intent(MainActivity.this, HoroscopeActivity.class);
+                        startActivity(i);
+                    }
+                    @Override
+                    public void onCurrencyClicked() {
+                        Intent i = new Intent(MainActivity.this, CurrencyActivity.class);
+                        startActivity(i);
+                    }
+                    @Override
+                    public void onWeatherClicked() {
+                        Intent i = new Intent(MainActivity.this, WeatherActivity.class);
+                        startActivity(i);
+                    }
+                    @Override
+                    public void onShareClicked(String networkUrl) {
+                        try {
+                            Intent i = new Intent();
+                            i.setAction(Intent.ACTION_SEND);
+                            i.putExtra(Intent.EXTRA_TEXT, DataContainer.BASE_URL);
+                            i.setType("text/plain");
+                            i.setPackage(networkUrl);
+                            startActivity(i);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
 
             @Override
@@ -107,6 +155,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void openWebBrowser(String link) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
     private void fullyOpenDrawer(View view) {
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -114,6 +172,5 @@ public class MainActivity extends AppCompatActivity {
         params.width = metrics.widthPixels;
         view.setLayoutParams(params);
     }
-
 
 }

@@ -9,7 +9,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.Tags;
 import com.cubes.komentarapp.databinding.RvItemTagBinding;
-import com.cubes.komentarapp.ui.tools.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,11 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<NewsDetailTagAdap
     @NonNull
     @Override
     public TagHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewBinding binding =
-                RvItemTagBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        binding = RvItemTagBinding.inflate(inflater, parent, false);
         return new NewsDetailTagAdapter.TagHolder(binding);
     }
 

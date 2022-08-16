@@ -15,7 +15,7 @@ import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
-import com.cubes.komentarapp.ui.tools.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         binding = ActivityNewsDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        id = (int) getIntent().getSerializableExtra("news");
+        id = getIntent().getIntExtra("news", -1);
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 

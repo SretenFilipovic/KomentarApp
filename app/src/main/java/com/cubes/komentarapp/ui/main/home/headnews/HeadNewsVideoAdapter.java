@@ -12,7 +12,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -28,8 +28,10 @@ public class HeadNewsVideoAdapter extends RecyclerView.Adapter<HeadNewsVideoAdap
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewBinding binding =
-                RvItemHeadVideoBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        binding = RvItemHeadVideoBinding.inflate(inflater, parent, false);
         return new NewsViewHolder(binding);
     }
 

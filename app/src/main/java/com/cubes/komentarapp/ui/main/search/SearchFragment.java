@@ -22,7 +22,7 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 
 public class SearchFragment extends Fragment {
 
@@ -93,7 +93,7 @@ public class SearchFragment extends Fragment {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
-            getContext().startActivity(i);
+            startActivity(i);
         });
 
         adapter.setLoadingNewsListener(new LoadingNewsListener() {

@@ -17,7 +17,7 @@ import com.cubes.komentarapp.ui.detail.item.RvItemDetailRelatedNews;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailSameCategoryNews;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailTags;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailWebView;
-import com.cubes.komentarapp.ui.tools.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
 

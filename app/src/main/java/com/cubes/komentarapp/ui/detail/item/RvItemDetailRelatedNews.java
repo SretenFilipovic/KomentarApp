@@ -9,7 +9,7 @@ import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
 

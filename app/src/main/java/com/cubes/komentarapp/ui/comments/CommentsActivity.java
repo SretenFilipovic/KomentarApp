@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.comments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,9 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.Comments;
+import com.cubes.komentarapp.data.model.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
-import com.cubes.komentarapp.ui.tools.CommentsListener;
+import com.cubes.komentarapp.ui.tools.PrefConfig;
+import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 
 import java.util.ArrayList;
 
@@ -21,14 +24,18 @@ public class CommentsActivity extends AppCompatActivity {
     private ActivityCommentsBinding binding;
     private CommentsAdapter adapter;
     private int id;
+    private ArrayList<Vote> votes = new ArrayList<>();
+    private final ArrayList<Comments> allComments = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityCommentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        id = (int) getIntent().getSerializableExtra("news");
+        id = getIntent().getIntExtra("news", -1);
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -50,8 +57,12 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new CommentsAdapter(this);
+        adapter = new CommentsAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        if (PrefConfig.readListFromPref(CommentsActivity.this) != null) {
+            votes = (ArrayList<Vote>) PrefConfig.readListFromPref(CommentsActivity.this);
+        }
 
         adapter.setCommentListener(new CommentsListener() {
             @Override
@@ -64,12 +75,44 @@ public class CommentsActivity extends AppCompatActivity {
 
             @Override
             public void upvote(String commentId) {
-                DataRepository.getInstance().upvoteComment(commentId);
+                DataRepository.getInstance().upvoteComment(commentId, new DataRepository.CommentsRequestListener() {
+                    @Override
+                    public void onResponse(ArrayList<Comments> request) {
+
+                        Vote vote = new Vote(commentId, true);
+                        votes.add(vote);
+
+                        PrefConfig.writeListInPref(CommentsActivity.this, votes);
+                        Log.d("UPVOTE", "Upvote success");
+                    }
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                        Log.d("UPVOTE", "Upvote failure");
+                    }
+                });
             }
 
             @Override
             public void downVote(String commentId) {
-                DataRepository.getInstance().downvoteComment(commentId);
+                DataRepository.getInstance().downvoteComment(commentId, new DataRepository.CommentsRequestListener() {
+                    @Override
+                    public void onResponse(ArrayList<Comments> request) {
+
+                        Vote vote = new Vote(commentId, false);
+                        votes.add(vote);
+
+                        PrefConfig.writeListInPref(CommentsActivity.this, votes);
+
+                        Log.d("DOWNVOTE", "Downvote success");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                        Log.d("DOWNVOTE", "Downvote failure");
+                    }
+                });
             }
         });
     }
@@ -79,7 +122,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onResponse(ArrayList<Comments> response) {
 
-                adapter.setData(response);
+                setCommentData(response);
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
@@ -97,5 +140,40 @@ public class CommentsActivity extends AppCompatActivity {
                 Log.d("COMMENT", "Comment load data failure");
             }
         });
+    }
+
+    public void setCommentData(ArrayList<Comments> responseComments) {
+
+        for (Comments comment : responseComments) {
+            allComments.add(comment);
+            addChildren(comment.children);
+        }
+        if (votes != null) {
+            loadVoteData(allComments, votes);
+        }
+
+        adapter.updateList(allComments);
+    }
+
+    private void addChildren(ArrayList<Comments> comments) {
+        if (comments != null && !comments.isEmpty()) {
+            for (Comments comment : comments) {
+                allComments.add(comment);
+                addChildren(comment.children);
+            }
+        }
+    }
+
+    private void loadVoteData(ArrayList<Comments> comments, ArrayList<Vote> votes){
+        for (Comments comment : comments) {
+            for (Vote vote : votes) {
+                if (comment.id.equals(vote.commentId)) {
+                    comment.commentVote = vote;
+                }
+                if (comment.children != null) {
+                    loadVoteData(comment.children, votes);
+                }
+            }
+        }
     }
 }

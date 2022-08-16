@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,14 +36,14 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAd
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (viewType == 0) {
-            binding = RvItemBigNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            binding = RvItemBigNewsBinding.inflate(inflater, parent, false);
         } else if (viewType == 1) {
-            binding = RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
         } else {
-            binding = RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-
+            binding = RvItemLoadingBinding.inflate(inflater, parent, false);
         }
         return new NewsViewHolder(binding);
     }

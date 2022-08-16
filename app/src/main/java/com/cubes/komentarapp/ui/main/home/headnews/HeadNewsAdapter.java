@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.CategoryNews;
-import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
@@ -20,7 +19,7 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
@@ -34,8 +33,8 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
     @NonNull
     @Override
     public HeadNewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewBinding binding;
 
+        ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {

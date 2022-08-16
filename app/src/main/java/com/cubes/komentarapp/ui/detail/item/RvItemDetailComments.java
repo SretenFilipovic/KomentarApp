@@ -10,7 +10,7 @@ import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
 import com.cubes.komentarapp.ui.comments.CommentsAdapter;
 import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
-import com.cubes.komentarapp.ui.tools.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 

@@ -1,8 +1,6 @@
 package com.cubes.komentarapp.ui.main.menu;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,23 +9,26 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuSubcategoryBinding;
-import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
+import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 import java.util.ArrayList;
 
 public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategoryAdapter.SubcategoryHolder> {
 
-    private final ArrayList<Category> subcategoryList;
+    private ArrayList<Category> subcategoryList;
+    private MenuListener listener;
 
-    public MenuSubcategoryAdapter(ArrayList<Category> subcategoryList) {
-        this.subcategoryList = subcategoryList;
+    public MenuSubcategoryAdapter() {
     }
 
     @NonNull
     @Override
     public SubcategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewBinding binding =
-                RvItemMenuSubcategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        binding = RvItemMenuSubcategoryBinding.inflate(inflater, parent, false);
         return new SubcategoryHolder(binding);
     }
 
@@ -40,10 +41,7 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
         binding.textViewSubcategory.setText(subcategory.name);
 
         binding.textViewSubcategory.setOnClickListener(view -> {
-            Intent i = new Intent(holder.itemView.getContext(), SubcategoryActivity.class);
-            i.putExtra("categoryId", subcategory.id);
-            i.putExtra("categoryName", subcategory.name);
-            holder.itemView.getContext().startActivity(i);
+            listener.onSubcategoryClicked(subcategory);
         });
     }
 
@@ -52,6 +50,10 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
         return subcategoryList.size();
     }
 
+    public void setData(ArrayList<Category> subcategoryList, MenuListener listener){
+        this.subcategoryList = subcategoryList;
+        this.listener = listener;
+    }
 
     public class SubcategoryHolder extends RecyclerView.ViewHolder {
 

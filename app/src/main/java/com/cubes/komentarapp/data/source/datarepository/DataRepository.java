@@ -1,6 +1,6 @@
 package com.cubes.komentarapp.data.source.datarepository;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.model.Comments;
@@ -12,7 +12,7 @@ import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.remote.networking.RetrofitService;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCategoryList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCommentList;
-import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
+import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseHoroscope;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsDetail;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;
@@ -293,68 +293,83 @@ public class DataRepository {
         service.getComments(id).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
-            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
-
+            public void onResponse(@NonNull Call<ResponseCommentList> call, @NonNull Response<ResponseCommentList> response) {
+                assert response.body() != null;
                 listener.onResponse(response.body().data);
-
             }
-
             @Override
-            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseCommentList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
     }
 
-    public void upvoteComment(String id) {
+    public interface CommentsRequestListener {
+        void onResponse(ArrayList<Comments> request);
+
+        void onFailure(Throwable t);
+    }
+
+    public void upvoteComment(String id, CommentsRequestListener listener) {
 
         service.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
-            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
-                Log.d("UPVOTE", "Upvote success");
+            public void onResponse(@NonNull Call<ResponseCommentList> call, @NonNull Response<ResponseCommentList> request) {
+                if (request.body() != null
+                        && request.isSuccessful()
+                        && request.code() >= 200
+                        && request.body().data != null) {
+                    listener.onResponse(request.body().data);
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
-                Log.d("UPVOTE", "Upvote failure");
+            public void onFailure(@NonNull Call<ResponseCommentList> call, @NonNull Throwable t) {
+                listener.onFailure(t);
             }
         });
     }
 
-    public void downvoteComment(String id) {
+    public void downvoteComment(String id, CommentsRequestListener listener) {
 
         service.postDownvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
-            public void onResponse(Call<ResponseCommentList> call, Response<ResponseCommentList> response) {
-                Log.d("DOWNVOTE", "Downvote success");
+            public void onResponse(@NonNull Call<ResponseCommentList> call, @NonNull Response<ResponseCommentList> request) {
+                if (request.body() != null
+                        && request.isSuccessful()
+                        && request.code() >= 200
+                        && request.body().data != null) {
+                    listener.onResponse(request.body().data);
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseCommentList> call, Throwable t) {
-                Log.d("DOWNVOTE", "Downvote failure");
+            public void onFailure(@NonNull Call<ResponseCommentList> call, @NonNull Throwable t) {
+                listener.onFailure(t);
             }
         });
     }
 
     public interface PostCommentListener {
-        void onResponse(ArrayList<String> response);
+        void onResponse(ArrayList<String> request);
 
         void onFailure(Throwable t);
     }
 
-    public void postCommentData(ResponseCommentPost comment, PostCommentListener listener) {
+    public void postCommentData(RequestCommentPost comment, PostCommentListener listener) {
 
-        service.postComment(comment).enqueue(new Callback<ResponseCommentPost>() {
+        service.postComment(comment).enqueue(new Callback<RequestCommentPost>() {
 
             @Override
-            public void onResponse(Call<ResponseCommentPost> call, Response<ResponseCommentPost> response) {
-                listener.onResponse(response.body().data);
+            public void onResponse(@NonNull Call<RequestCommentPost> call, @NonNull Response<RequestCommentPost> request) {
+                assert request.body() != null;
+                listener.onResponse(request.body().data);
             }
 
             @Override
-            public void onFailure(Call<ResponseCommentPost> call, Throwable t) {
+            public void onFailure(@NonNull Call<RequestCommentPost> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });

@@ -3,7 +3,6 @@ package com.cubes.komentarapp.ui.main.home.headnews;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,7 @@ import com.cubes.komentarapp.data.model.CategoryNews;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,11 +32,12 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
     public HeadNewsCategoryAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (viewType == 0) {
-            binding = RvItemBigNewsHomepageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            binding = RvItemBigNewsHomepageBinding.inflate(inflater, parent, false);
         } else {
-            binding = RvItemSmallNewsHomepageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            binding = RvItemSmallNewsHomepageBinding.inflate(inflater, parent, false);
         }
         return new NewsViewHolder(binding);
     }

@@ -2,7 +2,6 @@ package com.cubes.komentarapp.ui.main.home.headnews;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,7 +10,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
@@ -26,8 +25,11 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
     @NonNull
     @Override
     public HeadNewsMostReadRVAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewBinding binding =
-                RvItemSmallestNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        binding = RvItemSmallestNewsBinding.inflate(inflater, parent, false);
         return new NewsViewHolder(binding);
     }
 
