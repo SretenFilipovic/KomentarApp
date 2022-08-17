@@ -6,11 +6,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.MainActivity;
-import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class RvItemMenuHead implements RvItemMenu{
+public class RvItemMenuHead implements RvItem {
 
     public RvItemMenuHead() {
     }
@@ -21,7 +22,7 @@ public class RvItemMenuHead implements RvItemMenu{
     }
 
     @Override
-    public void bind(MenuAdapter.MenuHolder holder) {
+    public void bind(ViewHolder holder) {
         RvItemMenuCategoryBinding binding = (RvItemMenuCategoryBinding) holder.binding;
 
         binding.imageViewExpandSubcategoryList.setVisibility(View.GONE);

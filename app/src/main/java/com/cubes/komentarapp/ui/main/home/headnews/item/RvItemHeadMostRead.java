@@ -6,13 +6,14 @@ import androidx.lifecycle.Lifecycle;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
-import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsMostReadVPAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class RvItemHeadMostRead implements RvItemHead {
+public class RvItemHeadMostRead implements RvItem {
 
     private final ArrayList<News> mostReadList;
     private final ArrayList<News> latestList;
@@ -30,7 +31,7 @@ public class RvItemHeadMostRead implements RvItemHead {
     }
 
     @Override
-    public void bind(HeadNewsAdapter.HeadNewsViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
         RvItemHeadMostReadBinding binding = (RvItemHeadMostReadBinding) holder.binding;
 

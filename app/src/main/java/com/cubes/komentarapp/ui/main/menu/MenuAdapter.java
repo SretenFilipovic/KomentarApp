@@ -12,7 +12,8 @@ import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
-import com.cubes.komentarapp.ui.main.menu.item.RvItemMenu;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuCategories;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuHead;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuItems;
@@ -21,16 +22,16 @@ import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 import java.util.ArrayList;
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
+public class MenuAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItemMenu> items = new ArrayList<>();
+    private final ArrayList<RvItem> items = new ArrayList<>();
 
     public MenuAdapter() {
     }
 
     @NonNull
     @Override
-    public MenuHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -45,11 +46,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
             default:
                 binding = RvItemMenuCategoryBinding.inflate(inflater, parent, false);
         }
-        return new MenuHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MenuHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         this.items.get(position).bind(holder);
     }
 
@@ -73,16 +74,5 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuHolder> {
 
         notifyDataSetChanged();
     }
-
-    public class MenuHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public MenuHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
-
 
 }

@@ -21,6 +21,7 @@ public class TagActivity extends AppCompatActivity {
     private ActivityTagBinding binding;
     private int tagId;
     private NewsAdapter adapter;
+    private int nextPage = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,13 @@ public class TagActivity extends AppCompatActivity {
             loadData();
         });
 
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
+
         setupRecyclerView();
-
         loadData();
-
     }
 
     private void setupRecyclerView() {
@@ -54,28 +58,20 @@ public class TagActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsList response) {
+                adapter.addNewNewsList(response.news);
+
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-
-                DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
     }
 
     private void loadData() {
@@ -89,9 +85,11 @@ public class TagActivity extends AppCompatActivity {
                     adapter.setData(response.news);
                 }
 
+                nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("TAG", "Tag load data success");
             }
@@ -100,6 +98,7 @@ public class TagActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(TagActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 

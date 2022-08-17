@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/blue">
+    android:background="@color/blue"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@null"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:background="@null">
 
         <View
             android:id="@+id/viewCategoryColor"
             android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
-        
+            android:background="@color/white" />
+
         <TextView
             android:id="@+id/textViewCategory"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text_category_title"
-            android:textSize="@dimen/text_size_big"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/margin_main"/>
+            android:layout_marginStart="@dimen/margin_main"
+            android:text="@string/text_category_title"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imageViewExpandSubcategoryList"
             android:layout_width="wrap_content"
             android:layout_height="26dp"
-            android:src="@drawable/ic_arrow_down"
-            android:layout_gravity="center_vertical|end"/>
+            android:layout_gravity="center_vertical|end"
+            android:src="@drawable/ic_arrow_down" />
 
     </FrameLayout>
 
@@ -43,24 +42,21 @@
         android:id="@+id/subcategoryContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <View
             android:id="@+id/viewSubcategoryColor"
             android:layout_width="4dp"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

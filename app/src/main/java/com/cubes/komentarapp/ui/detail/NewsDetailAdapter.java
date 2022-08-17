@@ -11,7 +11,8 @@ import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
-import com.cubes.komentarapp.ui.detail.item.RvItemDetail;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailComments;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailRelatedNews;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailSameCategoryNews;
@@ -21,16 +22,16 @@ import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
 
-public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.NewsDetailViewHolder> {
+public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItemDetail> items = new ArrayList<>();
+    private final ArrayList<RvItem> items = new ArrayList<>();
 
     public NewsDetailAdapter() {
     }
 
     @NonNull
     @Override
-    public NewsDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -45,11 +46,11 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
             default:
                 binding = RvItemNewsDetailTagsAndNewsBinding.inflate(inflater, parent, false);
         }
-        return new NewsDetailViewHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsDetailViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         this.items.get(position).bind(holder);
     }
 
@@ -72,16 +73,6 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<NewsDetailAdapter.Ne
         this.items.add(new RvItemDetailSameCategoryNews(response.category_news, newsDetailListener));
 
         notifyDataSetChanged();
-    }
-
-    public class NewsDetailViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public NewsDetailViewHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
     }
 
 }

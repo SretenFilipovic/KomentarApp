@@ -12,13 +12,12 @@ import androidx.viewbinding.ViewBinding;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.databinding.RvItemCommentBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
-public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsHolder> {
+public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<Comments> comments = new ArrayList<>();
     private CommentsListener commentsListener;
@@ -26,24 +25,29 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentsAdapter() {
     }
 
-    public CommentsAdapter(ArrayList<Comments> commentsList) {
-        this.comments = commentsList;
-    }
-
     @NonNull
     @Override
-    public CommentsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         binding = RvItemCommentBinding.inflate(inflater, parent, false);
-        return new CommentsHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentsHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RvItemCommentBinding binding = (RvItemCommentBinding) holder.binding;
         Comments comment = comments.get(position);
+
+        binding.textViewName.setText(comment.name);
+        binding.textViewContent.setText(comment.content);
+        binding.textViewCreatedAt.setText(comment.created_at);
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
+
+        binding.imageViewReply.setOnClickListener(view -> commentsListener.onCommentsClicked(comment));
+        binding.textViewReply.setOnClickListener(view -> commentsListener.onCommentsClicked(comment));
 
         if (!comment.parent_comment.equals("0")) {
             setIndent(binding.rootLayout);
@@ -57,22 +61,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             }
         }
 
-        binding.textViewName.setText(comment.name);
-        binding.textViewContent.setText(comment.content);
-        binding.textViewCreatedAt.setText(comment.created_at);
-        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
-        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
-
-        binding.imageViewReply.setOnClickListener(view -> commentsListener.onCommentsClicked(comment));
-        binding.textViewReply.setOnClickListener(view -> commentsListener.onCommentsClicked(comment));
-
         binding.imageViewUpVote.setOnClickListener(view -> {
             if (comment.commentVote == null) {
-                commentsListener.upvote(comment.id);
-
-                YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
-                binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
-                binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+                commentsListener.upvote(comment, binding);
 
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
@@ -83,11 +74,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         binding.imageViewDownVote.setOnClickListener(view -> {
             if (comment.commentVote == null) {
-                commentsListener.downVote(comment.id);
-
-                YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
-                binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
-                binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
+                commentsListener.downVote(comment, binding);
 
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
@@ -95,7 +82,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             binding.imageViewDownVote.setEnabled(false);
             binding.imageViewUpVote.setEnabled(false);
         });
-
     }
 
     @Override
@@ -120,14 +106,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         notifyDataSetChanged();
     }
 
-    public static class CommentsHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public CommentsHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+    public void setData(ArrayList<Comments> comments) {
+        this.comments = comments;
+        notifyDataSetChanged();
     }
+
 
 }

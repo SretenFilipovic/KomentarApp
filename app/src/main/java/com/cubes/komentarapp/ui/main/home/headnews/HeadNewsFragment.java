@@ -49,14 +49,17 @@ public class HeadNewsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new HeadNewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
+        setupRecyclerView();
 
         loadData();
 
         binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
+            loadData();
+        });
+
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
             loadData();
         });
     }
@@ -76,6 +79,7 @@ public class HeadNewsFragment extends Fragment {
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("HEAD", "Head news load data success");
             }
@@ -85,6 +89,7 @@ public class HeadNewsFragment extends Fragment {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
@@ -93,4 +98,9 @@ public class HeadNewsFragment extends Fragment {
         });
     }
 
+    private void setupRecyclerView() {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new HeadNewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
+    }
 }

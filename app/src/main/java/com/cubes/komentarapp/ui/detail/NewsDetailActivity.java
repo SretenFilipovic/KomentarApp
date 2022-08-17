@@ -38,12 +38,13 @@ public class NewsDetailActivity extends AppCompatActivity {
             loadData();
         });
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsDetailAdapter();
-        binding.recyclerView.setAdapter(adapter);
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
 
+        setupRecyclerView();
         loadData();
-
     }
 
     private void loadData() {
@@ -100,6 +101,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 });
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("DETAIL", "Detail load data success");
 
@@ -110,9 +112,17 @@ public class NewsDetailActivity extends AppCompatActivity {
                 Toast.makeText(NewsDetailActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Log.d("DETAIL", "Detail load data failure");
             }
         });
+    }
+
+    private void  setupRecyclerView(){
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new NewsDetailAdapter();
+        binding.recyclerView.setAdapter(adapter);
     }
 
 }

@@ -12,7 +12,8 @@ import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategory;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
@@ -23,16 +24,16 @@ import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
-public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNewsViewHolder> {
+public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItemHead> items = new ArrayList<>();
+    private final ArrayList<RvItem> items = new ArrayList<>();
 
     public HeadNewsAdapter() {
     }
 
     @NonNull
     @Override
-    public HeadNewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -49,11 +50,11 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
                 binding = RvItemHeadTopBinding.inflate(inflater, parent, false);
         }
 
-        return new HeadNewsViewHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HeadNewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         this.items.get(position).bind(holder);
     }
 
@@ -84,16 +85,6 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<HeadNewsAdapter.HeadNe
         }
 
         notifyDataSetChanged();
-    }
-
-    public class HeadNewsViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public HeadNewsViewHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
     }
 
 }

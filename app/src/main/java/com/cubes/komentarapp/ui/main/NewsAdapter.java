@@ -13,13 +13,14 @@ import androidx.viewbinding.ViewBinding;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<News> list = new ArrayList<>();
     private NewsListener newsListener;
@@ -32,23 +33,23 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @NonNull
     @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         if (viewType == 0) {
             binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
-            return new NewsViewHolder(binding);
+            return new ViewHolder(binding);
         } else {
             binding = RvItemLoadingBinding.inflate(inflater, parent, false);
         }
-        return new NewsViewHolder(binding);
+        return new ViewHolder(binding);
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         if (position < list.size()) {
             News news = list.get(position);
@@ -120,16 +121,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public void setData(ArrayList<News> list) {
         this.list = list;
         notifyDataSetChanged();
-    }
-
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public NewsViewHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
     }
 
 }

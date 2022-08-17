@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
 
-public class RvItemDetailSameCategoryNews implements RvItemDetail {
+public class RvItemDetailSameCategoryNews implements RvItem {
 
     private final ArrayList<News> categoryNews;
     private final NewsDetailListener listener;
@@ -29,7 +30,7 @@ public class RvItemDetailSameCategoryNews implements RvItemDetail {
     }
 
     @Override
-    public void bind(NewsDetailAdapter.NewsDetailViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
         RvItemNewsDetailTagsAndNewsBinding binding = (RvItemNewsDetailTagsAndNewsBinding) holder.binding;
 

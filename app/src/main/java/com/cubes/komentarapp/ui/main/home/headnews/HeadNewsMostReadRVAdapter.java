@@ -10,11 +10,12 @@ import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
-public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMostReadRVAdapter.NewsViewHolder> {
+public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<News> list;
     private NewsListener newsListener;
@@ -24,17 +25,17 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
 
     @NonNull
     @Override
-    public HeadNewsMostReadRVAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         binding = RvItemSmallestNewsBinding.inflate(inflater, parent, false);
-        return new NewsViewHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HeadNewsMostReadRVAdapter.NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         News news = list.get(position);
 
@@ -59,14 +60,5 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<HeadNewsMost
         this.list = list;
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public NewsViewHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
 
 }

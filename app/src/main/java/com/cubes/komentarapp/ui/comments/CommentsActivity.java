@@ -1,21 +1,27 @@
 package com.cubes.komentarapp.ui.comments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewbinding.ViewBinding;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.model.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
+import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
@@ -26,7 +32,6 @@ public class CommentsActivity extends AppCompatActivity {
     private int id;
     private ArrayList<Vote> votes = new ArrayList<>();
     private final ArrayList<Comments> allComments = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +55,17 @@ public class CommentsActivity extends AppCompatActivity {
             loadData();
         });
 
-        setupRecyclerView();
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
 
+        setupRecyclerView();
         loadData();
     }
 
     private void setupRecyclerView() {
+        allComments.clear();
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new CommentsAdapter();
         binding.recyclerView.setAdapter(adapter);
@@ -74,15 +84,20 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void upvote(String commentId) {
-                DataRepository.getInstance().upvoteComment(commentId, new DataRepository.CommentsRequestListener() {
+            public void upvote(Comments comment, RvItemCommentBinding binding) {
+                DataRepository.getInstance().upvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                     @Override
                     public void onResponse(ArrayList<Comments> request) {
 
-                        Vote vote = new Vote(commentId, true);
+                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
+                        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
+                        binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+
+                        Vote vote = new Vote(comment.id, true);
                         votes.add(vote);
 
                         PrefConfig.writeListInPref(CommentsActivity.this, votes);
+
                         Log.d("UPVOTE", "Upvote success");
                     }
                     @Override
@@ -94,12 +109,16 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void downVote(String commentId) {
-                DataRepository.getInstance().downvoteComment(commentId, new DataRepository.CommentsRequestListener() {
+            public void downVote(Comments comment, RvItemCommentBinding binding) {
+                DataRepository.getInstance().downvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                     @Override
                     public void onResponse(ArrayList<Comments> request) {
 
-                        Vote vote = new Vote(commentId, false);
+                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
+                        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
+                        binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
+
+                        Vote vote = new Vote(comment.id, false);
                         votes.add(vote);
 
                         PrefConfig.writeListInPref(CommentsActivity.this, votes);
@@ -127,6 +146,7 @@ public class CommentsActivity extends AppCompatActivity {
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("COMMENT", "Comment load data success");
             }
@@ -135,6 +155,8 @@ public class CommentsActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("COMMENT", "Comment load data failure");

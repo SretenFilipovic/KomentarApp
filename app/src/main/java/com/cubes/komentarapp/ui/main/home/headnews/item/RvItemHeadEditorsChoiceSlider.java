@@ -8,13 +8,14 @@ import androidx.lifecycle.Lifecycle;
 
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
-import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsSliderAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
+public class RvItemHeadEditorsChoiceSlider implements RvItem {
 
     private ArrayList<News> editorsChoiceNews;
 
@@ -28,7 +29,7 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
     }
 
     @Override
-    public void bind(HeadNewsAdapter.HeadNewsViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
         RvItemHeadSliderBinding binding = (RvItemHeadSliderBinding) holder.binding;
 

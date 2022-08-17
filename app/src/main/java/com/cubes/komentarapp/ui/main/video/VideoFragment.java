@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -24,6 +25,8 @@ public class VideoFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private NewsAdapter adapter;
+    private int nextPage = 2;
+
 
     public VideoFragment() {
     }
@@ -58,6 +61,11 @@ public class VideoFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
+
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
     }
 
     private void setupRecyclerView() {
@@ -71,28 +79,19 @@ public class VideoFragment extends Fragment {
             getContext().startActivity(i);
         });
 
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsList response) {
+                adapter.addNewNewsList(response.news);
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-
-                DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
 
     }
 
@@ -107,9 +106,11 @@ public class VideoFragment extends Fragment {
                     adapter.setData(response.news);
                 }
 
+                nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("VIDEO", "Video news load data success");
 
@@ -119,6 +120,8 @@ public class VideoFragment extends Fragment {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("VIDEO", "Video news load data failure");

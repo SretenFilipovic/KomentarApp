@@ -26,6 +26,8 @@ public class HomePageCategoryFragment extends Fragment {
     private static final String CATEGORY_ID = "categoryId";
     private int categoryId;
     private NewsWithHeaderAdapter adapter;
+    private int nextPage = 2;
+
 
     public HomePageCategoryFragment() {
 
@@ -67,6 +69,11 @@ public class HomePageCategoryFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
+
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
     }
 
 
@@ -83,33 +90,24 @@ public class HomePageCategoryFragment extends Fragment {
 
         });
 
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsList response) {
+                adapter.addNewNewsList(response.news);
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-
-                DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
     }
 
     private void loadData() {
 
-        int page = 1;
-        DataRepository.getInstance().loadCategoryNewsData(categoryId, page, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(NewsList response) {
 
@@ -117,9 +115,12 @@ public class HomePageCategoryFragment extends Fragment {
                     adapter.setData(response.news);
                 }
 
+                nextPage = 2;
+
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("CATEGORY", "Category news load data success");
             }
@@ -128,6 +129,8 @@ public class HomePageCategoryFragment extends Fragment {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("CATEGORY", "Category news load data failure");

@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Tags;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.detail.NewsDetailTagAdapter;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
 
-public class RvItemDetailTags implements RvItemDetail {
+public class RvItemDetailTags implements RvItem {
 
     private final ArrayList<Tags> tags;
     private final NewsDetailListener listener;
@@ -29,7 +30,7 @@ public class RvItemDetailTags implements RvItemDetail {
     }
 
     @Override
-    public void bind(NewsDetailAdapter.NewsDetailViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
         RvItemNewsDetailTagsAndNewsBinding binding = (RvItemNewsDetailTagsAndNewsBinding) holder.binding;
 

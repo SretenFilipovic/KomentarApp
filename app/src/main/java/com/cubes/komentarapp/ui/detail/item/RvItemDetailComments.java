@@ -8,19 +8,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.comments.CommentsAdapter;
-import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
-public class RvItemDetailComments implements RvItemDetail {
+public class RvItemDetailComments implements RvItem {
 
     private final ArrayList<Comments> comments;
-    private News news;
-    private NewsDetailListener listener;
+    private final News news;
+    private final NewsDetailListener listener;
 
     public RvItemDetailComments(News news, ArrayList<Comments> commentList, NewsDetailListener listener) {
         this.news = news;
@@ -34,7 +35,7 @@ public class RvItemDetailComments implements RvItemDetail {
     }
 
     @Override
-    public void bind(NewsDetailAdapter.NewsDetailViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
         RvItemNewsDetailCommentsBinding binding = (RvItemNewsDetailCommentsBinding) holder.binding;
 
@@ -45,7 +46,9 @@ public class RvItemDetailComments implements RvItemDetail {
             binding.textViewNoComments.setVisibility(View.VISIBLE);
         } else {
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            binding.recyclerView.setAdapter(new CommentsAdapter(comments));
+            CommentsAdapter adapter = new CommentsAdapter();
+            binding.recyclerView.setAdapter(adapter);
+            adapter.setData(comments);
         }
 
         binding.textViewShowAllComments.setOnClickListener(view -> {

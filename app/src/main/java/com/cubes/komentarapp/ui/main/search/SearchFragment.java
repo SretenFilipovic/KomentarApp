@@ -28,6 +28,7 @@ public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
     private NewsAdapter adapter;
+    private int nextPage = 2;
 
     public SearchFragment() {
     }
@@ -73,6 +74,12 @@ public class SearchFragment extends Fragment {
             loadData();
         });
 
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+            binding.pullToRefresh.setRefreshing(false);
+        });
+
         binding.editText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 binding.progressBar.setVisibility(View.VISIBLE);
@@ -96,32 +103,23 @@ public class SearchFragment extends Fragment {
             startActivity(i);
         });
 
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(NewsList response) {
+                adapter.addNewNewsList(response.news);
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-                DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
 
     }
 
     private void loadData() {
-
-        int page = 1;
 
         if (binding.editText.getText().length() == 0) {
             binding.progressBar.setVisibility(View.GONE);
@@ -133,7 +131,7 @@ public class SearchFragment extends Fragment {
             Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
         } else {
 
-            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
+            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override
                 public void onResponse(NewsList response) {
 
@@ -147,6 +145,7 @@ public class SearchFragment extends Fragment {
                         binding.textViewNoContent.setVisibility(View.VISIBLE);
                     }
 
+                    nextPage = 2;
                     binding.refresh.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
@@ -160,6 +159,7 @@ public class SearchFragment extends Fragment {
                     binding.progressBar.setVisibility(View.GONE);
                     binding.textViewNoContent.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.GONE);
+
                     Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                     Log.d("SEARCH", "Search load data failure");

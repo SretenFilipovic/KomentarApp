@@ -21,6 +21,8 @@ public class SubcategoryActivity extends AppCompatActivity {
     private ActivitySubcategoryBinding binding;
     private int categoryId;
     private NewsAdapter adapter;
+    private int nextPage = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,15 @@ public class SubcategoryActivity extends AppCompatActivity {
             loadData();
         });
 
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
+
         binding.textViewSubcategoryTitle.setText(categoryName);
 
         setupRecyclerView();
-
         loadData();
-
     }
 
 
@@ -59,33 +64,24 @@ public class SubcategoryActivity extends AppCompatActivity {
 
         });
 
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
-
+        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
-            public void loadMoreNews() {
+            public void onResponse(NewsList response) {
+                adapter.addNewNewsList(response.news);
 
-                DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-
-                        nextPage++;
-                    }
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+                nextPage++;
             }
-        });
+            @Override
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
+            }
+        }));
 
     }
 
     private void loadData() {
-        int page = 1;
-        DataRepository.getInstance().loadCategoryNewsData(categoryId, page, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(NewsList response) {
 
@@ -93,9 +89,12 @@ public class SubcategoryActivity extends AppCompatActivity {
                     adapter.setData(response.news);
                 }
 
+                nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Log.d("SUBCATEGORY", "Subcategory load data success");
             }
 
@@ -103,6 +102,8 @@ public class SubcategoryActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Toast.makeText(SubcategoryActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("SUBCATEGORY", "Subcategory load data failure");

@@ -10,12 +10,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.MainActivity;
-import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.cubes.komentarapp.ui.main.menu.MenuSubcategoryAdapter;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
-public class RvItemMenuCategories implements RvItemMenu {
+public class RvItemMenuCategories implements RvItem {
 
     private final Category category;
     private final MenuListener listener;
@@ -33,7 +34,7 @@ public class RvItemMenuCategories implements RvItemMenu {
     }
 
     @Override
-    public void bind(MenuAdapter.MenuHolder holder) {
+    public void bind(ViewHolder holder) {
         RvItemMenuCategoryBinding binding = (RvItemMenuCategoryBinding) holder.binding;
 
         binding.textViewCategory.setText(category.name);

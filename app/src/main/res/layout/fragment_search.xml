@@ -22,8 +22,8 @@
             android:layout_height="match_parent"
             android:background="@drawable/edit_text_outline"
             android:hint="@string/text_pretrazi"
-            android:inputType="text"
             android:imeOptions="actionSearch"
+            android:inputType="text"
             android:lines="1"
             android:paddingStart="@dimen/margin_main"
             android:textColor="@color/white"
@@ -38,18 +38,23 @@
             android:layout_marginEnd="@dimen/margin_main"
             android:src="@drawable/ic_search" />
 
-
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+        app:layout_constraintTop_toBottomOf="@id/frameLayout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/textViewNoContent"
@@ -68,13 +73,13 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/margin_biggest"
-        android:visibility="gone"
-        style="?android:attr/progressBarStyle"
         android:indeterminateDrawable="@drawable/custom_progress_bar"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

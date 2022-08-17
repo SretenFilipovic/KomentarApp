@@ -1,12 +1,13 @@
 package com.cubes.komentarapp.ui.main.menu.item;
 
 import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
-import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
-public class RvItemMenuSocialNetwork implements RvItemMenu{
+public class RvItemMenuSocialNetwork implements RvItem {
 
-    private MenuListener listener;
+    private final MenuListener listener;
 
     public RvItemMenuSocialNetwork(MenuListener listener) {
         this.listener = listener;
@@ -18,7 +19,7 @@ public class RvItemMenuSocialNetwork implements RvItemMenu{
     }
 
     @Override
-    public void bind(MenuAdapter.MenuHolder holder) {
+    public void bind(ViewHolder holder) {
         RvItemMenuSocialNetworkBinding binding = (RvItemMenuSocialNetworkBinding) holder.binding;
 
         binding.imageViewFacebook.setOnClickListener(view -> listener.onShareClicked("com.facebook.katana"));

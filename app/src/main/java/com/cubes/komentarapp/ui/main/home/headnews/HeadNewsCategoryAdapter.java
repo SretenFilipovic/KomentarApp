@@ -13,12 +13,13 @@ import com.cubes.komentarapp.data.model.CategoryNews;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCategoryAdapter.NewsViewHolder> {
+public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<News> list;
     private CategoryNews category;
@@ -29,7 +30,7 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
 
     @NonNull
     @Override
-    public HeadNewsCategoryAdapter.NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -39,11 +40,11 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
         } else {
             binding = RvItemSmallNewsHomepageBinding.inflate(inflater, parent, false);
         }
-        return new NewsViewHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HeadNewsCategoryAdapter.NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         News news = list.get(position);
 
@@ -101,13 +102,4 @@ public class HeadNewsCategoryAdapter extends RecyclerView.Adapter<HeadNewsCatego
         this.category = category;
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public NewsViewHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-    }
 }

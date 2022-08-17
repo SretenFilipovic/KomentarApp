@@ -60,7 +60,7 @@ public class DataRepository {
         service.getVideoNews(page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
+            public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
 
                 if (response.body() != null
                         && response.isSuccessful()
@@ -70,7 +70,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -81,7 +81,7 @@ public class DataRepository {
         service.getLatestNews(page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
+            public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -90,7 +90,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -101,7 +101,7 @@ public class DataRepository {
         service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
+            public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -110,7 +110,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -121,7 +121,7 @@ public class DataRepository {
         service.getSearchNews(term, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
+            public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -130,7 +130,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -141,7 +141,7 @@ public class DataRepository {
         service.getTagNews(id, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
+            public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -150,7 +150,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -161,7 +161,7 @@ public class DataRepository {
         service.getHomepageNews().enqueue(new Callback<ResponseNewsList>() {
 
             @Override
-            public void onResponse(Call<ResponseNewsList> call, Response<ResponseNewsList> response) {
+            public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -170,7 +170,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -187,7 +187,7 @@ public class DataRepository {
         service.getCategories().enqueue(new Callback<ResponseCategoryList>() {
 
             @Override
-            public void onResponse(Call<ResponseCategoryList> call, Response<ResponseCategoryList> response) {
+            public void onResponse(@NonNull Call<ResponseCategoryList> call, @NonNull Response<ResponseCategoryList> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null
@@ -197,7 +197,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseCategoryList> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseCategoryList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -215,7 +215,7 @@ public class DataRepository {
         service.getHoroscope().enqueue(new Callback<ResponseHoroscope>() {
 
             @Override
-            public void onResponse(Call<ResponseHoroscope> call, Response<ResponseHoroscope> response) {
+            public void onResponse(@NonNull Call<ResponseHoroscope> call, @NonNull Response<ResponseHoroscope> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -224,7 +224,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseHoroscope> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseHoroscope> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -242,7 +242,7 @@ public class DataRepository {
         service.getWeather().enqueue(new Callback<ResponseWeather>() {
 
             @Override
-            public void onResponse(Call<ResponseWeather> call, Response<ResponseWeather> response) {
+            public void onResponse(@NonNull Call<ResponseWeather> call, @NonNull Response<ResponseWeather> response) {
                 if (response.body() != null
                         && response.isSuccessful()
                         && response.body().data != null) {
@@ -251,7 +251,7 @@ public class DataRepository {
             }
 
             @Override
-            public void onFailure(Call<ResponseWeather> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseWeather> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });
@@ -268,14 +268,16 @@ public class DataRepository {
 
         service.getNewsDetail(id).enqueue(new Callback<ResponseNewsDetail>() {
             @Override
-            public void onResponse(Call<ResponseNewsDetail> call, Response<ResponseNewsDetail> response) {
+            public void onResponse(@NonNull Call<ResponseNewsDetail> call, @NonNull Response<ResponseNewsDetail> response) {
 
-                listener.onResponse(response.body().data);
+                if (response.body() != null) {
+                    listener.onResponse(response.body().data);
+                }
 
             }
 
             @Override
-            public void onFailure(Call<ResponseNewsDetail> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseNewsDetail> call, @NonNull Throwable t) {
                 listener.onFailure(t);
             }
         });

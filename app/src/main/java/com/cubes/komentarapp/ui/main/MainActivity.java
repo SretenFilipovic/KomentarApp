@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
 
-            if (selectedFragment != null){
+            if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
             }
             return true;
@@ -111,25 +111,30 @@ public class MainActivity extends AppCompatActivity {
                         i.putExtra("categoryName", category.name);
                         startActivity(i);
                     }
+
                     @Override
                     public void onItemClicked() {
                         openWebBrowser("https://komentar.rs");
                     }
+
                     @Override
                     public void onHoroscopeClicked() {
                         Intent i = new Intent(MainActivity.this, HoroscopeActivity.class);
                         startActivity(i);
                     }
+
                     @Override
                     public void onCurrencyClicked() {
                         Intent i = new Intent(MainActivity.this, CurrencyActivity.class);
                         startActivity(i);
                     }
+
                     @Override
                     public void onWeatherClicked() {
                         Intent i = new Intent(MainActivity.this, WeatherActivity.class);
                         startActivity(i);
                     }
+
                     @Override
                     public void onShareClicked(String networkUrl) {
                         try {

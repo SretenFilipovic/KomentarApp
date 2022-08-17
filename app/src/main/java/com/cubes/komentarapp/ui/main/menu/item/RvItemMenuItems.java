@@ -1,10 +1,11 @@
 package com.cubes.komentarapp.ui.main.menu.item;
 
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
-import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
-public class RvItemMenuItems implements RvItemMenu{
+public class RvItemMenuItems implements RvItem {
 
     private MenuListener listener;
 
@@ -18,7 +19,7 @@ public class RvItemMenuItems implements RvItemMenu{
     }
 
     @Override
-    public void bind(MenuAdapter.MenuHolder holder) {
+    public void bind(ViewHolder holder) {
 
         RvItemMenuItemsBinding binding = (RvItemMenuItemsBinding) holder.binding;
 
