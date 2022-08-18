@@ -8,16 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuCategories;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuHead;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuItems;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuSocialNetwork;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class MenuAdapter extends RecyclerView.Adapter<ViewHolder> {
     public MenuAdapter() {
     }
 
+    @SuppressLint("NonConstantResourceId")
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,10 +39,10 @@ public class MenuAdapter extends RecyclerView.Adapter<ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
-            case 2:
+            case R.layout.rv_item_menu_items:
                 binding = RvItemMenuItemsBinding.inflate(inflater, parent, false);
                 break;
-            case 3:
+            case R.layout.rv_item_menu_social_network:
                 binding = RvItemMenuSocialNetworkBinding.inflate(inflater, parent, false);
                 break;
             default:

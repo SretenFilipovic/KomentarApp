@@ -5,7 +5,7 @@ import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 
 public interface CommentsListener {
 
-    void onCommentsClicked(Comments comment);
+    void onReplyClicked(Comments comment);
 
     void upvote(Comments comment, RvItemCommentBinding binding);
 

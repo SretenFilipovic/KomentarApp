@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
@@ -76,7 +73,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         adapter.setCommentListener(new CommentsListener() {
             @Override
-            public void onCommentsClicked(Comments comment) {
+            public void onReplyClicked(Comments comment) {
                 Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
                 i.putExtra("commentId", comment.id);
                 i.putExtra("newsId", comment.news);
@@ -100,6 +97,7 @@ public class CommentsActivity extends AppCompatActivity {
 
                         Log.d("UPVOTE", "Upvote success");
                     }
+
                     @Override
                     public void onFailure(Throwable t) {
                         Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
@@ -186,7 +184,7 @@ public class CommentsActivity extends AppCompatActivity {
         }
     }
 
-    private void loadVoteData(ArrayList<Comments> comments, ArrayList<Vote> votes){
+    private void loadVoteData(ArrayList<Comments> comments, ArrayList<Vote> votes) {
         for (Comments comment : comments) {
             for (Vote vote : votes) {
                 if (comment.id.equals(vote.commentId)) {

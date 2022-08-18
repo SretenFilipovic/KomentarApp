@@ -23,12 +23,10 @@ public class HomePageAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-            HeadNewsFragment fragment = HeadNewsFragment.newInstance();
-            return fragment;
+            return HeadNewsFragment.newInstance();
         } else {
             Category category = categoryList.get(position - 1);
-            HomePageCategoryFragment fragment = HomePageCategoryFragment.newInstance(category.id);
-            return fragment;
+            return HomePageCategoryFragment.newInstance(category.id);
         }
     }
 

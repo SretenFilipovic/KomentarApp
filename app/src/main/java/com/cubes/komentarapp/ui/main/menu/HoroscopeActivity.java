@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Horoscope;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
@@ -36,7 +37,7 @@ public class HoroscopeActivity extends AppCompatActivity {
             public void onResponse(Horoscope response) {
                 horoscope = response;
 
-                binding.textViewTitle.setText("Horoskop");
+                binding.textViewTitle.setText(R.string.text_horoscope);
                 binding.textViewName.setText(horoscope.name);
                 binding.textViewDate.setText(horoscope.date);
                 binding.textViewDescription.setText(horoscope.horoscope);

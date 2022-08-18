@@ -1,84 +1,70 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.comments.CommentsAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-
-import java.util.ArrayList;
+import com.cubes.komentarapp.ui.tools.RvItem;
+import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 
 public class RvItemDetailComments implements RvItem {
 
-    private final ArrayList<Comments> comments;
-    private final News news;
-    private final NewsDetailListener listener;
+    private final Comments comment;
+    private final CommentsListener listener;
 
-    public RvItemDetailComments(News news, ArrayList<Comments> commentList, NewsDetailListener listener) {
-        this.news = news;
-        this.comments = commentList;
+    public RvItemDetailComments(Comments comment, CommentsListener listener) {
+        this.comment = comment;
         this.listener = listener;
     }
 
     @Override
     public int getType() {
-        return 2;
+        return R.layout.rv_item_comment;
     }
 
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemNewsDetailCommentsBinding binding = (RvItemNewsDetailCommentsBinding) holder.binding;
+        RvItemCommentBinding binding = (RvItemCommentBinding) holder.binding;
 
-        binding.textViewCommentCount.setText("(" + news.comments_count + ")");
-        binding.textViewButtonCount.setText(String.valueOf(news.comments_count));
+        binding.textViewName.setText(comment.name);
+        binding.textViewContent.setText(comment.content);
+        binding.textViewCreatedAt.setText(comment.created_at);
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
 
-        if (comments == null || comments.size() == 0) {
-            binding.textViewNoComments.setVisibility(View.VISIBLE);
-        } else {
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            CommentsAdapter adapter = new CommentsAdapter();
-            binding.recyclerView.setAdapter(adapter);
-            adapter.setData(comments);
+        binding.imageViewReply.setOnClickListener(view -> listener.onReplyClicked(comment));
+        binding.textViewReply.setOnClickListener(view -> listener.onReplyClicked(comment));
+
+        if (comment.commentVote != null) {
+            if (comment.commentVote.vote) {
+                binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+            } else {
+                binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
+            }
         }
 
-        binding.textViewShowAllComments.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
+        binding.imageViewUpVote.setOnClickListener(view -> {
+            if (comment.commentVote == null) {
+                listener.upvote(comment, binding);
             } else {
-                listener.onAllCommentsClicked(news.id);;
+                Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
+            binding.imageViewDownVote.setEnabled(false);
+            binding.imageViewUpVote.setEnabled(false);
         });
 
-        binding.frameLayoutShowAll.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
+        binding.imageViewDownVote.setOnClickListener(view -> {
+            if (comment.commentVote == null) {
+                listener.downVote(comment, binding);
             } else {
-                listener.onAllCommentsClicked(news.id);
+                Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
+            binding.imageViewDownVote.setEnabled(false);
+            binding.imageViewUpVote.setEnabled(false);
         });
-
-        binding.textViewButtonCount.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
-            } else {
-                listener.onAllCommentsClicked(news.id);
-            }
-        });
-
-        binding.buttonLeaveComment.setOnClickListener(view -> listener.onLeaveCommentClicked(String.valueOf(news.id)));
 
     }
 

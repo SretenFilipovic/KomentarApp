@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsSliderAdapter;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class RvItemHeadSlider implements RvItem {
 
     @Override
     public int getType() {
-        return 0;
+        return R.layout.rv_item_head_slider;
     }
 
     @Override

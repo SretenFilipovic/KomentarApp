@@ -12,14 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cubes.komentarapp.data.model.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 
 public class LatestFragment extends Fragment {
 
@@ -32,8 +30,7 @@ public class LatestFragment extends Fragment {
     }
 
     public static LatestFragment newInstance() {
-        LatestFragment fragment = new LatestFragment();
-        return fragment;
+        return new LatestFragment();
     }
 
     @Override
@@ -42,7 +39,7 @@ public class LatestFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
@@ -76,7 +73,7 @@ public class LatestFragment extends Fragment {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
-            getContext().startActivity(i);
+            startActivity(i);
         });
 
         adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
@@ -122,4 +119,5 @@ public class LatestFragment extends Fragment {
             }
         });
     }
+
 }

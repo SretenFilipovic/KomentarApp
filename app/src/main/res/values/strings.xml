@@ -69,4 +69,6 @@
     <string name="text_refresh">Osveži</string>
     <string name="text_weather_forcast">Vremenska prognoza</string>
     <string name="text_loading_news">Vesti se učitavaju...</string>
+    <string name="text_no_top_comments">Nema istaknutih komentara.</string>
+    <string name="text_horoscope">Horoskop</string>
 </resources>

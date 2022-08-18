@@ -28,8 +28,7 @@ public class HeadNewsFragment extends Fragment {
     }
 
     public static HeadNewsFragment newInstance() {
-        HeadNewsFragment fragment = new HeadNewsFragment();
-        return fragment;
+        return new HeadNewsFragment();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class HeadNewsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 

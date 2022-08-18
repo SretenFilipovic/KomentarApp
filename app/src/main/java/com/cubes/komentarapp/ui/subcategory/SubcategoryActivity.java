@@ -14,7 +14,6 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivitySubcategoryBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 
 public class SubcategoryActivity extends AppCompatActivity {
 

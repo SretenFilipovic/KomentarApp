@@ -41,9 +41,7 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         binding.textViewSubcategory.setText(subcategory.name);
 
-        binding.textViewSubcategory.setOnClickListener(view -> {
-            listener.onSubcategoryClicked(subcategory);
-        });
+        binding.textViewSubcategory.setOnClickListener(view -> listener.onSubcategoryClicked(subcategory));
     }
 
     @Override

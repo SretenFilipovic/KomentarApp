@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private ArrayList<Comments> comments = new ArrayList<>();
+    private final ArrayList<Comments> comments = new ArrayList<>();
     private CommentsListener commentsListener;
 
     public CommentsAdapter() {
@@ -46,8 +46,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
         binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
         binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
 
-        binding.imageViewReply.setOnClickListener(view -> commentsListener.onCommentsClicked(comment));
-        binding.textViewReply.setOnClickListener(view -> commentsListener.onCommentsClicked(comment));
+        binding.imageViewReply.setOnClickListener(view -> commentsListener.onReplyClicked(comment));
+        binding.textViewReply.setOnClickListener(view -> commentsListener.onReplyClicked(comment));
 
         if (!comment.parent_comment.equals("0")) {
             setIndent(binding.rootLayout);
@@ -64,7 +64,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
         binding.imageViewUpVote.setOnClickListener(view -> {
             if (comment.commentVote == null) {
                 commentsListener.upvote(comment, binding);
-
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
@@ -75,7 +74,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
         binding.imageViewDownVote.setOnClickListener(view -> {
             if (comment.commentVote == null) {
                 commentsListener.downVote(comment, binding);
-
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
@@ -105,11 +103,5 @@ public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
         comments.addAll(commentsData);
         notifyDataSetChanged();
     }
-
-    public void setData(ArrayList<Comments> comments) {
-        this.comments = comments;
-        notifyDataSetChanged();
-    }
-
 
 }

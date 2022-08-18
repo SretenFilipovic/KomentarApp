@@ -82,7 +82,10 @@
         <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1225" />
         <entry key="..\:/Users/PC/Desktop/ANDROID/KomentarApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1225" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.205" />
+        <entry key="app/src/main/res/drawable/button_circle.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/custom_progress_bar.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/edit_text_outline.xml" value="0.2055" />
+        <entry key="app/src/main/res/drawable/edit_text_outline_blue.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/ic_thumbs_down_voted.xml" value="0.205" />
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1855" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1855" />
@@ -110,7 +113,7 @@
         <entry key="app/src/main/res/layout/layout.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_big_news.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_big_news_homepage.xml" value="0.3723958333333333" />
-        <entry key="app/src/main/res/layout/rv_item_comment.xml" value="0.36367753623188404" />
+        <entry key="app/src/main/res/layout/rv_item_comment.xml" value="0.33" />
         <entry key="app/src/main/res/layout/rv_item_comment_child.xml" value="0.33" />
         <entry key="app/src/main/res/layout/rv_item_comment_parent.xml" value="0.33" />
         <entry key="app/src/main/res/layout/rv_item_comment_second_level.xml" value="0.36367753623188404" />
@@ -119,14 +122,20 @@
         <entry key="app/src/main/res/layout/rv_item_head_slider.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_head_top.xml" value="0.20652173913043478" />
         <entry key="app/src/main/res/layout/rv_item_head_video.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/rv_item_head_video_title.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/layout/rv_item_loading.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/rv_item_menu_category.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_menu_items.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_menu_social_network.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_menu_subcategory.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_all_comments.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_comment_button.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_comments.xml" value="0.36594202898550726" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_comments_show_all.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_comments_title.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_related_news_title.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_share.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/rv_item_news_detail_tags.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_tags_and_news.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_top.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_web_view.xml" value="0.20516304347826086" />
@@ -145,5 +154,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.36367753623188404" />
+      </ProjectState>
+    </option>
   </component>
 </project>

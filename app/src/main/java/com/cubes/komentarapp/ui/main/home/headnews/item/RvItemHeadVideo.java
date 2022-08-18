@@ -1,42 +1,42 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.graphics.Color;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsVideoAdapter;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
-
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
 public class RvItemHeadVideo implements RvItem {
 
-    private final ArrayList<News> videoNews;
+    private final News news;
     private final NewsListener listener;
 
-    public RvItemHeadVideo(ArrayList<News> videoNews, NewsListener listener) {
-        this.videoNews = videoNews;
+    public RvItemHeadVideo(News news, NewsListener listener) {
+        this.news = news;
         this.listener = listener;
     }
 
     @Override
     public int getType() {
-        return 5;
+        return R.layout.rv_item_head_video;
     }
 
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
+        RvItemHeadVideoBinding binding = (RvItemHeadVideoBinding) holder.binding;
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        HeadNewsVideoAdapter adapter = new HeadNewsVideoAdapter();
-        binding.recyclerView.setAdapter(adapter);
+            binding.textViewCategory.setText(news.category.name);
+            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
 
-        adapter.setVideoData(videoNews);
-        adapter.setNewsListener(listener);
+            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news));
 
     }
 }

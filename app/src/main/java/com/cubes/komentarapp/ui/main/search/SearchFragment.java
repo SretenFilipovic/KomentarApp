@@ -22,7 +22,6 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 
 public class SearchFragment extends Fragment {
 
@@ -34,8 +33,7 @@ public class SearchFragment extends Fragment {
     }
 
     public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override
@@ -44,7 +42,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
 
@@ -57,14 +55,12 @@ public class SearchFragment extends Fragment {
 
         setupRecyclerView();
 
-        binding.editText.post(() -> {
-            automaticKeyboard(getActivity());
-        });
+        binding.editText.post(() -> automaticKeyboard(requireActivity()));
 
         binding.imageViewSearch.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.INVISIBLE);
-            hideKeyboard(getActivity());
+            hideKeyboard(requireActivity());
             loadData();
         });
 
@@ -84,12 +80,18 @@ public class SearchFragment extends Fragment {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.recyclerView.setVisibility(View.INVISIBLE);
-                hideKeyboard(getActivity());
+                hideKeyboard(requireActivity());
                 loadData();
                 return true;
             }
             return false;
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideKeyboard(requireActivity());
     }
 
     private void setupRecyclerView() {
@@ -177,7 +179,7 @@ public class SearchFragment extends Fragment {
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void automaticKeyboard(Activity activity){
+    private void automaticKeyboard(Activity activity) {
         binding.editText.requestFocus();
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.showSoftInput(binding.editText, InputMethodManager.SHOW_IMPLICIT);

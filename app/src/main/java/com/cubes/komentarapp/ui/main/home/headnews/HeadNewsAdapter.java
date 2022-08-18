@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -7,19 +8,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.CategoryNews;
+import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
-import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
+import com.cubes.komentarapp.databinding.RvItemHeadVideoTitleBinding;
+import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
+import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategory;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBig;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmall;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideoTitle;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
@@ -31,6 +40,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
     public HeadNewsAdapter() {
     }
 
+    @SuppressLint("NonConstantResourceId")
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,15 +49,26 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         switch (viewType) {
-            case 0:
-            case 4:
+            case R.layout.rv_item_head_slider:
                 binding = RvItemHeadSliderBinding.inflate(inflater, parent, false);
                 break;
-            case 2:
+            case R.layout.rv_item_head_most_read:
                 binding = RvItemHeadMostReadBinding.inflate(inflater, parent, false);
                 break;
+            case R.layout.rv_item_big_news_homepage:
+                binding = RvItemBigNewsHomepageBinding.inflate(inflater, parent, false);
+                break;
+            case R.layout.rv_item_small_news_homepage:
+                binding = RvItemSmallNewsHomepageBinding.inflate(inflater, parent, false);
+                break;
+            case R.layout.rv_item_head_video:
+                binding = RvItemHeadVideoBinding.inflate(inflater, parent, false);
+                break;
+            case R.layout.rv_item_head_video_title:
+                binding = RvItemHeadVideoTitleBinding.inflate(inflater, parent, false);
+                break;
             default:
-                binding = RvItemHeadTopBinding.inflate(inflater, parent, false);
+                binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
         }
 
         return new ViewHolder(binding);
@@ -72,18 +93,37 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void setData(NewsList response, NewsListener listener) {
 
         items.add(new RvItemHeadSlider(response.slider));
-        items.add(new RvItemHeadTop(response.top, listener));
+
+        for (News news : response.top){
+            items.add(new RvItemHeadTop(news, listener));
+        }
+
         items.add(new RvItemHeadMostRead(response.latest, response.most_read, response.most_comented));
-        items.add(new RvItemHeadCategory(response.category, "Sport", listener));
-        items.add(new RvItemHeadEditorsChoiceSlider(response.editors_choice));
-        items.add(new RvItemHeadVideo(response.videos, listener));
 
         for (CategoryNews category : response.category) {
-            if (!category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategory(response.category, category.title, listener));
+            if (category.title.equalsIgnoreCase("Sport")) {
+                items.add(new RvItemHeadCategoryBig(category.news.get(0), listener, category));
+                for (int i = 1; i < 5; i++) {
+                    items.add(new RvItemHeadCategorySmall(category.news.get(i),listener));
+                }
             }
         }
 
+        items.add(new RvItemHeadEditorsChoiceSlider(response.editors_choice));
+
+        items.add(new RvItemHeadVideoTitle());
+        for (News news : response.videos){
+            items.add(new RvItemHeadVideo(news, listener));
+        }
+
+        for (CategoryNews category : response.category) {
+            if (!category.title.equalsIgnoreCase("Sport")) {
+                items.add(new RvItemHeadCategoryBig(category.news.get(0), listener, category));
+                for (int i = 1; i < 5; i++) {
+                    items.add(new RvItemHeadCategorySmall(category.news.get(i),listener));
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 

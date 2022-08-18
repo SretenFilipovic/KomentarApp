@@ -1,7 +1,8 @@
 package com.cubes.komentarapp.ui.main.menu.item;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
@@ -15,7 +16,7 @@ public class RvItemMenuSocialNetwork implements RvItem {
 
     @Override
     public int getType() {
-        return 3;
+        return R.layout.rv_item_menu_social_network;
     }
 
     @Override

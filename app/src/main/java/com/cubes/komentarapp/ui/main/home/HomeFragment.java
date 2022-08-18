@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import com.cubes.komentarapp.data.model.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentHomeBinding;
-import com.cubes.komentarapp.ui.main.MainActivity;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -26,8 +25,7 @@ public class HomeFragment extends Fragment {
     }
 
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        return fragment;
+        return new HomeFragment();
     }
 
     @Override
@@ -36,7 +34,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
@@ -56,7 +54,7 @@ public class HomeFragment extends Fragment {
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
-                HomePageAdapter adapter = new HomePageAdapter(getActivity());
+                HomePageAdapter adapter = new HomePageAdapter(requireActivity());
                 adapter.setData(response);
                 binding.viewPagerHome.setAdapter(adapter);
 

@@ -2,15 +2,14 @@ package com.cubes.komentarapp.ui.detail.item;
 
 import android.view.View;
 
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Tags;
-import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.detail.NewsDetailTagAdapter;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
 
@@ -26,13 +25,13 @@ public class RvItemDetailTags implements RvItem {
 
     @Override
     public int getType() {
-        return 3;
+        return R.layout.rv_item_news_detail_tags;
     }
 
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemNewsDetailTagsAndNewsBinding binding = (RvItemNewsDetailTagsAndNewsBinding) holder.binding;
+        RvItemNewsDetailTagsBinding binding = (RvItemNewsDetailTagsBinding) holder.binding;
 
         if (tags == null || tags.size() == 0) {
             binding.textViewTitle.setVisibility(View.GONE);
@@ -42,7 +41,7 @@ public class RvItemDetailTags implements RvItem {
         } else {
             binding.textViewTitle.setText(R.string.text_tagovi);
 
-            binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL));
+            binding.recyclerView.setLayoutManager(new FlexboxLayoutManager(binding.getRoot().getContext()));
             NewsDetailTagAdapter adapter = new NewsDetailTagAdapter();
             binding.recyclerView.setAdapter(adapter);
 

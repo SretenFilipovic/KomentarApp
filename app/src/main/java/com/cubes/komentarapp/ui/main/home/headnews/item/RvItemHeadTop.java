@@ -1,43 +1,41 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.graphics.Color;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
+import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
-
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
 
 public class RvItemHeadTop implements RvItem {
 
-    private final ArrayList<News> topNews;
+    private final News news;
     private final NewsListener listener;
 
-    public RvItemHeadTop(ArrayList<News> topNews, NewsListener listener) {
-        this.topNews = topNews;
+    public RvItemHeadTop(News news, NewsListener listener) {
+        this.news = news;
         this.listener = listener;
     }
 
     @Override
     public int getType() {
-        return 1;
+        return R.layout.rv_item_small_news;
     }
 
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
+        RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        NewsAdapter adapter = new NewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
+        binding.textViewCategory.setText(news.category.name);
+        binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+        binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+        binding.textViewTitle.setText(news.title);
+        Picasso.get().load(news.image).into(binding.imageView);
 
-        adapter.setData(topNews);
-        adapter.setNewsListener(listener);
-        adapter.setFinished(true);
-
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news));
     }
 }

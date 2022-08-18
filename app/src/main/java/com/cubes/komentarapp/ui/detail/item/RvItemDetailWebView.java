@@ -1,10 +1,11 @@
 package com.cubes.komentarapp.ui.detail.item;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.News;
 import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
-import com.cubes.komentarapp.ui.ViewHolder.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.RvItem;
 
 public class RvItemDetailWebView implements RvItem {
 
@@ -16,7 +17,7 @@ public class RvItemDetailWebView implements RvItem {
 
     @Override
     public int getType() {
-        return 0;
+        return R.layout.rv_item_news_detail_web_view;
     }
 
     @Override

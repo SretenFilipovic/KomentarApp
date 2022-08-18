@@ -18,7 +18,6 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 
 public class HomePageCategoryFragment extends Fragment {
 
@@ -50,7 +49,7 @@ public class HomePageCategoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
@@ -86,7 +85,7 @@ public class HomePageCategoryFragment extends Fragment {
 
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
-            getContext().startActivity(i);
+            startActivity(i);
 
         });
 
