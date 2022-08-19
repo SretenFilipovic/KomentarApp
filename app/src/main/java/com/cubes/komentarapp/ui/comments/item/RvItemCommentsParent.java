@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.ui.detail.item;
+package com.cubes.komentarapp.ui.comments.item;
 
 import android.widget.Toast;
 
@@ -11,12 +11,12 @@ import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-public class RvItemDetailComments implements RvItem {
+public class RvItemCommentsParent implements RvItem {
 
     private final Comments comment;
     private final CommentsListener listener;
 
-    public RvItemDetailComments(Comments comment, CommentsListener listener) {
+    public RvItemCommentsParent(Comments comment, CommentsListener listener) {
         this.comment = comment;
         this.listener = listener;
     }

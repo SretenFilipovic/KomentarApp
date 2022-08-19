@@ -11,12 +11,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RvItemHeadCategorySmall implements RvItem {
+public class RvItemHeadCategorySmallNews implements RvItem {
 
     private final News news;
     private final NewsListener listener;
 
-    public RvItemHeadCategorySmall(News news, NewsListener listener) {
+    public RvItemHeadCategorySmallNews(News news, NewsListener listener) {
         this.listener = listener;
         this.news = news;
     }

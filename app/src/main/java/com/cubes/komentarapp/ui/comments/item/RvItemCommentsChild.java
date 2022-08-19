@@ -1,35 +1,35 @@
-package com.cubes.komentarapp.ui.detail.item;
+package com.cubes.komentarapp.ui.comments.item;
 
 import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.databinding.RvItemCommentBinding;
+import com.cubes.komentarapp.databinding.RvItemCommentChildBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-public class RvItemDetailComments implements RvItem {
+public class RvItemCommentsChild implements RvItem {
 
     private final Comments comment;
     private final CommentsListener listener;
 
-    public RvItemDetailComments(Comments comment, CommentsListener listener) {
+    public RvItemCommentsChild(Comments comment, CommentsListener listener) {
         this.comment = comment;
         this.listener = listener;
     }
 
     @Override
     public int getType() {
-        return R.layout.rv_item_comment;
+        return R.layout.rv_item_comment_child;
     }
 
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemCommentBinding binding = (RvItemCommentBinding) holder.binding;
+        RvItemCommentChildBinding binding = (RvItemCommentChildBinding) holder.binding;
 
         binding.textViewName.setText(comment.name);
         binding.textViewContent.setText(comment.content);

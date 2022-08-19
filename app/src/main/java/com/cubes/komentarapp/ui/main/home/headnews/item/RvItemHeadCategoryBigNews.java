@@ -13,13 +13,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RvItemHeadCategoryBig implements RvItem {
+public class RvItemHeadCategoryBigNews implements RvItem {
 
     private final News news;
     private final CategoryNews category;
     private final NewsListener listener;
 
-    public RvItemHeadCategoryBig(News news, NewsListener listener, CategoryNews category) {
+    public RvItemHeadCategoryBigNews(News news, NewsListener listener, CategoryNews category) {
         this.listener = listener;
         this.news = news;
         this.category = category;

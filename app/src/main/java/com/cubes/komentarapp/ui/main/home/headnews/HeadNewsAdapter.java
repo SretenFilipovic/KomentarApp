@@ -20,8 +20,8 @@ import com.cubes.komentarapp.databinding.RvItemHeadVideoTitleBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBig;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmall;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBigNews;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmallNews;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
@@ -102,9 +102,9 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (CategoryNews category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategoryBig(category.news.get(0), listener, category));
+                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
                 for (int i = 1; i < 5; i++) {
-                    items.add(new RvItemHeadCategorySmall(category.news.get(i),listener));
+                    items.add(new RvItemHeadCategorySmallNews(category.news.get(i),listener));
                 }
             }
         }
@@ -118,9 +118,9 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (CategoryNews category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategoryBig(category.news.get(0), listener, category));
+                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
                 for (int i = 1; i < 5; i++) {
-                    items.add(new RvItemHeadCategorySmall(category.news.get(i),listener));
+                    items.add(new RvItemHeadCategorySmallNews(category.news.get(i),listener));
                 }
             }
         }

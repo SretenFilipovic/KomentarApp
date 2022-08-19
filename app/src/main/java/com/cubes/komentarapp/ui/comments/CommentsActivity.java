@@ -9,16 +9,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.Comments;
 import com.cubes.komentarapp.data.model.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
-import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
@@ -81,14 +77,10 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void upvote(Comments comment, RvItemCommentBinding binding) {
+            public void upvote(Comments comment) {
                 DataRepository.getInstance().upvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                     @Override
                     public void onResponse(ArrayList<Comments> request) {
-
-                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
-                        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
-                        binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
 
                         Vote vote = new Vote(comment.id, true);
                         votes.add(vote);
@@ -107,14 +99,10 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void downVote(Comments comment, RvItemCommentBinding binding) {
+            public void downVote(Comments comment) {
                 DataRepository.getInstance().downvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                     @Override
                     public void onResponse(ArrayList<Comments> request) {
-
-                        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
-                        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
-                        binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
 
                         Vote vote = new Vote(comment.id, false);
                         votes.add(vote);

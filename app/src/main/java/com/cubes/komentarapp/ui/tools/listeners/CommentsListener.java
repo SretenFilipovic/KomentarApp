@@ -7,8 +7,7 @@ public interface CommentsListener {
 
     void onReplyClicked(Comments comment);
 
-    void upvote(Comments comment, RvItemCommentBinding binding);
+    void upvote(Comments comment);
 
-    void downVote(Comments comment, RvItemCommentBinding binding);
-
+    void downVote(Comments comment);
 }

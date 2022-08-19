@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class RvItemHeadEditorsChoiceSlider implements RvItem {
 
-    private ArrayList<News> editorsChoiceNews;
+    private final ArrayList<News> editorsChoiceNews;
 
     public RvItemHeadEditorsChoiceSlider(ArrayList<News> sliderNews) {
         this.editorsChoiceNews = sliderNews;
