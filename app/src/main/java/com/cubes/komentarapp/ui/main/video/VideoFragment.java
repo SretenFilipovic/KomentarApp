@@ -12,14 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.api.NewsListApi;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
+
+import java.util.ArrayList;
 
 public class VideoFragment extends Fragment {
 
@@ -81,8 +83,8 @@ public class VideoFragment extends Fragment {
 
         adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
-                adapter.addNewNewsList(response.news);
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
                 nextPage++;
             }
 
@@ -100,10 +102,10 @@ public class VideoFragment extends Fragment {
         int page = 1;
         DataRepository.getInstance().loadVideoData(page, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
+            public void onResponse(ArrayList<News> response) {
 
                 if (response != null) {
-                    adapter.setData(response.news);
+                    adapter.setData(response);
                 }
 
                 nextPage = 2;

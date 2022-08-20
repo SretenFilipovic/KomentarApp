@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
@@ -65,7 +65,7 @@ public class HeadNewsFragment extends Fragment {
 
     private void loadData() {
 
-        DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadHeadNewsData(new DataRepository.HeadNewsResponseListener() {
             @Override
             public void onResponse(NewsList response) {
 

@@ -6,12 +6,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class RvItemMenuHead implements RvItem {
+public class RvItemMenuHead implements RvItemMenu {
 
     public RvItemMenuHead() {
     }

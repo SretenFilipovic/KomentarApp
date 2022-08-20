@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.api.CategoryApi;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentHomeBinding;
 import com.google.android.material.tabs.TabLayoutMediator;

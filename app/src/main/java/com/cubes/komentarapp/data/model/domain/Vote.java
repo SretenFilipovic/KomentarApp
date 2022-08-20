@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.data.model;
+package com.cubes.komentarapp.data.model.domain;
 
 public class Vote {
 

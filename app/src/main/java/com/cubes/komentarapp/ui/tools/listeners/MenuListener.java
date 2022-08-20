@@ -1,6 +1,6 @@
 package com.cubes.komentarapp.ui.tools.listeners;
 
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.domain.Category;
 
 public interface MenuListener {
 

@@ -8,20 +8,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Comments;
+import com.cubes.komentarapp.data.model.api.CommentsApi;
+import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.databinding.RvItemCommentChildBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.comments.item.RvItemComments;
 import com.cubes.komentarapp.ui.comments.item.RvItemCommentsChild;
 import com.cubes.komentarapp.ui.comments.item.RvItemCommentsParent;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItem> items = new ArrayList<>();
+    private final ArrayList<RvItemComments> items = new ArrayList<>();
     private CommentsListener listener;
 
     public CommentsAdapter() {
@@ -76,17 +78,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.listener = commentsListener;
     }
 
+    public void commentUpvoted(String commentId) {
+        for (RvItemComments item : items) {
+            if (Objects.equals(item.getCommentsId(), commentId)) {
+                item.updateUpvote();
+                break;
+            }
+        }
+    }
 
-//    public void updateUpvote(int position){
-//        Comments comment = comments.get(position);
-//        comment.positive_votes = comment.positive_votes +1;
-//        notifyItemChanged(position);
-//    }
-//
-//    public void updateDownvote(int position){
-//        Comments comment = comments.get(position);
-//        comment.negative_votes = comment.negative_votes +1;
-//        notifyItemChanged(position);
-//    }
+    public void commentDownvoted(String commentId) {
+        for (RvItemComments item : items) {
+            if (Objects.equals(item.getCommentsId(), commentId)) {
+                item.updateDownvote();
+                break;
+            }
+        }
+    }
+
 
 }

@@ -3,14 +3,15 @@ package com.cubes.komentarapp.ui.detail.item;
 import android.graphics.Color;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.squareup.picasso.Picasso;
 
-public class RvItemDetailRelatedNews implements RvItem {
+public class RvItemDetailRelatedNews implements RvItemDetail {
 
     private final News news;
     private final NewsDetailListener listener;
@@ -40,4 +41,5 @@ public class RvItemDetailRelatedNews implements RvItem {
         holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id));
 
     }
+
 }

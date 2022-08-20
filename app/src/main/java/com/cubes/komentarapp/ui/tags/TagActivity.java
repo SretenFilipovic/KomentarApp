@@ -9,11 +9,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.api.NewsListApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+
+import java.util.ArrayList;
 
 public class TagActivity extends AppCompatActivity {
 
@@ -59,8 +62,8 @@ public class TagActivity extends AppCompatActivity {
 
         adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
-                adapter.addNewNewsList(response.news);
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
 
                 nextPage++;
             }
@@ -78,10 +81,10 @@ public class TagActivity extends AppCompatActivity {
         int page = 1;
         DataRepository.getInstance().loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
+            public void onResponse(ArrayList<News> response) {
 
                 if (response != null) {
-                    adapter.setData(response.news);
+                    adapter.setData(response);
                 }
 
                 nextPage = 2;

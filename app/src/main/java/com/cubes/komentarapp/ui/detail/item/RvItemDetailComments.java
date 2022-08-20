@@ -3,18 +3,19 @@ package com.cubes.komentarapp.ui.detail.item;
 import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Comments;
+import com.cubes.komentarapp.data.model.api.CommentsApi;
+import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-public class RvItemDetailComments implements RvItem {
+public class RvItemDetailComments implements RvItemDetail {
 
     private final Comments comment;
     private final CommentsListener listener;
+    private RvItemCommentBinding binding;
 
     public RvItemDetailComments(Comments comment, CommentsListener listener) {
         this.comment = comment;
@@ -29,7 +30,7 @@ public class RvItemDetailComments implements RvItem {
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemCommentBinding binding = (RvItemCommentBinding) holder.binding;
+        binding = (RvItemCommentBinding) holder.binding;
 
         binding.textViewName.setText(comment.name);
         binding.textViewContent.setText(comment.content);
@@ -52,9 +53,6 @@ public class RvItemDetailComments implements RvItem {
             if (comment.commentVote == null) {
                 listener.upvote(comment);
 
-                YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
-                binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
-                binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
 
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
@@ -67,10 +65,6 @@ public class RvItemDetailComments implements RvItem {
             if (comment.commentVote == null) {
                 listener.downVote(comment);
 
-                YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
-                binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
-                binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
-
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
@@ -78,6 +72,25 @@ public class RvItemDetailComments implements RvItem {
             binding.imageViewUpVote.setEnabled(false);
         });
 
+    }
+
+    @Override
+    public String getCommentsId() {
+        return comment.id;
+    }
+
+    @Override
+    public void updateUpvote() {
+        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
+        binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+    }
+
+    @Override
+    public void updateDownvote() {
+        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
+        binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
     }
 
 }

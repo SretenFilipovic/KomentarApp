@@ -5,16 +5,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsMostReadVPAdapter;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
-public class RvItemHeadMostRead implements RvItem {
+public class RvItemHeadMostRead implements RvItemHead {
 
     private final ArrayList<News> mostReadList;
     private final ArrayList<News> latestList;

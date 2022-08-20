@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.CommentsApi;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.Comments;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsShowAllBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsTitleBinding;
@@ -19,6 +22,7 @@ import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsBinding;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.detail.item.RvItemDetail;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailComments;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailCommentsButton;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailCommentsTitle;
@@ -26,15 +30,15 @@ import com.cubes.komentarapp.ui.detail.item.RvItemDetailRelatedNews;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailRelatedNewsTitle;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailTags;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailWebView;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItem> items = new ArrayList<>();
+    private final ArrayList<RvItemDetail> items = new ArrayList<>();
 
     public NewsDetailAdapter() {
     }
@@ -87,7 +91,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         return this.items.get(position).getType();
     }
 
-    public void setData(News response, NewsDetailListener newsDetailListener, CommentsListener commentsListener) {
+    public void setData(NewsDetail response, NewsDetailListener newsDetailListener, CommentsListener commentsListener) {
 
         this.items.add(new RvItemDetailWebView(response));
         this.items.add(new RvItemDetailTags(response.tags, newsDetailListener));
@@ -104,6 +108,24 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         notifyDataSetChanged();
+    }
+
+    public void commentUpvoted(String commentId) {
+        for (RvItemDetail item : items) {
+            if (Objects.equals(item.getCommentsId(), commentId)) {
+                item.updateUpvote();
+                break;
+            }
+        }
+    }
+
+    public void commentDownvoted(String commentId) {
+        for (RvItemDetail itemModel : items) {
+            if (Objects.equals(itemModel.getCommentsId(), commentId)) {
+                itemModel.updateDownvote();
+                break;
+            }
+        }
     }
 
 }

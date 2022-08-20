@@ -2,13 +2,13 @@ package com.cubes.komentarapp.ui.main.menu;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Horoscope;
+import com.cubes.komentarapp.data.model.api.HoroscopeApi;
+import com.cubes.komentarapp.data.model.domain.Horoscope;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
 import com.squareup.picasso.Picasso;

@@ -2,9 +2,8 @@ package com.cubes.komentarapp.ui.detail.item;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 
-public class RvItemDetailRelatedNewsTitle implements RvItem {
+public class RvItemDetailRelatedNewsTitle implements RvItemDetail {
 
     public RvItemDetailRelatedNewsTitle() {
     }
@@ -17,4 +16,5 @@ public class RvItemDetailRelatedNewsTitle implements RvItem {
     @Override
     public void bind(ViewHolder holder) {
     }
+
 }

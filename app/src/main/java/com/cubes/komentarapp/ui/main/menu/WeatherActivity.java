@@ -7,7 +7,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Weather;
+import com.cubes.komentarapp.data.model.api.WeatherApi;
+import com.cubes.komentarapp.data.model.domain.Weather;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityWeatherBinding;
 import com.squareup.picasso.Picasso;

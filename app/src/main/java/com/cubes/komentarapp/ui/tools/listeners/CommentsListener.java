@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.tools.listeners;
 
-import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.databinding.RvItemCommentBinding;
+import com.cubes.komentarapp.data.model.domain.Comments;
 
 public interface CommentsListener {
 

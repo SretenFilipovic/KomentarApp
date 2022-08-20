@@ -17,11 +17,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.api.NewsListApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
@@ -107,8 +110,8 @@ public class SearchFragment extends Fragment {
 
         adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
-                adapter.addNewNewsList(response.news);
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
                 nextPage++;
             }
 
@@ -135,13 +138,13 @@ public class SearchFragment extends Fragment {
 
             DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override
-                public void onResponse(NewsList response) {
+                public void onResponse(ArrayList<News> response) {
 
                     setupRecyclerView();
 
-                    if (response.news.size() > 0) {
+                    if (response.size() > 0) {
                         binding.textViewNoContent.setVisibility(View.GONE);
-                        adapter.setData(response.news);
+                        adapter.setData(response);
                     } else {
                         binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
                         binding.textViewNoContent.setVisibility(View.VISIBLE);

@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.CategoryNews;
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.domain.CategoryBox;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
@@ -20,6 +20,7 @@ import com.cubes.komentarapp.databinding.RvItemHeadVideoTitleBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBigNews;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmallNews;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
@@ -28,14 +29,13 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideoTitle;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
 public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItem> items = new ArrayList<>();
+    private final ArrayList<RvItemHead> items = new ArrayList<>();
 
     public HeadNewsAdapter() {
     }
@@ -100,7 +100,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         items.add(new RvItemHeadMostRead(response.latest, response.most_read, response.most_comented));
 
-        for (CategoryNews category : response.category) {
+        for (CategoryBox category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
                 items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
                 for (int i = 1; i < 5; i++) {
@@ -116,7 +116,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             items.add(new RvItemHeadVideo(news, listener));
         }
 
-        for (CategoryNews category : response.category) {
+        for (CategoryBox category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
                 items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
                 for (int i = 1; i < 5; i++) {

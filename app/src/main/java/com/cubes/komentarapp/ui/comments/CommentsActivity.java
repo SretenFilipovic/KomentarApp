@@ -9,8 +9,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.model.Vote;
+import com.cubes.komentarapp.data.model.api.CommentsApi;
+import com.cubes.komentarapp.data.model.domain.Comments;
+import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
@@ -87,6 +88,8 @@ public class CommentsActivity extends AppCompatActivity {
 
                         PrefConfig.writeListInPref(CommentsActivity.this, votes);
 
+                        adapter.commentUpvoted(comment.id);
+
                         Log.d("UPVOTE", "Upvote success");
                     }
 
@@ -108,6 +111,8 @@ public class CommentsActivity extends AppCompatActivity {
                         votes.add(vote);
 
                         PrefConfig.writeListInPref(CommentsActivity.this, votes);
+
+                        adapter.commentDownvoted(comment.id);
 
                         Log.d("DOWNVOTE", "Downvote success");
                     }

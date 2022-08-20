@@ -8,15 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.api.CategoryApi;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.cubes.komentarapp.ui.main.menu.MenuSubcategoryAdapter;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
-public class RvItemMenuCategories implements RvItem {
+public class RvItemMenuCategories implements RvItemMenu {
 
     private final Category category;
     private final MenuListener listener;

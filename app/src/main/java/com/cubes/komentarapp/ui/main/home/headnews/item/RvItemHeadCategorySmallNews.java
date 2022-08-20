@@ -1,17 +1,14 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.CategoryNews;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
-public class RvItemHeadCategorySmallNews implements RvItem {
+public class RvItemHeadCategorySmallNews implements RvItemHead {
 
     private final News news;
     private final NewsListener listener;

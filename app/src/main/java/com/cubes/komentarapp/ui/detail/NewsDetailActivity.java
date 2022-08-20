@@ -9,21 +9,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.Vote;
+import com.cubes.komentarapp.data.model.api.CommentsApi;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.Comments;
+import com.cubes.komentarapp.data.model.domain.NewsDetail;
+import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
-import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
@@ -65,7 +63,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         DataRepository.getInstance().getNewsDetails(id, new DataRepository.NewsDetailListener() {
             @Override
-            public void onResponse(News response) {
+            public void onResponse(NewsDetail response) {
 
                 binding.imageViewShare.setOnClickListener(view -> {
                     Intent i = new Intent();
@@ -133,6 +131,8 @@ public class NewsDetailActivity extends AppCompatActivity {
 
                                 PrefConfig.writeListInPref(NewsDetailActivity.this, votes);
 
+                                adapter.commentUpvoted(comment.id);
+
                                 Log.d("UPVOTE", "Upvote success");
                             }
                             @Override
@@ -153,6 +153,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 votes.add(vote);
 
                                 PrefConfig.writeListInPref(NewsDetailActivity.this, votes);
+
+                                adapter.commentDownvoted(comment.id);
 
                                 Log.d("DOWNVOTE", "Downvote success");
                             }

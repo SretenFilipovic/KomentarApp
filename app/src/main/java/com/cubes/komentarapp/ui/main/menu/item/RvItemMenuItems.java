@@ -2,11 +2,10 @@ package com.cubes.komentarapp.ui.main.menu.item;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
-public class RvItemMenuItems implements RvItem {
+public class RvItemMenuItems implements RvItemMenu {
 
     private final MenuListener listener;
 

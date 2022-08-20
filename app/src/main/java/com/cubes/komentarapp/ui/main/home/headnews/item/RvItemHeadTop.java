@@ -3,14 +3,14 @@ package com.cubes.komentarapp.ui.main.home.headnews.item;
 import android.graphics.Color;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
-public class RvItemHeadTop implements RvItem {
+public class RvItemHeadTop implements RvItemHead {
 
     private final News news;
     private final NewsListener listener;

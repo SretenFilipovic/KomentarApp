@@ -3,20 +3,20 @@ package com.cubes.komentarapp.ui.detail.item;
 import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsShowAllBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-public class RvItemDetailCommentsButton implements RvItem {
+public class RvItemDetailCommentsButton implements RvItemDetail {
 
-    private final News news;
+    private final NewsDetail news;
     private final NewsDetailListener listener;
 
-    public RvItemDetailCommentsButton(News news, NewsDetailListener listener) {
+    public RvItemDetailCommentsButton(NewsDetail news, NewsDetailListener listener) {
         this.news = news;
         this.listener = listener;
     }
@@ -63,5 +63,6 @@ public class RvItemDetailCommentsButton implements RvItem {
 
 
     }
+
 
 }

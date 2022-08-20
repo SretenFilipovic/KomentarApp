@@ -9,23 +9,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.api.CategoryApi;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuSocialNetworkBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.main.menu.item.RvItemMenu;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuCategories;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuHead;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuItems;
 import com.cubes.komentarapp.ui.main.menu.item.RvItemMenuSocialNetwork;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 import java.util.ArrayList;
 
 public class MenuAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<RvItem> items = new ArrayList<>();
+    private final ArrayList<RvItemMenu> items = new ArrayList<>();
 
     public MenuAdapter() {
     }

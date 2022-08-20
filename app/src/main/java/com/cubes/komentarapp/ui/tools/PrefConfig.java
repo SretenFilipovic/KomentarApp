@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.cubes.komentarapp.data.model.Vote;
+import com.cubes.komentarapp.data.model.domain.Vote;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

@@ -1,18 +1,18 @@
 package com.cubes.komentarapp.ui.detail.item;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsTitleBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 
-public class RvItemDetailCommentsTitle implements RvItem {
+public class RvItemDetailCommentsTitle implements RvItemDetail {
 
-    private final News news;
+    private final NewsDetail news;
     private final NewsDetailListener listener;
 
-    public RvItemDetailCommentsTitle(News news, NewsDetailListener listener) {
+    public RvItemDetailCommentsTitle(NewsDetail news, NewsDetailListener listener) {
         this.news = news;
         this.listener = listener;
     }

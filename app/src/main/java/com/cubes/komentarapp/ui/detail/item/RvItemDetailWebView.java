@@ -1,17 +1,18 @@
 package com.cubes.komentarapp.ui.detail.item;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 
-public class RvItemDetailWebView implements RvItem {
+public class RvItemDetailWebView implements RvItemDetail {
 
-    private News news;
+    private NewsDetail news;
 
-    public RvItemDetailWebView(News news) {
+    public RvItemDetailWebView(NewsDetail news) {
         this.news = news;
     }
 
@@ -27,4 +28,5 @@ public class RvItemDetailWebView implements RvItem {
 
         binding.webView.loadUrl(DataContainer.BASE_URL + "api/newswebview?id=" + news.id + "&version=2");
     }
+
 }

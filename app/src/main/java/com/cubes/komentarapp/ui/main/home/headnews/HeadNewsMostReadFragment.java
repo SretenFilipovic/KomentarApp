@@ -11,7 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 

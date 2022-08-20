@@ -13,11 +13,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.api.NewsListApi;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
+
+import java.util.ArrayList;
 
 public class LatestFragment extends Fragment {
 
@@ -78,8 +81,8 @@ public class LatestFragment extends Fragment {
 
         adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
-                adapter.addNewNewsList(response.news);
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
                 nextPage++;
             }
 
@@ -95,10 +98,10 @@ public class LatestFragment extends Fragment {
 
         DataRepository.getInstance().loadLatestData(1, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
+            public void onResponse(ArrayList<News> response) {
 
                 if (response != null) {
-                    adapter.setData(response.news);
+                    adapter.setData(response);
                 }
 
                 nextPage = 2;

@@ -3,23 +3,22 @@ package com.cubes.komentarapp.ui.main.home.headnews.item;
 import android.graphics.Color;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.CategoryNews;
-import com.cubes.komentarapp.data.model.News;
+import com.cubes.komentarapp.data.model.api.CategoryBoxApi;
+import com.cubes.komentarapp.data.model.api.NewsApi;
+import com.cubes.komentarapp.data.model.domain.CategoryBox;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.tools.RvItem;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
-public class RvItemHeadCategoryBigNews implements RvItem {
+public class RvItemHeadCategoryBigNews implements RvItemHead {
 
     private final News news;
-    private final CategoryNews category;
+    private final CategoryBox category;
     private final NewsListener listener;
 
-    public RvItemHeadCategoryBigNews(News news, NewsListener listener, CategoryNews category) {
+    public RvItemHeadCategoryBigNews(News news, NewsListener listener, CategoryBox category) {
         this.listener = listener;
         this.news = news;
         this.category = category;
