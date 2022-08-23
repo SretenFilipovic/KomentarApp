@@ -1,8 +1,8 @@
 package com.cubes.komentarapp.data.source.remote.networking;
 
+import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCategoryList;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCommentList;
-import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseHoroscope;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsDetail;
 import com.cubes.komentarapp.data.source.remote.response.ResponseNewsList;

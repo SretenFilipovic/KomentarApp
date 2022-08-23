@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.CategoryApi;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.data.source.local.DataContainer;

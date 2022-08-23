@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

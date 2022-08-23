@@ -1,7 +1,5 @@
 package com.cubes.komentarapp.data.model.api;
 
-import com.cubes.komentarapp.data.model.domain.Comments;
-
 import java.util.ArrayList;
 
 public class CommentsApi {
@@ -14,6 +12,6 @@ public class CommentsApi {
     public String parent_comment;
     public String id;
     public String content;
-    public ArrayList<Comments> children;
+    public ArrayList<CommentsApi> children;
 
 }

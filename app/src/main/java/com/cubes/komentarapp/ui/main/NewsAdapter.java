@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
@@ -58,7 +57,7 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
             binding.textViewCategory.setText(news.category.name);
             binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+            binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 

@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.News;
 
 import java.util.ArrayList;

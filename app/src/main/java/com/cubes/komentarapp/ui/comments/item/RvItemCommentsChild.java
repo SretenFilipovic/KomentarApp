@@ -3,7 +3,6 @@ package com.cubes.komentarapp.ui.comments.item;
 import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.CommentsApi;
 import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.databinding.RvItemCommentChildBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
@@ -34,9 +33,9 @@ public class RvItemCommentsChild implements RvItemComments {
 
         binding.textViewName.setText(comment.name);
         binding.textViewContent.setText(comment.content);
-        binding.textViewCreatedAt.setText(comment.created_at);
-        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes));
-        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes));
+        binding.textViewCreatedAt.setText(comment.createdAt);
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positiveVotes));
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negativeVotes));
 
         binding.imageViewReply.setOnClickListener(view -> listener.onReplyClicked(comment));
         binding.textViewReply.setOnClickListener(view -> listener.onReplyClicked(comment));
@@ -64,8 +63,6 @@ public class RvItemCommentsChild implements RvItemComments {
         binding.imageViewDownVote.setOnClickListener(view -> {
             if (comment.commentVote == null) {
                 listener.downVote(comment);
-
-
             } else {
                 Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
@@ -83,14 +80,14 @@ public class RvItemCommentsChild implements RvItemComments {
     @Override
     public void updateUpvote(){
         YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
-        binding.textViewUpVoteCount.setText(String.valueOf(comment.positive_votes + 1));
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positiveVotes + 1));
         binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
     }
 
     @Override
     public void updateDownvote(){
         YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
-        binding.textViewDownVoteCount.setText(String.valueOf(comment.negative_votes + 1));
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negativeVotes + 1));
         binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
     }
 

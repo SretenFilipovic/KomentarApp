@@ -98,7 +98,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             items.add(new RvItemHeadTop(news, listener));
         }
 
-        items.add(new RvItemHeadMostRead(response.latest, response.most_read, response.most_comented));
+        items.add(new RvItemHeadMostRead(response.latest, response.mostRead, response.mostCommented));
 
         for (CategoryBox category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
@@ -109,7 +109,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
         }
 
-        items.add(new RvItemHeadEditorsChoiceSlider(response.editors_choice));
+        items.add(new RvItemHeadEditorsChoiceSlider(response.editorsChoice));
 
         items.add(new RvItemHeadVideoTitle());
         for (News news : response.videos){

@@ -9,8 +9,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.api.CommentsApi;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
@@ -74,7 +72,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 });
 
                 binding.imageViewComments.setOnClickListener(view -> {
-                    if (response.comments_count == 0) {
+                    if (response.commentsCount == 0) {
                         Toast.makeText(NewsDetailActivity.this, "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
                     } else {
                         Intent i = new Intent(NewsDetailActivity.this, CommentsActivity.class);
@@ -116,7 +114,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                     public void onReplyClicked(Comments comment) {
                         Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
                         i.putExtra("commentId", comment.id);
-                        i.putExtra("newsId", comment.news);
+                        i.putExtra("newsId", comment.newsId);
                         startActivity(i);
                     }
 

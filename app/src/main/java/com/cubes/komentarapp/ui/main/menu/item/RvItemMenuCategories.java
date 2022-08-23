@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.CategoryApi;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

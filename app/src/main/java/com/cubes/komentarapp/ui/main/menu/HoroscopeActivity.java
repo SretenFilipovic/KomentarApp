@@ -7,7 +7,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.HoroscopeApi;
 import com.cubes.komentarapp.data.model.domain.Horoscope;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
@@ -41,7 +40,7 @@ public class HoroscopeActivity extends AppCompatActivity {
                 binding.textViewName.setText(horoscope.name);
                 binding.textViewDate.setText(horoscope.date);
                 binding.textViewDescription.setText(horoscope.horoscope);
-                Picasso.get().load(horoscope.image_url).into(binding.imageViewHoroscope);
+                Picasso.get().load(horoscope.imageUrl).into(binding.imageViewHoroscope);
 
                 Log.d("HOROSCOPE", "Horoscope load data success");
             }

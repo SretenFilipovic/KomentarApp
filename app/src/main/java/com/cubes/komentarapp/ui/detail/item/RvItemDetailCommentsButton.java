@@ -3,7 +3,6 @@ package com.cubes.komentarapp.ui.detail.item;
 import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsShowAllBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
@@ -32,10 +31,10 @@ public class RvItemDetailCommentsButton implements RvItemDetail {
         RvItemNewsDetailCommentsShowAllBinding binding = (RvItemNewsDetailCommentsShowAllBinding) holder.binding;
 
 
-        binding.textViewButtonCount.setText(String.valueOf(news.comments_count));
+        binding.textViewButtonCount.setText(String.valueOf(news.commentsCount));
 
         binding.textViewShowAllComments.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
+            if (news.commentsCount == 0) {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {
@@ -44,7 +43,7 @@ public class RvItemDetailCommentsButton implements RvItemDetail {
         });
 
         binding.frameLayoutShowAll.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
+            if (news.commentsCount == 0) {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {
@@ -53,7 +52,7 @@ public class RvItemDetailCommentsButton implements RvItemDetail {
         });
 
         binding.textViewButtonCount.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
+            if (news.commentsCount == 0) {
                 YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {

@@ -1,10 +1,5 @@
 package com.cubes.komentarapp.data.model.api;
 
-import com.cubes.komentarapp.data.model.domain.Category;
-import com.cubes.komentarapp.data.model.domain.Comments;
-import com.cubes.komentarapp.data.model.domain.News;
-import com.cubes.komentarapp.data.model.domain.Tags;
-
 import java.util.ArrayList;
 
 public class NewsApi {
@@ -14,7 +9,7 @@ public class NewsApi {
     public String image_source;
     public String author_name;
     public String source;
-    public Category category;
+    public CategoryApi category;
     public String title;
     public String description;
     public int comment_enabled;
@@ -25,10 +20,10 @@ public class NewsApi {
     public String click_type;
 
     // fildovi potrebni za NewsDetails
-    public ArrayList<Tags> tags;
-    public ArrayList<News> related_news;
-    public ArrayList<News> category_news;
-    public ArrayList<Comments> comments_top_n;
+    public ArrayList<TagsApi> tags;
+    public ArrayList<NewsApi> related_news;
+    public ArrayList<NewsApi> category_news;
+    public ArrayList<CommentsApi> comments_top_n;
 
 
 }

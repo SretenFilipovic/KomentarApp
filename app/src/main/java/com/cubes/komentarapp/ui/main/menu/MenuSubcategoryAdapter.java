@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.api.CategoryApi;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuSubcategoryBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

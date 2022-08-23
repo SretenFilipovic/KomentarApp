@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.CommentsApi;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
@@ -97,13 +95,13 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.items.add(new RvItemDetailTags(response.tags, newsDetailListener));
         this.items.add(new RvItemDetailCommentsTitle(response, newsDetailListener));
 
-        for (Comments comment : response.comments_top_n) {
+        for (Comments comment : response.topComments) {
             this.items.add(new RvItemDetailComments(comment, commentsListener));
         }
         this.items.add(new RvItemDetailCommentsButton(response, newsDetailListener));
 
         this.items.add(new RvItemDetailRelatedNewsTitle());
-        for (News news : response.related_news) {
+        for (News news : response.relatedNews) {
             this.items.add(new RvItemDetailRelatedNews(news, newsDetailListener));
         }
 

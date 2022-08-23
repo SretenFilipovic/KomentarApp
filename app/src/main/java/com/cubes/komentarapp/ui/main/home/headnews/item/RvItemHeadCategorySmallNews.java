@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
@@ -28,7 +27,7 @@ public class RvItemHeadCategorySmallNews implements RvItemHead {
 
         RvItemSmallNewsHomepageBinding binding = (RvItemSmallNewsHomepageBinding) holder.binding;
 
-        binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+        binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 

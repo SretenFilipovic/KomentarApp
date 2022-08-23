@@ -5,12 +5,10 @@ import java.util.ArrayList;
 public class NewsDetail {
 
     public int id;
-    public boolean comment_enabled;
-    public int comments_count;
+    public boolean commentEnabled;
+    public int commentsCount;
     public String url;
     public ArrayList<Tags> tags;
-    public ArrayList<News> related_news;
-    public ArrayList<Comments> comments_top_n;
-
-
+    public ArrayList<News> relatedNews;
+    public ArrayList<Comments> topComments;
 }

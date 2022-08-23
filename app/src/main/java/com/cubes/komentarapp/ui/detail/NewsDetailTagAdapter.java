@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.api.TagsApi;
 import com.cubes.komentarapp.data.model.domain.Tags;
 import com.cubes.komentarapp.databinding.RvItemTagBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

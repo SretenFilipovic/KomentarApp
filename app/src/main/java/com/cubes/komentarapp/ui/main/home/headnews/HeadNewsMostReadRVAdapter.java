@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
@@ -42,7 +41,7 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> 
 
         RvItemSmallestNewsBinding binding = (RvItemSmallestNewsBinding) holder.binding;
 
-        binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+        binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
 
         holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));

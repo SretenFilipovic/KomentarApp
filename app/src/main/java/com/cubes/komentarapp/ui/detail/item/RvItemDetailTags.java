@@ -3,7 +3,6 @@ package com.cubes.komentarapp.ui.detail.item;
 import android.view.View;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.TagsApi;
 import com.cubes.komentarapp.data.model.domain.Tags;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

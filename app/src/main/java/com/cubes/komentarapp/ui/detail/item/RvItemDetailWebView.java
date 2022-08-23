@@ -1,8 +1,6 @@
 package com.cubes.komentarapp.ui.detail.item;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.NewsApi;
-import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;

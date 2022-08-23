@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.detail.item;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsTitleBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
@@ -27,7 +26,7 @@ public class RvItemDetailCommentsTitle implements RvItemDetail {
 
         RvItemNewsDetailCommentsTitleBinding binding = (RvItemNewsDetailCommentsTitleBinding) holder.binding;
 
-        binding.textViewCommentCount.setText("(" + news.comments_count + ")");
+        binding.textViewCommentCount.setText("(" + news.commentsCount + ")");
 
         binding.buttonLeaveComment.setOnClickListener(view -> listener.onLeaveCommentClicked(String.valueOf(news.id)));
 

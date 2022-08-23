@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.CategoryApi;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;

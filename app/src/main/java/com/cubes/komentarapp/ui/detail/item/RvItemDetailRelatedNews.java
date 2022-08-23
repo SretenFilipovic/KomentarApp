@@ -3,9 +3,7 @@ package com.cubes.komentarapp.ui.detail.item;
 import android.graphics.Color;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.NewsApi;
 import com.cubes.komentarapp.data.model.domain.News;
-import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
@@ -34,7 +32,7 @@ public class RvItemDetailRelatedNews implements RvItemDetail {
 
         binding.textViewCategory.setText(news.category.name);
         binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-        binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
+        binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 

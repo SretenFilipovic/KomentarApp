@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.cubes.komentarapp.data.model.api.CategoryApi;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.ui.main.home.categories.HomePageCategoryFragment;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsFragment;

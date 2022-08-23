@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.api.CommentsApi;
 import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.databinding.RvItemCommentBinding;
 import com.cubes.komentarapp.databinding.RvItemCommentChildBinding;
@@ -58,7 +57,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (Comments comment : commentsData){
 
-            if (comment.parent_comment.equals("0")) {
+            if (comment.parentCommentId.equals("0")) {
                 items.add(new RvItemCommentsParent(comment, listener));
             }
             else {
