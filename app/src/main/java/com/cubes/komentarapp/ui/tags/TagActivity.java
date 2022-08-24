@@ -14,6 +14,7 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -21,8 +22,11 @@ public class TagActivity extends AppCompatActivity {
 
     private ActivityTagBinding binding;
     private int tagId;
+    private String tagTitle;
     private NewsAdapter adapter;
     private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,10 @@ public class TagActivity extends AppCompatActivity {
         binding = ActivityTagBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        tagId = getIntent().getIntExtra("tag", -1);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        tagId = getIntent().getIntExtra("tagId", -1);
+        tagTitle = getIntent().getStringExtra("tagTitle");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -44,6 +51,10 @@ public class TagActivity extends AppCompatActivity {
             loadData();
         });
 
+        Bundle bundle = new Bundle();
+        bundle.putString("tags", tagTitle);
+        mFirebaseAnalytics.logEvent("select_tags", bundle);
+
         setupRecyclerView();
         loadData();
     }
@@ -56,6 +67,7 @@ public class TagActivity extends AppCompatActivity {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
             i.putExtra("news", news.id);
+            i.putExtra("newsTitle", news.title);
             startActivity(i);
         });
 

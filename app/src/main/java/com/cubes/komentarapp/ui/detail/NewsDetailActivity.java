@@ -20,6 +20,7 @@ import com.cubes.komentarapp.ui.tags.TagActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ public class NewsDetailActivity extends AppCompatActivity {
     private ActivityNewsDetailBinding binding;
     private NewsDetailAdapter adapter;
     private ArrayList<Vote> votes = new ArrayList<>();
-    private int id;
+    private int newsId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,10 @@ public class NewsDetailActivity extends AppCompatActivity {
         binding = ActivityNewsDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        id = getIntent().getIntExtra("news", -1);
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        newsId = getIntent().getIntExtra("news", -1);
+        String newsTitle = getIntent().getStringExtra("newsTitle");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -50,6 +55,10 @@ public class NewsDetailActivity extends AppCompatActivity {
             loadData();
         });
 
+        Bundle bundle = new Bundle();
+        bundle.putString("news", newsTitle);
+        mFirebaseAnalytics.logEvent("select_news", bundle);
+
         setupRecyclerView();
     }
 
@@ -59,7 +68,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             votes = (ArrayList<Vote>) PrefConfig.readListFromPref(NewsDetailActivity.this);
         }
 
-        DataRepository.getInstance().getNewsDetails(id, new DataRepository.NewsDetailListener() {
+        DataRepository.getInstance().getNewsDetails(newsId, new DataRepository.NewsDetailListener() {
             @Override
             public void onResponse(NewsDetail response) {
 
@@ -97,16 +106,18 @@ public class NewsDetailActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onTagClicked(int tagId) {
+                    public void onTagClicked(int tagId, String tagTitle) {
                         Intent i = new Intent(getApplicationContext(), TagActivity.class);
-                        i.putExtra("tag", tagId);
+                        i.putExtra("tagId", tagId);
+                        i.putExtra("tagTitle", tagTitle);
                         startActivity(i);
                     }
 
                     @Override
-                    public void onNewsClicked(int newsId) {
+                    public void onNewsClicked(int newsId, String newsTitle) {
                         Intent i = new Intent(getApplicationContext(), NewsDetailActivity.class);
                         i.putExtra("news", newsId);
+                        i.putExtra("newsTitle", newsTitle);
                         startActivity(i);
                     }
                 }, new CommentsListener() {
@@ -192,5 +203,6 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         loadData();
     }
+
 
 }

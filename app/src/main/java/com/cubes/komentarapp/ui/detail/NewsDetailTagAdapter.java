@@ -39,7 +39,7 @@ public class NewsDetailTagAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         RvItemTagBinding binding = (RvItemTagBinding) holder.binding;
         binding.buttonTag.setText(tag.title);
-        binding.buttonTag.setOnClickListener(view -> listener.onTagClicked(tag.id));
+        binding.buttonTag.setOnClickListener(view -> listener.onTagClicked(tag.id, tag.title));
     }
 
     @Override

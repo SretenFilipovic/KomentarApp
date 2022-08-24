@@ -26,8 +26,10 @@ import java.util.ArrayList;
 public class MenuAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private final ArrayList<RvItemMenu> items = new ArrayList<>();
+    private boolean isOn;
 
-    public MenuAdapter() {
+    public MenuAdapter(boolean isOn) {
+        this.isOn = isOn;
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -71,7 +73,7 @@ public class MenuAdapter extends RecyclerView.Adapter<ViewHolder> {
         for (Category category : list) {
             this.items.add(new RvItemMenuCategories(category, listener, list.indexOf(category)));
         }
-        this.items.add(new RvItemMenuItems(listener));
+        this.items.add(new RvItemMenuItems(listener, isOn));
         this.items.add(new RvItemMenuSocialNetwork(listener));
 
         notifyDataSetChanged();

@@ -14,6 +14,7 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivitySubcategoryBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -21,8 +22,10 @@ public class SubcategoryActivity extends AppCompatActivity {
 
     private ActivitySubcategoryBinding binding;
     private int categoryId;
+    private String categoryName;
     private NewsAdapter adapter;
     private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -31,8 +34,10 @@ public class SubcategoryActivity extends AppCompatActivity {
         binding = ActivitySubcategoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
         categoryId = getIntent().getIntExtra("categoryId", -1);
-        String categoryName = getIntent().getStringExtra("categoryName");
+        categoryName = getIntent().getStringExtra("categoryName");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -48,8 +53,13 @@ public class SubcategoryActivity extends AppCompatActivity {
 
         binding.textViewSubcategoryTitle.setText(categoryName);
 
+        Bundle bundle = new Bundle();
+        bundle.putString("subcategory", categoryName);
+        mFirebaseAnalytics.logEvent("select_subcategory", bundle);
+
         setupRecyclerView();
         loadData();
+
     }
 
 
@@ -61,8 +71,8 @@ public class SubcategoryActivity extends AppCompatActivity {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(SubcategoryActivity.this, NewsDetailActivity.class);
             i.putExtra("news", news.id);
+            i.putExtra("newsTitle", news.title);
             startActivity(i);
-
         });
 
         adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
@@ -82,6 +92,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+
         DataRepository.getInstance().loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {

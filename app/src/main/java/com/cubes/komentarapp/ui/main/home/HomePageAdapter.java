@@ -26,7 +26,7 @@ public class HomePageAdapter extends FragmentStateAdapter {
             return HeadNewsFragment.newInstance();
         } else {
             Category category = categoryList.get(position - 1);
-            return HomePageCategoryFragment.newInstance(category.id);
+            return HomePageCategoryFragment.newInstance(category.id, category.name);
         }
     }
 

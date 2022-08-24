@@ -66,12 +66,14 @@ public class HeadNewsSliderFragment extends Fragment {
         binding.imageViewNews.setOnClickListener(view1 -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);
+            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         });
 
         binding.textViewTitle.setOnClickListener(view12 -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);
+            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         });
 

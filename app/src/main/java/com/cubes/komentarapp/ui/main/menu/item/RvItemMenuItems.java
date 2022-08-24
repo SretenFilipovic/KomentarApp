@@ -8,9 +8,11 @@ import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 public class RvItemMenuItems implements RvItemMenu {
 
     private final MenuListener listener;
+    private final boolean isOn;
 
-    public RvItemMenuItems(MenuListener listener) {
+    public RvItemMenuItems(MenuListener listener, boolean isOn) {
         this.listener = listener;
+        this.isOn = isOn;
     }
 
     @Override
@@ -25,11 +27,13 @@ public class RvItemMenuItems implements RvItemMenu {
 
         binding.textViewContact.setOnClickListener(view -> listener.onItemClicked());
         binding.textViewTermsAndConditions.setOnClickListener(view -> listener.onItemClicked());
-        binding.textViewPushNotification.setOnClickListener(view -> listener.onItemClicked());
         binding.textViewMarketing.setOnClickListener(view -> listener.onItemClicked());
         binding.textViewCurrency.setOnClickListener(view -> listener.onCurrencyClicked());
         binding.textViewHoroscope.setOnClickListener(view -> listener.onHoroscopeClicked());
         binding.textViewWeather.setOnClickListener(view -> listener.onWeatherClicked());
+
+        binding.switchNotifications.setChecked(isOn);
+        binding.switchNotifications.setOnCheckedChangeListener((compoundButton, b) -> listener.onNotificationClicked(b));
 
     }
 }

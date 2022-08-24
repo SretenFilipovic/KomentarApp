@@ -6,8 +6,8 @@ public interface NewsDetailListener {
 
     void onLeaveCommentClicked(String newsId);
 
-    void onTagClicked(int tagId);
+    void onTagClicked(int tagId, String tagTitle);
 
-    void onNewsClicked(int newsId);
+    void onNewsClicked(int newsId, String newsTitle);
 
 }

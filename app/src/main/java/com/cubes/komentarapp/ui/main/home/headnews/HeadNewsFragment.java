@@ -72,6 +72,7 @@ public class HeadNewsFragment extends Fragment {
                 adapter.setData(response, news -> {
                     Intent i = new Intent(getContext(), NewsDetailActivity.class);
                     i.putExtra("news", news.id);
+                    i.putExtra("newsTitle", news.title);
                     startActivity(i);
                 });
 

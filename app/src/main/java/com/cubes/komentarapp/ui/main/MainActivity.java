@@ -28,7 +28,9 @@ import com.cubes.komentarapp.ui.main.menu.WeatherActivity;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
 import com.cubes.komentarapp.ui.main.video.VideoFragment;
 import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
+import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
 
@@ -93,8 +96,12 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        //privremeno
+
+        boolean isNotificationOn = PrefConfig.isNotificationOn(this);
+
         binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new MenuAdapter();
+        adapter = new MenuAdapter(isNotificationOn);
         binding.recyclerViewMenu.setAdapter(adapter);
 
         loadData();
@@ -108,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setData(response, new MenuListener() {
                     @Override
                     public void onSubcategoryClicked(Category category) {
+
                         Intent i = new Intent(MainActivity.this, SubcategoryActivity.class);
                         i.putExtra("categoryId", category.id);
                         i.putExtra("categoryName", category.name);
@@ -149,6 +157,17 @@ public class MainActivity extends AppCompatActivity {
                         } catch (ActivityNotFoundException e) {
                             Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNotificationClicked(boolean isOn) {
+                        PrefConfig.setNotificationStatus(MainActivity.this, isOn);
+                        if (isOn){
+                            FirebaseMessaging.getInstance().subscribeToTopic("main");
+                        }
+                        else {
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("main");
                         }
                     }
                 });

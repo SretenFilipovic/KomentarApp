@@ -36,7 +36,7 @@ public class RvItemDetailRelatedNews implements RvItemDetail {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 
-        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id));
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title));
 
     }
 

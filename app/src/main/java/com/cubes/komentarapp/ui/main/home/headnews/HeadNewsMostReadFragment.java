@@ -57,6 +57,7 @@ public class HeadNewsMostReadFragment extends Fragment {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
+            i.putExtra("newsTitle", news.title);
             getContext().startActivity(i);
         });
 

@@ -18,6 +18,7 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -25,19 +26,24 @@ public class HomePageCategoryFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private static final String CATEGORY_ID = "categoryId";
+    private static final String CATEGORY_TITLE = "categoryTitle";
     private int categoryId;
+    private String categoryTitle;
     private NewsWithHeaderAdapter adapter;
     private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
 
     public HomePageCategoryFragment() {
 
     }
 
-    public static HomePageCategoryFragment newInstance(int categoryId) {
+    public static HomePageCategoryFragment newInstance(int categoryId, String categoryTitle) {
         HomePageCategoryFragment fragment = new HomePageCategoryFragment();
         Bundle args = new Bundle();
         args.putInt(CATEGORY_ID, categoryId);
+        args.putString(CATEGORY_TITLE, categoryTitle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,6 +53,7 @@ public class HomePageCategoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             categoryId = getArguments().getInt(CATEGORY_ID);
+            categoryTitle = getArguments().getString(CATEGORY_TITLE);
         }
     }
 
@@ -55,12 +62,18 @@ public class HomePageCategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("category", categoryTitle);
+        mFirebaseAnalytics.logEvent("select_category", bundle);
 
         setupRecyclerView();
 
@@ -87,6 +100,7 @@ public class HomePageCategoryFragment extends Fragment {
 
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
+            i.putExtra("newsTitle", news.title);
             startActivity(i);
 
         });

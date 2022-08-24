@@ -18,6 +18,7 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -65,6 +66,7 @@ public class LatestFragment extends Fragment {
             setupRecyclerView();
             loadData();
         });
+
     }
 
     private void setupRecyclerView() {
@@ -75,6 +77,7 @@ public class LatestFragment extends Fragment {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
+            i.putExtra("newsTitle", news.title);
             startActivity(i);
         });
 

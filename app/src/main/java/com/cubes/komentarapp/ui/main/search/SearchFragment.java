@@ -22,6 +22,7 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,8 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
     private NewsAdapter adapter;
     private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     public SearchFragment() {
     }
@@ -47,6 +50,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
 
         return binding.getRoot();
     }
@@ -104,6 +109,7 @@ public class SearchFragment extends Fragment {
         adapter.setNewsListener(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
+            i.putExtra("newsTitle", news.title);
             startActivity(i);
         });
 
@@ -134,6 +140,10 @@ public class SearchFragment extends Fragment {
             binding.textViewNoContent.setVisibility(View.GONE);
             Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
         } else {
+
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, String.valueOf(binding.editText.getText()));
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
 
             DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override

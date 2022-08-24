@@ -16,4 +16,6 @@ public interface MenuListener {
 
     void onShareClicked(String networkUrl);
 
+    void onNotificationClicked(boolean isOn);
+
 }
