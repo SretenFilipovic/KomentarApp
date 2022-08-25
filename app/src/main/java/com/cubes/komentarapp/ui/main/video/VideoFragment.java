@@ -13,9 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.api.NewsListApi;
 import com.cubes.komentarapp.data.model.domain.News;
-import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
@@ -72,17 +70,12 @@ public class VideoFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
+        adapter = new NewsAdapter(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
             i.putExtra("newsTitle", news.title);
             getContext().startActivity(i);
-        });
-
-        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -95,6 +88,7 @@ public class VideoFragment extends Fragment {
                 binding.recyclerView.setVisibility(View.GONE);
             }
         }));
+        binding.recyclerView.setAdapter(adapter);
 
     }
 

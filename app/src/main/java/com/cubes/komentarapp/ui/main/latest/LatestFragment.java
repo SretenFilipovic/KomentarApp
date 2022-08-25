@@ -18,7 +18,6 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -71,17 +70,12 @@ public class LatestFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
+        adapter = new NewsWithHeaderAdapter(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
             i.putExtra("newsTitle", news.title);
             startActivity(i);
-        });
-
-        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -94,6 +88,7 @@ public class LatestFragment extends Fragment {
                 binding.recyclerView.setVisibility(View.GONE);
             }
         }));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {

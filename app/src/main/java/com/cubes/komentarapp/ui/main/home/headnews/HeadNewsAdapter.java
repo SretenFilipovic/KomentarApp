@@ -12,6 +12,7 @@ import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
+import com.cubes.komentarapp.databinding.RvItemAdviewBinding;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
@@ -21,6 +22,7 @@ import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadAdView;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBigNews;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmallNews;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
@@ -67,6 +69,9 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             case R.layout.rv_item_head_video_title:
                 binding = RvItemHeadVideoTitleBinding.inflate(inflater, parent, false);
                 break;
+            case R.layout.rv_item_adview:
+                binding = RvItemAdviewBinding.inflate(inflater, parent, false);
+                break;
             default:
                 binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
         }
@@ -94,11 +99,15 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         items.add(new RvItemHeadSlider(response.slider));
 
+        items.add(new RvItemHeadAdView());
+
         for (News news : response.top){
             items.add(new RvItemHeadTop(news, listener));
         }
 
         items.add(new RvItemHeadMostRead(response.latest, response.mostRead, response.mostCommented));
+
+        items.add(new RvItemHeadAdView());
 
         for (CategoryBox category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
@@ -111,13 +120,18 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         items.add(new RvItemHeadEditorsChoiceSlider(response.editorsChoice));
 
+        items.add(new RvItemHeadAdView());
+
         items.add(new RvItemHeadVideoTitle());
         for (News news : response.videos){
             items.add(new RvItemHeadVideo(news, listener));
         }
 
+        items.add(new RvItemHeadAdView());
+
         for (CategoryBox category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
+
                 items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
                 for (int i = 1; i < 5; i++) {
                     items.add(new RvItemHeadCategorySmallNews(category.news.get(i),listener));

@@ -22,11 +22,8 @@ public class SubcategoryActivity extends AppCompatActivity {
 
     private ActivitySubcategoryBinding binding;
     private int categoryId;
-    private String categoryName;
     private NewsAdapter adapter;
     private int nextPage = 2;
-    private FirebaseAnalytics mFirebaseAnalytics;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +31,10 @@ public class SubcategoryActivity extends AppCompatActivity {
         binding = ActivitySubcategoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         categoryId = getIntent().getIntExtra("categoryId", -1);
-        categoryName = getIntent().getStringExtra("categoryName");
+        String categoryName = getIntent().getStringExtra("categoryName");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -62,33 +59,29 @@ public class SubcategoryActivity extends AppCompatActivity {
 
     }
 
-
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
+        adapter = new NewsAdapter(news -> {
             Intent i = new Intent(SubcategoryActivity.this, NewsDetailActivity.class);
             i.putExtra("news", news.id);
             i.putExtra("newsTitle", news.title);
             startActivity(i);
+        }, () -> {
+            DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
+                @Override
+                public void onResponse(ArrayList<News> response) {
+                    adapter.addNewNewsList(response);
+
+                    nextPage++;
+                }
+                @Override
+                public void onFailure(Throwable t) {
+                    binding.refresh.setVisibility(View.VISIBLE);
+                    binding.recyclerView.setVisibility(View.GONE);
+                }
+            });
         });
-
-        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
-            @Override
-            public void onResponse(ArrayList<News> response) {
-                adapter.addNewNewsList(response);
-
-                nextPage++;
-            }
-            @Override
-            public void onFailure(Throwable t) {
-                binding.refresh.setVisibility(View.VISIBLE);
-                binding.recyclerView.setVisibility(View.GONE);
-            }
-        }));
-
+        binding.recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {

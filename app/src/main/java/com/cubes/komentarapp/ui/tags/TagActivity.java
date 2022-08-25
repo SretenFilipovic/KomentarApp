@@ -22,10 +22,8 @@ public class TagActivity extends AppCompatActivity {
 
     private ActivityTagBinding binding;
     private int tagId;
-    private String tagTitle;
     private NewsAdapter adapter;
     private int nextPage = 2;
-    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -34,10 +32,10 @@ public class TagActivity extends AppCompatActivity {
         binding = ActivityTagBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         tagId = getIntent().getIntExtra("tagId", -1);
-        tagTitle = getIntent().getStringExtra("tagTitle");
+        String tagTitle = getIntent().getStringExtra("tagTitle");
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -61,17 +59,12 @@ public class TagActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
+        adapter = new NewsAdapter(news -> {
             Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
             i.putExtra("news", news.id);
             i.putExtra("newsTitle", news.title);
             startActivity(i);
-        });
-
-        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -85,6 +78,7 @@ public class TagActivity extends AppCompatActivity {
                 binding.recyclerView.setVisibility(View.GONE);
             }
         }));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {

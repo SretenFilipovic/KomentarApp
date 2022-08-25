@@ -90,22 +90,14 @@ public class HomePageCategoryFragment extends Fragment {
         });
     }
 
-
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
-
+        adapter = new NewsWithHeaderAdapter(news -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", news.id);
             i.putExtra("newsTitle", news.title);
             startActivity(i);
-
-        });
-
-        adapter.setLoadingNewsListener(() -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -118,6 +110,7 @@ public class HomePageCategoryFragment extends Fragment {
                 binding.recyclerView.setVisibility(View.GONE);
             }
         }));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {
