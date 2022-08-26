@@ -2,6 +2,7 @@ package com.cubes.komentarapp.ui.splashscreen;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -20,11 +21,28 @@ public class SplashscreenActivity extends AppCompatActivity {
         com.cubes.komentarapp.databinding.ActivitySplashscreenBinding binding = ActivitySplashscreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        new Handler().postDelayed(() -> {
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+
+
+        if (getIntent().getExtras() == null) {
+
+            new Handler().postDelayed(() -> {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(i);
+                finish();
+            }, 500);
+
+        } else {
+
+            Bundle bundle = getIntent().getExtras();
+
+            String url = bundle.getString("url");
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
             startActivity(i);
+
             finish();
-        }, 500);
+        }
 
     }
 }

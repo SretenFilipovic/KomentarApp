@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,7 +31,10 @@ import com.cubes.komentarapp.ui.main.video.VideoFragment;
 import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
 
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
 
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -58,6 +61,21 @@ public class MainActivity extends AppCompatActivity {
         binding.refresh.setOnClickListener(view -> loadData());
         binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
         binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adViewSticky.loadAd(adRequest);
+        binding.adViewSticky.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                binding.adViewSticky.setVisibility(View.VISIBLE);
+                binding.closeAd.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.closeAd.setOnClickListener(view -> {
+            binding.adViewSticky.setVisibility(View.GONE);
+            binding.closeAd.setVisibility(View.GONE);
+        });
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
@@ -96,16 +114,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        //privremeno
 
         boolean isNotificationOn = PrefConfig.isNotificationOn(this);
 
         binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new MenuAdapter(isNotificationOn);
+        adapter = new MenuAdapter();
+        adapter.setIsNotificationOn(isNotificationOn);
         binding.recyclerViewMenu.setAdapter(adapter);
 
         loadData();
     }
+
 
     private void loadData() {
 
@@ -198,5 +217,6 @@ public class MainActivity extends AppCompatActivity {
         params.width = metrics.widthPixels;
         view.setLayoutParams(params);
     }
+
 
 }
