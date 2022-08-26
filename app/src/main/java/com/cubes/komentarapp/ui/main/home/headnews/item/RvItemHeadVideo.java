@@ -6,17 +6,22 @@ import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class RvItemHeadVideo implements RvItemHead {
 
     private final News news;
     private final NewsListener listener;
+    private final int[] newsIdList;
 
-    public RvItemHeadVideo(News news, NewsListener listener) {
+    public RvItemHeadVideo(News news, ArrayList<News> videoNews, NewsListener listener) {
         this.news = news;
         this.listener = listener;
+        this.newsIdList = MethodsClass.initNewsIdList(videoNews);
     }
 
     @Override
@@ -35,7 +40,7 @@ public class RvItemHeadVideo implements RvItemHead {
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news));
+            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
 
     }
 }

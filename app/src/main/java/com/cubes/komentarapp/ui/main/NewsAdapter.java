@@ -1,9 +1,7 @@
 package com.cubes.komentarapp.ui.main;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,16 +14,12 @@ import com.cubes.komentarapp.databinding.RvItemAdviewBinding;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadAdView;
 import com.cubes.komentarapp.ui.main.item.RvItemNews;
-import com.cubes.komentarapp.ui.main.item.RvItemNewsAdView;
-import com.cubes.komentarapp.ui.main.item.RvItemNewsBig;
+import com.cubes.komentarapp.ui.main.item.RvItemNewsAds;
 import com.cubes.komentarapp.ui.main.item.RvItemNewsLoading;
 import com.cubes.komentarapp.ui.main.item.RvItemNewsSmall;
 import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -79,7 +73,7 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
 
         for (int i = 0; i < newsList.size(); i++) {
-            items.add(new RvItemNewsSmall(newsList.get(i), newsListener));
+            items.add(new RvItemNewsSmall(newsList.get(i), newsList, newsListener));
         }
 
         if (newsList.size() == 20){
@@ -93,36 +87,36 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (int i = 0; i < list.size(); i++) {
             if (i<5){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
             }
         }
         if (list.size() >= 5){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
         for (int i = 5; i < list.size(); i++) {
             if (i < 10){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
             }
         }
         if (list.size() >= 10){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
         for (int i = 10; i < list.size(); i++) {
             if (i < 15){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
             }
         }
         if (list.size() >= 15){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
 
         for (int i = 15; i < list.size(); i++) {
             if (i < 20){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
             }
         }
         if (list.size() >= 20){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
 
         if (list.size() == 20){

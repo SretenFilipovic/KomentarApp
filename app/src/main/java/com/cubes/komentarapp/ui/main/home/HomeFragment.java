@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private HomePageAdapter adapter;
 
     public HomeFragment() {
     }
@@ -45,6 +46,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        adapter = new HomePageAdapter(requireActivity());
         loadData();
 
     }
@@ -54,7 +56,6 @@ public class HomeFragment extends Fragment {
         DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
-                HomePageAdapter adapter = new HomePageAdapter(requireActivity());
                 adapter.setData(response);
                 binding.viewPagerHome.setAdapter(adapter);
 
@@ -72,7 +73,6 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
 }

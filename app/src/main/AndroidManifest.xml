@@ -16,6 +16,10 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.detail.NewsDetailWithPagerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.main.menu.CurrencyActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>

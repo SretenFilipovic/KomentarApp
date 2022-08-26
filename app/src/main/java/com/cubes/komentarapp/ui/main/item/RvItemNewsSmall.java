@@ -8,17 +8,22 @@ import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class RvItemNewsSmall implements RvItemNews {
 
     private final News news;
     private final NewsListener listener;
+    private int[] newsIdList;
 
-    public RvItemNewsSmall(News news, NewsListener listener) {
+    public RvItemNewsSmall(News news, ArrayList<News> newsList, NewsListener listener) {
         this.listener = listener;
         this.news = news;
+        this.newsIdList = MethodsClass.initNewsIdList(newsList);
     }
 
     @Override
@@ -37,7 +42,7 @@ public class RvItemNewsSmall implements RvItemNews {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 
-        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news));
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
 
     }
 

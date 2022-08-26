@@ -22,7 +22,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     private ActivityCommentsBinding binding;
     private CommentsAdapter adapter;
-    private int id;
+    private int newsId;
     private ArrayList<Vote> votes = new ArrayList<>();
     private final ArrayList<Comments> allComments = new ArrayList<>();
 
@@ -33,13 +33,13 @@ public class CommentsActivity extends AppCompatActivity {
         binding = ActivityCommentsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        id = getIntent().getIntExtra("news", -1);
+        newsId = getIntent().getIntExtra("news", -1);
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
         binding.buttonLeaveComment.setOnClickListener(view -> {
             Intent i = new Intent(CommentsActivity.this, PostCommentActivity.class);
-            i.putExtra("newsId", String.valueOf(id));
+            i.putExtra("newsId", String.valueOf(newsId));
             startActivity(i);
         });
 
@@ -127,7 +127,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        DataRepository.getInstance().loadCommentsData(id, new DataRepository.CommentsResponseListener() {
+        DataRepository.getInstance().loadCommentsData(newsId, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
 

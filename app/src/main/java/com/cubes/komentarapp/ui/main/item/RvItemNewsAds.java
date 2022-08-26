@@ -6,9 +6,9 @@ import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
 import com.google.android.gms.ads.AdRequest;
 
-public class RvItemNewsAdView implements RvItemNews {
+public class RvItemNewsAds implements RvItemNews {
 
-    public RvItemNewsAdView() {
+    public RvItemNewsAds() {
     }
 
     @Override

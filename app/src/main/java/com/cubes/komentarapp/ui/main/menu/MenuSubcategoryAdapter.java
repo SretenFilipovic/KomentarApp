@@ -18,6 +18,8 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<Category> subcategoryList;
     private MenuListener listener;
+    private int categoryId;
+
 
     public MenuSubcategoryAdapter() {
     }
@@ -41,7 +43,7 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         binding.textViewSubcategory.setText(subcategory.name);
 
-        binding.textViewSubcategory.setOnClickListener(view -> listener.onSubcategoryClicked(subcategory));
+        binding.textViewSubcategory.setOnClickListener(view -> listener.onSubcategoryClicked(categoryId, subcategory.id));
     }
 
     @Override
@@ -49,9 +51,10 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<ViewHolder> {
         return subcategoryList.size();
     }
 
-    public void setData(ArrayList<Category> subcategoryList, MenuListener listener){
-        this.subcategoryList = subcategoryList;
+    public void setData(Category category, MenuListener listener){
+        this.subcategoryList = category.subcategories;
         this.listener = listener;
+        this.categoryId = category.id;
     }
 
 }

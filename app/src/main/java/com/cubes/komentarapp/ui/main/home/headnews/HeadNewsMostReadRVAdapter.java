@@ -11,6 +11,7 @@ import androidx.viewbinding.ViewBinding;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallestNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> 
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
 
-        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news));
+        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news.id, news.title, MethodsClass.initNewsIdList(list)));
     }
 
     @Override

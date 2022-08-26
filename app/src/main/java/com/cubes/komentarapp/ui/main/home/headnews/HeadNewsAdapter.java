@@ -31,6 +31,7 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideoTitle;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
         items.add(new RvItemHeadAdView());
 
         for (News news : response.top){
-            items.add(new RvItemHeadTop(news, listener));
+            items.add(new RvItemHeadTop(news, response.top, listener));
         }
 
         items.add(new RvItemHeadMostRead(response.latest, response.mostRead, response.mostCommented));
@@ -111,9 +112,9 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (CategoryBox category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
+                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), category.news, listener, category));
                 for (int i = 1; i < 5; i++) {
-                    items.add(new RvItemHeadCategorySmallNews(category.news.get(i),listener));
+                    items.add(new RvItemHeadCategorySmallNews(category.news.get(i), category.news, listener));
                 }
             }
         }
@@ -124,17 +125,16 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         items.add(new RvItemHeadVideoTitle());
         for (News news : response.videos){
-            items.add(new RvItemHeadVideo(news, listener));
+            items.add(new RvItemHeadVideo(news, response.videos, listener));
         }
 
         items.add(new RvItemHeadAdView());
 
         for (CategoryBox category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
-
-                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), listener, category));
+                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), category.news, listener, category));
                 for (int i = 1; i < 5; i++) {
-                    items.add(new RvItemHeadCategorySmallNews(category.news.get(i),listener));
+                    items.add(new RvItemHeadCategorySmallNews(category.news.get(i), category.news, listener));
                 }
             }
         }

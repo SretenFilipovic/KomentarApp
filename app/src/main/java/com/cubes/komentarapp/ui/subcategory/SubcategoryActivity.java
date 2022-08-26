@@ -1,20 +1,15 @@
 package com.cubes.komentarapp.ui.subcategory;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivitySubcategoryBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 
@@ -22,8 +17,9 @@ public class SubcategoryActivity extends AppCompatActivity {
 
     private ActivitySubcategoryBinding binding;
     private int categoryId;
-    private NewsAdapter adapter;
-    private int nextPage = 2;
+    private int subcategoryId;
+    private Category category = new Category();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,87 +27,68 @@ public class SubcategoryActivity extends AppCompatActivity {
         binding = ActivitySubcategoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         categoryId = getIntent().getIntExtra("categoryId", -1);
-        String categoryName = getIntent().getStringExtra("categoryName");
+        subcategoryId = getIntent().getIntExtra("subcategoryId", -1);
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
         binding.refresh.setOnClickListener(view -> {
             binding.progressBar.setVisibility(View.VISIBLE);
-            loadData();
+            loadData(categoryId, subcategoryId);
         });
 
-        binding.pullToRefresh.setOnRefreshListener(() -> {
-            setupRecyclerView();
-            loadData();
-        });
-
-        binding.textViewSubcategoryTitle.setText(categoryName);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("subcategory", categoryName);
-        mFirebaseAnalytics.logEvent("select_subcategory", bundle);
-
-        setupRecyclerView();
-        loadData();
-
+        loadData(categoryId, subcategoryId);
     }
 
-    private void setupRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter(news -> {
-            Intent i = new Intent(SubcategoryActivity.this, NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            i.putExtra("newsTitle", news.title);
-            startActivity(i);
-        }, () -> {
-            DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
-                @Override
-                public void onResponse(ArrayList<News> response) {
-                    adapter.addNewNewsList(response);
 
-                    nextPage++;
-                }
-                @Override
-                public void onFailure(Throwable t) {
-                    binding.refresh.setVisibility(View.VISIBLE);
-                    binding.recyclerView.setVisibility(View.GONE);
-                }
-            });
-        });
-        binding.recyclerView.setAdapter(adapter);
-    }
+    private void loadData(int categoryId, int subcategoryId) {
 
-    private void loadData() {
-
-        DataRepository.getInstance().loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
-            public void onResponse(ArrayList<News> response) {
-
-                if (response != null) {
-                    adapter.setData(response);
+            public void onResponse(ArrayList<Category> response) {
+                for (int i = 0; i < response.size(); i++) {
+                    if (response.get(i).id == categoryId) {
+                        category = response.get(i);
+                        break;
+                    }
                 }
 
-                nextPage = 2;
+                int subcategoryPosition = -1;
+
+
+                for (int i = 0; i < category.subcategories.size(); i++) {
+                    if (subcategoryId == category.subcategories.get(i).id) {
+                        subcategoryPosition = i;
+                        break;
+                    }
+                }
+
+                int[] subcategoryIdList = new int[category.subcategories.size()];
+
+
+                for (int i = 0; i < category.subcategories.size(); i++) {
+                    subcategoryIdList[i] = category.subcategories.get(i).id;
+                }
+
+                SubcategoryPagerAdapter adapter = new SubcategoryPagerAdapter(SubcategoryActivity.this, subcategoryIdList, category.name);
+                binding.viewPager.setAdapter(adapter);
+
+                new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(category.subcategories.get(position).name)).attach();
+
+                binding.viewPager.setCurrentItem(subcategoryPosition);
+
+                binding.textViewCategoryTitle.setText(category.name);
+
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
-                binding.recyclerView.setVisibility(View.VISIBLE);
-                binding.pullToRefresh.setRefreshing(false);
-
-                Log.d("SUBCATEGORY", "Subcategory load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
-                binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(SubcategoryActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
-
-                Log.d("SUBCATEGORY", "Subcategory load data failure");
             }
         });
     }

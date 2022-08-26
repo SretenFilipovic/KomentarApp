@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,7 +33,6 @@ import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
 
@@ -84,27 +82,21 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home:
                     selectedFragment = HomeFragment.newInstance();
-                {
                     binding.imageViewMenu.setVisibility(View.VISIBLE);
-                }
                 break;
                 case R.id.search:
                     selectedFragment = SearchFragment.newInstance();
-                {
                     binding.imageViewMenu.setVisibility(View.GONE);
-                }
+
                 break;
                 case R.id.latest:
                     selectedFragment = LatestFragment.newInstance();
-                {
                     binding.imageViewMenu.setVisibility(View.GONE);
-                }
+
                 break;
                 case R.id.video:
                     selectedFragment = VideoFragment.newInstance();
-                {
                     binding.imageViewMenu.setVisibility(View.GONE);
-                }
                 break;
             }
 
@@ -133,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(ArrayList<Category> response) {
                 adapter.setData(response, new MenuListener() {
                     @Override
-                    public void onSubcategoryClicked(Category category) {
+                    public void onSubcategoryClicked(int categoryId, int subcategoryId) {
 
                         Intent i = new Intent(MainActivity.this, SubcategoryActivity.class);
-                        i.putExtra("categoryId", category.id);
-                        i.putExtra("categoryName", category.name);
+                        i.putExtra("categoryId", categoryId);
+                        i.putExtra("subcategoryId", subcategoryId);
                         startActivity(i);
                     }
 
@@ -200,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void openWebBrowser(String link) {
+    private void openWebBrowser(String url) {
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();

@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.ui.main.video;
+package com.cubes.komentarapp.ui.subcategory;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,33 +20,50 @@ import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
-public class VideoFragment extends Fragment {
+public class SubcategoryFragment extends Fragment {
 
+    private static final String CATEGORY_ID = "categoryId";
+    private static final String SUBCATEGORY_NAME = "subcategoryName";
     private FragmentRecyclerViewBinding binding;
+    private int categoryId;
     private NewsAdapter adapter;
+    private String subcategoryName;
     private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
-
-    public VideoFragment() {
+    public SubcategoryFragment() {
     }
 
-    public static VideoFragment newInstance() {
-        VideoFragment fragment = new VideoFragment();
+    public static SubcategoryFragment newInstance(String subcategoryName, int categoryId) {
+        SubcategoryFragment fragment = new SubcategoryFragment();
+        Bundle args = new Bundle();
+        args.putInt(CATEGORY_ID, categoryId);
+        args.putString(SUBCATEGORY_NAME, subcategoryName);
+        fragment.setArguments(args);
+
+        fragment.categoryId = categoryId;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            categoryId = getArguments().getInt(CATEGORY_ID);
+            subcategoryName = getArguments().getString(SUBCATEGORY_NAME);
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
 
         return binding.getRoot();
     }
@@ -55,20 +72,20 @@ public class VideoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupRecyclerView();
-
-        loadData();
-
-        binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
-            loadData();
-        });
 
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
             loadData();
         });
-    }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("subcategory", subcategoryName);
+        mFirebaseAnalytics.logEvent("select_subcategory", bundle);
+
+        setupRecyclerView();
+        loadData();
+
+}
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -78,10 +95,11 @@ public class VideoFragment extends Fragment {
             i.putExtra("newsIdList", newsListId);
             i.putExtra("newsTitle", newsTitle);
             startActivity(i);
-        }, () -> DataRepository.getInstance().loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
+
                 nextPage++;
             }
 
@@ -92,13 +110,11 @@ public class VideoFragment extends Fragment {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
-
     }
 
     private void loadData() {
 
-        int page = 1;
-        DataRepository.getInstance().loadVideoData(page, new DataRepository.NewsResponseListener() {
+        DataRepository.getInstance().loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
 
@@ -112,8 +128,7 @@ public class VideoFragment extends Fragment {
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
 
-                Log.d("VIDEO", "Video news load data success");
-
+                Log.d("SUBCATEGORY", "Subcategory load data success");
             }
 
             @Override
@@ -124,7 +139,7 @@ public class VideoFragment extends Fragment {
 
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
-                Log.d("VIDEO", "Video news load data failure");
+                Log.d("SUBCATEGORY", "Subcategory load data failure");
             }
         });
     }

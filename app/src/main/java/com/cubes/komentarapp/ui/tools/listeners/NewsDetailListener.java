@@ -8,6 +8,6 @@ public interface NewsDetailListener {
 
     void onTagClicked(int tagId, String tagTitle);
 
-    void onNewsClicked(int newsId, String newsTitle);
+    void onNewsClicked(int newsId, String newsTitle, int[] newsListId);
 
 }

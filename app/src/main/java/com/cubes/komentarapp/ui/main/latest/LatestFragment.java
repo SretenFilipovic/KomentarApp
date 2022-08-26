@@ -17,7 +17,9 @@ import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
@@ -70,12 +72,13 @@ public class LatestFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter(news -> {
-            Intent i = new Intent(getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            i.putExtra("newsTitle", news.title);
+        adapter = new NewsWithHeaderAdapter((newsId, newsTitle, newsListId) -> {
+            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+            i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsListId);
+            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
-        }, () -> DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
+            }, () -> DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);

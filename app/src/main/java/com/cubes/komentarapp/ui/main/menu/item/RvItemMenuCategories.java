@@ -64,8 +64,10 @@ public class RvItemMenuCategories implements RvItemMenu {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         MenuSubcategoryAdapter adapter = new MenuSubcategoryAdapter();
+
+        adapter.setData(category, listener);
+
         binding.recyclerView.setAdapter(adapter);
 
-        adapter.setData(category.subcategories, listener);
     }
 }

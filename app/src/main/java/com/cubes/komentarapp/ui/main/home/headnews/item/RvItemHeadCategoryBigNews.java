@@ -7,19 +7,25 @@ import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class RvItemHeadCategoryBigNews implements RvItemHead {
 
     private final News news;
     private final CategoryBox category;
     private final NewsListener listener;
+    private final int[] newsIdList;
 
-    public RvItemHeadCategoryBigNews(News news, NewsListener listener, CategoryBox category) {
+
+    public RvItemHeadCategoryBigNews(News news, ArrayList<News> categoryNews, NewsListener listener, CategoryBox category) {
         this.listener = listener;
         this.news = news;
         this.category = category;
+        this.newsIdList = MethodsClass.initNewsIdList(categoryNews);
     }
 
     @Override
@@ -38,7 +44,7 @@ public class RvItemHeadCategoryBigNews implements RvItemHead {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 
-        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news));
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
 
 
     }

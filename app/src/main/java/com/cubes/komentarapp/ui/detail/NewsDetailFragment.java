@@ -3,49 +3,72 @@ package com.cubes.komentarapp.ui.detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
-public class NewsDetailActivity extends AppCompatActivity {
+public class NewsDetailFragment extends Fragment {
 
-    private ActivityNewsDetailBinding binding;
+    private static final String NEWS_ID = "newsId";
+    private FragmentRecyclerViewBinding binding;
     private NewsDetailAdapter adapter;
     private ArrayList<Vote> votes = new ArrayList<>();
     private int newsId;
 
 
+    public NewsDetailFragment() {
+    }
+
+    public static NewsDetailFragment newInstance(int newsId) {
+        NewsDetailFragment fragment = new NewsDetailFragment();
+        Bundle args = new Bundle();
+        args.putInt(NEWS_ID, newsId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityNewsDetailBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        if (getArguments() != null) {
+            newsId = getArguments().getInt(NEWS_ID);
+        }
+    }
 
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
-        newsId = getIntent().getIntExtra("news", -1);
-        String newsTitle = getIntent().getStringExtra("newsTitle");
 
-        binding.imageViewBack.setOnClickListener(view -> finish());
+        return binding.getRoot();
+    }
 
-        binding.refresh.setOnClickListener(view -> {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
@@ -55,76 +78,56 @@ public class NewsDetailActivity extends AppCompatActivity {
             loadData();
         });
 
-        Bundle bundle = new Bundle();
-        bundle.putString("news", newsTitle);
-        mFirebaseAnalytics.logEvent("select_news", bundle);
-
         setupRecyclerView();
+        loadData();
+
     }
 
     private void loadData() {
 
-        if (PrefConfig.readListFromPref(NewsDetailActivity.this) != null) {
-            votes = (ArrayList<Vote>) PrefConfig.readListFromPref(NewsDetailActivity.this);
+        if (PrefConfig.readListFromPref(getActivity()) != null) {
+            votes = (ArrayList<Vote>) PrefConfig.readListFromPref(getActivity());
         }
 
         DataRepository.getInstance().getNewsDetails(newsId, new DataRepository.NewsDetailListener() {
             @Override
             public void onResponse(NewsDetail response) {
 
-                binding.imageViewShare.setOnClickListener(view -> {
-                    Intent i = new Intent();
-                    i.setAction(Intent.ACTION_SEND);
-                    i.putExtra(Intent.EXTRA_STREAM, response.url);
-                    i.setType("text/plain");
-                    startActivity(Intent.createChooser(i, null));
-                });
-
-                binding.imageViewComments.setOnClickListener(view -> {
-                    if (response.commentsCount == 0) {
-                        Toast.makeText(NewsDetailActivity.this, "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent i = new Intent(NewsDetailActivity.this, CommentsActivity.class);
-                        i.putExtra("news", response.id);
-                        startActivity(i);
-                    }
-                });
-
                 adapter.setData(response, new NewsDetailListener() {
                     @Override
                     public void onAllCommentsClicked(int newsId) {
-                        Intent i = new Intent(getApplicationContext(), CommentsActivity.class);
+                        Intent i = new Intent(getContext(), CommentsActivity.class);
                         i.putExtra("news", newsId);
                         startActivity(i);
                     }
 
                     @Override
                     public void onLeaveCommentClicked(String newsId) {
-                        Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
+                        Intent i = new Intent(getContext(), PostCommentActivity.class);
                         i.putExtra("newsId", newsId);
                         startActivity(i);
                     }
 
                     @Override
                     public void onTagClicked(int tagId, String tagTitle) {
-                        Intent i = new Intent(getApplicationContext(), TagActivity.class);
+                        Intent i = new Intent(getContext(), TagActivity.class);
                         i.putExtra("tagId", tagId);
                         i.putExtra("tagTitle", tagTitle);
                         startActivity(i);
                     }
 
                     @Override
-                    public void onNewsClicked(int newsId, String newsTitle, int[] newsListId) {
-                        Intent i = new Intent(NewsDetailActivity.this, NewsDetailWithPagerActivity.class);
+                    public void onNewsClicked(int newsId, String newsTitle, int[] newsIdList) {
+                        Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
                         i.putExtra("news", newsId);
-                        i.putExtra("newsIdList", newsListId);
+                        i.putExtra("newsIdList", newsIdList);
                         i.putExtra("newsTitle", newsTitle);
                         startActivity(i);
                     }
                 }, new CommentsListener() {
                     @Override
                     public void onReplyClicked(Comments comment) {
-                        Intent i = new Intent(getApplicationContext(), PostCommentActivity.class);
+                        Intent i = new Intent(getContext(), PostCommentActivity.class);
                         i.putExtra("commentId", comment.id);
                         i.putExtra("newsId", comment.newsId);
                         startActivity(i);
@@ -139,7 +142,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 Vote vote = new Vote(comment.id, true);
                                 votes.add(vote);
 
-                                PrefConfig.writeListInPref(NewsDetailActivity.this, votes);
+                                PrefConfig.writeListInPref(getActivity(), votes);
 
                                 adapter.commentUpvoted(comment.id);
 
@@ -147,7 +150,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                             }
                             @Override
                             public void onFailure(Throwable t) {
-                                Toast.makeText(NewsDetailActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
                                 Log.d("UPVOTE", "Upvote failure");
                             }
                         });
@@ -162,7 +165,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 Vote vote = new Vote(comment.id, false);
                                 votes.add(vote);
 
-                                PrefConfig.writeListInPref(NewsDetailActivity.this, votes);
+                                PrefConfig.writeListInPref(getActivity(), votes);
 
                                 adapter.commentDownvoted(comment.id);
 
@@ -171,7 +174,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Throwable t) {
-                                Toast.makeText(NewsDetailActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
                                 Log.d("DOWNVOTE", "Downvote failure");
                             }
                         });
@@ -187,7 +190,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(NewsDetailActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
@@ -198,12 +201,9 @@ public class NewsDetailActivity extends AppCompatActivity {
     }
 
     private void  setupRecyclerView(){
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsDetailAdapter();
         binding.recyclerView.setAdapter(adapter);
-
-        loadData();
     }
-
 
 }

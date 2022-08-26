@@ -16,8 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -92,10 +93,11 @@ public class HomePageCategoryFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter(news -> {
-            Intent i = new Intent(getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            i.putExtra("newsTitle", news.title);
+        adapter = new NewsWithHeaderAdapter((newsId, newsTitle, newsListId) -> {
+            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+            i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsListId);
+            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         }, () -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override

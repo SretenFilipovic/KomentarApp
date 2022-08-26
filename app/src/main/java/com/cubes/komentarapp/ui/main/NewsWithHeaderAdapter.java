@@ -16,7 +16,7 @@ import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.item.RvItemNews;
-import com.cubes.komentarapp.ui.main.item.RvItemNewsAdView;
+import com.cubes.komentarapp.ui.main.item.RvItemNewsAds;
 import com.cubes.komentarapp.ui.main.item.RvItemNewsBig;
 import com.cubes.komentarapp.ui.main.item.RvItemNewsLoading;
 import com.cubes.komentarapp.ui.main.item.RvItemNewsSmall;
@@ -76,7 +76,7 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<ViewHolder> {
         items.remove(items.size() - 1);
 
         for (int i = 0; i < newsList.size(); i++) {
-            items.add(new RvItemNewsSmall(newsList.get(i), newsListener));
+            items.add(new RvItemNewsSmall(newsList.get(i), newsList, newsListener));
         }
 
         if (newsList.size() == 20){
@@ -88,36 +88,36 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setData(ArrayList<News> list) {
 
-        items.add(new RvItemNewsBig(list.get(0), newsListener));
+        items.add(new RvItemNewsBig(list.get(0), list, newsListener));
 
-        items.add(new RvItemNewsAdView());
+        items.add(new RvItemNewsAds());
 
         for (int i = 1; i < list.size(); i++) {
             if (i<6){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
             }
         }
         if (list.size() >= 6){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
         for (int i = 6; i < list.size(); i++) {
             if (i < 11){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
             }
         }
         if (list.size() >= 11){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
         for (int i = 11; i < list.size(); i++) {
             if (i < 16){
-                items.add(new RvItemNewsSmall(list.get(i), newsListener));
+                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
             }
         }
         if (list.size() >= 16){
-            items.add(new RvItemNewsAdView());
+            items.add(new RvItemNewsAds());
         }
         for (int i = 16; i < list.size(); i++) {
-            items.add(new RvItemNewsSmall(list.get(i), newsListener));
+            items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
         }
 
         if (list.size() == 20){

@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cubes.komentarapp.databinding.FragmentSliderBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.squareup.picasso.Picasso;
 
 public class HeadNewsSliderFragment extends Fragment {
@@ -23,16 +24,18 @@ public class HeadNewsSliderFragment extends Fragment {
     private int newsId;
     private String newsTitle;
     private String newsImage;
+    private int[] newsIdList;
 
     public HeadNewsSliderFragment() {
     }
 
-    public static HeadNewsSliderFragment newInstance(int newsId, String newsTitle, String newsImage) {
+    public static HeadNewsSliderFragment newInstance(int newsId, String newsTitle, String newsImage, int[] newsIdList) {
         HeadNewsSliderFragment fragment = new HeadNewsSliderFragment();
         Bundle args = new Bundle();
         args.putInt(NEWS_ID, newsId);
         args.putString(NEWS_TITLE, newsTitle);
         args.putString(NEWS_IMAGE, newsImage);
+        fragment.newsIdList = newsIdList;
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,15 +67,17 @@ public class HeadNewsSliderFragment extends Fragment {
 
 
         binding.imageViewNews.setOnClickListener(view1 -> {
-            Intent i = new Intent(getContext(), NewsDetailActivity.class);
+            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
             i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsIdList);
             i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         });
 
         binding.textViewTitle.setOnClickListener(view12 -> {
-            Intent i = new Intent(getContext(), NewsDetailActivity.class);
+            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
             i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsIdList);
             i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         });

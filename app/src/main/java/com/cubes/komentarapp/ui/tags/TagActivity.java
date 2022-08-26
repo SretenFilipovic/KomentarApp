@@ -13,7 +13,9 @@ import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -59,10 +61,11 @@ public class TagActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter(news -> {
-            Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            i.putExtra("newsTitle", news.title);
+        adapter = new NewsAdapter((newsId, newsTitle, newsListId) -> {
+            Intent i = new Intent(TagActivity.this, NewsDetailWithPagerActivity.class);
+            i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsListId);
+            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         }, () -> DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override

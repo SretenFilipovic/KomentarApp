@@ -4,7 +4,7 @@ import com.cubes.komentarapp.data.model.domain.Category;
 
 public interface MenuListener {
 
-    void onSubcategoryClicked(Category category);
+    void onSubcategoryClicked(int categoryId, int subcategoryId);
 
     void onItemClicked();
 

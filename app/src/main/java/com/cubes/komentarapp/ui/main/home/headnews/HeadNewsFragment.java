@@ -13,10 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 public class HeadNewsFragment extends Fragment {
 
@@ -69,10 +72,11 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onResponse(NewsList response) {
 
-                adapter.setData(response, news -> {
-                    Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                    i.putExtra("news", news.id);
-                    i.putExtra("newsTitle", news.title);
+                adapter.setData(response, (newsId, newsTitle, newsListId) -> {
+                    Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+                    i.putExtra("news", newsId);
+                    i.putExtra("newsTitle", newsTitle);
+                    i.putExtra("newsIdList", newsListId);
                     startActivity(i);
                 });
 
