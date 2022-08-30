@@ -55,7 +55,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     }
 
-    private void postComment(){
+    private void postComment() {
         String news = String.valueOf(newsId);
         String reply_id = commentId;
         String name = String.valueOf(binding.editTextName.getText());
@@ -73,28 +73,34 @@ public class PostCommentActivity extends AppCompatActivity {
 
         if (binding.editTextName.getText().length() > 0) {
 
-            if (binding.editTextContent.getText().length() > 0) {
+            if (isEmailValid(binding.editTextEmail.getText())) {
 
-                dataRepository.postCommentData(commentsPost, new DataRepository.PostCommentListener() {
-                    @Override
-                    public void onResponse(ArrayList<String> request) {
+                if (binding.editTextContent.getText().length() > 0) {
 
-                        Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
-                        finish();
+                    dataRepository.postCommentData(commentsPost, new DataRepository.PostCommentListener() {
+                        @Override
+                        public void onResponse(ArrayList<String> request) {
 
-                        Log.d("POST", "Post comment data success");
-                    }
+                            Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
+                            finish();
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Toast.makeText(PostCommentActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                            Log.d("POST", "Post comment data success");
+                        }
 
-                        Log.d("POST", "Post comment data failure");
-                    }
-                });
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Toast.makeText(PostCommentActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
+                            Log.d("POST", "Post comment data failure");
+                        }
+                    });
+                } else {
+                    Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostCommentActivity.this, "Unesite ispravan email u polje.", Toast.LENGTH_SHORT).show();
             }
+
         } else {
             Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
         }
@@ -108,6 +114,10 @@ public class PostCommentActivity extends AppCompatActivity {
             view = new View(activity);
         }
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 }

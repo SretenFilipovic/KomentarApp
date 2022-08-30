@@ -21,26 +21,18 @@ public class SplashscreenActivity extends AppCompatActivity {
         com.cubes.komentarapp.databinding.ActivitySplashscreenBinding binding = ActivitySplashscreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-
-        if (getIntent().getExtras() == null) {
-
+        if (getIntent().getExtras() == null || getIntent().getExtras().getString("url") == null) {
             new Handler().postDelayed(() -> {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
             }, 500);
-
         } else {
-
             Bundle bundle = getIntent().getExtras();
-
             String url = bundle.getString("url");
 
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(url));
             startActivity(i);
-
             finish();
         }
 

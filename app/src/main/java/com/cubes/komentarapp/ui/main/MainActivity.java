@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.local.DataContainer;
+import com.cubes.komentarapp.data.source.remote.networking.NewsRetrofit;
 import com.cubes.komentarapp.databinding.ActivityMainBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
@@ -124,6 +125,14 @@ public class MainActivity extends AppCompatActivity {
         loadData();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (this.binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     private void loadData() {
 
@@ -168,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, DataContainer.BASE_URL);
+                            i.putExtra(Intent.EXTRA_TEXT, NewsRetrofit.BASE_URL);
                             i.setType("text/plain");
                             i.setPackage(networkUrl);
                             startActivity(i);

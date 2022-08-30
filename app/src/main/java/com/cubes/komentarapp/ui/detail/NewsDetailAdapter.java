@@ -32,6 +32,7 @@ import com.cubes.komentarapp.ui.detail.item.RvItemDetailTags;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailWebView;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -94,10 +95,21 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         return this.items.get(position).getType();
     }
 
-    public void setData(NewsDetail response, NewsDetailListener newsDetailListener, CommentsListener commentsListener) {
+    @Override
+    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
+        holder.setIsRecyclable(false);
+        super.onViewAttachedToWindow(holder);
+    }
 
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+        holder.setIsRecyclable(true);
+        super.onViewDetachedFromWindow(holder);
+    }
+
+    public void setData(NewsDetail response, NewsDetailListener newsDetailListener, CommentsListener commentsListener, WebViewListener webViewListener) {
         this.items.add(new RvItemDetailAdView());
-        this.items.add(new RvItemDetailWebView(response));
+        this.items.add(new RvItemDetailWebView(response, webViewListener));
         this.items.add(new RvItemDetailAdView());
         this.items.add(new RvItemDetailTags(response.tags, newsDetailListener));
         this.items.add(new RvItemDetailCommentsTitle(response, newsDetailListener));
@@ -113,8 +125,8 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         for (News news : response.relatedNews) {
             this.items.add(new RvItemDetailRelatedNews(news, response.relatedNews, newsDetailListener));
         }
-
         notifyDataSetChanged();
+
     }
 
     public void commentUpvoted(String commentId) {

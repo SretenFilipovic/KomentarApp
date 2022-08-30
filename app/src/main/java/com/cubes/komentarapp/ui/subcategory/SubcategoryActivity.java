@@ -39,7 +39,6 @@ public class SubcategoryActivity extends AppCompatActivity {
         binding.imageViewBack.setOnClickListener(view -> finish());
 
         binding.refresh.setOnClickListener(view -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
             loadData(categoryId, subcategoryId);
         });
 
@@ -86,14 +85,11 @@ public class SubcategoryActivity extends AppCompatActivity {
                 binding.textViewCategoryTitle.setText(category.name);
 
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-
                 Toast.makeText(SubcategoryActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
             }
         });

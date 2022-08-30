@@ -77,7 +77,7 @@ public class HomePageCategoryFragment extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putString("category", categoryTitle);
-        mFirebaseAnalytics.logEvent("select_category", bundle);
+        mFirebaseAnalytics.logEvent("android_komentar", bundle);
 
         setupRecyclerView();
 

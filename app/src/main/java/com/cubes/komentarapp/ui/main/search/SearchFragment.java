@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
@@ -24,6 +25,7 @@ import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class SearchFragment extends Fragment {
     private int nextPage = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
     private DataRepository dataRepository;
+    private BottomNavigationView bottomNavigation;
 
 
     public SearchFragment() {
@@ -67,7 +70,8 @@ public class SearchFragment extends Fragment {
 
         setupRecyclerView();
 
-        binding.editText.post(() -> automaticKeyboard(requireActivity()));
+        binding.editText.post(() ->
+                automaticKeyboard(requireActivity()));
 
         binding.imageViewSearch.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
@@ -144,7 +148,7 @@ public class SearchFragment extends Fragment {
 
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, String.valueOf(binding.editText.getText()));
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+            mFirebaseAnalytics.logEvent("android_komentar", bundle);
 
             dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override

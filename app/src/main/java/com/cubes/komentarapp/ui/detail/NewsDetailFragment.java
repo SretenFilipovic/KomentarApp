@@ -28,6 +28,7 @@ import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class NewsDetailFragment extends Fragment {
         if (getArguments() != null) {
             newsId = getArguments().getInt(NEWS_ID);
         }
+
     }
 
     @Override
@@ -119,6 +121,8 @@ public class NewsDetailFragment extends Fragment {
             @Override
             public void onResponse(NewsDetail response) {
 
+                binding.recyclerView.setVisibility(View.INVISIBLE);
+
                 newsId = response.id;
                 newsUrl = response.url;
                 newsTitle = response.title;
@@ -127,7 +131,7 @@ public class NewsDetailFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("news", newsTitle);
-                analytics.logEvent("select_news", bundle);
+                analytics.logEvent("android_komentar", bundle);
 
                 adapter.setData(response, new NewsDetailListener() {
                     @Override
@@ -184,6 +188,7 @@ public class NewsDetailFragment extends Fragment {
 
                                 Log.d("UPVOTE", "Upvote success");
                             }
+
                             @Override
                             public void onFailure(Throwable t) {
                                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
@@ -215,9 +220,15 @@ public class NewsDetailFragment extends Fragment {
                             }
                         });
                     }
+                }, new WebViewListener() {
+                    @Override
+                    public void onWebViewLoaded() {
+                        binding.recyclerView.setVisibility(View.VISIBLE);
+                        binding.refresh.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                    }
                 });
-                binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+
                 binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("DETAIL", "Detail load data success");

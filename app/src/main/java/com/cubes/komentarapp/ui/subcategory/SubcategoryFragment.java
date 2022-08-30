@@ -86,7 +86,7 @@ public class SubcategoryFragment extends Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putString("subcategory", subcategoryName);
-        mFirebaseAnalytics.logEvent("select_subcategory", bundle);
+        mFirebaseAnalytics.logEvent("android_komentar", bundle);
 
         setupRecyclerView();
         loadData();

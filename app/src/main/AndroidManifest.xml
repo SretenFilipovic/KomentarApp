@@ -47,6 +47,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.splashscreen.SplashscreenActivity"

@@ -42,7 +42,7 @@
     <string name="text_your_comment">Vaš komentar</string>
     <string name="text_post_comment">Pošaljite komentar</string>
     <string name="text_reply_comment">Odgovorite na komentar</string>
-    <string name="text_email">Email (opciono)</string>
+    <string name="text_email">Email</string>
     <string name="text_your_reply">Vaš odgovor</string>
     <string name="text_add">+</string>
     <string name="text_editors_choice">Izbor urednika</string>

@@ -84,6 +84,8 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setData(ArrayList<News> list) {
 
+        items.add(new RvItemNewsSmall(list.get(0),list, newsListener));
+
         for (int i = 1; i < list.size(); i++){
 
             if((i-1) % 5 == 0){
