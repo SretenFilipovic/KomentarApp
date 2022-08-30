@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ public class SearchFragment extends Fragment {
     private NewsAdapter adapter;
     private int nextPage = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private DataRepository dataRepository;
 
 
     public SearchFragment() {
@@ -46,6 +47,8 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
     }
 
     @Override
@@ -105,13 +108,12 @@ public class SearchFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsAdapter((newsId, newsTitle,  newsListId) -> {
-            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+        adapter = new NewsAdapter((newsId, newsListId) -> {
+            Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);
             i.putExtra("newsIdList", newsListId);
-            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
-        }, () -> DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -144,7 +146,7 @@ public class SearchFragment extends Fragment {
             bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, String.valueOf(binding.editText.getText()));
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
 
-            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
+            dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override
                 public void onResponse(ArrayList<News> response) {
 

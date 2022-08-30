@@ -40,7 +40,7 @@ public class RvItemHeadVideo implements RvItemHead {
             binding.textViewTitle.setText(news.title);
             Picasso.get().load(news.image).into(binding.imageView);
 
-            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
+            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
 
     }
 }

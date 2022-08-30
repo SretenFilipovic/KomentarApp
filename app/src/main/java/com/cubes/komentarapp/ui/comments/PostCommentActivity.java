@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class PostCommentActivity extends AppCompatActivity {
     private ActivityPostCommentBinding binding;
     private String commentId = "0";
     private String newsId;
+    private DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,9 @@ public class PostCommentActivity extends AppCompatActivity {
 
         commentId = getIntent().getStringExtra("commentId");
         newsId = getIntent().getStringExtra("newsId");
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -69,7 +75,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
             if (binding.editTextContent.getText().length() > 0) {
 
-                DataRepository.getInstance().postCommentData(commentsPost, new DataRepository.PostCommentListener() {
+                dataRepository.postCommentData(commentsPost, new DataRepository.PostCommentListener() {
                     @Override
                     public void onResponse(ArrayList<String> request) {
 

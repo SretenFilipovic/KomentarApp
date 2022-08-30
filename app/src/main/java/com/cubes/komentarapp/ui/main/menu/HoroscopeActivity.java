@@ -10,18 +10,26 @@ import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Horoscope;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityHoroscopeBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.squareup.picasso.Picasso;
 
 public class HoroscopeActivity extends AppCompatActivity {
 
     private ActivityHoroscopeBinding binding;
     private Horoscope horoscope;
+    private DataRepository dataRepository;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityHoroscopeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -31,7 +39,7 @@ public class HoroscopeActivity extends AppCompatActivity {
 
     private void loadData() {
 
-        DataRepository.getInstance().loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
+        dataRepository.loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
             @Override
             public void onResponse(Horoscope response) {
                 horoscope = response;

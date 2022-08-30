@@ -18,7 +18,7 @@ public class RvItemNewsSmall implements RvItemNews {
 
     private final News news;
     private final NewsListener listener;
-    private int[] newsIdList;
+    private final int[] newsIdList;
 
     public RvItemNewsSmall(News news, ArrayList<News> newsList, NewsListener listener) {
         this.listener = listener;
@@ -42,7 +42,7 @@ public class RvItemNewsSmall implements RvItemNews {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 
-        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
 
     }
 

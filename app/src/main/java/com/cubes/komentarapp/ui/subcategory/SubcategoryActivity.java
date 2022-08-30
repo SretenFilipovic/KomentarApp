@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivitySubcategoryBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class SubcategoryActivity extends AppCompatActivity {
     private int categoryId;
     private int subcategoryId;
     private Category category = new Category();
+    private DataRepository dataRepository;
 
 
     @Override
@@ -26,6 +29,9 @@ public class SubcategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySubcategoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         categoryId = getIntent().getIntExtra("categoryId", -1);
         subcategoryId = getIntent().getIntExtra("subcategoryId", -1);
@@ -43,7 +49,7 @@ public class SubcategoryActivity extends AppCompatActivity {
 
     private void loadData(int categoryId, int subcategoryId) {
 
-        DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
+        dataRepository.loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
                 for (int i = 0; i < response.size(); i++) {

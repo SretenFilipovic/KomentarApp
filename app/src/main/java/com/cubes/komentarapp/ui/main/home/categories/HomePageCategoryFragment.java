@@ -16,9 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -33,8 +34,7 @@ public class HomePageCategoryFragment extends Fragment {
     private NewsWithHeaderAdapter adapter;
     private int nextPage = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
-
-
+    private DataRepository dataRepository;
 
     public HomePageCategoryFragment() {
 
@@ -62,6 +62,9 @@ public class HomePageCategoryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
 
@@ -93,13 +96,12 @@ public class HomePageCategoryFragment extends Fragment {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter((newsId, newsTitle, newsListId) -> {
-            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+        adapter = new NewsWithHeaderAdapter((newsId, newsListId) -> {
+            Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);
             i.putExtra("newsIdList", newsListId);
-            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
-        }, () -> DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> dataRepository.loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -117,7 +119,7 @@ public class HomePageCategoryFragment extends Fragment {
 
     private void loadData() {
 
-        DataRepository.getInstance().loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
+        dataRepository.loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
 

@@ -7,6 +7,7 @@ public class NewsDetail {
     public int id;
     public boolean commentEnabled;
     public int commentsCount;
+    public String title;
     public String url;
     public ArrayList<Tags> tags;
     public ArrayList<News> relatedNews;

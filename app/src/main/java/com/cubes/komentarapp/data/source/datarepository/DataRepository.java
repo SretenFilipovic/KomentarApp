@@ -17,7 +17,6 @@ import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.model.domain.Tags;
 import com.cubes.komentarapp.data.model.domain.Weather;
-import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.data.source.remote.networking.RetrofitService;
 import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.data.source.remote.response.ResponseCategoryList;
@@ -32,30 +31,13 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DataRepository {
 
-    private static DataRepository instance;
-    private RetrofitService service;
+    private final RetrofitService api;
 
-    private DataRepository() {
-        callRetrofit();
-    }
-
-    public static DataRepository getInstance() {
-        if (instance == null)
-            instance = new DataRepository();
-        return instance;
-    }
-
-    public void callRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(DataContainer.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(RetrofitService.class);
+    public DataRepository(RetrofitService api) {
+        this.api = api;
     }
 
     public interface NewsResponseListener {
@@ -66,7 +48,7 @@ public class DataRepository {
 
     public void loadVideoData(int page, NewsResponseListener listener) {
 
-        service.getVideoNews(page).enqueue(new Callback<ResponseNewsList>() {
+        api.getVideoNews(page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
@@ -88,7 +70,7 @@ public class DataRepository {
 
     public void loadLatestData(int page, NewsResponseListener listener) {
 
-        service.getLatestNews(page).enqueue(new Callback<ResponseNewsList>() {
+        api.getLatestNews(page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
@@ -109,7 +91,7 @@ public class DataRepository {
 
     public void loadCategoryNewsData(int id, int page, NewsResponseListener listener) {
 
-        service.getNewsForCategories(id, page).enqueue(new Callback<ResponseNewsList>() {
+        api.getNewsForCategories(id, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
@@ -130,7 +112,7 @@ public class DataRepository {
 
     public void loadSearchData(String term, int page, NewsResponseListener listener) {
 
-        service.getSearchNews(term, page).enqueue(new Callback<ResponseNewsList>() {
+        api.getSearchNews(term, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
@@ -151,7 +133,7 @@ public class DataRepository {
 
     public void loadTagData(int id, int page, NewsResponseListener listener) {
 
-        service.getTagNews(id, page).enqueue(new Callback<ResponseNewsList>() {
+        api.getTagNews(id, page).enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
@@ -178,7 +160,7 @@ public class DataRepository {
 
     public void loadHeadNewsData(HeadNewsResponseListener listener) {
 
-        service.getHomepageNews().enqueue(new Callback<ResponseNewsList>() {
+        api.getHomepageNews().enqueue(new Callback<ResponseNewsList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseNewsList> call, @NonNull Response<ResponseNewsList> response) {
@@ -189,7 +171,7 @@ public class DataRepository {
                     NewsList headNews = new NewsList();
                     ArrayList<CategoryBox> categoryBoxList = new ArrayList<>();
 
-                    for (CategoryBoxApi categoryBoxApi : response.body().data.category){
+                    for (CategoryBoxApi categoryBoxApi : response.body().data.category) {
                         CategoryBox categoryBox = new CategoryBox();
 
                         categoryBox.color = categoryBoxApi.color;
@@ -228,7 +210,7 @@ public class DataRepository {
 
     public void loadCategoryData(CategoryResponseListener listener) {
 
-        service.getCategories().enqueue(new Callback<ResponseCategoryList>() {
+        api.getCategories().enqueue(new Callback<ResponseCategoryList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseCategoryList> call, @NonNull Response<ResponseCategoryList> response) {
@@ -239,7 +221,7 @@ public class DataRepository {
 
                     ArrayList<Category> categories = new ArrayList<>();
 
-                    for (CategoryApi categoryApi : response.body().data){
+                    for (CategoryApi categoryApi : response.body().data) {
 
                         Category category = new Category();
 
@@ -250,7 +232,7 @@ public class DataRepository {
 
                         category.subcategories = new ArrayList<>();
 
-                        for (CategoryApi subcategoryApi : categoryApi.subcategories){
+                        for (CategoryApi subcategoryApi : categoryApi.subcategories) {
 
                             Category subcategory = new Category();
 
@@ -284,7 +266,7 @@ public class DataRepository {
 
     public void loadHoroscopeData(HoroscopeResponseListener listener) {
 
-        service.getHoroscope().enqueue(new Callback<ResponseHoroscope>() {
+        api.getHoroscope().enqueue(new Callback<ResponseHoroscope>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseHoroscope> call, @NonNull Response<ResponseHoroscope> response) {
@@ -319,7 +301,7 @@ public class DataRepository {
 
     public void loadWeatherData(WeatherResponseListener listener) {
 
-        service.getWeather().enqueue(new Callback<ResponseWeather>() {
+        api.getWeather().enqueue(new Callback<ResponseWeather>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseWeather> call, @NonNull Response<ResponseWeather> response) {
@@ -346,7 +328,7 @@ public class DataRepository {
 
     public void getNewsDetails(int id, NewsDetailListener listener) {
 
-        service.getNewsDetail(id).enqueue(new Callback<ResponseNewsDetail>() {
+        api.getNewsDetail(id).enqueue(new Callback<ResponseNewsDetail>() {
             @Override
             public void onResponse(@NonNull Call<ResponseNewsDetail> call, @NonNull Response<ResponseNewsDetail> response) {
 
@@ -355,7 +337,7 @@ public class DataRepository {
                     NewsDetail detail = new NewsDetail();
                     ArrayList<Tags> tags = new ArrayList<>();
 
-                    for (TagsApi tagsApi : response.body().data.tags){
+                    for (TagsApi tagsApi : response.body().data.tags) {
                         Tags tag = new Tags();
 
                         tag.id = tagsApi.id;
@@ -372,6 +354,7 @@ public class DataRepository {
                     detail.relatedNews = mapNewsFromResponse(response.body().data.related_news);
                     detail.topComments = mapCommentFromResponse(response.body().data.comments_top_n);
                     detail.url = response.body().data.url;
+                    detail.title = response.body().data.title;
 
                     listener.onResponse(detail);
                 }
@@ -394,7 +377,7 @@ public class DataRepository {
 
     public void loadCommentsData(int id, CommentsResponseListener listener) {
 
-        service.getComments(id).enqueue(new Callback<ResponseCommentList>() {
+        api.getComments(id).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseCommentList> call, @NonNull Response<ResponseCommentList> response) {
@@ -402,6 +385,7 @@ public class DataRepository {
 
                 listener.onResponse(mapCommentFromResponse(response.body().data));
             }
+
             @Override
             public void onFailure(@NonNull Call<ResponseCommentList> call, @NonNull Throwable t) {
                 listener.onFailure(t);
@@ -417,7 +401,7 @@ public class DataRepository {
 
     public void upvoteComment(String id, CommentsRequestListener listener) {
 
-        service.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
+        api.postUpvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseCommentList> call, @NonNull Response<ResponseCommentList> request) {
@@ -440,7 +424,7 @@ public class DataRepository {
 
     public void downvoteComment(String id, CommentsRequestListener listener) {
 
-        service.postDownvote(id, true).enqueue(new Callback<ResponseCommentList>() {
+        api.postDownvote(id, true).enqueue(new Callback<ResponseCommentList>() {
 
             @Override
             public void onResponse(@NonNull Call<ResponseCommentList> call, @NonNull Response<ResponseCommentList> request) {
@@ -468,7 +452,7 @@ public class DataRepository {
 
     public void postCommentData(RequestCommentPost comment, PostCommentListener listener) {
 
-        service.postComment(comment).enqueue(new Callback<RequestCommentPost>() {
+        api.postComment(comment).enqueue(new Callback<RequestCommentPost>() {
 
             @Override
             public void onResponse(@NonNull Call<RequestCommentPost> call, @NonNull Response<RequestCommentPost> request) {
@@ -537,7 +521,7 @@ public class DataRepository {
         return category;
     }
 
-    private Weather mapWeatherFromCategory(WeatherApi weatherApi){
+    private Weather mapWeatherFromCategory(WeatherApi weatherApi) {
 
         Weather weather = new Weather();
 
@@ -551,25 +535,25 @@ public class DataRepository {
         weather.wind = weatherApi.wind;
         weather.temp = weatherApi.temp;
 
-        if (weatherApi.day_0 != null){
+        if (weatherApi.day_0 != null) {
             weather.day1 = mapWeatherFromCategory(weatherApi.day_0);
         }
-        if (weatherApi.day_1 != null){
+        if (weatherApi.day_1 != null) {
             weather.day2 = mapWeatherFromCategory(weatherApi.day_1);
         }
-        if (weatherApi.day_2 != null){
+        if (weatherApi.day_2 != null) {
             weather.day3 = mapWeatherFromCategory(weatherApi.day_2);
         }
-        if (weatherApi.day_3 != null){
+        if (weatherApi.day_3 != null) {
             weather.day4 = mapWeatherFromCategory(weatherApi.day_3);
         }
-        if (weatherApi.day_4 != null){
+        if (weatherApi.day_4 != null) {
             weather.day5 = mapWeatherFromCategory(weatherApi.day_4);
         }
-        if (weatherApi.day_5 != null){
+        if (weatherApi.day_5 != null) {
             weather.day6 = mapWeatherFromCategory(weatherApi.day_5);
         }
-        if (weatherApi.day_6 != null){
+        if (weatherApi.day_6 != null) {
             weather.day7 = mapWeatherFromCategory(weatherApi.day_6);
         }
         return weather;

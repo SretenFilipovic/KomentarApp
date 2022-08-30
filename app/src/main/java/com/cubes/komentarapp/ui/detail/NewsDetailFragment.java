@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.detail;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,12 +19,15 @@ import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -34,9 +38,17 @@ public class NewsDetailFragment extends Fragment {
     private NewsDetailAdapter adapter;
     private ArrayList<Vote> votes = new ArrayList<>();
     private int newsId;
-
+    private String newsUrl;
+    private String newsTitle;
+    private DetailListener detailListener;
+    private FirebaseAnalytics analytics;
+    private DataRepository dataRepository;
 
     public NewsDetailFragment() {
+    }
+
+    public interface DetailListener {
+        void onDetailResponseListener(int newsId, String newsUrl);
     }
 
     public static NewsDetailFragment newInstance(int newsId) {
@@ -48,8 +60,20 @@ public class NewsDetailFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.detailListener = (DetailListener) context;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        analytics = FirebaseAnalytics.getInstance(requireContext());
+
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
+
         if (getArguments() != null) {
             newsId = getArguments().getInt(NEWS_ID);
         }
@@ -59,7 +83,6 @@ public class NewsDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
-
 
         return binding.getRoot();
     }
@@ -83,15 +106,31 @@ public class NewsDetailFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        detailListener.onDetailResponseListener(newsId, newsUrl);
+    }
+
     private void loadData() {
 
         if (PrefConfig.readListFromPref(getActivity()) != null) {
             votes = (ArrayList<Vote>) PrefConfig.readListFromPref(getActivity());
         }
 
-        DataRepository.getInstance().getNewsDetails(newsId, new DataRepository.NewsDetailListener() {
+        dataRepository.getNewsDetails(newsId, new DataRepository.NewsDetailListener() {
             @Override
             public void onResponse(NewsDetail response) {
+
+                newsId = response.id;
+                newsUrl = response.url;
+                newsTitle = response.title;
+
+                detailListener.onDetailResponseListener(newsId, newsUrl);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("news", newsTitle);
+                analytics.logEvent("select_news", bundle);
 
                 adapter.setData(response, new NewsDetailListener() {
                     @Override
@@ -118,7 +157,7 @@ public class NewsDetailFragment extends Fragment {
 
                     @Override
                     public void onNewsClicked(int newsId, String newsTitle, int[] newsIdList) {
-                        Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
                         i.putExtra("news", newsId);
                         i.putExtra("newsIdList", newsIdList);
                         i.putExtra("newsTitle", newsTitle);
@@ -135,7 +174,7 @@ public class NewsDetailFragment extends Fragment {
 
                     @Override
                     public void upvote(Comments comment) {
-                        DataRepository.getInstance().upvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
+                        dataRepository.upvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                             @Override
                             public void onResponse(ArrayList<Comments> request) {
 
@@ -158,7 +197,7 @@ public class NewsDetailFragment extends Fragment {
 
                     @Override
                     public void downVote(Comments comment) {
-                        DataRepository.getInstance().downvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
+                        dataRepository.downvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                             @Override
                             public void onResponse(ArrayList<Comments> request) {
 

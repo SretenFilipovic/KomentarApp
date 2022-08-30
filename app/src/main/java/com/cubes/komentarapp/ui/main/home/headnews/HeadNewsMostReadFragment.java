@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
-import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
@@ -59,11 +57,10 @@ public class HeadNewsMostReadFragment extends Fragment {
         HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter();
 
         adapter.setMostReadData(mostReadNews);
-        adapter.setNewsListener((newsId, newsTitle, newsListId) -> {
-            Intent i = new Intent(getContext(), NewsDetailWithPagerActivity.class);
+        adapter.setNewsListener((newsId, newsListId) -> {
+            Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);
             i.putExtra("newsIdList", newsListId);
-            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
         });
 

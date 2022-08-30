@@ -13,6 +13,8 @@ import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityCommentsBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 
@@ -25,6 +27,7 @@ public class CommentsActivity extends AppCompatActivity {
     private int newsId;
     private ArrayList<Vote> votes = new ArrayList<>();
     private final ArrayList<Comments> allComments = new ArrayList<>();
+    private DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,9 @@ public class CommentsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         newsId = getIntent().getIntExtra("news", -1);
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -78,7 +84,7 @@ public class CommentsActivity extends AppCompatActivity {
 
             @Override
             public void upvote(Comments comment) {
-                DataRepository.getInstance().upvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
+                dataRepository.upvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                     @Override
                     public void onResponse(ArrayList<Comments> request) {
 
@@ -102,7 +108,7 @@ public class CommentsActivity extends AppCompatActivity {
 
             @Override
             public void downVote(Comments comment) {
-                DataRepository.getInstance().downvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
+                dataRepository.downvoteComment(comment.id, new DataRepository.CommentsRequestListener() {
                     @Override
                     public void onResponse(ArrayList<Comments> request) {
 
@@ -127,7 +133,7 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        DataRepository.getInstance().loadCommentsData(newsId, new DataRepository.CommentsResponseListener() {
+        dataRepository.loadCommentsData(newsId, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
 

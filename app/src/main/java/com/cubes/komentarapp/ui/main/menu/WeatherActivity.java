@@ -10,18 +10,25 @@ import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Weather;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityWeatherBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.squareup.picasso.Picasso;
 
 public class WeatherActivity extends AppCompatActivity {
 
     private ActivityWeatherBinding binding;
     private Weather weather;
+    private DataRepository dataRepository;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityWeatherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -30,7 +37,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void loadData() {
 
-        DataRepository.getInstance().loadWeatherData(new DataRepository.WeatherResponseListener() {
+        dataRepository.loadWeatherData(new DataRepository.WeatherResponseListener() {
             @Override
             public void onResponse(Weather response) {
                 weather = response;

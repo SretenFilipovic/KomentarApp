@@ -45,7 +45,7 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> 
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
 
-        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news.id, news.title, MethodsClass.initNewsIdList(list)));
+        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news.id, MethodsClass.initNewsIdList(list)));
     }
 
     @Override

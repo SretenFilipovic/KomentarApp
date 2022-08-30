@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.detail.NewsDetailWithPagerActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class TagActivity extends AppCompatActivity {
     private int tagId;
     private NewsAdapter adapter;
     private int nextPage = 2;
+    private DataRepository dataRepository;
 
 
     @Override
@@ -33,6 +34,9 @@ public class TagActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTagBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -61,13 +65,12 @@ public class TagActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter((newsId, newsTitle, newsListId) -> {
-            Intent i = new Intent(TagActivity.this, NewsDetailWithPagerActivity.class);
+        adapter = new NewsAdapter((newsId, newsListId) -> {
+            Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
             i.putExtra("news", newsId);
             i.putExtra("newsIdList", newsListId);
-            i.putExtra("newsTitle", newsTitle);
             startActivity(i);
-        }, () -> DataRepository.getInstance().loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
+        }, () -> dataRepository.loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
@@ -87,7 +90,7 @@ public class TagActivity extends AppCompatActivity {
     private void loadData() {
 
         int page = 1;
-        DataRepository.getInstance().loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
+        dataRepository.loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
 

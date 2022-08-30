@@ -19,6 +19,8 @@ import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.ActivityMainBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.main.home.HomeFragment;
 import com.cubes.komentarapp.ui.main.latest.LatestFragment;
 import com.cubes.komentarapp.ui.main.menu.CurrencyActivity;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MenuAdapter adapter;
+    private DataRepository dataRepository;
+
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
 
@@ -120,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadData() {
 
-        DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
+        dataRepository.loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
                 adapter.setData(response, new MenuListener() {
