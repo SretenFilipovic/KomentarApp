@@ -83,12 +83,12 @@
 
         <ImageView
             android:id="@+id/closeAd"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/ic_close"
             app:layout_constraintEnd_toEndOf="@+id/adViewSticky"
             app:layout_constraintTop_toTopOf="@+id/adViewSticky"
-            app:tint="@color/blue"
+            app:tint="@color/black"
             android:visibility="gone"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
