@@ -1,5 +1,9 @@
 package com.cubes.komentarapp.ui.main;
 
+import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -11,14 +15,26 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
+import com.cubes.komentarapp.data.source.local.DataContainer;
 import com.cubes.komentarapp.databinding.ActivityMainBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.main.home.HomeFragment;
 import com.cubes.komentarapp.ui.main.latest.LatestFragment;
+import com.cubes.komentarapp.ui.main.menu.CurrencyActivity;
+import com.cubes.komentarapp.ui.main.menu.HoroscopeActivity;
 import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
+import com.cubes.komentarapp.ui.main.menu.WeatherActivity;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
 import com.cubes.komentarapp.ui.main.video.VideoFragment;
+import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
+import com.cubes.komentarapp.ui.tools.PrefConfig;
+import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -26,77 +42,153 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MenuAdapter adapter;
+    private DataRepository dataRepository;
 
+
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new MenuAdapter();
-        binding.recyclerViewMenu.setAdapter(adapter);
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
-        loadData();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
+
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+        fullyOpenDrawer(binding.drawerNavigationView);
+
+        binding.refresh.setVisibility(View.GONE);
 
         binding.refresh.setOnClickListener(view -> loadData());
         binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
         binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adViewSticky.loadAd(adRequest);
+        binding.adViewSticky.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                binding.adViewSticky.setVisibility(View.VISIBLE);
+                binding.closeAd.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.closeAd.setOnClickListener(view -> {
+            binding.adViewSticky.setVisibility(View.GONE);
+            binding.closeAd.setVisibility(View.GONE);
+        });
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            Fragment selectedFragment = null;
+
+            switch (item.getItemId()) {
+                case R.id.home:
+                    selectedFragment = HomeFragment.newInstance();
+                    binding.imageViewMenu.setVisibility(View.VISIBLE);
+                break;
+                case R.id.search:
+                    selectedFragment = SearchFragment.newInstance();
+                    binding.imageViewMenu.setVisibility(View.GONE);
+
+                break;
+                case R.id.latest:
+                    selectedFragment = LatestFragment.newInstance();
+                    binding.imageViewMenu.setVisibility(View.GONE);
+
+                break;
+                case R.id.video:
+                    selectedFragment = VideoFragment.newInstance();
+                    binding.imageViewMenu.setVisibility(View.GONE);
+                break;
+            }
+
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
+            }
+            return true;
+        });
+
+
+        boolean isNotificationOn = PrefConfig.isNotificationOn(this);
+
+        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new MenuAdapter();
+        adapter.setIsNotificationOn(isNotificationOn);
+        binding.recyclerViewMenu.setAdapter(adapter);
+
+        loadData();
     }
 
+
     private void loadData() {
-        DataRepository.getInstance().loadCategoryData(new DataRepository.CategoryResponseListener() {
+
+        dataRepository.loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override
             public void onResponse(ArrayList<Category> response) {
+                adapter.setData(response, new MenuListener() {
+                    @Override
+                    public void onSubcategoryClicked(int categoryId, int subcategoryId) {
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance(response)).commit();
-
-                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-                fullyOpenDrawer(binding.drawerNavigationView);
-
-                binding.refresh.setVisibility(View.GONE);
-
-                binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-
-                    Fragment selectedFragment = null;
-
-                    switch (item.getItemId()) {
-                        case R.id.home:
-                            selectedFragment = HomeFragment.newInstance(response);
-                        {
-                            binding.imageViewMenu.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                        case R.id.search:
-                            selectedFragment = SearchFragment.newInstance();
-                        {
-                            binding.imageViewMenu.setVisibility(View.GONE);
-                        }
-                        break;
-                        case R.id.latest:
-                            selectedFragment = LatestFragment.newInstance();
-                        {
-                            binding.imageViewMenu.setVisibility(View.GONE);
-                        }
-                        break;
-                        case R.id.video:
-                            selectedFragment = VideoFragment.newInstance();
-                        {
-                            binding.imageViewMenu.setVisibility(View.GONE);
-                        }
-                        break;
+                        Intent i = new Intent(MainActivity.this, SubcategoryActivity.class);
+                        i.putExtra("categoryId", categoryId);
+                        i.putExtra("subcategoryId", subcategoryId);
+                        startActivity(i);
                     }
 
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, selectedFragment)
-                            .commit();
+                    @Override
+                    public void onItemClicked() {
+                        openWebBrowser("https://komentar.rs");
+                    }
 
-                    return true;
+                    @Override
+                    public void onHoroscopeClicked() {
+                        Intent i = new Intent(MainActivity.this, HoroscopeActivity.class);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onCurrencyClicked() {
+                        Intent i = new Intent(MainActivity.this, CurrencyActivity.class);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onWeatherClicked() {
+                        Intent i = new Intent(MainActivity.this, WeatherActivity.class);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onShareClicked(String networkUrl) {
+                        try {
+                            Intent i = new Intent();
+                            i.setAction(Intent.ACTION_SEND);
+                            i.putExtra(Intent.EXTRA_TEXT, DataContainer.BASE_URL);
+                            i.setType("text/plain");
+                            i.setPackage(networkUrl);
+                            startActivity(i);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onNotificationClicked(boolean isOn) {
+                        PrefConfig.setNotificationStatus(MainActivity.this, isOn);
+                        if (isOn){
+                            FirebaseMessaging.getInstance().subscribeToTopic("main");
+                        }
+                        else {
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic("main");
+                        }
+                    }
                 });
-
-                adapter.setData(response);
             }
 
             @Override
@@ -105,6 +197,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openWebBrowser(String url) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     private void fullyOpenDrawer(View view) {

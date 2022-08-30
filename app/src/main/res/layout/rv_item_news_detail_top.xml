@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent">
@@ -26,10 +24,10 @@
         android:id="@+id/textViewCreatedAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_main"
         android:text="@string/text_date_time"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_normal"
-        android:layout_marginTop="@dimen/margin_main"
         app:layout_constraintStart_toStartOf="@+id/textViewTitle"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
@@ -47,20 +45,20 @@
         android:id="@+id/imageViewCommentCount"
         android:layout_width="@dimen/text_size_normal"
         android:layout_height="@dimen/text_size_normal"
-        android:src="@drawable/ic_comment_blue"
         android:layout_marginStart="@dimen/margin_small"
+        android:src="@drawable/ic_comment_blue"
         app:layout_constraintBottom_toBottomOf="@+id/textViewCreatedAt"
         app:layout_constraintStart_toEndOf="@+id/view"
-        app:layout_constraintTop_toTopOf="@+id/textViewCreatedAt"/>
+        app:layout_constraintTop_toTopOf="@+id/textViewCreatedAt" />
 
     <TextView
         android:id="@+id/textViewCommentCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
         android:text="5"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_normal"
-        android:layout_marginStart="@dimen/margin_small"
         app:layout_constraintStart_toEndOf="@+id/imageViewCommentCount"
         app:layout_constraintTop_toTopOf="@+id/textViewCreatedAt" />
 
@@ -79,11 +77,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin_small"
             android:text="@string/text_autor"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold"
-            android:layout_marginStart="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -135,15 +133,13 @@
         android:id="@+id/textViewDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_main"
         android:text="@string/text_description_example"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_big"
-        android:layout_marginTop="@dimen/margin_main"
         app:layout_constraintEnd_toEndOf="@+id/textViewTitle"
         app:layout_constraintStart_toStartOf="@+id/textViewTitle"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
-
-
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

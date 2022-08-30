@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.ui.main.home.categories.HomePageCategoryFragment;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsFragment;
 
@@ -13,29 +13,30 @@ import java.util.ArrayList;
 
 public class HomePageAdapter extends FragmentStateAdapter {
 
-    private final ArrayList<Category> categoryList;
+    private ArrayList<Category> categoryList;
 
-    public HomePageAdapter(@NonNull FragmentActivity fragmentActivity, ArrayList<Category> categoryList) {
+    public HomePageAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        this.categoryList = categoryList;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-            HeadNewsFragment fragment = HeadNewsFragment.newInstance();
-            return fragment;
+            return HeadNewsFragment.newInstance();
         } else {
             Category category = categoryList.get(position - 1);
-            HomePageCategoryFragment fragment = HomePageCategoryFragment.newInstance(category.id);
-            return fragment;
+            return HomePageCategoryFragment.newInstance(category.id, category.name);
         }
     }
 
     @Override
     public int getItemCount() {
         return categoryList.size() + 1;
+    }
+
+    public void setData(ArrayList<Category> categoryList){
+        this.categoryList = categoryList;
     }
 
 }

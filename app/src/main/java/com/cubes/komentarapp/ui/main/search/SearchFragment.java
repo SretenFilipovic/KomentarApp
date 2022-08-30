@@ -17,35 +17,46 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentSearchBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
     private NewsAdapter adapter;
+    private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private DataRepository dataRepository;
+
 
     public SearchFragment() {
     }
 
     public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
 
         return binding.getRoot();
     }
@@ -56,14 +67,12 @@ public class SearchFragment extends Fragment {
 
         setupRecyclerView();
 
-        binding.editText.post(() -> {
-            automaticKeyboard(getActivity());
-        });
+        binding.editText.post(() -> automaticKeyboard(requireActivity()));
 
         binding.imageViewSearch.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.INVISIBLE);
-            hideKeyboard(getActivity());
+            hideKeyboard(requireActivity());
             loadData();
         });
 
@@ -73,11 +82,17 @@ public class SearchFragment extends Fragment {
             loadData();
         });
 
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+            binding.pullToRefresh.setRefreshing(false);
+        });
+
         binding.editText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.recyclerView.setVisibility(View.INVISIBLE);
-                hideKeyboard(getActivity());
+                hideKeyboard(requireActivity());
                 loadData();
                 return true;
             }
@@ -85,43 +100,37 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideKeyboard(requireActivity());
+    }
+
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
+        adapter = new NewsAdapter((newsId, newsListId) -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            getContext().startActivity(i);
-        });
-
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+            i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsListId);
+            startActivity(i);
+        }, () -> dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-                DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
+        binding.recyclerView.setAdapter(adapter);
 
     }
 
     private void loadData() {
-
-        int page = 1;
 
         if (binding.editText.getText().length() == 0) {
             binding.progressBar.setVisibility(View.GONE);
@@ -133,13 +142,17 @@ public class SearchFragment extends Fragment {
             Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
         } else {
 
-            DataRepository.getInstance().loadSearchData(String.valueOf(binding.editText.getText()), page, new DataRepository.NewsResponseListener() {
+            Bundle bundle = new Bundle();
+            bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, String.valueOf(binding.editText.getText()));
+            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+
+            dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override
-                public void onResponse(NewsList response) {
+                public void onResponse(ArrayList<News> response) {
 
                     setupRecyclerView();
 
-                    if (response.news.size() > 0) {
+                    if (response.size() > 0) {
                         binding.textViewNoContent.setVisibility(View.GONE);
                         adapter.setData(response);
                     } else {
@@ -147,6 +160,7 @@ public class SearchFragment extends Fragment {
                         binding.textViewNoContent.setVisibility(View.VISIBLE);
                     }
 
+                    nextPage = 2;
                     binding.refresh.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
@@ -160,6 +174,7 @@ public class SearchFragment extends Fragment {
                     binding.progressBar.setVisibility(View.GONE);
                     binding.textViewNoContent.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.GONE);
+
                     Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                     Log.d("SEARCH", "Search load data failure");
@@ -177,7 +192,7 @@ public class SearchFragment extends Fragment {
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    private void automaticKeyboard(Activity activity){
+    private void automaticKeyboard(Activity activity) {
         binding.editText.requestFocus();
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.showSoftInput(binding.editText, InputMethodManager.SHOW_IMPLICIT);

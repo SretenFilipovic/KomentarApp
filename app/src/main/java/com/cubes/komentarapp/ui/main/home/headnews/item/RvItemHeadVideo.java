@@ -1,47 +1,46 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import android.content.Intent;
+import android.graphics.Color;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.databinding.RvItemHeadTopBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
-import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsVideoAdapter;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.R;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class RvItemHeadVideo implements RvItemHead {
 
-    private final ArrayList<News> videoNews;
-    private HeadNewsVideoAdapter adapter;
+    private final News news;
+    private final NewsListener listener;
+    private final int[] newsIdList;
 
-    public RvItemHeadVideo(ArrayList<News> videoNews) {
-        this.videoNews = videoNews;
+    public RvItemHeadVideo(News news, ArrayList<News> videoNews, NewsListener listener) {
+        this.news = news;
+        this.listener = listener;
+        this.newsIdList = MethodsClass.initNewsIdList(videoNews);
     }
 
     @Override
     public int getType() {
-        return 5;
+        return R.layout.rv_item_head_video;
     }
 
     @Override
-    public void bind(HeadNewsAdapter.HeadNewsViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
-        RvItemHeadTopBinding binding = (RvItemHeadTopBinding) holder.binding;
+        RvItemHeadVideoBinding binding = (RvItemHeadVideoBinding) holder.binding;
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        adapter = new HeadNewsVideoAdapter(videoNews);
+            binding.textViewCategory.setText(news.category.name);
+            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+            binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
+            binding.textViewTitle.setText(news.title);
+            Picasso.get().load(news.image).into(binding.imageView);
 
-        adapter.setNewsListener(news -> {
-            Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            holder.itemView.getContext().startActivity(i);
-        });
-
-        binding.recyclerView.setAdapter(adapter);
+            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
 
     }
 }

@@ -11,8 +11,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.remote.response.ResponseCommentPost;
+import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class PostCommentActivity extends AppCompatActivity {
     private ActivityPostCommentBinding binding;
     private String commentId = "0";
     private String newsId;
+    private DataRepository dataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +31,11 @@ public class PostCommentActivity extends AppCompatActivity {
         binding = ActivityPostCommentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        commentId = (String) getIntent().getSerializableExtra("commentId");
-        newsId = (String) getIntent().getSerializableExtra("newsId");
+        commentId = getIntent().getStringExtra("commentId");
+        newsId = getIntent().getStringExtra("newsId");
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -63,15 +69,15 @@ public class PostCommentActivity extends AppCompatActivity {
         commentData.add(email);
         commentData.add(content);
 
-        ResponseCommentPost commentsPost = new ResponseCommentPost(commentData);
+        RequestCommentPost commentsPost = new RequestCommentPost(commentData);
 
         if (binding.editTextName.getText().length() > 0) {
 
             if (binding.editTextContent.getText().length() > 0) {
 
-                DataRepository.getInstance().postCommentData(commentsPost, new DataRepository.PostCommentListener() {
+                dataRepository.postCommentData(commentsPost, new DataRepository.PostCommentListener() {
                     @Override
-                    public void onResponse(ArrayList<String> response) {
+                    public void onResponse(ArrayList<String> request) {
 
                         Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
                         finish();

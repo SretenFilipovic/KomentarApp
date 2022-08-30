@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tags.TagActivity"
     android:background="@color/blue_light"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.tags.TagActivity">
 
     <FrameLayout
         android:id="@+id/topBar"
@@ -17,28 +16,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_back"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_back" />
+
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/text_weather"
-            android:textSize="@dimen/text_size_big"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_gravity="center"/>
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold" />
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_main"
         android:layout_marginStart="@dimen/margin_main"
+        android:layout_marginTop="@dimen/margin_main"
         android:layout_marginEnd="@dimen/margin_main"
         android:orientation="vertical">
 
@@ -46,272 +47,298 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="@string/text_location"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"/>
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/imageViewIcon"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small"/>
+            android:layout_marginTop="@dimen/margin_small" />
+
         <TextView
             android:id="@+id/textViewTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
             android:text="T"
             android:textColor="@color/white"
             android:textSize="36sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/textViewPressure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
             android:text="@string/text_pressure"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small"/>
+            android:textSize="@dimen/text_size_normal" />
+
         <TextView
             android:id="@+id/textViewHumidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
             android:text="@string/text_humidity"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small"/>
+            android:textSize="@dimen/text_size_normal" />
+
         <TextView
             android:id="@+id/textViewWind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
             android:text="@string/text_wind"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_small"/>
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_big"
+            android:gravity="center"
             android:text="@string/text_seven_day_forcast"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_normal"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_big"/>
+            android:textStyle="bold" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_big"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_big"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 1."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay0"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 2."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 3."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 4."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay3"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 5."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay4"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 6."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay5"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
             android:layout_marginEnd="@dimen/margin_main">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
                 android:text="Dan 7."
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_gravity="start|center_vertical" />
+                android:textSize="@dimen/text_size_normal" />
+
             <ImageView
                 android:id="@+id/imageViewIconDay6"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textViewTempDay6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:text="@string/text_min_max"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold"
-                android:layout_gravity="end|center_vertical"/>
+                android:textStyle="bold" />
         </FrameLayout>
 
     </LinearLayout>

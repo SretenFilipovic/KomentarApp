@@ -1,93 +1,93 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.content.Intent;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.cubes.komentarapp.data.model.Comments;
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.databinding.RvItemNewsDetailCommentsBinding;
-import com.cubes.komentarapp.ui.comments.CommentsActivity;
-import com.cubes.komentarapp.ui.comments.CommentsAdapter;
-import com.cubes.komentarapp.ui.comments.PostCommentActivity;
-import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
-import com.cubes.komentarapp.ui.tools.CommentsListener;
+import com.cubes.komentarapp.R;
+import com.cubes.komentarapp.data.model.domain.Comments;
+import com.cubes.komentarapp.databinding.RvItemCommentBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.util.ArrayList;
-
 public class RvItemDetailComments implements RvItemDetail {
 
-    private final ArrayList<Comments> comments;
-    private News news;
+    private final Comments comment;
+    private final CommentsListener listener;
+    private RvItemCommentBinding binding;
 
-    public RvItemDetailComments(News news, ArrayList<Comments> commentList) {
-        this.news = news;
-        this.comments = commentList;
+    public RvItemDetailComments(Comments comment, CommentsListener listener) {
+        this.comment = comment;
+        this.listener = listener;
     }
 
     @Override
     public int getType() {
-        return 2;
+        return R.layout.rv_item_comment;
     }
 
     @Override
-    public void bind(NewsDetailAdapter.NewsDetailViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
-        RvItemNewsDetailCommentsBinding binding = (RvItemNewsDetailCommentsBinding) holder.binding;
+        binding = (RvItemCommentBinding) holder.binding;
 
-        binding.textViewCommentCount.setText("(" + news.comments_count + ")");
-        binding.textViewButtonCount.setText(String.valueOf(news.comments_count));
+        binding.textViewName.setText(comment.name);
+        binding.textViewContent.setText(comment.content);
+        binding.textViewCreatedAt.setText(comment.createdAt);
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positiveVotes));
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negativeVotes));
 
-        if (comments == null || comments.size() == 0) {
-            binding.textViewNoComments.setVisibility(View.VISIBLE);
-        } else {
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            binding.recyclerView.setAdapter(new CommentsAdapter(comments));
+        binding.imageViewReply.setOnClickListener(view -> listener.onReplyClicked(comment));
+        binding.textViewReply.setOnClickListener(view -> listener.onReplyClicked(comment));
+
+        if (comment.commentVote != null) {
+            if (comment.commentVote.vote) {
+                binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+            } else {
+                binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
+            }
         }
 
-        binding.textViewShowAllComments.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
+        binding.imageViewUpVote.setOnClickListener(view -> {
+            if (comment.commentVote == null) {
+                listener.upvote(comment);
             } else {
-                Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
+                Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
+            binding.imageViewDownVote.setEnabled(false);
+            binding.imageViewUpVote.setEnabled(false);
         });
 
-        binding.frameLayoutShowAll.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
+        binding.imageViewDownVote.setOnClickListener(view -> {
+            if (comment.commentVote == null) {
+                listener.downVote(comment);
+
             } else {
-                Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
+                Toast.makeText(holder.itemView.getContext(), "Vaš glas je već zabeležen", Toast.LENGTH_SHORT).show();
             }
+            binding.imageViewDownVote.setEnabled(false);
+            binding.imageViewUpVote.setEnabled(false);
         });
 
-        binding.textViewButtonCount.setOnClickListener(view -> {
-            if (news.comments_count == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent i = new Intent(holder.itemView.getContext(), CommentsActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
-            }
-        });
+    }
 
-        binding.buttonLeaveComment.setOnClickListener(view -> {
-            Intent i = new Intent(holder.itemView.getContext(), PostCommentActivity.class);
-            i.putExtra("newsId", String.valueOf(news.id));
-            holder.itemView.getContext().startActivity(i);
-        });
+    @Override
+    public String getCommentsId() {
+        return comment.id;
+    }
 
+    @Override
+    public void updateUpvote() {
+        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewUpVote);
+        binding.textViewUpVoteCount.setText(String.valueOf(comment.positiveVotes + 1));
+        binding.imageViewUpVote.setImageResource(R.drawable.ic_thumbs_up_voted);
+    }
+
+    @Override
+    public void updateDownvote() {
+        YoYo.with(Techniques.Tada).duration(1000).playOn(binding.imageViewDownVote);
+        binding.textViewDownVoteCount.setText(String.valueOf(comment.negativeVotes + 1));
+        binding.imageViewDownVote.setImageResource(R.drawable.ic_thumbs_down_voted);
     }
 
 }

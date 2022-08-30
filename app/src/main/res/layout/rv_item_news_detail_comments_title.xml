@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_main"
+        android:layout_marginTop="@dimen/margin_big"
+        android:text="@string/text_komentari"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_biggest"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewCommentCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_main"
+        android:text="(0)"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_biggest"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/textViewTitle"
+        app:layout_constraintTop_toTopOf="@id/textViewTitle" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/margin_main"
+        android:layout_marginEnd="@dimen/margin_main"
+        android:background="@color/blue_lightest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="100dp"
+        android:layout_height="1.5dp"
+        android:background="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/view1"
+        app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+        app:layout_constraintTop_toTopOf="@+id/view1"/>
+
+    <Button
+        android:id="@+id/buttonLeaveComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_main"
+        android:layout_marginBottom="@dimen/margin_main"
+        android:background="@color/blue"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/text_ostavi_komentar"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

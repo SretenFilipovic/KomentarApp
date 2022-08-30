@@ -1,11 +1,11 @@
 package com.cubes.komentarapp.data.source.remote.response;
 
-import com.cubes.komentarapp.data.model.Comments;
+import com.cubes.komentarapp.data.model.api.CommentsApi;
 
 import java.util.ArrayList;
 
 public class ResponseCommentList extends ResponseParentClass {
 
-    public ArrayList<Comments> data;
+    public ArrayList<CommentsApi> data;
 
 }

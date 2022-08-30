@@ -7,21 +7,28 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.Weather;
+import com.cubes.komentarapp.data.model.domain.Weather;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityWeatherBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.squareup.picasso.Picasso;
 
 public class WeatherActivity extends AppCompatActivity {
 
     private ActivityWeatherBinding binding;
     private Weather weather;
+    private DataRepository dataRepository;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityWeatherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
@@ -30,7 +37,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void loadData() {
 
-        DataRepository.getInstance().loadWeatherData(new DataRepository.WeatherResponseListener() {
+        dataRepository.loadWeatherData(new DataRepository.WeatherResponseListener() {
             @Override
             public void onResponse(Weather response) {
                 weather = response;
@@ -42,28 +49,28 @@ public class WeatherActivity extends AppCompatActivity {
                 binding.textViewPressure.setText("Atmosferski pritisak: " + weather.pressure + " mb");
                 binding.textViewWind.setText("Brzina vetra: " + weather.wind + " m/s");
 
-                Picasso.get().load(weather.icon_url).into(binding.imageViewIcon);
+                Picasso.get().load(weather.iconUrl).into(binding.imageViewIcon);
 
-                binding.textViewTempDay0.setText(weather.day_0.temp_max + " / " + weather.day_0.temp_min);
-                Picasso.get().load(weather.day_0.icon_url).into(binding.imageViewIconDay0);
+                binding.textViewTempDay0.setText(weather.day1.tempMax + " / " + weather.day1.tempMin);
+                Picasso.get().load(weather.day1.iconUrl).into(binding.imageViewIconDay0);
 
-                binding.textViewTempDay1.setText(weather.day_1.temp_max + " / " + weather.day_1.temp_min);
-                Picasso.get().load(weather.day_1.icon_url).into(binding.imageViewIconDay1);
+                binding.textViewTempDay1.setText(weather.day2.tempMax + " / " + weather.day2.tempMin);
+                Picasso.get().load(weather.day2.iconUrl).into(binding.imageViewIconDay1);
 
-                binding.textViewTempDay2.setText(weather.day_2.temp_max + " / " + weather.day_2.temp_min);
-                Picasso.get().load(weather.day_2.icon_url).into(binding.imageViewIconDay2);
+                binding.textViewTempDay2.setText(weather.day3.tempMax + " / " + weather.day3.tempMin);
+                Picasso.get().load(weather.day3.iconUrl).into(binding.imageViewIconDay2);
 
-                binding.textViewTempDay3.setText(weather.day_3.temp_max + " / " + weather.day_3.temp_min);
-                Picasso.get().load(weather.day_3.icon_url).into(binding.imageViewIconDay3);
+                binding.textViewTempDay3.setText(weather.day4.tempMax + " / " + weather.day4.tempMin);
+                Picasso.get().load(weather.day4.iconUrl).into(binding.imageViewIconDay3);
 
-                binding.textViewTempDay4.setText(weather.day_4.temp_max + " / " + weather.day_4.temp_min);
-                Picasso.get().load(weather.day_4.icon_url).into(binding.imageViewIconDay4);
+                binding.textViewTempDay4.setText(weather.day5.tempMax + " / " + weather.day5.tempMin);
+                Picasso.get().load(weather.day5.iconUrl).into(binding.imageViewIconDay4);
 
-                binding.textViewTempDay5.setText(weather.day_5.temp_max + " / " + weather.day_5.temp_min);
-                Picasso.get().load(weather.day_5.icon_url).into(binding.imageViewIconDay5);
+                binding.textViewTempDay5.setText(weather.day6.tempMax + " / " + weather.day6.tempMin);
+                Picasso.get().load(weather.day6.iconUrl).into(binding.imageViewIconDay5);
 
-                binding.textViewTempDay6.setText(weather.day_6.temp_max + " / " + weather.day_6.temp_min);
-                Picasso.get().load(weather.day_6.icon_url).into(binding.imageViewIconDay6);
+                binding.textViewTempDay6.setText(weather.day7.tempMax + " / " + weather.day7.tempMin);
+                Picasso.get().load(weather.day7.iconUrl).into(binding.imageViewIconDay6);
 
                 Log.d("WEATHER", "Weather load data success");
 

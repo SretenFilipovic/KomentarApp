@@ -13,30 +13,38 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.ArrayList;
 
 public class HomePageCategoryFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private static final String CATEGORY_ID = "categoryId";
+    private static final String CATEGORY_TITLE = "categoryTitle";
     private int categoryId;
+    private String categoryTitle;
     private NewsWithHeaderAdapter adapter;
+    private int nextPage = 2;
+    private FirebaseAnalytics mFirebaseAnalytics;
+    private DataRepository dataRepository;
 
     public HomePageCategoryFragment() {
 
     }
 
-    public static HomePageCategoryFragment newInstance(int categoryId) {
+    public static HomePageCategoryFragment newInstance(int categoryId, String categoryTitle) {
         HomePageCategoryFragment fragment = new HomePageCategoryFragment();
         Bundle args = new Bundle();
         args.putInt(CATEGORY_ID, categoryId);
+        args.putString(CATEGORY_TITLE, categoryTitle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,13 +54,19 @@ public class HomePageCategoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             categoryId = getArguments().getInt(CATEGORY_ID);
+            categoryTitle = getArguments().getString(CATEGORY_TITLE);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
 
         return binding.getRoot();
     }
@@ -60,6 +74,10 @@ public class HomePageCategoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("category", categoryTitle);
+        mFirebaseAnalytics.logEvent("select_category", bundle);
 
         setupRecyclerView();
 
@@ -69,59 +87,52 @@ public class HomePageCategoryFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
-    }
 
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
+    }
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
-
+        adapter = new NewsWithHeaderAdapter((newsId, newsListId) -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            getContext().startActivity(i);
-
-        });
-
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+            i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsListId);
+            startActivity(i);
+        }, () -> dataRepository.loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-
-                DataRepository.getInstance().loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {
 
-        int page = 1;
-        DataRepository.getInstance().loadCategoryNewsData(categoryId, page, new DataRepository.NewsResponseListener() {
+        dataRepository.loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
+            public void onResponse(ArrayList<News> response) {
 
                 if (response != null) {
                     adapter.setData(response);
                 }
 
+                nextPage = 2;
+
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("CATEGORY", "Category news load data success");
             }
@@ -130,6 +141,8 @@ public class HomePageCategoryFragment extends Fragment {
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
+                binding.pullToRefresh.setRefreshing(false);
+
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("CATEGORY", "Category news load data failure");

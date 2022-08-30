@@ -1,50 +1,49 @@
 package com.cubes.komentarapp.ui.main.menu;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.Category;
+import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.databinding.RvItemMenuSubcategoryBinding;
-import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 import java.util.ArrayList;
 
-public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategoryAdapter.SubcategoryHolder> {
+public class MenuSubcategoryAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private final ArrayList<Category> subcategoryList;
+    private ArrayList<Category> subcategoryList;
+    private MenuListener listener;
+    private int categoryId;
 
-    public MenuSubcategoryAdapter(ArrayList<Category> subcategoryList) {
-        this.subcategoryList = subcategoryList;
+
+    public MenuSubcategoryAdapter() {
     }
 
     @NonNull
     @Override
-    public SubcategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ViewBinding binding =
-                RvItemMenuSubcategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new SubcategoryHolder(binding);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        binding = RvItemMenuSubcategoryBinding.inflate(inflater, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SubcategoryHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category subcategory = subcategoryList.get(position);
 
         RvItemMenuSubcategoryBinding binding = (RvItemMenuSubcategoryBinding) holder.binding;
 
         binding.textViewSubcategory.setText(subcategory.name);
 
-        binding.textViewSubcategory.setOnClickListener(view -> {
-            Intent i = new Intent(holder.itemView.getContext(), SubcategoryActivity.class);
-            i.putExtra("categoryId", subcategory.id);
-            i.putExtra("categoryName", subcategory.name);
-            holder.itemView.getContext().startActivity(i);
-        });
+        binding.textViewSubcategory.setOnClickListener(view -> listener.onSubcategoryClicked(categoryId, subcategory.id));
     }
 
     @Override
@@ -52,15 +51,10 @@ public class MenuSubcategoryAdapter extends RecyclerView.Adapter<MenuSubcategory
         return subcategoryList.size();
     }
 
-
-    public class SubcategoryHolder extends RecyclerView.ViewHolder {
-
-        public ViewBinding binding;
-
-        public SubcategoryHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+    public void setData(Category category, MenuListener listener){
+        this.subcategoryList = category.subcategories;
+        this.listener = listener;
+        this.categoryId = category.id;
     }
 
 }

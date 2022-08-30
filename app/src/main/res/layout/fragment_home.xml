@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.main.home.HomeFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.main.home.HomeFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabGravity="fill"
-        app:tabMode="scrollable"
         android:background="@color/blue_light"
-        app:tabTextColor="@color/white_opacity_70"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/white"
+        app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/white"
-        app:tabIndicatorColor="@color/white"/>
+        app:tabTextColor="@color/white_opacity_70" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerHome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/tag_background"
+        android:gravity="center"
+        android:padding="@dimen/margin_main"
+        android:src="@drawable/ic_refresh"
+        android:text="@string/text_refresh"
+        android:textAllCaps="true"
+        android:textColor="@drawable/tag_text_color"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPagerHome"
+        app:layout_constraintEnd_toEndOf="@+id/viewPagerHome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

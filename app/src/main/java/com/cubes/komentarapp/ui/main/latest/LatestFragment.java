@@ -13,35 +13,40 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+
+import java.util.ArrayList;
 
 public class LatestFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private NewsWithHeaderAdapter adapter;
+    private int nextPage = 2;
+    private DataRepository dataRepository;
+
 
     public LatestFragment() {
     }
 
     public static LatestFragment newInstance() {
-        LatestFragment fragment = new LatestFragment();
-        return fragment;
+        return new LatestFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
@@ -60,56 +65,52 @@ public class LatestFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
+
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
+
     }
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsWithHeaderAdapter();
-        binding.recyclerView.setAdapter(adapter);
-
-        adapter.setNewsListener(news -> {
+        adapter = new NewsWithHeaderAdapter((newsId, newsListId) -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
-            i.putExtra("news", news.id);
-            getContext().startActivity(i);
-        });
-
-        adapter.setLoadingNewsListener(new LoadingNewsListener() {
-            int nextPage = 2;
+            i.putExtra("news", newsId);
+            i.putExtra("newsIdList", newsListId);
+            startActivity(i);
+            }, () -> dataRepository.loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
+            @Override
+            public void onResponse(ArrayList<News> response) {
+                adapter.addNewNewsList(response);
+                nextPage++;
+            }
 
             @Override
-            public void loadMoreNews() {
-                DataRepository.getInstance().loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
-                    @Override
-                    public void onResponse(NewsList response) {
-                        adapter.addNewNewsList(response.news);
-                        nextPage++;
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        binding.refresh.setVisibility(View.VISIBLE);
-                        binding.recyclerView.setVisibility(View.GONE);
-                    }
-                });
+            public void onFailure(Throwable t) {
+                binding.refresh.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
             }
-        });
+        }));
+        binding.recyclerView.setAdapter(adapter);
     }
 
     private void loadData() {
 
-        int page = 1;
-        DataRepository.getInstance().loadLatestData(page, new DataRepository.NewsResponseListener() {
+        dataRepository.loadLatestData(1, new DataRepository.NewsResponseListener() {
             @Override
-            public void onResponse(NewsList response) {
+            public void onResponse(ArrayList<News> response) {
 
                 if (response != null) {
                     adapter.setData(response);
                 }
 
+                nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
-
+                binding.pullToRefresh.setRefreshing(false);
                 Log.d("LATEST", "Latest news load data success");
             }
 
@@ -118,9 +119,10 @@ public class LatestFragment extends Fragment {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
-
+                binding.pullToRefresh.setRefreshing(false);
                 Log.d("LATEST", "Latest news load data failure");
             }
         });
     }
+
 }

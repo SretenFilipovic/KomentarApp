@@ -1,58 +1,48 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.content.Intent;
-import android.view.View;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.graphics.Color;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.databinding.RvItemNewsDetailTagsAndNewsBinding;
-import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.detail.NewsDetailAdapter;
-import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.NewsListener;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class RvItemDetailRelatedNews implements RvItemDetail {
 
-    private ArrayList<News> relatedNews;
+    private final News news;
+    private final NewsDetailListener listener;
+    private final int[] newsIdList;
 
-    public RvItemDetailRelatedNews(ArrayList<News> relatedNews) {
-        this.relatedNews = relatedNews;
+
+    public RvItemDetailRelatedNews(News news, ArrayList<News> relatedNews, NewsDetailListener listener) {
+        this.news = news;
+        this.listener = listener;
+        this.newsIdList = MethodsClass.initNewsIdList(relatedNews);
     }
 
     @Override
     public int getType() {
-        return 5;
+        return R.layout.rv_item_small_news;
     }
 
     @Override
-    public void bind(NewsDetailAdapter.NewsDetailViewHolder holder) {
+    public void bind(ViewHolder holder) {
 
-        RvItemNewsDetailTagsAndNewsBinding binding = (RvItemNewsDetailTagsAndNewsBinding) holder.binding;
+        RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
 
-        if (relatedNews == null || relatedNews.size() == 0) {
-            binding.textViewTitle.setVisibility(View.GONE);
-            binding.view1.setVisibility(View.GONE);
-            binding.view2.setVisibility(View.GONE);
-            binding.recyclerView.setVisibility(View.GONE);
-        } else {
-            binding.textViewTitle.setText(R.string.text_povezane_vesti);
+        binding.textViewCategory.setText(news.category.name);
+        binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+        binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
+        binding.textViewTitle.setText(news.title);
+        Picasso.get().load(news.image).into(binding.imageView);
 
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-            NewsAdapter adapter = new NewsAdapter(relatedNews);
-            adapter.setFinished(true);
-
-            adapter.setNewsListener(news -> {
-                Intent i = new Intent(holder.itemView.getContext(), NewsDetailActivity.class);
-                i.putExtra("news", news.id);
-                holder.itemView.getContext().startActivity(i);
-
-            });
-            binding.recyclerView.setAdapter(adapter);
-        }
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
 
     }
+
 }

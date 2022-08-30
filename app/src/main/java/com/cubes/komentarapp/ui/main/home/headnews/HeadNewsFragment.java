@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.home.headnews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,31 +13,37 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.di.AppContainer;
+import com.cubes.komentarapp.di.MyApplication;
+import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 
 public class HeadNewsFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private HeadNewsAdapter adapter;
+    private DataRepository dataRepository;
 
     public HeadNewsFragment() {
 
     }
 
     public static HeadNewsFragment newInstance() {
-        HeadNewsFragment fragment = new HeadNewsFragment();
-        return fragment;
+        return new HeadNewsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
@@ -47,9 +54,7 @@ public class HeadNewsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new HeadNewsAdapter();
-        binding.recyclerView.setAdapter(adapter);
+        setupRecyclerView();
 
         loadData();
 
@@ -57,19 +62,30 @@ public class HeadNewsFragment extends Fragment {
             binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
+
+        binding.pullToRefresh.setOnRefreshListener(() -> {
+            setupRecyclerView();
+            loadData();
+        });
     }
 
     private void loadData() {
 
-        DataRepository.getInstance().loadHeadNewsData(new DataRepository.NewsResponseListener() {
+        dataRepository.loadHeadNewsData(new DataRepository.HeadNewsResponseListener() {
             @Override
             public void onResponse(NewsList response) {
 
-                adapter.setData(response);
+                adapter.setData(response, (newsId, newsListId) -> {
+                    Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                    i.putExtra("news", newsId);
+                    i.putExtra("newsIdList", newsListId);
+                    startActivity(i);
+                });
 
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("HEAD", "Head news load data success");
             }
@@ -79,6 +95,7 @@ public class HeadNewsFragment extends Fragment {
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
@@ -87,4 +104,9 @@ public class HeadNewsFragment extends Fragment {
         });
     }
 
+    private void setupRecyclerView() {
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new HeadNewsAdapter();
+        binding.recyclerView.setAdapter(adapter);
+    }
 }

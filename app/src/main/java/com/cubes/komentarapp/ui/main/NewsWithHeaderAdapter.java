@@ -1,155 +1,130 @@
 package com.cubes.komentarapp.ui.main;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
-import com.cubes.komentarapp.data.model.News;
-import com.cubes.komentarapp.data.model.NewsList;
+import com.cubes.komentarapp.R;
+import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.databinding.RvItemAdviewBinding;
 import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemLoadingBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
-import com.cubes.komentarapp.ui.tools.LoadingNewsListener;
-import com.cubes.komentarapp.ui.tools.NewsListener;
-import com.squareup.picasso.Picasso;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.main.item.RvItemNews;
+import com.cubes.komentarapp.ui.main.item.RvItemNewsAds;
+import com.cubes.komentarapp.ui.main.item.RvItemNewsBig;
+import com.cubes.komentarapp.ui.main.item.RvItemNewsLoading;
+import com.cubes.komentarapp.ui.main.item.RvItemNewsSmall;
+import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
-public class NewsWithHeaderAdapter extends RecyclerView.Adapter<NewsWithHeaderAdapter.NewsViewHolder> {
+public class NewsWithHeaderAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-    private ArrayList<News> list = new ArrayList<>();
-    private NewsListener newsListener;
-    private LoadingNewsListener loadingNewsListener;
-    private boolean isLoading;
-    private boolean isFinished;
+    private final ArrayList<RvItemNews> items = new ArrayList<>();
 
-    public NewsWithHeaderAdapter() {
+    private final NewsListener newsListener;
+    private final LoadingNewsListener loadingNewsListener;
+
+    public NewsWithHeaderAdapter(NewsListener newsListener, LoadingNewsListener loadingNewsListener) {
+        this.newsListener = newsListener;
+        this.loadingNewsListener = loadingNewsListener;
     }
 
     @NonNull
     @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         ViewBinding binding;
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if (viewType == 0) {
-            binding = RvItemBigNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        } else if (viewType == 1) {
-            binding = RvItemSmallNewsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        if (viewType == R.layout.rv_item_small_news) {
+            binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
+        } else if (viewType == R.layout.rv_item_big_news){
+            binding = RvItemBigNewsBinding.inflate(inflater, parent, false);
+        } else if (viewType == R.layout.rv_item_adview){
+            binding = RvItemAdviewBinding.inflate(inflater, parent, false);
         } else {
-            binding = RvItemLoadingBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-
+            binding = RvItemLoadingBinding.inflate(inflater, parent, false);
         }
-        return new NewsViewHolder(binding);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-        if (position == 0) {
-            News news = list.get(position);
-            RvItemBigNewsBinding binding = (RvItemBigNewsBinding) holder.binding;
-
-            binding.textViewCategory.setText(news.category.name);
-            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
-            binding.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(binding.imageView);
-
-            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
-        }
-        else if (position > 0 & position < list.size()) {
-            News news = list.get(position);
-            RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
-
-            binding.textViewCategory.setText(news.category.name);
-            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.created_at.substring(11, 16));
-            binding.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(binding.imageView);
-
-            holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(list.get(position)));
-        }
-        else {
-            RvItemLoadingBinding binding = (RvItemLoadingBinding) holder.binding;
-
-            if (isFinished) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.textView.setVisibility(View.GONE);
-            }
-
-            if (!isLoading & !isFinished & loadingNewsListener != null) {
-                isLoading = true;
-                loadingNewsListener.loadMoreNews();
-            }
-        }
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        this.items.get(position).bind(holder);
     }
 
     @Override
     public int getItemCount() {
-        if (list == null) {
-            return 0;
-        } else if (list.size() >= 20) {
-            return list.size() + 1;
-        } else {
-            return list.size();
-        }
+        return this.items.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-
-        if (position == 0) {
-            return 0;
-        } else if (position == list.size()) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-
-    public void setNewsListener(NewsListener newsListener) {
-        this.newsListener = newsListener;
-    }
-
-    public void setLoadingNewsListener(LoadingNewsListener loadingNewsListener) {
-        this.loadingNewsListener = loadingNewsListener;
-    }
-
-    public void setFinished(boolean finished) {
-        isFinished = finished;
+        return this.items.get(position).getType();
     }
 
     public void addNewNewsList(ArrayList<News> newsList) {
-        this.list.addAll(newsList);
 
-        if (newsList.size() < 20) {
-            setFinished(true);
+        items.remove(items.size() - 1);
+
+        for (int i = 0; i < newsList.size(); i++) {
+            items.add(new RvItemNewsSmall(newsList.get(i), newsList, newsListener));
         }
 
-        this.isLoading = false;
+        if (newsList.size() == 20){
+            items.add(new RvItemNewsLoading(loadingNewsListener));
+        }
+
         notifyDataSetChanged();
     }
 
-    public void setData(NewsList data) {
-        this.list = data.news;
-        notifyDataSetChanged();
-    }
+    public void setData(ArrayList<News> list) {
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder {
+        items.add(new RvItemNewsBig(list.get(0), list, newsListener));
 
-        public ViewBinding binding;
+        items.add(new RvItemNewsAds());
 
-        public NewsViewHolder(@NonNull ViewBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+        for (int i = 1; i < list.size(); i++) {
+            if (i<6){
+                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
+            }
         }
+        if (list.size() >= 6){
+            items.add(new RvItemNewsAds());
+        }
+        for (int i = 6; i < list.size(); i++) {
+            if (i < 11){
+                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
+            }
+        }
+        if (list.size() >= 11){
+            items.add(new RvItemNewsAds());
+        }
+        for (int i = 11; i < list.size(); i++) {
+            if (i < 16){
+                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
+            }
+        }
+        if (list.size() >= 16){
+            items.add(new RvItemNewsAds());
+        }
+        for (int i = 16; i < list.size(); i++) {
+            items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
+        }
+
+        if (list.size() == 20){
+            items.add(new RvItemNewsLoading(loadingNewsListener));
+        }
+
+        notifyDataSetChanged();
     }
 
 }

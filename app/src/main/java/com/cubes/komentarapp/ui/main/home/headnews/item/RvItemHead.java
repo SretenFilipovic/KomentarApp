@@ -1,9 +1,9 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
-import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsAdapter;
+import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 
 public interface RvItemHead {
 
     int getType();
-    void bind(HeadNewsAdapter.HeadNewsViewHolder holder);
+    void bind(ViewHolder holder);
 }
