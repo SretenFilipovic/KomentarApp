@@ -26,6 +26,7 @@ import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
+import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -45,10 +46,6 @@ public class NewsDetailFragment extends Fragment {
     private DataRepository dataRepository;
 
     public NewsDetailFragment() {
-    }
-
-    public interface DetailListener {
-        void onDetailResponseListener(int newsId, String newsUrl);
     }
 
     public static NewsDetailFragment newInstance(int newsId) {

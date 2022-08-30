@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,6 @@ public class HeadNewsMostReadFragment extends Fragment {
 
     private FragmentMostReadNewsBinding binding;
     private ArrayList<News> mostReadNews;
-    private int[] newsIdList;
 
     public HeadNewsMostReadFragment() {
 
@@ -31,7 +29,6 @@ public class HeadNewsMostReadFragment extends Fragment {
     public static HeadNewsMostReadFragment newInstance(ArrayList<News> list) {
         HeadNewsMostReadFragment fragment = new HeadNewsMostReadFragment();
         fragment.mostReadNews = list;
-        fragment.newsIdList = MethodsClass.initNewsIdList(fragment.mostReadNews);
         return fragment;
     }
 

@@ -90,33 +90,11 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         items.add(new RvItemNewsBig(list.get(0), list, newsListener));
 
-        items.add(new RvItemNewsAds());
+        for (int i = 1; i < list.size(); i++){
 
-        for (int i = 1; i < list.size(); i++) {
-            if (i<6){
-                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
+            if((i-1) % 5 == 0){
+                items.add(new RvItemNewsAds());
             }
-        }
-        if (list.size() >= 6){
-            items.add(new RvItemNewsAds());
-        }
-        for (int i = 6; i < list.size(); i++) {
-            if (i < 11){
-                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
-            }
-        }
-        if (list.size() >= 11){
-            items.add(new RvItemNewsAds());
-        }
-        for (int i = 11; i < list.size(); i++) {
-            if (i < 16){
-                items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
-            }
-        }
-        if (list.size() >= 16){
-            items.add(new RvItemNewsAds());
-        }
-        for (int i = 16; i < list.size(); i++) {
             items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
         }
 

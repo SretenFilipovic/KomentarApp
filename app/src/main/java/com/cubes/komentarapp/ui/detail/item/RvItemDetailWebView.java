@@ -8,7 +8,7 @@ import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 
 public class RvItemDetailWebView implements RvItemDetail {
 
-    private NewsDetail news;
+    private final NewsDetail news;
 
     public RvItemDetailWebView(NewsDetail news) {
         this.news = news;

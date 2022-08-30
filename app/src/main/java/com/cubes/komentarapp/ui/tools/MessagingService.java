@@ -15,7 +15,7 @@ public class MessagingService extends FirebaseMessagingService {
     }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
 
 //        String url = remoteMessage.getData().get("url");
 //

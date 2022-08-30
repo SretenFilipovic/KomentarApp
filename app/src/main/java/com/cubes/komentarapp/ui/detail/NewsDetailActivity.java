@@ -7,8 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
+import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 
-public class NewsDetailActivity extends AppCompatActivity implements NewsDetailFragment.DetailListener {
+public class NewsDetailActivity extends AppCompatActivity implements DetailListener {
 
     private int newsId;
     private String newsUrl;

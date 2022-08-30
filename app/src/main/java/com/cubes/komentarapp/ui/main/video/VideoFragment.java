@@ -35,8 +35,7 @@ public class VideoFragment extends Fragment {
     }
 
     public static VideoFragment newInstance() {
-        VideoFragment fragment = new VideoFragment();
-        return fragment;
+        return new VideoFragment();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class VideoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 

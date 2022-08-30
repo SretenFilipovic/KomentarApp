@@ -71,7 +71,6 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         items.remove(items.size() - 1);
 
-
         for (int i = 0; i < newsList.size(); i++) {
             items.add(new RvItemNewsSmall(newsList.get(i), newsList, newsListener));
         }
@@ -85,38 +84,12 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setData(ArrayList<News> list) {
 
-        for (int i = 0; i < list.size(); i++) {
-            if (i<5){
-                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
-            }
-        }
-        if (list.size() >= 5){
-            items.add(new RvItemNewsAds());
-        }
-        for (int i = 5; i < list.size(); i++) {
-            if (i < 10){
-                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
-            }
-        }
-        if (list.size() >= 10){
-            items.add(new RvItemNewsAds());
-        }
-        for (int i = 10; i < list.size(); i++) {
-            if (i < 15){
-                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
-            }
-        }
-        if (list.size() >= 15){
-            items.add(new RvItemNewsAds());
-        }
+        for (int i = 1; i < list.size(); i++){
 
-        for (int i = 15; i < list.size(); i++) {
-            if (i < 20){
-                items.add(new RvItemNewsSmall(list.get(i), list, newsListener));
+            if((i-1) % 5 == 0){
+                items.add(new RvItemNewsAds());
             }
-        }
-        if (list.size() >= 20){
-            items.add(new RvItemNewsAds());
+            items.add(new RvItemNewsSmall(list.get(i),list, newsListener));
         }
 
         if (list.size() == 20){
