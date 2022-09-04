@@ -8,13 +8,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentHomeBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
@@ -52,12 +55,18 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.imageViewMenu.setOnClickListener(view1 -> {
+            DrawerLayout drawerLayout = requireActivity().findViewById(R.id.drawerLayout);
+            NavigationView drawerNav = requireActivity().findViewById(R.id.drawerNavigationView);
+            drawerLayout.openDrawer(drawerNav);
+        });
+
         adapter = new HomePageAdapter(requireActivity());
         loadData();
 
     }
 
-    private void loadData(){
+    private void loadData() {
 
         dataRepository.loadCategoryData(new DataRepository.CategoryResponseListener() {
             @Override

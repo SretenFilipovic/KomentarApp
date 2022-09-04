@@ -28,35 +28,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/blue"
-            android:padding="@dimen/margin_main">
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/edit_text_outline"
-                android:hint="@string/text_pretrazi"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:lines="1"
-                android:paddingStart="@dimen/margin_main"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="@dimen/text_size_big" />
-
-            <ImageView
-                android:id="@+id/imageViewSearch"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:layout_marginEnd="@dimen/margin_main"
-                android:src="@drawable/ic_search" />
-        </FrameLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -80,18 +51,6 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textViewNoContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nema vesti za termin:"
-        android:textAllCaps="true"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/text_size_normal"
-        android:textStyle="bold"
-        android:visibility="gone"
-        android:layout_gravity="center"/>
-
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -100,7 +59,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         android:indeterminateDrawable="@drawable/custom_progress_bar"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/refresh"
@@ -110,12 +69,12 @@
         android:background="@drawable/tag_background"
         android:gravity="center"
         android:padding="@dimen/margin_main"
-        android:layout_marginTop="50dp"
         android:src="@drawable/ic_refresh"
         android:text="@string/text_refresh"
         android:textAllCaps="true"
         android:textColor="@drawable/tag_text_color"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_marginTop="50dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,16 +26,15 @@ import java.util.ArrayList;
 
 public class SubcategoryFragment extends Fragment {
 
+    private FragmentRecyclerViewBinding binding;
     private static final String CATEGORY_ID = "categoryId";
     private static final String SUBCATEGORY_NAME = "subcategoryName";
-    private FragmentRecyclerViewBinding binding;
     private int categoryId;
-    private NewsAdapter adapter;
     private String subcategoryName;
+    private NewsAdapter adapter;
     private int nextPage = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
     private DataRepository dataRepository;
-
 
     public SubcategoryFragment() {
     }
@@ -46,7 +45,6 @@ public class SubcategoryFragment extends Fragment {
         args.putInt(CATEGORY_ID, categoryId);
         args.putString(SUBCATEGORY_NAME, subcategoryName);
         fragment.setArguments(args);
-
         fragment.categoryId = categoryId;
         return fragment;
     }
@@ -54,9 +52,6 @@ public class SubcategoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
-        dataRepository = appContainer.dataRepository;
 
         if (getArguments() != null) {
             categoryId = getArguments().getInt(CATEGORY_ID);
@@ -69,6 +64,9 @@ public class SubcategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
 
+        AppContainer appContainer = ((MyApplication) requireActivity().getApplication()).appContainer;
+        dataRepository = appContainer.dataRepository;
+
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(requireActivity());
 
         return binding.getRoot();
@@ -78,19 +76,24 @@ public class SubcategoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Bundle bundle = new Bundle();
+        bundle.putString("subcategory", subcategoryName);
+        mFirebaseAnalytics.logEvent("android_komentar", bundle);
+
+        setupRecyclerView();
+
+        loadData();
 
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
             loadData();
         });
 
-        Bundle bundle = new Bundle();
-        bundle.putString("subcategory", subcategoryName);
-        mFirebaseAnalytics.logEvent("android_komentar", bundle);
-
-        setupRecyclerView();
-        loadData();
-
+        binding.refresh.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            setupRecyclerView();
+            loadData();
+        });
 }
 
     private void setupRecyclerView() {
@@ -104,7 +107,6 @@ public class SubcategoryFragment extends Fragment {
             @Override
             public void onResponse(ArrayList<News> response) {
                 adapter.addNewNewsList(response);
-
                 nextPage++;
             }
 
@@ -115,6 +117,8 @@ public class SubcategoryFragment extends Fragment {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {

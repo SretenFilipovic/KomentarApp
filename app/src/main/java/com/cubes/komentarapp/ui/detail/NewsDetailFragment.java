@@ -220,13 +220,10 @@ public class NewsDetailFragment extends Fragment {
                             }
                         });
                     }
-                }, new WebViewListener() {
-                    @Override
-                    public void onWebViewLoaded() {
-                        binding.recyclerView.setVisibility(View.VISIBLE);
-                        binding.refresh.setVisibility(View.GONE);
-                        binding.progressBar.setVisibility(View.GONE);
-                    }
+                }, () -> {
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    binding.refresh.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.GONE);
                 });
 
                 binding.pullToRefresh.setRefreshing(false);
@@ -251,6 +248,8 @@ public class NewsDetailFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsDetailAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.setItemViewCacheSize(20);
     }
 
 }

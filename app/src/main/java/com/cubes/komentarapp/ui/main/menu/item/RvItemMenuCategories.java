@@ -59,7 +59,7 @@ public class RvItemMenuCategories implements RvItemMenu {
             DrawerLayout drawer = ((MainActivity) view.getContext()).findViewById(R.id.drawerLayout);
             ViewPager2 viewPager2 = ((MainActivity) view.getContext()).findViewById(R.id.viewPagerHome);
             drawer.closeDrawer(((MainActivity) view.getContext()).findViewById(R.id.drawerNavigationView));
-            viewPager2.setCurrentItem(position);
+            viewPager2.setCurrentItem(position, false);
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));

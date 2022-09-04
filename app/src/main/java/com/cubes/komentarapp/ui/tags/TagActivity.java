@@ -85,6 +85,8 @@ public class TagActivity extends AppCompatActivity {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {

@@ -21,14 +21,16 @@ public class HeadNewsMostReadFragment extends Fragment {
 
     private FragmentMostReadNewsBinding binding;
     private ArrayList<News> mostReadNews;
+    private ArrayList<News> allNews;
 
     public HeadNewsMostReadFragment() {
 
     }
 
-    public static HeadNewsMostReadFragment newInstance(ArrayList<News> list) {
+    public static HeadNewsMostReadFragment newInstance(ArrayList<News> list, ArrayList<News> allNews) {
         HeadNewsMostReadFragment fragment = new HeadNewsMostReadFragment();
         fragment.mostReadNews = list;
+        fragment.allNews = allNews;
         return fragment;
     }
 
@@ -53,7 +55,7 @@ public class HeadNewsMostReadFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter();
 
-        adapter.setMostReadData(mostReadNews);
+        adapter.setMostReadData(mostReadNews, allNews);
         adapter.setNewsListener((newsId, newsListId) -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);

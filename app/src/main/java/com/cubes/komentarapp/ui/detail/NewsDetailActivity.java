@@ -29,7 +29,7 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
 
         for (int i = 0; i < newsIdList.length; i++) {
             if (newsId == newsIdList[i]) {
-                binding.viewPager.setCurrentItem(i);
+                binding.viewPager.setCurrentItem(i, false);
                 break;
             }
         }

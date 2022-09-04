@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,22 +14,26 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewLatestVideoBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
 
 public class VideoFragment extends Fragment {
 
-    private FragmentRecyclerViewBinding binding;
+    private FragmentRecyclerViewLatestVideoBinding binding;
     private NewsAdapter adapter;
     private int nextPage = 2;
     private DataRepository dataRepository;
+
 
 
     public VideoFragment() {
@@ -48,7 +53,7 @@ public class VideoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+        binding = FragmentRecyclerViewLatestVideoBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -70,6 +75,8 @@ public class VideoFragment extends Fragment {
             setupRecyclerView();
             loadData();
         });
+
+
     }
 
     private void setupRecyclerView() {
@@ -94,6 +101,7 @@ public class VideoFragment extends Fragment {
         }));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {

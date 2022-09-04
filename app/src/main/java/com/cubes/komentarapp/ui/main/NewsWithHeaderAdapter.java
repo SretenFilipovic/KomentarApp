@@ -83,7 +83,9 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<ViewHolder> {
             items.add(new RvItemNewsLoading(loadingNewsListener));
         }
 
-        notifyDataSetChanged();
+        notifyItemRangeChanged(20, items.size());
+
+      //  notifyDataSetChanged();
     }
 
     public void setData(ArrayList<News> list) {

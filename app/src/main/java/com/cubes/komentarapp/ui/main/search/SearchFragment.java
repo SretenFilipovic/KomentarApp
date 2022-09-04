@@ -132,6 +132,7 @@ public class SearchFragment extends Fragment {
         }));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {
@@ -168,6 +169,7 @@ public class SearchFragment extends Fragment {
                     binding.refresh.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
+
 
                     Log.d("SEARCH", "Search load data success");
                 }

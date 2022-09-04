@@ -3,11 +3,11 @@
     <item>
         <rotate
             android:layout_width="match_parent"
-            android:drawable="@drawable/komentar_round"
+            android:drawable="@drawable/komentar_progress"
             android:fillAfter="true"
             android:fromDegrees="0"
             android:pivotX="50%"
             android:pivotY="50%"
-            android:toDegrees="1800"/>
+            android:toDegrees="1440"/>
     </item>
 </layer-list>

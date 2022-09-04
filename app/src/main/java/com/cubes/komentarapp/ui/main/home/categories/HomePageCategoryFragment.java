@@ -37,7 +37,6 @@ public class HomePageCategoryFragment extends Fragment {
     private DataRepository dataRepository;
 
     public HomePageCategoryFragment() {
-
     }
 
     public static HomePageCategoryFragment newInstance(int categoryId, String categoryTitle) {
@@ -115,6 +114,9 @@ public class HomePageCategoryFragment extends Fragment {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.setItemViewCacheSize(25);
+
     }
 
     private void loadData() {
@@ -128,7 +130,6 @@ public class HomePageCategoryFragment extends Fragment {
                 }
 
                 nextPage = 2;
-
                 binding.refresh.setVisibility(View.GONE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);

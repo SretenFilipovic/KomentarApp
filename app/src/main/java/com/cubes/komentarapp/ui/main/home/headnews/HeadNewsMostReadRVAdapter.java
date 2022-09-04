@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private ArrayList<News> list;
+    private ArrayList<News> allNews;
     private NewsListener newsListener;
 
     public HeadNewsMostReadRVAdapter() {
@@ -45,7 +46,7 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> 
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
 
-        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news.id, MethodsClass.initNewsIdList(list)));
+        holder.itemView.setOnClickListener(view -> newsListener.onNewsClicked(news.id, MethodsClass.initNewsIdList(allNews)));
     }
 
     @Override
@@ -57,8 +58,9 @@ public class HeadNewsMostReadRVAdapter extends RecyclerView.Adapter<ViewHolder> 
         this.newsListener = newsListener;
     }
 
-    public void setMostReadData(ArrayList<News> list) {
+    public void setMostReadData(ArrayList<News> list, ArrayList<News> allNews) {
         this.list = list;
+        this.allNews = allNews;
     }
 
 

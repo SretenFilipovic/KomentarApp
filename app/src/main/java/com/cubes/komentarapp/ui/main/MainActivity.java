@@ -64,8 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
         binding.refresh.setVisibility(View.GONE);
 
-        binding.refresh.setOnClickListener(view -> loadData());
-        binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
+        binding.refresh.setOnClickListener(view -> {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
+            setRecyclerView();
+            loadData();
+        });
+
         binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -90,22 +94,16 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home:
                     selectedFragment = HomeFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.VISIBLE);
                 break;
                 case R.id.search:
                     selectedFragment = SearchFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.GONE);
-
                 break;
                 case R.id.latest:
                     selectedFragment = LatestFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.GONE);
-
                 break;
                 case R.id.video:
                     selectedFragment = VideoFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.GONE);
-                break;
+                    break;
             }
 
             if (selectedFragment != null) {
@@ -114,14 +112,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-
-        boolean isNotificationOn = PrefConfig.isNotificationOn(this);
-
-        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new MenuAdapter();
-        adapter.setIsNotificationOn(isNotificationOn);
-        binding.recyclerViewMenu.setAdapter(adapter);
-
+        setRecyclerView();
         loadData();
     }
 
@@ -132,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void setRecyclerView(){
+        boolean isNotificationOn = PrefConfig.isNotificationOn(this);
+        binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new MenuAdapter();
+        adapter.setIsNotificationOn(isNotificationOn);
+        binding.recyclerViewMenu.setAdapter(adapter);
     }
 
     private void loadData() {
@@ -197,7 +196,11 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseMessaging.getInstance().unsubscribeFromTopic("main");
                         }
                     }
+
                 });
+
+                binding.refresh.setVisibility(View.GONE);
+
             }
 
             @Override
