@@ -4,7 +4,8 @@
     <color name="blue_transparent">#90143e6c</color>
     <color name="blue_light">#FF1c73bd</color>
     <color name="blue_lightest">#FFedf1f2</color>
-    <color name="blue_lightest_transparent">#90edf1f2</color>
+    <color name="blue_lightest_transparent">#90EDF1F2</color>
+    <color name="blue_lightest_transparent_70">#70EDF1F2</color>
     <color name="gray">#FF9da4ae</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>

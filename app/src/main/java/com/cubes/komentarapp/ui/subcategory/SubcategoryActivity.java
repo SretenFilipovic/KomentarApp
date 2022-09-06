@@ -75,7 +75,6 @@ public class SubcategoryActivity extends AppCompatActivity {
                 new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(category.subcategories.get(position).name)).attach();
 
                 binding.viewPager.setCurrentItem(subcategoryPosition, false);
-                binding.progressBar.setVisibility(View.GONE);
 
                 binding.textViewCategoryTitle.setText(category.name);
             }
@@ -83,7 +82,6 @@ public class SubcategoryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(SubcategoryActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
-                binding.progressBar.setVisibility(View.GONE);
             }
         });
     }

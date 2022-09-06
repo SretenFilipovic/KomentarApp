@@ -11,6 +11,7 @@ import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
+import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsEditorChoiceAdapter;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsSliderAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -44,7 +45,7 @@ public class RvItemHeadEditorsChoiceSlider implements RvItemHead {
         FragmentManager fm = ((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) holder.itemView.getContext()).getLifecycle();
 
-        HeadNewsSliderAdapter adapter = new HeadNewsSliderAdapter(fm, lc, newsList);
+        HeadNewsEditorChoiceAdapter adapter = new HeadNewsEditorChoiceAdapter(fm, lc, newsList);
         binding.slider.setAdapter(adapter);
         new TabLayoutMediator(binding.indicator, binding.slider, (tab, position) -> {
         }).attach();

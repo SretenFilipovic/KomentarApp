@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_main"
     android:layout_marginTop="@dimen/margin_main"
-    android:layout_marginEnd="@dimen/margin_main"
+    android:layout_marginBottom="@dimen/margin_small"
     android:orientation="vertical"
     tools:context=".ui.main.home.HomeFragment">
 
@@ -15,6 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_main"
+        android:layout_marginEnd="@dimen/margin_main"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/red"
         app:tabSelectedTextColor="@color/black"

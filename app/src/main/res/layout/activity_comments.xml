@@ -60,7 +60,7 @@
         android:background="@drawable/button_circle"
         android:paddingBottom="5dp"
         android:text="@string/text_add"
-        android:textColor="@color/blue_lightest_transparent"
+        android:textColor="@drawable/button_text_color"
         android:textSize="40sp" />
 
     <ProgressBar
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:background="@drawable/tag_background"
+        android:background="@drawable/tag_click_effect"
         android:gravity="center"
         android:padding="@dimen/margin_main"
         android:src="@drawable/ic_refresh"

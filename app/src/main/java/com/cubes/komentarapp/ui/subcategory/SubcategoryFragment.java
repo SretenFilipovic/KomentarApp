@@ -94,7 +94,7 @@ public class SubcategoryFragment extends Fragment {
             setupRecyclerView();
             loadData();
         });
-}
+    }
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

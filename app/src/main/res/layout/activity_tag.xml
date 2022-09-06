@@ -62,7 +62,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/tag_background"
+        android:background="@drawable/tag_click_effect"
         android:gravity="center"
         android:padding="@dimen/margin_main"
         android:layout_marginTop="50dp"

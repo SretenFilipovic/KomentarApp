@@ -17,12 +17,10 @@ public class HeadNewsSliderAdapter extends FragmentStateAdapter {
 
     private final ArrayList<News> sliderNews;
     private final int[] newsIdList;
-    private final NewsList newsList;
 
 
     public HeadNewsSliderAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, NewsList newsList) {
         super(fragmentManager, lifecycle);
-        this.newsList = newsList;
         this.sliderNews = newsList.slider;
         this.newsIdList = MethodsClass.initNewsIdList(MethodsClass.getAllNews(newsList));
     }

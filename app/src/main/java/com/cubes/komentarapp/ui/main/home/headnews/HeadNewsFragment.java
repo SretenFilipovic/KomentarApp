@@ -13,19 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.data.model.domain.CategoryBox;
-import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBigNews;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmallNews;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
-
-import java.util.ArrayList;
 
 public class HeadNewsFragment extends Fragment {
 
