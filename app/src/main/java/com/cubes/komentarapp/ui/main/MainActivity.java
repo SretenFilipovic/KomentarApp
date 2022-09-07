@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.WindowCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -150,7 +149,20 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onItemClicked() {
+                    public void onContactClicked() {
+                        // privremeno
+                        openWebBrowser("https://komentar.rs");
+                    }
+
+                    @Override
+                    public void onTermsAndConditionsClicked() {
+                        // privremeno
+                        openWebBrowser("https://komentar.rs");
+                    }
+
+                    @Override
+                    public void onMarketingClicked() {
+                        // privremeno
                         openWebBrowser("https://komentar.rs");
                     }
 
@@ -229,6 +241,5 @@ public class MainActivity extends AppCompatActivity {
         params.width = metrics.widthPixels;
         view.setLayoutParams(params);
     }
-
 
 }

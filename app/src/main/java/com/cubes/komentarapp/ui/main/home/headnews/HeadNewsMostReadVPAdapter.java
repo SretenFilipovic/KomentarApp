@@ -6,11 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
-
-import java.util.ArrayList;
 
 public class HeadNewsMostReadVPAdapter extends FragmentStateAdapter {
 

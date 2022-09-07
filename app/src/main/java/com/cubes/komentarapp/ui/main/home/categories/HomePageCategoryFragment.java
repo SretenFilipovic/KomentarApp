@@ -84,6 +84,7 @@ public class HomePageCategoryFragment extends Fragment {
 
         binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
+            setupRecyclerView();
             loadData();
         });
 
@@ -103,8 +104,16 @@ public class HomePageCategoryFragment extends Fragment {
         }, () -> dataRepository.loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
-                adapter.addNewNewsList(response);
-                nextPage++;
+
+                if (response!=null){
+                    if (response.size() > 0) {
+                        adapter.addNewNewsList(response);
+                    }
+                    else {
+                        adapter.removeItem();
+                    }
+                    nextPage++;
+                }
             }
 
             @Override

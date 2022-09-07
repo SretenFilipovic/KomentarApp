@@ -15,6 +15,7 @@ import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
 
@@ -41,13 +42,13 @@ public class PostCommentActivity extends AppCompatActivity {
 
         binding.buttonPostComment.setOnClickListener(view -> {
             postComment();
-            hideKeyboard(PostCommentActivity.this);
+            MethodsClass.hideKeyboard(PostCommentActivity.this);
         });
 
         binding.editTextContent.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEND) {
                 postComment();
-                hideKeyboard(PostCommentActivity.this);
+                MethodsClass.hideKeyboard(PostCommentActivity.this);
                 return true;
             }
             return false;
@@ -106,15 +107,6 @@ public class PostCommentActivity extends AppCompatActivity {
         }
     }
 
-
-    private void hideKeyboard(Activity activity) {
-        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-        if (view == null) {
-            view = new View(activity);
-        }
-        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
 
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();

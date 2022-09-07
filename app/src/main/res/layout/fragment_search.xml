@@ -81,6 +81,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingBottom="@dimen/margin_main"
                 android:background="@color/transparent"
                 android:visibility="gone"/>
 
@@ -114,14 +115,14 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/tag_click_effect"
+        android:background="@drawable/button_click_effect"
         android:gravity="center"
         android:padding="@dimen/margin_main"
         android:layout_marginTop="50dp"
         android:src="@drawable/ic_refresh"
         android:text="@string/text_refresh"
         android:textAllCaps="true"
-        android:textColor="@drawable/tag_text_color"
+        android:textColor="@drawable/button_text_color"
         android:textStyle="bold"
         android:visibility="gone" />
 

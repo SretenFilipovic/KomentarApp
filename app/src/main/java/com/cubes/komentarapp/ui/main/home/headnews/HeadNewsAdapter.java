@@ -31,7 +31,6 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideoTitle;
-import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;

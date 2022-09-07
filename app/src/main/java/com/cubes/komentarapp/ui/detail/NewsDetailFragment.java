@@ -18,7 +18,7 @@ import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewDetailBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
@@ -28,7 +28,6 @@ import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
-import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 public class NewsDetailFragment extends Fragment {
 
     private static final String NEWS_ID = "newsId";
-    private FragmentRecyclerViewBinding binding;
+    private FragmentRecyclerViewDetailBinding binding;
     private NewsDetailAdapter adapter;
     private ArrayList<Vote> votes = new ArrayList<>();
     private int newsId;
@@ -81,7 +80,7 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+        binding = FragmentRecyclerViewDetailBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }

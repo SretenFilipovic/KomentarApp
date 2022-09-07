@@ -4,7 +4,11 @@ public interface MenuListener {
 
     void onSubcategoryClicked(int categoryId, int subcategoryId);
 
-    void onItemClicked();
+    void onContactClicked();
+
+    void onTermsAndConditionsClicked();
+
+    void onMarketingClicked();
 
     void onHoroscopeClicked();
 

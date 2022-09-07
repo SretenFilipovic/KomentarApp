@@ -126,7 +126,6 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
             this.items.add(new RvItemDetailRelatedNews(news, response.relatedNews, newsDetailListener));
         }
         notifyDataSetChanged();
-
     }
 
     public void commentUpvoted(String commentId) {

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,16 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewLatestVideoBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
-import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
 
@@ -68,6 +64,7 @@ public class VideoFragment extends Fragment {
 
         binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
+            setupRecyclerView();
             loadData();
         });
 
@@ -89,8 +86,15 @@ public class VideoFragment extends Fragment {
         }, () -> dataRepository.loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
-                adapter.addNewNewsList(response);
-                nextPage++;
+                if (response!=null){
+                    if (response.size() > 0) {
+                        adapter.addNewNewsList(response);
+                    }
+                    else {
+                        adapter.removeItem();
+                    }
+                    nextPage++;
+                }
             }
 
             @Override

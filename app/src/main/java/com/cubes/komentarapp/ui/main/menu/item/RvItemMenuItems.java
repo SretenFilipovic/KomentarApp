@@ -25,9 +25,9 @@ public class RvItemMenuItems implements RvItemMenu {
 
         RvItemMenuItemsBinding binding = (RvItemMenuItemsBinding) holder.binding;
 
-        binding.textViewContact.setOnClickListener(view -> listener.onItemClicked());
-        binding.textViewTermsAndConditions.setOnClickListener(view -> listener.onItemClicked());
-        binding.textViewMarketing.setOnClickListener(view -> listener.onItemClicked());
+        binding.textViewContact.setOnClickListener(view -> listener.onContactClicked());
+        binding.textViewTermsAndConditions.setOnClickListener(view -> listener.onTermsAndConditionsClicked());
+        binding.textViewMarketing.setOnClickListener(view -> listener.onMarketingClicked());
         binding.textViewCurrency.setOnClickListener(view -> listener.onCurrencyClicked());
         binding.textViewHoroscope.setOnClickListener(view -> listener.onHoroscopeClicked());
         binding.textViewWeather.setOnClickListener(view -> listener.onWeatherClicked());

@@ -47,6 +47,7 @@ public class TagActivity extends AppCompatActivity {
 
         binding.refresh.setOnClickListener(view -> {
             binding.progressBar.setVisibility(View.VISIBLE);
+            setupRecyclerView();
             loadData();
         });
 
@@ -73,9 +74,15 @@ public class TagActivity extends AppCompatActivity {
         }, () -> dataRepository.loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
-                adapter.addNewNewsList(response);
-
-                nextPage++;
+                if (response!=null){
+                    if (response.size() > 0) {
+                        adapter.addNewNewsList(response);
+                    }
+                    else {
+                        adapter.removeItem();
+                    }
+                    nextPage++;
+                }
             }
 
             @Override
