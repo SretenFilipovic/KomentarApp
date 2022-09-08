@@ -46,9 +46,12 @@ public class RvItemMenuCategories implements RvItemMenu {
             binding.imageViewExpandSubcategoryList.setOnClickListener(view -> {
 
                 if (binding.subcategoryContainer.getVisibility() == View.GONE) {
+
                     binding.subcategoryContainer.setVisibility(View.VISIBLE);
                     binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
+
                 } else {
+
                     binding.subcategoryContainer.setVisibility(View.GONE);
                     binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
                 }

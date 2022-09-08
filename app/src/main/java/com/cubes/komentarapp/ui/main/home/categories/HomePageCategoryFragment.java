@@ -105,13 +105,11 @@ public class HomePageCategoryFragment extends Fragment {
             @Override
             public void onResponse(ArrayList<News> response) {
 
-                if (response!=null){
-                    if (response.size() > 0) {
-                        adapter.addNewNewsList(response);
-                    }
-                    else {
-                        adapter.removeItem();
-                    }
+                if (response==null || response.size() == 0){
+                    adapter.removeItem();
+                }
+                else{
+                    adapter.addNewNewsList(response);
                     nextPage++;
                 }
             }

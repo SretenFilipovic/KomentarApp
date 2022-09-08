@@ -54,7 +54,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/margin_main"
-                android:src="@drawable/ic_search" />
+                android:src="@drawable/ic_search"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"/>
         </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>

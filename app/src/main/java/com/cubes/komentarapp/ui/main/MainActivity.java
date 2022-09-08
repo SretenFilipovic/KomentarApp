@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                             i.setPackage(networkUrl);
                             startActivity(i);
                         } catch (ActivityNotFoundException e) {
-                            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.text_no_app, Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.text_no_app, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

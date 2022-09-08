@@ -18,34 +18,49 @@
             android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_facebook" />
+            android:src="@drawable/ic_facebook"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <ImageView
             android:id="@+id/imageViewInstagram"
             android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_instagram" />
+            android:src="@drawable/ic_instagram"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <ImageView
             android:id="@+id/imageViewTwitter"
             android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_twitter" />
+            android:src="@drawable/ic_twitter"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <ImageView
             android:id="@+id/imageViewViber"
             android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_viber" />
+            android:src="@drawable/ic_viber"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <ImageView
             android:id="@+id/imageViewWhatsapp"
             android:layout_width="wrap_content"
             android:layout_height="23dp"
-            android:src="@drawable/ic_whatsapp" />
+            android:src="@drawable/ic_whatsapp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
 </LinearLayout>

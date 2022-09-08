@@ -65,4 +65,10 @@ public class HeadNewsMostReadFragment extends Fragment {
 
         binding.recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.getRoot().requestLayout();
+    }
 }

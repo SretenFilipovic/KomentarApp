@@ -109,6 +109,7 @@ public class NewsWithHeaderAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void removeItem() {
         items.remove(items.size() - 1);
+        notifyItemRemoved(items.size());
     }
 
 }
