@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
@@ -17,10 +18,11 @@ public class HeadNewsSliderAdapter extends FragmentStateAdapter {
     private final ArrayList<News> sliderNews;
     private final int[] newsIdList;
 
-    public HeadNewsSliderAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, ArrayList<News> sliderNews) {
+
+    public HeadNewsSliderAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, NewsList newsList) {
         super(fragmentManager, lifecycle);
-        this.sliderNews = sliderNews;
-        this.newsIdList = MethodsClass.initNewsIdList(sliderNews);
+        this.sliderNews = newsList.slider;
+        this.newsIdList = MethodsClass.initNewsIdList(MethodsClass.getAllNews(newsList));
     }
 
     @NonNull

@@ -40,11 +40,20 @@ public class RvItemDetailTags implements RvItemDetail {
         } else {
             binding.textViewTitle.setText(R.string.text_tagovi);
 
-            binding.recyclerView.setLayoutManager(new FlexboxLayoutManager(binding.getRoot().getContext()));
+            FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(binding.getRoot().getContext()) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
+
+            binding.recyclerView.setLayoutManager(flexboxLayoutManager);
             NewsDetailTagAdapter adapter = new NewsDetailTagAdapter();
             binding.recyclerView.setAdapter(adapter);
 
             adapter.setData(tags, listener);
+
+
         }
     }
 

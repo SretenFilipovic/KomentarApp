@@ -1,5 +1,6 @@
 package com.cubes.komentarapp.ui.main.menu;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class WeatherActivity extends AppCompatActivity {
     private void loadData() {
 
         dataRepository.loadWeatherData(new DataRepository.WeatherResponseListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Weather response) {
                 weather = response;

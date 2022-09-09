@@ -46,9 +46,12 @@ public class RvItemMenuCategories implements RvItemMenu {
             binding.imageViewExpandSubcategoryList.setOnClickListener(view -> {
 
                 if (binding.subcategoryContainer.getVisibility() == View.GONE) {
+
                     binding.subcategoryContainer.setVisibility(View.VISIBLE);
                     binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
+
                 } else {
+
                     binding.subcategoryContainer.setVisibility(View.GONE);
                     binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
                 }
@@ -59,7 +62,7 @@ public class RvItemMenuCategories implements RvItemMenu {
             DrawerLayout drawer = ((MainActivity) view.getContext()).findViewById(R.id.drawerLayout);
             ViewPager2 viewPager2 = ((MainActivity) view.getContext()).findViewById(R.id.viewPagerHome);
             drawer.closeDrawer(((MainActivity) view.getContext()).findViewById(R.id.drawerNavigationView));
-            viewPager2.setCurrentItem(position);
+            viewPager2.setCurrentItem(position, false);
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));

@@ -19,12 +19,14 @@ import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 public class HeadNewsFragment extends Fragment {
 
     private FragmentRecyclerViewBinding binding;
     private HeadNewsAdapter adapter;
     private DataRepository dataRepository;
+    private int[] newsIdList;
 
     public HeadNewsFragment() {
 
@@ -75,10 +77,12 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onResponse(NewsList response) {
 
+                newsIdList = MethodsClass.createIdList(response);
+
                 adapter.setData(response, (newsId, newsListId) -> {
                     Intent i = new Intent(getContext(), NewsDetailActivity.class);
                     i.putExtra("news", newsId);
-                    i.putExtra("newsIdList", newsListId);
+                    i.putExtra("newsIdList", newsIdList);
                     startActivity(i);
                 });
 
@@ -101,12 +105,18 @@ public class HeadNewsFragment extends Fragment {
 
                 Log.d("HEAD", "Head news load data failure");
             }
+
         });
+
     }
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new HeadNewsAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.setItemAnimator(null);
+        binding.recyclerView.setItemViewCacheSize(50);
     }
 }

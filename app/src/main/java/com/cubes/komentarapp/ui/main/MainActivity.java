@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Category;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.data.source.local.DataContainer;
+import com.cubes.komentarapp.data.source.remote.networking.NewsRetrofit;
 import com.cubes.komentarapp.databinding.ActivityMainBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
@@ -63,8 +64,12 @@ public class MainActivity extends AppCompatActivity {
 
         binding.refresh.setVisibility(View.GONE);
 
-        binding.refresh.setOnClickListener(view -> loadData());
-        binding.imageViewMenu.setOnClickListener(view -> binding.drawerLayout.openDrawer(binding.drawerNavigationView));
+        binding.refresh.setOnClickListener(view -> {
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
+            setRecyclerView();
+            loadData();
+        });
+
         binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -89,22 +94,16 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home:
                     selectedFragment = HomeFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.VISIBLE);
                 break;
                 case R.id.search:
                     selectedFragment = SearchFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.GONE);
-
                 break;
                 case R.id.latest:
                     selectedFragment = LatestFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.GONE);
-
                 break;
                 case R.id.video:
                     selectedFragment = VideoFragment.newInstance();
-                    binding.imageViewMenu.setVisibility(View.GONE);
-                break;
+                    break;
             }
 
             if (selectedFragment != null) {
@@ -113,17 +112,26 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+        setRecyclerView();
+        loadData();
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (this.binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void setRecyclerView(){
         boolean isNotificationOn = PrefConfig.isNotificationOn(this);
-
         binding.recyclerViewMenu.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new MenuAdapter();
         adapter.setIsNotificationOn(isNotificationOn);
         binding.recyclerViewMenu.setAdapter(adapter);
-
-        loadData();
     }
-
 
     private void loadData() {
 
@@ -141,7 +149,20 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onItemClicked() {
+                    public void onContactClicked() {
+                        // privremeno
+                        openWebBrowser("https://komentar.rs");
+                    }
+
+                    @Override
+                    public void onTermsAndConditionsClicked() {
+                        // privremeno
+                        openWebBrowser("https://komentar.rs");
+                    }
+
+                    @Override
+                    public void onMarketingClicked() {
+                        // privremeno
                         openWebBrowser("https://komentar.rs");
                     }
 
@@ -168,12 +189,12 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             Intent i = new Intent();
                             i.setAction(Intent.ACTION_SEND);
-                            i.putExtra(Intent.EXTRA_TEXT, DataContainer.BASE_URL);
+                            i.putExtra(Intent.EXTRA_TEXT, NewsRetrofit.BASE_URL);
                             i.setType("text/plain");
                             i.setPackage(networkUrl);
                             startActivity(i);
                         } catch (ActivityNotFoundException e) {
-                            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), R.string.text_no_app, Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -188,7 +209,11 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseMessaging.getInstance().unsubscribeFromTopic("main");
                         }
                     }
+
                 });
+
+                binding.refresh.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -204,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "Nemate instaliranu neophodnu aplikaciju.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.text_no_app, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
@@ -216,6 +241,5 @@ public class MainActivity extends AppCompatActivity {
         params.width = metrics.widthPixels;
         view.setLayoutParams(params);
     }
-
 
 }

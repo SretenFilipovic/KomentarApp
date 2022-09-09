@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
-import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
 
@@ -22,16 +21,16 @@ public class HeadNewsMostReadFragment extends Fragment {
 
     private FragmentMostReadNewsBinding binding;
     private ArrayList<News> mostReadNews;
-    private int[] newsIdList;
+    private ArrayList<News> allNews;
 
     public HeadNewsMostReadFragment() {
 
     }
 
-    public static HeadNewsMostReadFragment newInstance(ArrayList<News> list) {
+    public static HeadNewsMostReadFragment newInstance(ArrayList<News> list, ArrayList<News> allNews) {
         HeadNewsMostReadFragment fragment = new HeadNewsMostReadFragment();
         fragment.mostReadNews = list;
-        fragment.newsIdList = MethodsClass.initNewsIdList(fragment.mostReadNews);
+        fragment.allNews = allNews;
         return fragment;
     }
 
@@ -56,7 +55,7 @@ public class HeadNewsMostReadFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter();
 
-        adapter.setMostReadData(mostReadNews);
+        adapter.setMostReadData(mostReadNews, allNews);
         adapter.setNewsListener((newsId, newsListId) -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);
@@ -65,5 +64,11 @@ public class HeadNewsMostReadFragment extends Fragment {
         });
 
         binding.recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.getRoot().requestLayout();
     }
 }

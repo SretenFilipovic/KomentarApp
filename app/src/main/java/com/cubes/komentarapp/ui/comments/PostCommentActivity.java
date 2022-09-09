@@ -15,6 +15,7 @@ import com.cubes.komentarapp.data.source.remote.response.RequestCommentPost;
 import com.cubes.komentarapp.databinding.ActivityPostCommentBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 
 import java.util.ArrayList;
 
@@ -41,13 +42,13 @@ public class PostCommentActivity extends AppCompatActivity {
 
         binding.buttonPostComment.setOnClickListener(view -> {
             postComment();
-            hideKeyboard(PostCommentActivity.this);
+            MethodsClass.hideKeyboard(PostCommentActivity.this);
         });
 
         binding.editTextContent.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEND) {
                 postComment();
-                hideKeyboard(PostCommentActivity.this);
+                MethodsClass.hideKeyboard(PostCommentActivity.this);
                 return true;
             }
             return false;
@@ -55,7 +56,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     }
 
-    private void postComment(){
+    private void postComment() {
         String news = String.valueOf(newsId);
         String reply_id = commentId;
         String name = String.valueOf(binding.editTextName.getText());
@@ -73,41 +74,42 @@ public class PostCommentActivity extends AppCompatActivity {
 
         if (binding.editTextName.getText().length() > 0) {
 
-            if (binding.editTextContent.getText().length() > 0) {
+            if (isEmailValid(binding.editTextEmail.getText())) {
 
-                dataRepository.postCommentData(commentsPost, new DataRepository.PostCommentListener() {
-                    @Override
-                    public void onResponse(ArrayList<String> request) {
+                if (binding.editTextContent.getText().length() > 0) {
 
-                        Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
-                        finish();
+                    dataRepository.postCommentData(commentsPost, new DataRepository.PostCommentListener() {
+                        @Override
+                        public void onResponse(ArrayList<String> request) {
 
-                        Log.d("POST", "Post comment data success");
-                    }
+                            Toast.makeText(PostCommentActivity.this, "Uspešno ste poslali komentar", Toast.LENGTH_SHORT).show();
+                            finish();
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Toast.makeText(PostCommentActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                            Log.d("POST", "Post comment data success");
+                        }
 
-                        Log.d("POST", "Post comment data failure");
-                    }
-                });
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Toast.makeText(PostCommentActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
+                            Log.d("POST", "Post comment data failure");
+                        }
+                    });
+                } else {
+                    Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(PostCommentActivity.this, "Morate uneti tekst u polje za komentar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PostCommentActivity.this, "Unesite ispravan email u polje.", Toast.LENGTH_SHORT).show();
             }
+
         } else {
             Toast.makeText(PostCommentActivity.this, "Morate uneti IME u naznačeno polje", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    private void hideKeyboard(Activity activity) {
-        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-        if (view == null) {
-            view = new View(activity);
-        }
-        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 }

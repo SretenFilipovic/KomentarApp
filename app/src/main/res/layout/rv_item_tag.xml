@@ -12,7 +12,7 @@
         android:layout_height="36dp"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
-        android:background="@drawable/tag_background"
+        android:background="@drawable/tag_click_effect"
         android:maxLines="2"
         android:paddingStart="@dimen/margin_main"
         android:paddingEnd="@dimen/margin_main"

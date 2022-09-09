@@ -30,30 +30,13 @@ public class RvItemDetailCommentsButton implements RvItemDetail {
 
         RvItemNewsDetailCommentsShowAllBinding binding = (RvItemNewsDetailCommentsShowAllBinding) holder.binding;
 
+        String commentCount = "SVI KOMENTARI (" + news.commentsCount +")";
 
-        binding.textViewButtonCount.setText(String.valueOf(news.commentsCount));
+        binding.buttonShowAll.setText(commentCount);
 
-        binding.textViewShowAllComments.setOnClickListener(view -> {
+        binding.buttonShowAll.setOnClickListener(view -> {
             if (news.commentsCount == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
-            } else {
-                listener.onAllCommentsClicked(news.id);
-            }
-        });
-
-        binding.frameLayoutShowAll.setOnClickListener(view -> {
-            if (news.commentsCount == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
-                Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
-            } else {
-                listener.onAllCommentsClicked(news.id);
-            }
-        });
-
-        binding.textViewButtonCount.setOnClickListener(view -> {
-            if (news.commentsCount == 0) {
-                YoYo.with(Techniques.Shake).duration(500).playOn(binding.frameLayoutShowAll);
+                YoYo.with(Techniques.Shake).duration(500).playOn(binding.buttonShowAll);
                 Toast.makeText(holder.itemView.getContext(), "Nema komentara na ovoj vesti", Toast.LENGTH_SHORT).show();
             } else {
                 listener.onAllCommentsClicked(news.id);

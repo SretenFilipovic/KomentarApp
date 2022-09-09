@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.subcategory;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +17,6 @@ import java.util.ArrayList;
 public class SubcategoryActivity extends AppCompatActivity {
 
     private ActivitySubcategoryBinding binding;
-    private int categoryId;
-    private int subcategoryId;
     private Category category = new Category();
     private DataRepository dataRepository;
 
@@ -33,15 +30,10 @@ public class SubcategoryActivity extends AppCompatActivity {
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         dataRepository = appContainer.dataRepository;
 
-        categoryId = getIntent().getIntExtra("categoryId", -1);
-        subcategoryId = getIntent().getIntExtra("subcategoryId", -1);
+        int categoryId = getIntent().getIntExtra("categoryId", -1);
+        int subcategoryId = getIntent().getIntExtra("subcategoryId", -1);
 
         binding.imageViewBack.setOnClickListener(view -> finish());
-
-        binding.refresh.setOnClickListener(view -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
-            loadData(categoryId, subcategoryId);
-        });
 
         loadData(categoryId, subcategoryId);
     }
@@ -81,19 +73,13 @@ public class SubcategoryActivity extends AppCompatActivity {
 
                 new TabLayoutMediator(binding.tabLayout, binding.viewPager, (tab, position) -> tab.setText(category.subcategories.get(position).name)).attach();
 
-                binding.viewPager.setCurrentItem(subcategoryPosition);
+                binding.viewPager.setCurrentItem(subcategoryPosition, false);
 
                 binding.textViewCategoryTitle.setText(category.name);
-
-                binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-
                 Toast.makeText(SubcategoryActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
             }
         });

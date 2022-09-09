@@ -3,7 +3,6 @@ package com.cubes.komentarapp.ui.detail.item;
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemAdviewBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
 import com.google.android.gms.ads.AdRequest;
 
 public class RvItemDetailAdView implements RvItemDetail {

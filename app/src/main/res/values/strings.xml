@@ -30,7 +30,7 @@
     <string name="text_tagovi">Tagovi:</string>
     <string name="text_komentari">Komentari</string>
     <string name="text_ostavi_komentar">Ostavi komentar +</string>
-    <string name="text_svi_komentari">Svi komentari</string>
+    <string name="text_svi_komentari">Svi komentari (0)</string>
     <string name="text_povezane_vesti">Povezane vesti</string>
     <string name="text_tag_example">Ovde ide tag</string>
     <string name="text_no_comments">Nema istaknutih komentara</string>
@@ -42,7 +42,7 @@
     <string name="text_your_comment">Vaš komentar</string>
     <string name="text_post_comment">Pošaljite komentar</string>
     <string name="text_reply_comment">Odgovorite na komentar</string>
-    <string name="text_email">Email (opciono)</string>
+    <string name="text_email">Email</string>
     <string name="text_your_reply">Vaš odgovor</string>
     <string name="text_add">+</string>
     <string name="text_editors_choice">Izbor urednika</string>
@@ -72,4 +72,5 @@
     <string name="text_no_top_comments">Nema istaknutih komentara.</string>
     <string name="text_horoscope">Horoskop</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="text_no_app">Nemate instaliranu neophodnu aplikaciju.</string>
 </resources>

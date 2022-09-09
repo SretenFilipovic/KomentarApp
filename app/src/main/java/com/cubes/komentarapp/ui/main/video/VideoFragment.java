@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewLatestVideoBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
@@ -25,18 +25,18 @@ import java.util.ArrayList;
 
 public class VideoFragment extends Fragment {
 
-    private FragmentRecyclerViewBinding binding;
+    private FragmentRecyclerViewLatestVideoBinding binding;
     private NewsAdapter adapter;
     private int nextPage = 2;
     private DataRepository dataRepository;
+
 
 
     public VideoFragment() {
     }
 
     public static VideoFragment newInstance() {
-        VideoFragment fragment = new VideoFragment();
-        return fragment;
+        return new VideoFragment();
     }
 
     @Override
@@ -47,9 +47,9 @@ public class VideoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+        binding = FragmentRecyclerViewLatestVideoBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -64,6 +64,7 @@ public class VideoFragment extends Fragment {
 
         binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
+            setupRecyclerView();
             loadData();
         });
 
@@ -71,6 +72,8 @@ public class VideoFragment extends Fragment {
             setupRecyclerView();
             loadData();
         });
+
+
     }
 
     private void setupRecyclerView() {
@@ -83,8 +86,13 @@ public class VideoFragment extends Fragment {
         }, () -> dataRepository.loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
-                adapter.addNewNewsList(response);
-                nextPage++;
+                if (response==null || response.size() == 0){
+                    adapter.removeItem();
+                }
+                else{
+                    adapter.addNewNewsList(response);
+                    nextPage++;
+                }
             }
 
             @Override
@@ -95,6 +103,7 @@ public class VideoFragment extends Fragment {
         }));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {

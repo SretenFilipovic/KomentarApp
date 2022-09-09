@@ -31,7 +31,6 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideoTitle;
-import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
@@ -98,15 +97,15 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void setData(NewsList response, NewsListener listener) {
 
-        items.add(new RvItemHeadSlider(response.slider));
+        items.add(new RvItemHeadSlider(response));
 
         items.add(new RvItemHeadAdView());
 
-        for (News news : response.top){
+        for (News news : response.top) {
             items.add(new RvItemHeadTop(news, response.top, listener));
         }
 
-        items.add(new RvItemHeadMostRead(response.latest, response.mostRead, response.mostCommented));
+        items.add(new RvItemHeadMostRead(response));
 
         items.add(new RvItemHeadAdView());
 
@@ -119,12 +118,12 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
         }
 
-        items.add(new RvItemHeadEditorsChoiceSlider(response.editorsChoice));
+        items.add(new RvItemHeadEditorsChoiceSlider(response));
 
         items.add(new RvItemHeadAdView());
 
         items.add(new RvItemHeadVideoTitle());
-        for (News news : response.videos){
+        for (News news : response.videos) {
             items.add(new RvItemHeadVideo(news, response.videos, listener));
         }
 
@@ -140,5 +139,6 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         notifyDataSetChanged();
     }
+
 
 }

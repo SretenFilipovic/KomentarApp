@@ -21,8 +21,12 @@
             android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginStart="@dimen/margin_main"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/textViewTitle"

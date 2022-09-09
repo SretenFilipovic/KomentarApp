@@ -3,12 +3,9 @@ package com.cubes.komentarapp.ui.main.item;
 import android.graphics.Color;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
-import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;

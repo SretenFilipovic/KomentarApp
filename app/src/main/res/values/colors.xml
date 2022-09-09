@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#FF143e6c</color>
-    <color name="blue_transparent">#90143e6c</color>
-    <color name="blue_light">#FF1c73bd</color>
-    <color name="blue_lightest">#FFedf1f2</color>
-    <color name="blue_lightest_transparent">#90edf1f2</color>
+    <color name="blue">#FF253f5b</color>
+    <color name="blue_transparent">#90253f5b</color>
+    <color name="blue_light">#FF4f728e</color>
+    <color name="blue_lightest">#FFe4ebf2</color>
+    <color name="blue_lightest_transparent">#90e4ebf2</color>
+    <color name="blue_lightest_transparent_70">#70e4ebf2</color>
     <color name="gray">#FF9da4ae</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_opacity_70">#B3FFFFFF</color>

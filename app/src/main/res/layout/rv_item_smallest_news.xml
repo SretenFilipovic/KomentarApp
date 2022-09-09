@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="85dp">
+    android:layout_height="70dp"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginTop="1dp"
+    android:elevation="@dimen/margin_big"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="@drawable/card_click_effect">
 
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="65dp"
         android:layout_marginTop="@dimen/margin_small"
         android:maxLines="4"
         android:text="@string/text_title"
@@ -22,17 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
         android:text="@string/text_date_time"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_normal"
         android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_gravity="top"
-        android:layout_marginBottom="@dimen/text_size_small"
-        android:background="@color/blue_lightest" />
-
-
-</FrameLayout>
+</androidx.cardview.widget.CardView>

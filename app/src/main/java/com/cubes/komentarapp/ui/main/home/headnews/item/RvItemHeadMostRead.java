@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.HeadNewsMostReadVPAdapter;
@@ -15,14 +16,10 @@ import java.util.ArrayList;
 
 public class RvItemHeadMostRead implements RvItemHead {
 
-    private final ArrayList<News> mostReadList;
-    private final ArrayList<News> latestList;
-    private final ArrayList<News> mostCommentedList;
+    private final NewsList newsList;
 
-    public RvItemHeadMostRead(ArrayList<News> latest, ArrayList<News> mostRead, ArrayList<News> mostCommented) {
-        this.mostCommentedList = mostCommented;
-        this.mostReadList = mostRead;
-        this.latestList = latest;
+    public RvItemHeadMostRead(NewsList newsList) {
+        this.newsList = newsList;
     }
 
     @Override
@@ -38,7 +35,7 @@ public class RvItemHeadMostRead implements RvItemHead {
         FragmentManager fm = ((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager();
         Lifecycle lc = ((AppCompatActivity) holder.itemView.getContext()).getLifecycle();
 
-        HeadNewsMostReadVPAdapter adapter = new HeadNewsMostReadVPAdapter(fm, lc, latestList, mostReadList, mostCommentedList);
+        HeadNewsMostReadVPAdapter adapter = new HeadNewsMostReadVPAdapter(fm, lc, newsList);
         binding.viewPagerHome.setAdapter(adapter);
 
         new TabLayoutMediator(binding.tabLayout, binding.viewPagerHome, (tab, position) -> {

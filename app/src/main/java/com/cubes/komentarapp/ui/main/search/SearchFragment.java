@@ -24,6 +24,8 @@ import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -35,7 +37,6 @@ public class SearchFragment extends Fragment {
     private int nextPage = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
     private DataRepository dataRepository;
-
 
     public SearchFragment() {
     }
@@ -67,18 +68,20 @@ public class SearchFragment extends Fragment {
 
         setupRecyclerView();
 
-        binding.editText.post(() -> automaticKeyboard(requireActivity()));
+        binding.editText.post(() ->
+                automaticKeyboard(requireActivity()));
 
         binding.imageViewSearch.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.INVISIBLE);
-            hideKeyboard(requireActivity());
+            MethodsClass.hideKeyboard(requireActivity());
             loadData();
         });
 
         binding.refresh.setOnClickListener(view12 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.INVISIBLE);
+            setupRecyclerView();
             loadData();
         });
 
@@ -92,7 +95,7 @@ public class SearchFragment extends Fragment {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.recyclerView.setVisibility(View.INVISIBLE);
-                hideKeyboard(requireActivity());
+                MethodsClass.hideKeyboard(requireActivity());
                 loadData();
                 return true;
             }
@@ -103,7 +106,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        hideKeyboard(requireActivity());
+        MethodsClass.hideKeyboard(requireActivity());
     }
 
     private void setupRecyclerView() {
@@ -116,8 +119,14 @@ public class SearchFragment extends Fragment {
         }, () -> dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
-                adapter.addNewNewsList(response);
-                nextPage++;
+
+                if (response==null || response.size() == 0){
+                    adapter.removeItem();
+                }
+                else{
+                    adapter.addNewNewsList(response);
+                    nextPage++;
+                }
             }
 
             @Override
@@ -128,6 +137,7 @@ public class SearchFragment extends Fragment {
         }));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {
@@ -144,7 +154,7 @@ public class SearchFragment extends Fragment {
 
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.SEARCH_TERM, String.valueOf(binding.editText.getText()));
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SEARCH, bundle);
+            mFirebaseAnalytics.logEvent("android_komentar", bundle);
 
             dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), 1, new DataRepository.NewsResponseListener() {
                 @Override
@@ -156,7 +166,8 @@ public class SearchFragment extends Fragment {
                         binding.textViewNoContent.setVisibility(View.GONE);
                         adapter.setData(response);
                     } else {
-                        binding.textViewNoContent.setText("Nema vesti za termin: " + binding.editText.getText());
+                        String noContent = "Nema vesti za termin: " + binding.editText.getText();
+                        binding.textViewNoContent.setText(noContent);
                         binding.textViewNoContent.setVisibility(View.VISIBLE);
                     }
 
@@ -164,6 +175,7 @@ public class SearchFragment extends Fragment {
                     binding.refresh.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     binding.progressBar.setVisibility(View.GONE);
+
 
                     Log.d("SEARCH", "Search load data success");
                 }
@@ -183,14 +195,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void hideKeyboard(Activity activity) {
-        InputMethodManager manager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        View view = activity.getCurrentFocus();
-        if (view == null) {
-            view = new View(activity);
-        }
-        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+
 
     private void automaticKeyboard(Activity activity) {
         binding.editText.requestFocus();

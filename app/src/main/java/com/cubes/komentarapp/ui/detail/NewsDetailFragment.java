@@ -2,11 +2,16 @@ package com.cubes.komentarapp.ui.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +23,7 @@ import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
-import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewDetailBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
@@ -26,7 +31,9 @@ import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
+import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
+import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -34,7 +41,7 @@ import java.util.ArrayList;
 public class NewsDetailFragment extends Fragment {
 
     private static final String NEWS_ID = "newsId";
-    private FragmentRecyclerViewBinding binding;
+    private FragmentRecyclerViewDetailBinding binding;
     private NewsDetailAdapter adapter;
     private ArrayList<Vote> votes = new ArrayList<>();
     private int newsId;
@@ -45,10 +52,6 @@ public class NewsDetailFragment extends Fragment {
     private DataRepository dataRepository;
 
     public NewsDetailFragment() {
-    }
-
-    public interface DetailListener {
-        void onDetailResponseListener(int newsId, String newsUrl);
     }
 
     public static NewsDetailFragment newInstance(int newsId) {
@@ -77,12 +80,13 @@ public class NewsDetailFragment extends Fragment {
         if (getArguments() != null) {
             newsId = getArguments().getInt(NEWS_ID);
         }
+
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+        binding = FragmentRecyclerViewDetailBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -90,6 +94,15 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            binding.nestedScroll.setOnScrollChangeListener((View.OnScrollChangeListener) (view1, i, i1, i2, i3) -> {
+                int length = binding.nestedScroll.getChildAt(0).getHeight() - binding.nestedScroll.getHeight();
+
+                binding.progressIndicator.setMax(length);
+                binding.progressIndicator.setProgress(i1);
+            });
+        }
 
         binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
@@ -103,7 +116,6 @@ public class NewsDetailFragment extends Fragment {
 
         setupRecyclerView();
         loadData();
-
     }
 
     @Override
@@ -122,6 +134,8 @@ public class NewsDetailFragment extends Fragment {
             @Override
             public void onResponse(NewsDetail response) {
 
+                binding.recyclerView.setVisibility(View.INVISIBLE);
+
                 newsId = response.id;
                 newsUrl = response.url;
                 newsTitle = response.title;
@@ -130,7 +144,7 @@ public class NewsDetailFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("news", newsTitle);
-                analytics.logEvent("select_news", bundle);
+                analytics.logEvent("android_komentar", bundle);
 
                 adapter.setData(response, new NewsDetailListener() {
                     @Override
@@ -187,6 +201,7 @@ public class NewsDetailFragment extends Fragment {
 
                                 Log.d("UPVOTE", "Upvote success");
                             }
+
                             @Override
                             public void onFailure(Throwable t) {
                                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
@@ -218,9 +233,15 @@ public class NewsDetailFragment extends Fragment {
                             }
                         });
                     }
+                }, new WebViewListener() {
+                    @Override
+                    public void onWebViewLoaded() {
+                        binding.recyclerView.setVisibility(View.VISIBLE);
+                        binding.refresh.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                    }
                 });
-                binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+
                 binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("DETAIL", "Detail load data success");
@@ -230,6 +251,7 @@ public class NewsDetailFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+
                 binding.refresh.setVisibility(View.VISIBLE);
                 binding.progressBar.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
@@ -243,6 +265,8 @@ public class NewsDetailFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsDetailAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        binding.recyclerView.setItemViewCacheSize(20);
     }
 
 }
