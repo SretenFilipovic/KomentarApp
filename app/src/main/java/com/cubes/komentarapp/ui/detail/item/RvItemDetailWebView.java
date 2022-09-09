@@ -1,8 +1,6 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.graphics.Bitmap;
 import android.os.Build;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 

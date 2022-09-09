@@ -95,6 +95,8 @@
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_comment_blue.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_swipe_left.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_swipe_right.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_thumbs_down_voted.xml" value="0.205" />
         <entry key="app/src/main/res/drawable/post_comment_edit_background.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/pulse.xml" value="0.187" />

@@ -2,6 +2,7 @@ package com.cubes.komentarapp.ui.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 
 import java.lang.reflect.Field;
@@ -19,7 +21,6 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
     private String newsUrl;
     private ActivityNewsDetailBinding binding;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
 
         newsId = getIntent().getIntExtra("news", -1);
         int[] newsIdList = getIntent().getIntArrayExtra("newsIdList");
+
         NewsDetailViewPagerAdapter adapter = new NewsDetailViewPagerAdapter(this, newsIdList);
         binding.viewPager.setAdapter(adapter);
 
@@ -54,8 +56,16 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
             startActivity(i);
         });
 
+
+        binding.swipeLeft.setVisibility(View.VISIBLE);
+        binding.swipeRight.setVisibility(View.VISIBLE);
+        MethodsClass.animationSwipe(binding.swipeLeft, 0, -30);
+        MethodsClass.animationSwipe(binding.swipeRight, 0, 30);
+
+
         reduceDragSensitivity(5);
     }
+
 
     @Override
     public void onDetailResponseListener(int newsId, String newsUrl) {

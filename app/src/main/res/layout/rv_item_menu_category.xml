@@ -7,10 +7,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="34dp"
         android:layout_marginTop="8dp"
-        android:background="@null"
-        >
+        android:background="@null">
 
         <View
             android:id="@+id/viewCategoryColor"
@@ -32,10 +31,14 @@
 
         <ImageView
             android:id="@+id/imageViewExpandSubcategoryList"
-            android:layout_width="wrap_content"
-            android:layout_height="26dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="@dimen/margin_main"
             android:layout_gravity="center_vertical|end"
-            android:src="@drawable/ic_arrow_down" />
+            android:src="@drawable/ic_arrow_down"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
 
     </FrameLayout>
 

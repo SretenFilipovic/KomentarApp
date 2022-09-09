@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".ui.comments.CommentsActivity">
 
     <FrameLayout
@@ -20,83 +21,77 @@
             android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="@dimen/margin_main"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_back"
+            android:layout_marginStart="@dimen/margin_main"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:src="@drawable/ic_back" />
     </FrameLayout>
 
-    <EditText
-        android:id="@+id/editTextName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_main"
-        android:layout_marginTop="@dimen/margin_big"
-        android:layout_marginEnd="@dimen/margin_main"
-        android:background="@drawable/edit_text_outline_blue"
-        android:hint="@string/text_ime"
-        android:imeOptions="actionNext"
-        android:inputType="text"
-        android:padding="@dimen/margin_small"
-        android:textColor="@color/blue"
-        android:textColorHint="@color/blue_light"
-        android:textSize="@dimen/text_size_normal"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+        android:layout_margin="@dimen/margin_main"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_main"
-        android:background="@drawable/edit_text_outline_blue"
-        android:hint="@string/text_email"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress"
-        android:padding="@dimen/margin_small"
-        android:textColor="@color/blue"
-        android:textColorHint="@color/blue_light"
-        android:textSize="@dimen/text_size_normal"
-        app:layout_constraintEnd_toEndOf="@+id/editTextName"
-        app:layout_constraintStart_toStartOf="@+id/editTextName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_big"
+            android:background="@drawable/edit_text_outline_blue"
+            android:hint="@string/text_ime"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:padding="@dimen/margin_small"
+            android:textColor="@color/blue"
+            android:textColorHint="@color/blue_light"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/editTextContent"
-        android:layout_width="0dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="@dimen/margin_main"
-        android:background="@drawable/edit_text_outline_blue"
-        android:gravity="start"
-        android:hint="@string/text_your_comment"
-        android:imeOptions="actionSend"
-        android:inputType="text"
-        android:padding="@dimen/margin_small"
-        android:textColor="@color/blue"
-        android:textColorHint="@color/blue_light"
-        android:textSize="@dimen/text_size_normal"
-        app:layout_constraintEnd_toEndOf="@+id/editTextName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_main"
+            android:background="@drawable/edit_text_outline_blue"
+            android:hint="@string/text_email"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/margin_small"
+            android:textColor="@color/blue"
+            android:textColorHint="@color/blue_light"
+            android:textSize="@dimen/text_size_normal" />
 
-    <Button
-        android:id="@+id/buttonPostComment"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_main"
-        android:background="@drawable/button_click_effect"
-        android:text="@string/text_post_comment"
-        android:textAllCaps="false"
-        android:textColor="@drawable/button_text_color"
-        android:textSize="@dimen/text_size_big"
-        app:layout_constraintEnd_toEndOf="@+id/editTextContent"
-        app:layout_constraintStart_toStartOf="@+id/editTextContent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextContent" />
+        <EditText
+            android:id="@+id/editTextContent"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginTop="@dimen/margin_main"
+            android:background="@drawable/edit_text_outline_blue"
+            android:gravity="start"
+            android:hint="@string/text_your_comment"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:padding="@dimen/margin_small"
+            android:textColor="@color/blue"
+            android:textColorHint="@color/blue_light"
+            android:textSize="@dimen/text_size_normal" />
+
+        <Button
+            android:id="@+id/buttonPostComment"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_main"
+            android:layout_marginBottom="@dimen/margin_main"
+            android:background="@drawable/button_click_effect"
+            android:text="@string/text_post_comment"
+            android:textAllCaps="false"
+            android:textColor="@drawable/button_text_color"
+            android:textSize="@dimen/text_size_big" />
+    </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

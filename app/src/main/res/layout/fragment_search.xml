@@ -50,8 +50,9 @@
 
             <ImageView
                 android:id="@+id/imageViewSearch"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="7dp"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/margin_main"
                 android:src="@drawable/ic_search"

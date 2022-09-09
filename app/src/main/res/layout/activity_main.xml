@@ -56,13 +56,14 @@
 
         <ImageView
             android:id="@+id/closeAd"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:src="@drawable/ic_close"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/adViewSticky"
-            app:layout_constraintTop_toTopOf="@+id/adViewSticky"
-            app:tint="@color/black" />
+            app:layout_constraintBottom_toTopOf="@+id/adViewSticky"
+            app:tint="@color/black"
+            android:background="@color/blue_lightest"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -110,8 +111,9 @@
 
                     <ImageView
                         android:id="@+id/imageViewCloseMenu"
-                        android:layout_width="30dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="@dimen/margin_main"
                         android:layout_gravity="end|center_vertical"
                         android:layout_marginEnd="@dimen/margin_main"
                         android:src="@drawable/ic_close"
