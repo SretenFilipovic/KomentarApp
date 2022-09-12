@@ -4,14 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +29,6 @@ import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
-import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -177,6 +172,22 @@ public class NewsDetailFragment extends Fragment {
                         i.putExtra("newsTitle", newsTitle);
                         startActivity(i);
                     }
+
+                    @Override
+                    public void onShareNewsClicked(String newsUrl) {
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, newsUrl);
+                        i.setType("text/plain");
+                        startActivity(Intent.createChooser(i, null));
+                    }
+
+                    @Override
+                    public void onCommentNewsClicked(int newsId) {
+                        Intent i = new Intent(getContext(), CommentsActivity.class);
+                        i.putExtra("news", newsId);
+                        startActivity(i);
+                    }
                 }, new CommentsListener() {
                     @Override
                     public void onReplyClicked(Comments comment) {
@@ -233,13 +244,10 @@ public class NewsDetailFragment extends Fragment {
                             }
                         });
                     }
-                }, new WebViewListener() {
-                    @Override
-                    public void onWebViewLoaded() {
-                        binding.recyclerView.setVisibility(View.VISIBLE);
-                        binding.refresh.setVisibility(View.GONE);
-                        binding.progressBar.setVisibility(View.GONE);
-                    }
+                }, () -> {
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    binding.refresh.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.GONE);
                 });
 
                 binding.pullToRefresh.setRefreshing(false);
@@ -266,7 +274,6 @@ public class NewsDetailFragment extends Fragment {
         adapter = new NewsDetailAdapter();
         binding.recyclerView.setAdapter(adapter);
 
-        binding.recyclerView.setItemViewCacheSize(20);
     }
 
 }

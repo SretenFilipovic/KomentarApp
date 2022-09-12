@@ -87,6 +87,7 @@
         <entry key="app/src/main/res/drawable/button_click_effect.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/button_text_color.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/card_click_effect.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/circle_menu.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/click_effect.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/custom_progress_bar.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/edit_text_outline.xml" value="0.2055" />
@@ -95,6 +96,7 @@
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_comment_blue.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_show_more.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_swipe_left.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_swipe_right.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_thumbs_down_voted.xml" value="0.205" />

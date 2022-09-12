@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
+import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 import java.util.ArrayList;
 
@@ -56,11 +58,31 @@ public class HeadNewsMostReadFragment extends Fragment {
         HeadNewsMostReadRVAdapter adapter = new HeadNewsMostReadRVAdapter();
 
         adapter.setMostReadData(mostReadNews, allNews);
-        adapter.setNewsListener((newsId, newsListId) -> {
-            Intent i = new Intent(getContext(), NewsDetailActivity.class);
-            i.putExtra("news", newsId);
-            i.putExtra("newsIdList", newsListId);
-            startActivity(i);
+
+        adapter.setNewsListener(new NewsListener() {
+            @Override
+            public void onNewsClicked(int newsId, int[] newsListId) {
+                Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                i.putExtra("news", newsId);
+                i.putExtra("newsIdList", newsListId);
+                startActivity(i);
+            }
+
+            @Override
+            public void onShareNewsClicked(String newsUrl) {
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_TEXT, newsUrl);
+                i.setType("text/plain");
+                startActivity(Intent.createChooser(i, null));
+            }
+
+            @Override
+            public void onCommentNewsClicked(int newsId) {
+                Intent i = new Intent(getContext(), CommentsActivity.class);
+                i.putExtra("news", newsId);
+                startActivity(i);
+            }
         });
 
         binding.recyclerView.setAdapter(adapter);

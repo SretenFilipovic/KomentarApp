@@ -32,6 +32,7 @@ import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadTop;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideo;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadVideoTitle;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
+import com.google.android.gms.ads.AdRequest;
 
 import java.util.ArrayList;
 
@@ -71,6 +72,8 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
                 break;
             case R.layout.rv_item_adview:
                 binding = RvItemAdviewBinding.inflate(inflater, parent, false);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                ((RvItemAdviewBinding) binding).adView.loadAd(adRequest);
                 break;
             default:
                 binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);

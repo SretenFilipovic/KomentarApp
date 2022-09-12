@@ -14,8 +14,10 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
+import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -45,6 +47,8 @@ public class TagActivity extends AppCompatActivity {
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
+        binding.textViewTagTitle.setText(tagTitle);
+
         binding.refresh.setOnClickListener(view -> {
             binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
@@ -66,18 +70,36 @@ public class TagActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new NewsAdapter((newsId, newsListId) -> {
-            Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
-            i.putExtra("news", newsId);
-            i.putExtra("newsIdList", newsListId);
-            startActivity(i);
+        adapter = new NewsAdapter(new NewsListener() {
+            @Override
+            public void onNewsClicked(int newsId, int[] newsListId) {
+                Intent i = new Intent(TagActivity.this, NewsDetailActivity.class);
+                i.putExtra("news", newsId);
+                i.putExtra("newsIdList", newsListId);
+                startActivity(i);
+            }
+
+            @Override
+            public void onShareNewsClicked(String newsUrl) {
+                Intent i = new Intent();
+                i.setAction(Intent.ACTION_SEND);
+                i.putExtra(Intent.EXTRA_TEXT, newsUrl);
+                i.setType("text/plain");
+                startActivity(Intent.createChooser(i, null));
+            }
+
+            @Override
+            public void onCommentNewsClicked(int newsId) {
+                Intent i = new Intent(TagActivity.this, CommentsActivity.class);
+                i.putExtra("news", newsId);
+                startActivity(i);
+            }
         }, () -> dataRepository.loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
-                if (response==null || response.size() == 0){
+                if (response == null || response.size() == 0) {
                     adapter.removeItem();
-                }
-                else{
+                } else {
                     adapter.addNewNewsList(response);
                     nextPage++;
                 }
@@ -90,8 +112,6 @@ public class TagActivity extends AppCompatActivity {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
-
-        binding.recyclerView.setItemViewCacheSize(25);
     }
 
     private void loadData() {

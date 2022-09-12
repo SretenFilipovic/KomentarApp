@@ -33,6 +33,7 @@ import com.cubes.komentarapp.ui.detail.item.RvItemDetailWebView;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
+import com.google.android.gms.ads.AdRequest;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -73,6 +74,8 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
                 break;
             case R.layout.rv_item_adview:
                 binding = RvItemAdviewBinding.inflate(inflater, parent, false);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                ((RvItemAdviewBinding) binding).adView.loadAd(adRequest);
                 break;
             default:
                 binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);

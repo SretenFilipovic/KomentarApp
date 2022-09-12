@@ -1,6 +1,7 @@
 package com.cubes.komentarapp.ui.detail.item;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
@@ -35,6 +36,14 @@ public class RvItemDetailRelatedNews implements RvItemDetail {
 
         RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
 
+        binding.showMore.setOnClickListener(view -> {
+            MethodsClass.animationAppear(binding.frameShowMore);
+        });
+
+        binding.closeMore.setOnClickListener(view -> {
+            MethodsClass.animationDisappear(binding.frameShowMore);
+        });
+
         binding.textViewCategory.setText(news.category.name);
         binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
@@ -42,7 +51,8 @@ public class RvItemDetailRelatedNews implements RvItemDetail {
         Picasso.get().load(news.image).into(binding.imageView);
 
         holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, news.title, newsIdList));
-
+        binding.shareNews.setOnClickListener(view -> listener.onShareNewsClicked(news.url));
+        binding.commentNews.setOnClickListener(view -> listener.onCommentNewsClicked(news.id));
     }
 
 }

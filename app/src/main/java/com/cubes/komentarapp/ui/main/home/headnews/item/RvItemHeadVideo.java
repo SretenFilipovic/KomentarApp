@@ -1,6 +1,7 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
 import android.graphics.Color;
+import android.view.View;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
@@ -34,13 +35,22 @@ public class RvItemHeadVideo implements RvItemHead {
 
         RvItemHeadVideoBinding binding = (RvItemHeadVideoBinding) holder.binding;
 
-            binding.textViewCategory.setText(news.category.name);
-            binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
-            binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
-            binding.textViewTitle.setText(news.title);
-            Picasso.get().load(news.image).into(binding.imageView);
+        binding.showMore.setOnClickListener(view -> {
+            MethodsClass.animationAppear(binding.frameShowMore);
+        });
 
-            holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
+        binding.closeMore.setOnClickListener(view -> {
+            MethodsClass.animationDisappear(binding.frameShowMore);
+        });
 
+        binding.textViewCategory.setText(news.category.name);
+        binding.textViewCategory.setTextColor(Color.parseColor(news.category.color));
+        binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
+        binding.textViewTitle.setText(news.title);
+        Picasso.get().load(news.image).into(binding.imageView);
+
+        holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
+        binding.shareNews.setOnClickListener(view -> listener.onShareNewsClicked(news.url));
+        binding.commentNews.setOnClickListener(view -> listener.onCommentNewsClicked(news.id));
     }
 }

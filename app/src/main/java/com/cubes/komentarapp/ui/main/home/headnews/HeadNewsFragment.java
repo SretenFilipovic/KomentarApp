@@ -18,8 +18,10 @@ import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
+import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
 public class HeadNewsFragment extends Fragment {
 
@@ -79,11 +81,30 @@ public class HeadNewsFragment extends Fragment {
 
                 newsIdList = MethodsClass.createIdList(response);
 
-                adapter.setData(response, (newsId, newsListId) -> {
-                    Intent i = new Intent(getContext(), NewsDetailActivity.class);
-                    i.putExtra("news", newsId);
-                    i.putExtra("newsIdList", newsIdList);
-                    startActivity(i);
+                adapter.setData(response, new NewsListener() {
+                    @Override
+                    public void onNewsClicked(int newsId, int[] newsListId) {
+                        Intent i = new Intent(getContext(), NewsDetailActivity.class);
+                        i.putExtra("news", newsId);
+                        i.putExtra("newsIdList", newsIdList);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onShareNewsClicked(String newsUrl) {
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, newsUrl);
+                        i.setType("text/plain");
+                        startActivity(Intent.createChooser(i, null));
+                    }
+
+                    @Override
+                    public void onCommentNewsClicked(int newsId) {
+                        Intent i = new Intent(getContext(), CommentsActivity.class);
+                        i.putExtra("news", newsId);
+                        startActivity(i);
+                    }
                 });
 
                 binding.refresh.setVisibility(View.GONE);
@@ -117,6 +138,5 @@ public class HeadNewsFragment extends Fragment {
 
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setItemAnimator(null);
-        binding.recyclerView.setItemViewCacheSize(50);
     }
 }

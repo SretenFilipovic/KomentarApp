@@ -1,6 +1,7 @@
 package com.cubes.komentarapp.ui.tools;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -11,6 +12,9 @@ import android.view.inputmethod.InputMethodManager;
 import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
+import com.cubes.komentarapp.ui.main.MainActivity;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 
@@ -28,7 +32,7 @@ public class MethodsClass {
         return newsIdList;
     }
 
-    public static ArrayList<News> getAllNews(NewsList response){
+    public static ArrayList<News> getAllNews(NewsList response) {
         ArrayList<News> allNews = new ArrayList<>();
 
         allNews.addAll(response.slider);
@@ -37,13 +41,13 @@ public class MethodsClass {
         allNews.addAll(response.mostRead);
         allNews.addAll(response.mostCommented);
         allNews.addAll(response.editorsChoice);
-        for (CategoryBox category : response.category){
+        for (CategoryBox category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
                 allNews.addAll(category.news);
             }
         }
         allNews.addAll(response.videos);
-        for (CategoryBox category : response.category){
+        for (CategoryBox category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
                 allNews.addAll(category.news);
             }
@@ -52,7 +56,7 @@ public class MethodsClass {
         return allNews;
     }
 
-    public static int[] createIdList(NewsList response){
+    public static int[] createIdList(NewsList response) {
         return MethodsClass.initNewsIdList(getAllNews(response));
     }
 
@@ -65,18 +69,18 @@ public class MethodsClass {
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void animationSwipe(View view, float fromDegrees, float toDegrees){
+    public static void animationSwipe(View view, float fromDegrees, float toDegrees) {
         AnimationSet animationSet = new AnimationSet(true);
 
         AlphaAnimation alpha = new AlphaAnimation(1.0f, 0f);
         alpha.setDuration(2000);
 
-        RotateAnimation rotate1 = new RotateAnimation(toDegrees, fromDegrees,100,100);
+        RotateAnimation rotate1 = new RotateAnimation(toDegrees, fromDegrees, 100, 100);
         rotate1.setDuration(500);
-        RotateAnimation rotateBack = new RotateAnimation(fromDegrees, toDegrees,100,100);
+        RotateAnimation rotateBack = new RotateAnimation(fromDegrees, toDegrees, 100, 100);
         rotateBack.setStartOffset(500);
         rotateBack.setDuration(500);
-        RotateAnimation rotate2 = new RotateAnimation(toDegrees, fromDegrees,100,100);
+        RotateAnimation rotate2 = new RotateAnimation(toDegrees, fromDegrees, 100, 100);
         rotate2.setStartOffset(1000);
         rotate2.setDuration(500);
 
@@ -90,6 +94,14 @@ public class MethodsClass {
         new Handler().postDelayed(() -> view.setVisibility(View.GONE), 2000);
     }
 
+    public static void animationAppear(View view) {
+        view.setVisibility(View.VISIBLE);
+        YoYo.with(Techniques.SlideInRight).duration(500).playOn(view);
+    }
+
+    public static void animationDisappear(View view) {
+        YoYo.with(Techniques.SlideOutRight).duration(500).playOn(view);
+    }
 
 
 }

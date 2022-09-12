@@ -1,5 +1,7 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
+import android.view.View;
+
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
@@ -33,12 +35,21 @@ public class RvItemHeadCategorySmallNews implements RvItemHead {
 
         RvItemSmallNewsHomepageBinding binding = (RvItemSmallNewsHomepageBinding) holder.binding;
 
+        binding.showMore.setOnClickListener(view -> {
+            MethodsClass.animationAppear(binding.frameShowMore);
+        });
+
+        binding.closeMore.setOnClickListener(view -> {
+            MethodsClass.animationDisappear(binding.frameShowMore);
+        });
+
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 
         holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
-
+        binding.shareNews.setOnClickListener(view -> listener.onShareNewsClicked(news.url));
+        binding.commentNews.setOnClickListener(view -> listener.onCommentNewsClicked(news.id));
     }
 
 }
