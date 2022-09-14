@@ -94,6 +94,7 @@
         <entry key="app/src/main/res/drawable/edit_text_outline_blue.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/gradient_image_view.xml" value="0.215" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_bookmark.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable/ic_comment_blue.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_show_more.xml" value="0.187" />
@@ -121,6 +122,7 @@
         <entry key="app/src/main/res/layout/activity_news_detail_with_pager.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/activity_post_comment.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/activity_post_reply.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/activity_saved_news.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/activity_splashscreen.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/activity_subcategory.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_tag.xml" value="0.33" />
@@ -139,6 +141,7 @@
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_slider.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/layout.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/popup_window.xml" value="0.37135416666666665" />
         <entry key="app/src/main/res/layout/rv_item_adview.xml" value="0.2" />
         <entry key="app/src/main/res/layout/rv_item_big_news.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_big_news_homepage.xml" value="0.3723958333333333" />
@@ -168,6 +171,7 @@
         <entry key="app/src/main/res/layout/rv_item_news_detail_tags_and_news.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_top.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_news_detail_web_view.xml" value="0.20516304347826086" />
+        <entry key="app/src/main/res/layout/rv_item_saved_news.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_small_news.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_small_news_homepage.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/rv_item_smallest_news.xml" value="0.3723958333333333" />

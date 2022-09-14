@@ -1,13 +1,17 @@
 package com.cubes.komentarapp.ui.detail;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.tools.MethodsClass;

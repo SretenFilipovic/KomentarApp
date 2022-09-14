@@ -8,8 +8,7 @@
     android:layout_marginEnd="@dimen/margin_main"
     android:elevation="@dimen/margin_big"
     android:foreground="@drawable/card_click_effect"
-    android:clickable="true"
-    android:focusable="true">
+    android:clickable="true">
 
     <ImageView
         android:id="@+id/imageView"
@@ -52,51 +51,5 @@
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginBottom="@dimen/margin_small"
         android:src="@drawable/ic_show_more" />
-
-    <FrameLayout
-        android:id="@+id/frameShowMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_gravity="bottom|end">
-
-        <ImageView
-            android:id="@+id/circleMenu"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="end"
-            android:src="@drawable/circle_menu" />
-
-        <ImageView
-            android:id="@+id/closeMore"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="@dimen/margin_small"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:src="@drawable/ic_close"
-            app:tint="@color/blue" />
-
-        <ImageView
-            android:id="@+id/shareNews"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="@dimen/margin_main"
-            android:src="@drawable/ic_share"
-            app:tint="@color/blue" />
-
-        <ImageView
-            android:id="@+id/commentNews"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="@dimen/margin_main"
-            android:layout_marginBottom="55dp"
-            android:src="@drawable/ic_comment"
-            app:tint="@color/blue" />
-    </FrameLayout>
 
 </androidx.cardview.widget.CardView>

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.ActivityTagBinding;
@@ -17,6 +18,7 @@ import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -29,6 +31,7 @@ public class TagActivity extends AppCompatActivity {
     private NewsAdapter adapter;
     private int nextPage = 2;
     private DataRepository dataRepository;
+    private final ArrayList<MyNews> myNewsList = new ArrayList<>();
 
 
     @Override
@@ -93,6 +96,13 @@ public class TagActivity extends AppCompatActivity {
                 Intent i = new Intent(TagActivity.this, CommentsActivity.class);
                 i.putExtra("news", newsId);
                 startActivity(i);
+            }
+
+            @Override
+            public void onSaveNewsClicked(int newsId, String newsTitle) {
+                MyNews myNews = new MyNews(newsId, newsTitle);
+                myNewsList.add(myNews);
+                PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
             }
         }, () -> dataRepository.loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override

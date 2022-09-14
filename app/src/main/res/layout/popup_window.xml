@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/popupElement"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="50dp"
+        android:src="@drawable/circle_menu" />
+
+    <ImageView
+        android:id="@+id/btnBookmark"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:padding="3dp"
+        android:src="@drawable/ic_bookmark"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <ImageView
+        android:id="@+id/btnShare"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:padding="4dp"
+        android:src="@drawable/ic_share"
+        app:tint="@color/blue"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <ImageView
+        android:id="@+id/btnComment"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="@dimen/margin_small"
+        android:padding="@dimen/margin_small"
+        android:src="@drawable/ic_comment"
+        app:tint="@color/blue"
+        android:clickable="true"
+        android:focusable="true"/>
+
+</FrameLayout>

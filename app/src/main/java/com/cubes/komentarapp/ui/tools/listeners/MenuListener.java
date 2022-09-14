@@ -10,6 +10,8 @@ public interface MenuListener {
 
     void onMarketingClicked();
 
+    void onMyNewsClicked();
+
     void onHoroscopeClicked();
 
     void onCurrencyClicked();

@@ -30,6 +30,7 @@ import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.cubes.komentarapp.ui.main.menu.WeatherActivity;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
 import com.cubes.komentarapp.ui.main.video.VideoFragment;
+import com.cubes.komentarapp.ui.savednews.MyNewsActivity;
 import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
@@ -164,6 +165,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onMarketingClicked() {
                         // privremeno
                         openWebBrowser("https://komentar.rs");
+                    }
+
+                    @Override
+                    public void onMyNewsClicked() {
+                        Intent i = new Intent(MainActivity.this, MyNewsActivity.class);
+                        startActivity(i);
                     }
 
                     @Override

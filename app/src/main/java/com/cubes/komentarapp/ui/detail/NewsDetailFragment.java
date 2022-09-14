@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.domain.Comments;
+import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -45,6 +46,8 @@ public class NewsDetailFragment extends Fragment {
     private DetailListener detailListener;
     private FirebaseAnalytics analytics;
     private DataRepository dataRepository;
+    private final ArrayList<MyNews> myNewsList = new ArrayList<>();
+
 
     public NewsDetailFragment() {
     }
@@ -121,8 +124,8 @@ public class NewsDetailFragment extends Fragment {
 
     private void loadData() {
 
-        if (PrefConfig.readListFromPref(getActivity()) != null) {
-            votes = (ArrayList<Vote>) PrefConfig.readListFromPref(getActivity());
+        if (PrefConfig.readVoteListFromPref(getActivity()) != null) {
+            votes = (ArrayList<Vote>) PrefConfig.readVoteListFromPref(getActivity());
         }
 
         dataRepository.getNewsDetails(newsId, new DataRepository.NewsDetailListener() {
@@ -188,6 +191,13 @@ public class NewsDetailFragment extends Fragment {
                         i.putExtra("news", newsId);
                         startActivity(i);
                     }
+
+                    @Override
+                    public void onSaveNewsClicked(int newsId, String newsTitle) {
+                        MyNews myNews = new MyNews(newsId, newsTitle);
+                        myNewsList.add(myNews);
+                        PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                    }
                 }, new CommentsListener() {
                     @Override
                     public void onReplyClicked(Comments comment) {
@@ -206,7 +216,7 @@ public class NewsDetailFragment extends Fragment {
                                 Vote vote = new Vote(comment.id, true);
                                 votes.add(vote);
 
-                                PrefConfig.writeListInPref(getActivity(), votes);
+                                PrefConfig.writeVoteListInPref(getActivity(), votes);
 
                                 adapter.commentUpvoted(comment.id);
 
@@ -230,7 +240,7 @@ public class NewsDetailFragment extends Fragment {
                                 Vote vote = new Vote(comment.id, false);
                                 votes.add(vote);
 
-                                PrefConfig.writeListInPref(getActivity(), votes);
+                                PrefConfig.writeVoteListInPref(getActivity(), votes);
 
                                 adapter.commentDownvoted(comment.id);
 

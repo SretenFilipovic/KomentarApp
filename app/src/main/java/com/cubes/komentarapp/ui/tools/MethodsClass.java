@@ -1,7 +1,6 @@
 package com.cubes.komentarapp.ui.tools;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -10,25 +9,33 @@ import android.view.animation.RotateAnimation;
 import android.view.inputmethod.InputMethodManager;
 
 import com.cubes.komentarapp.data.model.domain.CategoryBox;
+import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
-import com.cubes.komentarapp.ui.main.MainActivity;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MethodsClass {
 
 
     public static int[] initNewsIdList(ArrayList<News> newsList) {
-
         int[] newsIdList = new int[newsList.size()];
 
         for (int i = 0; i < newsList.size(); i++) {
             newsIdList[i] = newsList.get(i).id;
         }
+        return newsIdList;
+    }
 
+    public static int[] initMyNewsIdList(List<MyNews> newsList) {
+        int[] newsIdList = new int[newsList.size()];
+
+        for (int i = 0; i < newsList.size(); i++) {
+            newsIdList[i] = newsList.get(i).id;
+        }
         return newsIdList;
     }
 
@@ -94,12 +101,12 @@ public class MethodsClass {
         new Handler().postDelayed(() -> view.setVisibility(View.GONE), 2000);
     }
 
-    public static void animationAppear(View view) {
+    public static void openNewsMenu(View view) {
         view.setVisibility(View.VISIBLE);
         YoYo.with(Techniques.SlideInRight).duration(500).playOn(view);
     }
 
-    public static void animationDisappear(View view) {
+    public static void closeNewsMenu(View view) {
         YoYo.with(Techniques.SlideOutRight).duration(500).playOn(view);
     }
 

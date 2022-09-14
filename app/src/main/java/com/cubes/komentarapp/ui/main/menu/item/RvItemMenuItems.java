@@ -1,5 +1,7 @@
 package com.cubes.komentarapp.ui.main.menu.item;
 
+import android.view.View;
+
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
@@ -31,6 +33,7 @@ public class RvItemMenuItems implements RvItemMenu {
         binding.textViewCurrency.setOnClickListener(view -> listener.onCurrencyClicked());
         binding.textViewHoroscope.setOnClickListener(view -> listener.onHoroscopeClicked());
         binding.textViewWeather.setOnClickListener(view -> listener.onWeatherClicked());
+        binding.textMyNews.setOnClickListener(view -> listener.onMyNewsClicked());
 
         binding.switchNotifications.setChecked(isOn);
         binding.switchNotifications.setOnCheckedChangeListener((compoundButton, b) -> listener.onNotificationClicked(b));

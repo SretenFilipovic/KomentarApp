@@ -7,4 +7,6 @@ public interface NewsListener {
     void onShareNewsClicked(String newsUrl);
 
     void onCommentNewsClicked(int newsId);
+
+    void onSaveNewsClicked(int newsId, String newsTitle);
 }

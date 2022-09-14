@@ -73,4 +73,6 @@
     <string name="text_horoscope">Horoskop</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="text_no_app">Nemate instaliranu neophodnu aplikaciju.</string>
+    <string name="text_my_news">Moje vesti</string>
+    <string name="title_activity_saved_news">SavedNewsActivity</string>
 </resources>

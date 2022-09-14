@@ -13,6 +13,7 @@ import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.cubes.komentarapp.ui.main.menu.MenuSubcategoryAdapter;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 public class RvItemMenuCategories implements RvItemMenu {
@@ -46,12 +47,10 @@ public class RvItemMenuCategories implements RvItemMenu {
             binding.imageViewExpandSubcategoryList.setOnClickListener(view -> {
 
                 if (binding.subcategoryContainer.getVisibility() == View.GONE) {
-
                     binding.subcategoryContainer.setVisibility(View.VISIBLE);
                     binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_up);
 
                 } else {
-
                     binding.subcategoryContainer.setVisibility(View.GONE);
                     binding.imageViewExpandSubcategoryList.setImageResource(R.drawable.ic_arrow_down);
                 }
