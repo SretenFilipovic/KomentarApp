@@ -9,20 +9,21 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="140dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/popup_width"
+        android:layout_height="@dimen/popup_height"
         android:src="@drawable/circle_menu" />
 
     <ImageView
-        android:id="@+id/btnBookmark"
+        android:id="@+id/btnComment"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_gravity="end|center_vertical"
-        android:layout_marginEnd="@dimen/margin_small"
-        android:padding="3dp"
-        android:src="@drawable/ic_bookmark"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/margin_small"
+        android:src="@drawable/ic_comment"
+        app:tint="@color/blue"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"/>
 
     <ImageView
         android:id="@+id/btnShare"
@@ -36,15 +37,14 @@
         android:focusable="true"/>
 
     <ImageView
-        android:id="@+id/btnComment"
+        android:id="@+id/btnBookmark"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_gravity="start|center_vertical"
-        android:layout_marginStart="@dimen/margin_small"
-        android:padding="@dimen/margin_small"
-        android:src="@drawable/ic_comment"
-        app:tint="@color/blue"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:padding="3dp"
+        android:src="@drawable/ic_bookmark"
         android:clickable="true"
-        android:focusable="true"/>
+        android:focusable="true" />
 
 </FrameLayout>

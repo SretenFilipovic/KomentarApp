@@ -1,5 +1,6 @@
-package com.cubes.komentarapp.ui.savednews;
+package com.cubes.komentarapp.ui.mynews;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -10,18 +11,18 @@ import androidx.viewbinding.ViewBinding;
 import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.databinding.RvItemSavedNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
-import com.cubes.komentarapp.ui.comments.item.RvItemComments;
-import com.cubes.komentarapp.ui.savednews.item.RvItemMyNewsView;
+import com.cubes.komentarapp.ui.mynews.item.RvItemMyNewsView;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.cubes.komentarapp.ui.tools.listeners.ItemTouchHelperContract;
 import com.cubes.komentarapp.ui.tools.listeners.MyNewsListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class MyNewsAdapter extends RecyclerView.Adapter<ViewHolder>{
+public class MyNewsAdapter extends RecyclerView.Adapter<ViewHolder> implements ItemTouchHelperContract {
 
     private final ArrayList<RvItemMyNewsView> items = new ArrayList<>();
-    private int[] newsIdList;
 
     public MyNewsAdapter() {
     }
@@ -47,9 +48,10 @@ public class MyNewsAdapter extends RecyclerView.Adapter<ViewHolder>{
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(List<MyNews> myNews, MyNewsListener listener) {
 
-        newsIdList = MethodsClass.initMyNewsIdList(myNews);
+        int[] newsIdList = MethodsClass.initMyNewsIdList(myNews);
 
         for (MyNews news : myNews){
             items.add(new RvItemMyNewsView(news, newsIdList, listener));
@@ -57,4 +59,29 @@ public class MyNewsAdapter extends RecyclerView.Adapter<ViewHolder>{
 
         notifyDataSetChanged();
     }
+
+    @Override
+    public void onRowMoved(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(items, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(items, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public List<MyNews> getNewList(){
+
+        List<MyNews> list = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i++){
+            list.add(items.get(i).getNews());
+        }
+        return list;
+    }
+
 }

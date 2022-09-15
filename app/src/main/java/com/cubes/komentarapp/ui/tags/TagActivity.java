@@ -31,7 +31,7 @@ public class TagActivity extends AppCompatActivity {
     private NewsAdapter adapter;
     private int nextPage = 2;
     private DataRepository dataRepository;
-    private final ArrayList<MyNews> myNewsList = new ArrayList<>();
+    private ArrayList<MyNews> myNewsList = new ArrayList<>();
 
 
     @Override
@@ -101,8 +101,25 @@ public class TagActivity extends AppCompatActivity {
             @Override
             public void onSaveNewsClicked(int newsId, String newsTitle) {
                 MyNews myNews = new MyNews(newsId, newsTitle);
-                myNewsList.add(myNews);
-                PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
+
+                if (PrefConfig.readMyNewsListFromPref(TagActivity.this) != null){
+                    myNewsList = (ArrayList<MyNews>) PrefConfig.readMyNewsListFromPref(TagActivity.this);
+
+                    for (int i = 0; i<myNewsList.size(); i++){
+                        if (myNews.id == myNewsList.get(i).id){
+                            Toast.makeText(TagActivity.this, "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    myNewsList.add(myNews);
+                    PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
+                    Toast.makeText(TagActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    myNewsList.add(myNews);
+                    PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
+                    Toast.makeText(TagActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+                }
             }
         }, () -> dataRepository.loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override

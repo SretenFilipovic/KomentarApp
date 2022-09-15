@@ -1,4 +1,4 @@
-package com.cubes.komentarapp.ui.savednews.item;
+package com.cubes.komentarapp.ui.mynews.item;
 
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 

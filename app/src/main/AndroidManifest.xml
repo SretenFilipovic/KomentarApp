@@ -14,7 +14,7 @@
         android:theme="@style/Theme.KomentarApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.savednews.MyNewsActivity"
+            android:name=".ui.mynews.MyNewsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

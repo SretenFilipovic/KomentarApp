@@ -46,7 +46,7 @@ public class NewsDetailFragment extends Fragment {
     private DetailListener detailListener;
     private FirebaseAnalytics analytics;
     private DataRepository dataRepository;
-    private final ArrayList<MyNews> myNewsList = new ArrayList<>();
+    private ArrayList<MyNews> myNewsList = new ArrayList<>();
 
 
     public NewsDetailFragment() {
@@ -119,7 +119,7 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        detailListener.onDetailResponseListener(newsId, newsUrl);
+        detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle);
     }
 
     private void loadData() {
@@ -138,7 +138,7 @@ public class NewsDetailFragment extends Fragment {
                 newsUrl = response.url;
                 newsTitle = response.title;
 
-                detailListener.onDetailResponseListener(newsId, newsUrl);
+                detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("news", newsTitle);
@@ -194,9 +194,29 @@ public class NewsDetailFragment extends Fragment {
 
                     @Override
                     public void onSaveNewsClicked(int newsId, String newsTitle) {
+
                         MyNews myNews = new MyNews(newsId, newsTitle);
-                        myNewsList.add(myNews);
-                        PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+
+                        if (PrefConfig.readMyNewsListFromPref(requireActivity()) != null){
+                            myNewsList = (ArrayList<MyNews>) PrefConfig.readMyNewsListFromPref(requireActivity());
+
+                            for (int i = 0; i<myNewsList.size(); i++){
+                                if (myNews.id == myNewsList.get(i).id){
+                                    Toast.makeText(getContext(), "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                            myNewsList.add(myNews);
+                            PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                            Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else {
+                            myNewsList.add(myNews);
+                            PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                            Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }, new CommentsListener() {
                     @Override

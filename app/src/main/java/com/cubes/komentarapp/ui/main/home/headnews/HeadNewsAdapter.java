@@ -14,6 +14,7 @@ import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.databinding.RvItemAdviewBinding;
 import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
+import com.cubes.komentarapp.databinding.RvItemHeadBigNewsTitleBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
@@ -24,6 +25,7 @@ import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadAdView;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBigNews;
+import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategoryBigNewsTitle;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadCategorySmallNews;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadEditorsChoiceSlider;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadMostRead;
@@ -70,6 +72,9 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             case R.layout.rv_item_head_video_title:
                 binding = RvItemHeadVideoTitleBinding.inflate(inflater, parent, false);
                 break;
+            case R.layout.rv_item_head_big_news_title:
+                binding = RvItemHeadBigNewsTitleBinding.inflate(inflater, parent, false);
+                break;
             case R.layout.rv_item_adview:
                 binding = RvItemAdviewBinding.inflate(inflater, parent, false);
                 AdRequest adRequest = new AdRequest.Builder().build();
@@ -114,7 +119,8 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (CategoryBox category : response.category) {
             if (category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), category.news, listener, category));
+                items.add(new RvItemHeadCategoryBigNewsTitle(category));
+                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), category.news, listener));
                 for (int i = 1; i < 5; i++) {
                     items.add(new RvItemHeadCategorySmallNews(category.news.get(i), category.news, listener));
                 }
@@ -134,7 +140,8 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         for (CategoryBox category : response.category) {
             if (!category.title.equalsIgnoreCase("Sport")) {
-                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), category.news, listener, category));
+                items.add(new RvItemHeadCategoryBigNewsTitle(category));
+                items.add(new RvItemHeadCategoryBigNews(category.news.get(0), category.news, listener));
                 for (int i = 1; i < 5; i++) {
                     items.add(new RvItemHeadCategorySmallNews(category.news.get(i), category.news, listener));
                 }

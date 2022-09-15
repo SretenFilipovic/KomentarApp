@@ -23,15 +23,13 @@ import java.util.ArrayList;
 public class RvItemHeadCategoryBigNews implements RvItemHead {
 
     private final News news;
-    private final CategoryBox category;
     private final NewsListener listener;
     private final int[] newsIdList;
 
 
-    public RvItemHeadCategoryBigNews(News news, ArrayList<News> categoryNews, NewsListener listener, CategoryBox category) {
+    public RvItemHeadCategoryBigNews(News news, ArrayList<News> categoryNews, NewsListener listener) {
         this.listener = listener;
         this.news = news;
-        this.category = category;
         this.newsIdList = MethodsClass.initNewsIdList(categoryNews);
     }
 
@@ -53,26 +51,31 @@ public class RvItemHeadCategoryBigNews implements RvItemHead {
             PopupWindow popupWindow = new PopupWindow(layout, FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, true);
 
             ImageView comments = layout.findViewById(R.id.btnComment);
-            comments.setOnClickListener(view1 -> listener.onCommentNewsClicked(news.id));
+            comments.setOnClickListener(view1 -> {
+                listener.onCommentNewsClicked(news.id);
+                popupWindow.dismiss();
+            });
 
             ImageView share = layout.findViewById(R.id.btnShare);
-            share.setOnClickListener(view1 -> listener.onShareNewsClicked(news.url));
+            share.setOnClickListener(view13 -> {
+                listener.onShareNewsClicked(news.url);
+                popupWindow.dismiss();
+            });
 
             ImageView save = layout.findViewById(R.id.btnBookmark);
             save.setOnClickListener(view12 -> {
                 listener.onSaveNewsClicked(news.id, news.title);
-                Toast.makeText(holder.itemView.getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
             });
 
             popupWindow.setOutsideTouchable(true);
             popupWindow.setFocusable(true);
-            popupWindow.showAsDropDown(view, -300, 0);
+            popupWindow.showAsDropDown(binding.anchor, 0, 0);
 
         });
 
 
-        binding.textViewCategoryTitle.setText(category.title);
-        binding.viewColor.setBackgroundColor(Color.parseColor(category.color));
+
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);

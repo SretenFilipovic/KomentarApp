@@ -10,6 +10,14 @@
     android:foreground="@drawable/card_click_effect"
     android:clickable="true">
 
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/popup_width"
+        android:layout_marginBottom="@dimen/popup_height"
+        android:layout_gravity="end|bottom"/>
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="140dp"

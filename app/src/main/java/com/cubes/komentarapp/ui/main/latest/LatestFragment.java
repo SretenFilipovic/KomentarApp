@@ -33,7 +33,7 @@ public class LatestFragment extends Fragment {
     private NewsWithHeaderAdapter adapter;
     private int nextPage = 2;
     private DataRepository dataRepository;
-    private final ArrayList<MyNews> myNewsList = new ArrayList<>();
+    private ArrayList<MyNews> myNewsList = new ArrayList<>();
 
 
     public LatestFragment() {
@@ -111,8 +111,26 @@ public class LatestFragment extends Fragment {
             @Override
             public void onSaveNewsClicked(int newsId, String newsTitle) {
                 MyNews myNews = new MyNews(newsId, newsTitle);
-                myNewsList.add(myNews);
-                PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+
+                if (PrefConfig.readMyNewsListFromPref(requireActivity()) != null){
+                    myNewsList = (ArrayList<MyNews>) PrefConfig.readMyNewsListFromPref(requireActivity());
+
+                    for (int i = 0; i<myNewsList.size(); i++){
+                        if (myNews.id == myNewsList.get(i).id){
+                            Toast.makeText(getContext(), "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    myNewsList.add(myNews);
+                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    myNewsList.add(myNews);
+                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+                }
             }
         }, () -> dataRepository.loadLatestData(nextPage, new DataRepository.NewsResponseListener() {
             @Override

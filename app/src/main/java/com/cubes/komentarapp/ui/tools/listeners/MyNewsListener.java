@@ -4,4 +4,6 @@ public interface MyNewsListener {
 
     void onNewsClicked(int newsId, int[] idList);
 
+    void onRemoveClicked(int newsId);
+
 }

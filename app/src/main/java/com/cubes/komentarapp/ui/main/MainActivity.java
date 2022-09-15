@@ -3,9 +3,11 @@ package com.cubes.komentarapp.ui.main;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,7 +32,7 @@ import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.cubes.komentarapp.ui.main.menu.WeatherActivity;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
 import com.cubes.komentarapp.ui.main.video.VideoFragment;
-import com.cubes.komentarapp.ui.savednews.MyNewsActivity;
+import com.cubes.komentarapp.ui.mynews.MyNewsActivity;
 import com.cubes.komentarapp.ui.subcategory.SubcategoryActivity;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
@@ -70,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
             setRecyclerView();
             loadData();
         });
+
+        binding.buttonNo.setOnClickListener(view -> binding.closeAppDialog.setVisibility(View.GONE));
+        binding.buttonYes.setOnClickListener(view -> finish());
+
 
         binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
@@ -122,8 +128,26 @@ public class MainActivity extends AppCompatActivity {
         if (this.binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
+            if (binding.closeAppDialog.getVisibility() == View.VISIBLE){
+                binding.closeAppDialog.setVisibility(View.GONE);
+            }
+            else {
+                binding.closeAppDialog.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Rect viewRect = new Rect();
+        binding.closeAppDialog.getGlobalVisibleRect(viewRect);
+
+        if (binding.closeAppDialog.getVisibility() == View.VISIBLE && !viewRect.contains((int) ev.getRawX(), (int) ev.getRawY())) {
+            binding.closeAppDialog.setVisibility(View.GONE);
+            return true;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private void setRecyclerView(){
