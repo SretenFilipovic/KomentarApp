@@ -7,13 +7,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.News;
-import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
+import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
@@ -36,14 +35,14 @@ public class RvItemHeadCategorySmallNews implements RvItemHead {
 
     @Override
     public int getType() {
-        return R.layout.rv_item_small_news_homepage;
+        return R.layout.rv_item_small_news;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemSmallNewsHomepageBinding binding = (RvItemSmallNewsHomepageBinding) holder.binding;
+        RvItemSmallNewsBinding binding = (RvItemSmallNewsBinding) holder.binding;
 
         binding.showMore.setOnClickListener(view -> {
 
@@ -76,6 +75,8 @@ public class RvItemHeadCategorySmallNews implements RvItemHead {
 
         });
 
+        binding.textViewCategory.setVisibility(View.GONE);
+        binding.view.setVisibility(View.GONE);
 
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);
@@ -85,10 +86,7 @@ public class RvItemHeadCategorySmallNews implements RvItemHead {
 
 
 
-
-
     }
-
 
 
 }

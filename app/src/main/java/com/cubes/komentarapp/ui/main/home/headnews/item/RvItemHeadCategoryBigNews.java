@@ -1,18 +1,15 @@
 package com.cubes.komentarapp.ui.main.home.headnews.item;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.News;
-import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
+import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
@@ -35,13 +32,13 @@ public class RvItemHeadCategoryBigNews implements RvItemHead {
 
     @Override
     public int getType() {
-        return R.layout.rv_item_big_news_homepage;
+        return R.layout.rv_item_big_news;
     }
 
     @Override
     public void bind(ViewHolder holder) {
 
-        RvItemBigNewsHomepageBinding binding = (RvItemBigNewsHomepageBinding) holder.binding;
+        RvItemBigNewsBinding binding = (RvItemBigNewsBinding) holder.binding;
 
         binding.showMore.setOnClickListener(view -> {
 
@@ -74,7 +71,8 @@ public class RvItemHeadCategoryBigNews implements RvItemHead {
 
         });
 
-
+        binding.textViewCategory.setVisibility(View.GONE);
+        binding.view.setVisibility(View.GONE);
 
         binding.textViewCreatedAt.setText(news.createdAt.substring(11, 16));
         binding.textViewTitle.setText(news.title);

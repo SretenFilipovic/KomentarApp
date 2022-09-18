@@ -29,7 +29,6 @@ import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -153,16 +152,11 @@ public class SearchFragment extends Fragment {
                             return;
                         }
                     }
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
 
                 }
-                else {
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-                }
+                myNewsList.add(myNews);
+                PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
             }
         },() -> dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
             @Override

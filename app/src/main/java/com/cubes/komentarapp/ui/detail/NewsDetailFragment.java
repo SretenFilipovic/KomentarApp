@@ -2,7 +2,6 @@ package com.cubes.komentarapp.ui.detail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,15 +91,6 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.nestedScroll.setOnScrollChangeListener((View.OnScrollChangeListener) (view1, i, i1, i2, i3) -> {
-                int length = binding.nestedScroll.getChildAt(0).getHeight() - binding.nestedScroll.getHeight();
-
-                binding.progressIndicator.setMax(length);
-                binding.progressIndicator.setProgress(i1);
-            });
-        }
 
         binding.refresh.setOnClickListener(view1 -> {
             binding.progressBar.setVisibility(View.VISIBLE);
@@ -206,16 +196,11 @@ public class NewsDetailFragment extends Fragment {
                                     return;
                                 }
                             }
-                            myNewsList.add(myNews);
-                            PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                            Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
 
                         }
-                        else {
-                            myNewsList.add(myNews);
-                            PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                            Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-                        }
+                        myNewsList.add(myNews);
+                        PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                        Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
 
                     }
                 }, new CommentsListener() {

@@ -15,6 +15,7 @@ import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
+import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
 
         NewsDetailViewPagerAdapter adapter = new NewsDetailViewPagerAdapter(this, newsIdList);
         binding.viewPager.setAdapter(adapter);
+
+        CardFlipPageTransformer2 bookFlipPageTransformer = new CardFlipPageTransformer2();
+        bookFlipPageTransformer.setScalable(false);
+        binding.viewPager.setPageTransformer(bookFlipPageTransformer);
 
         for (int i = 0; i < newsIdList.length; i++) {
             if (newsId == newsIdList[i]) {
@@ -75,16 +80,10 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
                         return;
                     }
                 }
-                myNewsList.add(myNews);
-                PrefConfig.writeMyNewsListInPref(NewsDetailActivity.this, myNewsList);
-                Toast.makeText(NewsDetailActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-
             }
-            else {
-                myNewsList.add(myNews);
-                PrefConfig.writeMyNewsListInPref(NewsDetailActivity.this, myNewsList);
-                Toast.makeText(NewsDetailActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-            }
+            myNewsList.add(myNews);
+            PrefConfig.writeMyNewsListInPref(NewsDetailActivity.this, myNewsList);
+            Toast.makeText(NewsDetailActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
         });
 
         binding.swipeLeft.setVisibility(View.VISIBLE);
@@ -92,7 +91,9 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
         MethodsClass.animationSwipe(binding.swipeLeft, 0, -30);
         MethodsClass.animationSwipe(binding.swipeRight, 0, 30);
 
-        reduceDragSensitivity(3);
+        reduceDragSensitivity(4);
+
+
     }
 
 

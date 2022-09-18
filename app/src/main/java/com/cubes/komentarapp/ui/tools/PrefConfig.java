@@ -50,16 +50,6 @@ public class PrefConfig {
         editor.apply();
     }
 
-    public static void removeMyNewsListInPref(Activity activity, List<MyNews> list) {
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(list);
-
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(NEWS_LIST_KEY, jsonString);
-        editor.apply();
-    }
-
     public static List<MyNews> readMyNewsListFromPref(Activity activity){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(activity);
         String jsonString = pref.getString(NEWS_LIST_KEY, "");

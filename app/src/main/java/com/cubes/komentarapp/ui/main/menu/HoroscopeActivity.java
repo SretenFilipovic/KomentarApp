@@ -21,7 +21,6 @@ public class HoroscopeActivity extends AppCompatActivity {
     private DataRepository dataRepository;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +29,9 @@ public class HoroscopeActivity extends AppCompatActivity {
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         dataRepository = appContainer.dataRepository;
+
+
+        Picasso.get().load("https://cdn.pixabay.com/photo/2022/06/08/05/47/stars-7249785_960_720.jpg").into(binding.backgroundImg);
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 

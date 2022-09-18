@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KomentarApp</string>
+    <string name="app_name">Komentar</string>
     <string name="text_naslovne">Naslovne</string>
     <string name="text_najnovije">Najnovije</string>
     <string name="text_video">Video</string>
@@ -52,12 +52,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="text_subcategory">Subcategory</string>
     <string name="text_horoscope_sign">Horoscope sign</string>
-    <string name="text_work_in_progress">Aktivnost je u pripremi. Hvala vam na strpljenju.</string>
     <string name="text_currency">Kursna lista</string>
     <string name="text_weather">Vremenska prognoza</string>
     <string name="text_location">Location</string>
@@ -68,7 +64,7 @@
     <string name="text_wind">Brzina vetra</string>
     <string name="text_refresh">Osveži</string>
     <string name="text_weather_forcast">Vremenska prognoza</string>
-    <string name="text_loading_news">Vesti se učitavaju...</string>
+    <string name="text_loading_news">Vesti se učitavaju…</string>
     <string name="text_no_top_comments">Nema istaknutih komentara.</string>
     <string name="text_horoscope">Horoskop</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>

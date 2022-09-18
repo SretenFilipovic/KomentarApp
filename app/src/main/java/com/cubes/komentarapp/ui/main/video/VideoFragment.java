@@ -118,16 +118,11 @@ public class VideoFragment extends Fragment {
                             return;
                         }
                     }
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
 
                 }
-                else {
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-                }
+                myNewsList.add(myNews);
+                PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
             }
         }, () -> dataRepository.loadVideoData(nextPage, new DataRepository.NewsResponseListener() {
             @Override

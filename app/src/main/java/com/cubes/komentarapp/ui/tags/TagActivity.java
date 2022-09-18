@@ -111,15 +111,10 @@ public class TagActivity extends AppCompatActivity {
                             return;
                         }
                     }
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
-                    Toast.makeText(TagActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
-                    Toast.makeText(TagActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-                }
+                myNewsList.add(myNews);
+                PrefConfig.writeMyNewsListInPref(TagActivity.this, myNewsList);
+                Toast.makeText(TagActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
             }
         }, () -> dataRepository.loadTagData(tagId, nextPage, new DataRepository.NewsResponseListener() {
             @Override

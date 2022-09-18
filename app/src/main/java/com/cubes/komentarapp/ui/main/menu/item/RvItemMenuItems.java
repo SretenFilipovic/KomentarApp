@@ -1,7 +1,5 @@
 package com.cubes.komentarapp.ui.main.menu.item;
 
-import android.view.View;
-
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.databinding.RvItemMenuItemsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

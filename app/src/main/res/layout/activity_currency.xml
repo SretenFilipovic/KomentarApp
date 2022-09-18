@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.tags.TagActivity">
@@ -21,12 +21,12 @@
             android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="@dimen/margin_main"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_back"
+            android:layout_marginStart="@dimen/margin_main"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -39,33 +39,10 @@
             android:textStyle="bold" />
     </FrameLayout>
 
-    <FrameLayout
+    <WebView
+        android:id="@+id/webViewCurrency"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/imageViewUnderConstruction"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_main"
-            android:src="@drawable/ic_under_construction" />
-
-        <TextView
-            android:id="@+id/textViewMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_main"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="@dimen/margin_main"
-            android:text="@string/text_work_in_progress"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_biggest"
-            android:textStyle="bold" />
-
-    </FrameLayout>
-
+        android:layout_height="wrap_content"
+        tools:ignore="WebViewLayout" />
 
 </LinearLayout>

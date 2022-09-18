@@ -143,16 +143,11 @@ public class SubcategoryFragment extends Fragment {
                             return;
                         }
                     }
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
 
                 }
-                else {
-                    myNewsList.add(myNews);
-                    PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
-                    Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
-                }
+                myNewsList.add(myNews);
+                PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
             }
 
         }, () -> dataRepository.loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {

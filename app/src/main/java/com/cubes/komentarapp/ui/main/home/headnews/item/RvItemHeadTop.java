@@ -2,16 +2,13 @@ package com.cubes.komentarapp.ui.main.home.headnews.item;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import com.cubes.komentarapp.R;
-import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;

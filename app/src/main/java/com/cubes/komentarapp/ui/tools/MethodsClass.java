@@ -12,8 +12,6 @@ import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,15 +97,6 @@ public class MethodsClass {
         view.startAnimation(animationSet);
 
         new Handler().postDelayed(() -> view.setVisibility(View.GONE), 2000);
-    }
-
-    public static void openNewsMenu(View view) {
-        view.setVisibility(View.VISIBLE);
-        YoYo.with(Techniques.SlideInRight).duration(500).playOn(view);
-    }
-
-    public static void closeNewsMenu(View view) {
-        YoYo.with(Techniques.SlideOutRight).duration(500).playOn(view);
     }
 
 

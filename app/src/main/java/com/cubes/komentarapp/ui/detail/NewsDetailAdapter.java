@@ -22,7 +22,6 @@ import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetail;
-import com.cubes.komentarapp.ui.detail.item.RvItemDetailAdView;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailComments;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailCommentsButton;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailCommentsTitle;
@@ -110,10 +109,11 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         super.onViewDetachedFromWindow(holder);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(NewsDetail response, NewsDetailListener newsDetailListener, CommentsListener commentsListener, WebViewListener webViewListener) {
-        this.items.add(new RvItemDetailAdView());
+        //this.items.add(new RvItemDetailAdView());
         this.items.add(new RvItemDetailWebView(response, webViewListener));
-        this.items.add(new RvItemDetailAdView());
+        //this.items.add(new RvItemDetailAdView());
         this.items.add(new RvItemDetailTags(response.tags, newsDetailListener));
         this.items.add(new RvItemDetailCommentsTitle(response, newsDetailListener));
 
@@ -122,7 +122,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         this.items.add(new RvItemDetailCommentsButton(response, newsDetailListener));
 
-        this.items.add(new RvItemDetailAdView());
+        //this.items.add(new RvItemDetailAdView());
 
         this.items.add(new RvItemDetailRelatedNewsTitle());
         for (News news : response.relatedNews) {

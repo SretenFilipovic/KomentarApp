@@ -1,8 +1,6 @@
 package com.cubes.komentarapp.ui.mynews;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -12,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.databinding.ActivitySavedNewsBinding;
@@ -35,9 +32,7 @@ public class MyNewsActivity extends AppCompatActivity {
         binding = ActivitySavedNewsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         binding.imageViewBack.setOnClickListener(view -> finish());
-
         binding.pullToRefresh.setOnRefreshListener(this::setupRecyclerView);
 
         ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
@@ -45,22 +40,17 @@ public class MyNewsActivity extends AppCompatActivity {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 adapter.onRowMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-
                 PrefConfig.readMyNewsListFromPref(MyNewsActivity.this).clear();
                 PrefConfig.writeMyNewsListInPref(MyNewsActivity.this, adapter.getNewList());
-
                 return true;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
             }
         };
-
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(binding.recyclerView);
-
 
         setupRecyclerView();
     }
@@ -99,10 +89,9 @@ public class MyNewsActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(adapter);
 
-        if (myNewsList.size() == 0){
+        if (myNewsList.size() == 0) {
             binding.textViewNoNews.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             binding.textViewNoNews.setVisibility(View.GONE);
         }
 

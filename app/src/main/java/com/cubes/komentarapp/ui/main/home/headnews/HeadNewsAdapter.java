@@ -13,14 +13,13 @@ import com.cubes.komentarapp.data.model.domain.CategoryBox;
 import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.databinding.RvItemAdviewBinding;
-import com.cubes.komentarapp.databinding.RvItemBigNewsHomepageBinding;
+import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadBigNewsTitleBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadMostReadBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadSliderBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadVideoBinding;
 import com.cubes.komentarapp.databinding.RvItemHeadVideoTitleBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
-import com.cubes.komentarapp.databinding.RvItemSmallNewsHomepageBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHead;
 import com.cubes.komentarapp.ui.main.home.headnews.item.RvItemHeadAdView;
@@ -60,11 +59,8 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             case R.layout.rv_item_head_most_read:
                 binding = RvItemHeadMostReadBinding.inflate(inflater, parent, false);
                 break;
-            case R.layout.rv_item_big_news_homepage:
-                binding = RvItemBigNewsHomepageBinding.inflate(inflater, parent, false);
-                break;
-            case R.layout.rv_item_small_news_homepage:
-                binding = RvItemSmallNewsHomepageBinding.inflate(inflater, parent, false);
+            case R.layout.rv_item_big_news:
+                binding = RvItemBigNewsBinding.inflate(inflater, parent, false);
                 break;
             case R.layout.rv_item_head_video:
                 binding = RvItemHeadVideoBinding.inflate(inflater, parent, false);
@@ -103,6 +99,7 @@ public class HeadNewsAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(NewsList response, NewsListener listener) {
 
         items.add(new RvItemHeadSlider(response));

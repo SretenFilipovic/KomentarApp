@@ -13,7 +13,6 @@ import com.cubes.komentarapp.databinding.RvItemMenuCategoryBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.main.MainActivity;
 import com.cubes.komentarapp.ui.main.menu.MenuSubcategoryAdapter;
-import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.listeners.MenuListener;
 
 public class RvItemMenuCategories implements RvItemMenu {

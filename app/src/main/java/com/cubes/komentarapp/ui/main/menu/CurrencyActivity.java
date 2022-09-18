@@ -16,5 +16,8 @@ public class CurrencyActivity extends AppCompatActivity {
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
+        String url = "http://www.vipsistem.rs/kursna-lista.php";
+
+        binding.webViewCurrency.loadUrl(url);
     }
 }
