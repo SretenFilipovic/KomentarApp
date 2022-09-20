@@ -21,6 +21,7 @@ import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 public class LatestFragment extends Fragment {
 
     private FragmentRecyclerViewLatestVideoBinding binding;
-    private NewsWithHeaderAdapter adapter;
+    private NewsAdapter adapter;
     private int nextPage = 2;
     private DataRepository dataRepository;
     private ArrayList<MyNews> myNewsList = new ArrayList<>();
@@ -67,7 +68,7 @@ public class LatestFragment extends Fragment {
         loadData();
 
         binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -83,7 +84,7 @@ public class LatestFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        adapter = new NewsWithHeaderAdapter(new NewsListener() {
+        adapter = new NewsAdapter(new NewsListener() {
             @Override
             public void onNewsClicked(int newsId, int[] newsListId) {
                 Intent i = new Intent(getContext(), NewsDetailActivity.class);
@@ -152,6 +153,9 @@ public class LatestFragment extends Fragment {
 
     private void loadData() {
 
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         dataRepository.loadLatestData(1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
@@ -162,7 +166,8 @@ public class LatestFragment extends Fragment {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
                 Log.d("LATEST", "Latest news load data success");
@@ -171,7 +176,9 @@ public class LatestFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
                 binding.pullToRefresh.setRefreshing(false);
                 Log.d("LATEST", "Latest news load data failure");

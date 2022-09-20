@@ -29,6 +29,7 @@ import com.cubes.komentarapp.ui.main.NewsAdapter;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -76,14 +77,14 @@ public class SearchFragment extends Fragment {
                 automaticKeyboard(requireActivity()));
 
         binding.imageViewSearch.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.INVISIBLE);
             MethodsClass.hideKeyboard(requireActivity());
             loadData();
         });
 
         binding.refresh.setOnClickListener(view12 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             binding.recyclerView.setVisibility(View.INVISIBLE);
             setupRecyclerView();
             loadData();
@@ -97,7 +98,7 @@ public class SearchFragment extends Fragment {
 
         binding.editText.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                binding.progressBar.setVisibility(View.VISIBLE);
+                //binding.progressBar.setVisibility(View.VISIBLE);
                 binding.recyclerView.setVisibility(View.INVISIBLE);
                 MethodsClass.hideKeyboard(requireActivity());
                 loadData();
@@ -182,12 +183,15 @@ public class SearchFragment extends Fragment {
 
     private void loadData() {
 
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         if (binding.editText.getText().length() == 0) {
-            binding.progressBar.setVisibility(View.GONE);
+            //binding.progressBar.setVisibility(View.GONE);
             binding.textViewNoContent.setVisibility(View.GONE);
             Toast.makeText(getContext(), "Unesite pojam u traku za pretragu.", Toast.LENGTH_SHORT).show();
         } else if (binding.editText.getText().length() <= 2) {
-            binding.progressBar.setVisibility(View.GONE);
+            //binding.progressBar.setVisibility(View.GONE);
             binding.textViewNoContent.setVisibility(View.GONE);
             Toast.makeText(getContext(), "Pojam za pretragu je prekratak.", Toast.LENGTH_SHORT).show();
         } else {
@@ -214,8 +218,8 @@ public class SearchFragment extends Fragment {
                     nextPage = 2;
                     binding.refresh.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.VISIBLE);
-                    binding.progressBar.setVisibility(View.GONE);
-
+                    //binding.progressBar.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
 
                     Log.d("SEARCH", "Search load data success");
                 }
@@ -223,7 +227,8 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onFailure(Throwable t) {
                     binding.refresh.setVisibility(View.VISIBLE);
-                    binding.progressBar.setVisibility(View.GONE);
+                   // binding.progressBar.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
                     binding.textViewNoContent.setVisibility(View.GONE);
                     binding.recyclerView.setVisibility(View.GONE);
 
@@ -234,8 +239,6 @@ public class SearchFragment extends Fragment {
             });
         }
     }
-
-
 
     private void automaticKeyboard(Activity activity) {
         binding.editText.requestFocus();

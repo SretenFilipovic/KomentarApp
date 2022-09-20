@@ -6,6 +6,7 @@
     <color name="blue_lightest">#FFe4ebf2</color>
     <color name="blue_lightest_transparent">#90e4ebf2</color>
     <color name="blue_lightest_transparent_70">#70e4ebf2</color>
+    <color name="blue_light_shimmer">#ACC3DA</color>
     <color name="gray">#FF9da4ae</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

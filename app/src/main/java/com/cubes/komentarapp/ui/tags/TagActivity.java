@@ -53,7 +53,7 @@ public class TagActivity extends AppCompatActivity {
         binding.textViewTagTitle.setText(tagTitle);
 
         binding.refresh.setOnClickListener(view -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+           // binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -138,6 +138,9 @@ public class TagActivity extends AppCompatActivity {
 
     private void loadData() {
 
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         int page = 1;
         dataRepository.loadTagData(tagId, page, new DataRepository.NewsResponseListener() {
             @Override
@@ -149,9 +152,10 @@ public class TagActivity extends AppCompatActivity {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+               // binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Log.d("TAG", "Tag load data success");
             }
@@ -159,7 +163,8 @@ public class TagActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+              //  binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(TagActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();

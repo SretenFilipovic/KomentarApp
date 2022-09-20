@@ -96,7 +96,7 @@ public class SubcategoryFragment extends Fragment {
         });
 
         binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -173,6 +173,9 @@ public class SubcategoryFragment extends Fragment {
 
     private void loadData() {
 
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         dataRepository.loadCategoryNewsData(categoryId, 1, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {
@@ -183,9 +186,10 @@ public class SubcategoryFragment extends Fragment {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Log.d("SUBCATEGORY", "Subcategory load data success");
             }
@@ -193,8 +197,9 @@ public class SubcategoryFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 

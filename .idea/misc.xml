@@ -95,25 +95,46 @@
         <entry key="app/src/main/res/drawable/edit_text_outline_blue.xml" value="0.2055" />
         <entry key="app/src/main/res/drawable/gradient_image_view.xml" value="0.215" />
         <entry key="app/src/main/res/drawable/horoscope_sign_background.xml" value="0.2185" />
+        <entry key="app/src/main/res/drawable/ic_arrow_down.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_arrow_up.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_bookmark.xml" value="0.2185" />
+        <entry key="app/src/main/res/drawable/ic_bookmark_filled.xml" value="0.2185" />
+        <entry key="app/src/main/res/drawable/ic_bookmark_filled_blue.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_close.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_comment.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_comment_blue.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_facebook.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_latest.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_refresh.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_reply.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_show_more.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_swipe_left.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/ic_swipe_right.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/ic_thumbs_down.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/ic_thumbs_down_voted.xml" value="0.205" />
+        <entry key="app/src/main/res/drawable/ic_under_construction.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_viber.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_video.xml" value="0.1475" />
+        <entry key="app/src/main/res/drawable/ic_video_play.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/image_view_outline.xml" value="0.2185" />
+        <entry key="app/src/main/res/drawable/news_menu.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/post_comment_edit_background.xml" value="0.187" />
+        <entry key="app/src/main/res/drawable/progress_horizontal.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable/pulse.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/pulse_layout_animation.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1855" />
+        <entry key="app/src/main/res/drawable/store_download_progress.xml" value="0.2185" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1855" />
         <entry key="app/src/main/res/drawable/tab_underline.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/tag_background.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/tag_click_effect.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/tag_text_color.xml" value="0.187" />
         <entry key="app/src/main/res/drawable/unselected_dot.xml" value="0.1855" />
+        <entry key="app/src/main/res/drawable/upvote_downvote_circle.xml" value="0.1475" />
         <entry key="app/src/main/res/drawable/weather_background.xml" value="0.2185" />
         <entry key="app/src/main/res/layout-land/activity_comments.xml" value="0.31354166666666666" />
         <entry key="app/src/main/res/layout-v23/fragment_slider.xml" value="0.37135416666666665" />
@@ -131,6 +152,11 @@
         <entry key="app/src/main/res/layout/activity_subcategory.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_tag.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_weather.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/data_placeholder_big.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/data_placeholder_comments.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/data_placeholder_detail.xml" value="0.3723958333333333" />
+        <entry key="app/src/main/res/layout/data_placeholder_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/data_placeholder_small.xml" value="0.3723958333333333" />
         <entry key="app/src/main/res/layout/expandable_list_group.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/expandable_list_item.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22" />

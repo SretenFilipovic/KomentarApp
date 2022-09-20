@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso;
 public class HoroscopeActivity extends AppCompatActivity {
 
     private ActivityHoroscopeBinding binding;
-    private Horoscope horoscope;
     private DataRepository dataRepository;
 
 
@@ -43,8 +42,7 @@ public class HoroscopeActivity extends AppCompatActivity {
 
         dataRepository.loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
             @Override
-            public void onResponse(Horoscope response) {
-                horoscope = response;
+            public void onResponse(Horoscope horoscope) {
 
                 binding.textViewTitle.setText(R.string.text_horoscope);
                 binding.textViewName.setText(horoscope.name);

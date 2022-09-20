@@ -67,7 +67,7 @@ public class VideoFragment extends Fragment {
         loadData();
 
         binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -148,6 +148,9 @@ public class VideoFragment extends Fragment {
 
     private void loadData() {
 
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         int page = 1;
         dataRepository.loadVideoData(page, new DataRepository.NewsResponseListener() {
             @Override
@@ -159,9 +162,12 @@ public class VideoFragment extends Fragment {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
+
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+                binding.shimmerViewContainer.stopShimmerAnimation();
 
                 Log.d("VIDEO", "Video news load data success");
 
@@ -170,9 +176,9 @@ public class VideoFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
-
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 Log.d("VIDEO", "Video news load data failure");

@@ -93,7 +93,7 @@ public class NewsDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
 
@@ -113,6 +113,9 @@ public class NewsDetailFragment extends Fragment {
     }
 
     private void loadData() {
+
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
 
         if (PrefConfig.readVoteListFromPref(getActivity()) != null) {
             votes = (ArrayList<Vote>) PrefConfig.readVoteListFromPref(getActivity());
@@ -262,7 +265,10 @@ public class NewsDetailFragment extends Fragment {
                 }, () -> {
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     binding.refresh.setVisibility(View.GONE);
-                    binding.progressBar.setVisibility(View.GONE);
+                    //binding.progressBar.setVisibility(View.GONE);
+
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.stopShimmerAnimation();
                 });
 
                 binding.pullToRefresh.setRefreshing(false);
@@ -276,7 +282,8 @@ public class NewsDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("DETAIL", "Detail load data failure");

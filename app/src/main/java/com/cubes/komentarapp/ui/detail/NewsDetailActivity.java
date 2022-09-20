@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
@@ -92,8 +93,6 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
         MethodsClass.animationSwipe(binding.swipeRight, 0, 30);
 
         reduceDragSensitivity(4);
-
-
     }
 
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.latest.LatestFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,15 +20,33 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="75dp"
-        android:indeterminateDrawable="@drawable/custom_progress_bar"
-        android:visibility="visible" />
+        android:orientation="vertical"
+        shimmer:duration="1000"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include layout="@layout/data_placeholder_detail" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progressBar"-->
+<!--        style="?android:attr/progressBarStyle"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginBottom="75dp"-->
+<!--        android:indeterminateDrawable="@drawable/custom_progress_bar"-->
+<!--        android:visibility="visible" />-->
 
     <Button
         android:id="@+id/refresh"
@@ -38,7 +57,6 @@
         android:background="@drawable/button_click_effect"
         android:gravity="center"
         android:padding="@dimen/margin_main"
-        android:src="@drawable/ic_refresh"
         android:text="@string/text_refresh"
         android:textAllCaps="true"
         android:textColor="@drawable/button_text_color"

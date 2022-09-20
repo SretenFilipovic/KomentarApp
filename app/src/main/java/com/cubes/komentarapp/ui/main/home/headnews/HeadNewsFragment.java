@@ -69,7 +69,7 @@ public class HeadNewsFragment extends Fragment {
         loadData();
 
         binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+           // binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
 
@@ -80,6 +80,9 @@ public class HeadNewsFragment extends Fragment {
     }
 
     private void loadData() {
+
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
 
         dataRepository.loadHeadNewsData(new DataRepository.HeadNewsResponseListener() {
             @Override
@@ -134,9 +137,10 @@ public class HeadNewsFragment extends Fragment {
                 });
 
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+               // binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Log.d("HEAD", "Head news load data success");
             }
@@ -144,9 +148,10 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
-                binding.recyclerView.setVisibility(View.VISIBLE);
+               // binding.progressBar.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
@@ -161,8 +166,5 @@ public class HeadNewsFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new HeadNewsAdapter();
         binding.recyclerView.setAdapter(adapter);
-
-        binding.recyclerView.setHasFixedSize(true);
-        binding.recyclerView.setItemAnimator(null);
     }
 }

@@ -50,7 +50,7 @@ public class CommentsActivity extends AppCompatActivity {
         });
 
         binding.refresh.setOnClickListener(view -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
+            //binding.progressBar.setVisibility(View.VISIBLE);
             loadData();
         });
 
@@ -133,6 +133,10 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         dataRepository.loadCommentsData(newsId, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
@@ -140,9 +144,11 @@ public class CommentsActivity extends AppCompatActivity {
                 setCommentData(response);
 
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
+
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Log.d("COMMENT", "Comment load data success");
             }
@@ -150,7 +156,9 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                //binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+
                 binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
