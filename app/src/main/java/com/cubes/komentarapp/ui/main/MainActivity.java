@@ -65,17 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         fullyOpenDrawer(binding.drawerNavigationView);
 
-        binding.refresh.setVisibility(View.GONE);
-
-        binding.refresh.setOnClickListener(view -> {
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, HomeFragment.newInstance()).commit();
-            setRecyclerView();
-            loadData();
-        });
-
         binding.buttonNo.setOnClickListener(view -> binding.closeAppDialog.setVisibility(View.GONE));
         binding.buttonYes.setOnClickListener(view -> finish());
-
 
         binding.imageViewCloseMenu.setOnClickListener(view -> binding.drawerLayout.closeDrawer(binding.drawerNavigationView));
 
@@ -175,19 +166,16 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onContactClicked() {
-                        // privremeno
                         openWebBrowser("https://komentar.rs");
                     }
 
                     @Override
                     public void onTermsAndConditionsClicked() {
-                        // privremeno
                         openWebBrowser("https://komentar.rs");
                     }
 
                     @Override
                     public void onMarketingClicked() {
-                        // privremeno
                         openWebBrowser("https://komentar.rs");
                     }
 
@@ -243,13 +231,10 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-                binding.refresh.setVisibility(View.GONE);
-
             }
 
             @Override
             public void onFailure(Throwable t) {
-                binding.refresh.setVisibility(View.VISIBLE);
                 Toast.makeText(MainActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
             }
         });

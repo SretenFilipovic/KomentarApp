@@ -17,6 +17,7 @@ import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentRecyclerViewBinding;
+import com.cubes.komentarapp.databinding.FragmentRecyclerViewHeadBinding;
 import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 
 public class HeadNewsFragment extends Fragment {
 
-    private FragmentRecyclerViewBinding binding;
+    private FragmentRecyclerViewHeadBinding binding;
     private HeadNewsAdapter adapter;
     private DataRepository dataRepository;
     private int[] newsIdList;
@@ -55,7 +56,7 @@ public class HeadNewsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentRecyclerViewBinding.inflate(inflater, container, false);
+        binding = FragmentRecyclerViewHeadBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -68,10 +69,7 @@ public class HeadNewsFragment extends Fragment {
 
         loadData();
 
-        binding.refresh.setOnClickListener(view1 -> {
-           // binding.progressBar.setVisibility(View.VISIBLE);
-            loadData();
-        });
+        binding.refresh.setOnClickListener(view1 -> loadData());
 
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
@@ -137,7 +135,6 @@ public class HeadNewsFragment extends Fragment {
                 });
 
                 binding.refresh.setVisibility(View.GONE);
-               // binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -148,7 +145,6 @@ public class HeadNewsFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-               // binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -163,8 +159,11 @@ public class HeadNewsFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setLayoutManager(layoutManager);
         adapter = new HeadNewsAdapter();
         binding.recyclerView.setAdapter(adapter);
+
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 }

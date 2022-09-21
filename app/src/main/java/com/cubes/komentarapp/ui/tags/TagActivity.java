@@ -33,7 +33,6 @@ public class TagActivity extends AppCompatActivity {
     private DataRepository dataRepository;
     private ArrayList<MyNews> myNewsList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +52,6 @@ public class TagActivity extends AppCompatActivity {
         binding.textViewTagTitle.setText(tagTitle);
 
         binding.refresh.setOnClickListener(view -> {
-           // binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -72,7 +70,9 @@ public class TagActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(TagActivity.this);
+        binding.recyclerView.setLayoutManager(layoutManager);
+
         adapter = new NewsAdapter(new NewsListener() {
             @Override
             public void onNewsClicked(int newsId, int[] newsListId) {
@@ -134,6 +134,8 @@ public class TagActivity extends AppCompatActivity {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
+
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 
     private void loadData() {
@@ -152,7 +154,6 @@ public class TagActivity extends AppCompatActivity {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-               // binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -163,7 +164,6 @@ public class TagActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-              //  binding.progressBar.setVisibility(View.GONE);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
 

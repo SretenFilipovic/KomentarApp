@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Category;
+import com.cubes.komentarapp.data.model.domain.NewsList;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
 import com.cubes.komentarapp.databinding.FragmentHomeBinding;
 import com.cubes.komentarapp.di.AppContainer;
@@ -55,6 +56,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.refresh.setOnClickListener(view12 -> loadData());
+
         binding.imageViewMenu.setOnClickListener(view1 -> {
             DrawerLayout drawerLayout = requireActivity().findViewById(R.id.drawerLayout);
             NavigationView drawerNav = requireActivity().findViewById(R.id.drawerNavigationView);
@@ -81,11 +84,14 @@ public class HomeFragment extends Fragment {
                         tab.setText(response.get(position - 1).name);
                     }
                 }).attach();
+
+                binding.refresh.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
+                binding.refresh.setVisibility(View.VISIBLE);
             }
         });
     }

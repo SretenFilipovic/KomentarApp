@@ -12,6 +12,7 @@ import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.RvItemBigNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.squareup.picasso.Picasso;
 
@@ -78,9 +79,6 @@ public class RvItemHeadCategoryBigNews implements RvItemHead {
         binding.textViewTitle.setText(news.title);
         Picasso.get().load(news.image).into(binding.imageView);
 
-
         holder.itemView.setOnClickListener(view -> listener.onNewsClicked(news.id, newsIdList));
-
-
     }
 }

@@ -49,10 +49,7 @@ public class CommentsActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        binding.refresh.setOnClickListener(view -> {
-            //binding.progressBar.setVisibility(View.VISIBLE);
-            loadData();
-        });
+        binding.refresh.setOnClickListener(view -> loadData());
 
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
@@ -144,7 +141,6 @@ public class CommentsActivity extends AppCompatActivity {
                 setCommentData(response);
 
                 binding.refresh.setVisibility(View.GONE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
 
@@ -156,7 +152,6 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 binding.pullToRefresh.setRefreshing(false);

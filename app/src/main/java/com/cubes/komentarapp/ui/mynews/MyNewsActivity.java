@@ -61,7 +61,9 @@ public class MyNewsActivity extends AppCompatActivity {
             myNewsList = PrefConfig.readMyNewsListFromPref(this);
         }
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(MyNewsActivity.this);
+        binding.recyclerView.setLayoutManager(layoutManager);
+
         adapter = new MyNewsAdapter();
 
         adapter.setData(myNewsList, new MyNewsListener() {
@@ -89,6 +91,8 @@ public class MyNewsActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(adapter);
 
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
+
         if (myNewsList.size() == 0) {
             binding.textViewNoNews.setVisibility(View.VISIBLE);
         } else {
@@ -96,7 +100,6 @@ public class MyNewsActivity extends AppCompatActivity {
         }
 
         binding.pullToRefresh.setRefreshing(false);
-        binding.progressBar.setVisibility(View.GONE);
     }
 
 }

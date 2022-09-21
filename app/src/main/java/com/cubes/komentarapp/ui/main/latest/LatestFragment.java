@@ -68,7 +68,6 @@ public class LatestFragment extends Fragment {
         loadData();
 
         binding.refresh.setOnClickListener(view1 -> {
-            //binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -81,8 +80,8 @@ public class LatestFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setLayoutManager(layoutManager);
 
         adapter = new NewsAdapter(new NewsListener() {
             @Override
@@ -149,6 +148,7 @@ public class LatestFragment extends Fragment {
         }));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 
     private void loadData() {
@@ -166,7 +166,6 @@ public class LatestFragment extends Fragment {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
@@ -176,7 +175,6 @@ public class LatestFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();

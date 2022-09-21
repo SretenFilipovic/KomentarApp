@@ -89,7 +89,6 @@ public class HomePageCategoryFragment extends Fragment {
         loadData();
 
         binding.refresh.setOnClickListener(view1 -> {
-            //binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
@@ -101,7 +100,9 @@ public class HomePageCategoryFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        binding.recyclerView.setLayoutManager(layoutManager);
         adapter = new NewsWithHeaderAdapter(new NewsListener() {
             @Override
             public void onNewsClicked(int newsId, int[] newsListId) {
@@ -166,6 +167,7 @@ public class HomePageCategoryFragment extends Fragment {
         }));
         binding.recyclerView.setAdapter(adapter);
 
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 
     private void loadData() {
@@ -183,7 +185,6 @@ public class HomePageCategoryFragment extends Fragment {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -194,7 +195,6 @@ public class HomePageCategoryFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
 

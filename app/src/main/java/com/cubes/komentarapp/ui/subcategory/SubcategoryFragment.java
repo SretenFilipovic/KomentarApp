@@ -22,6 +22,7 @@ import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsAdapter;
+import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -35,7 +36,7 @@ public class SubcategoryFragment extends Fragment {
     private static final String SUBCATEGORY_NAME = "subcategoryName";
     private int categoryId;
     private String subcategoryName;
-    private NewsAdapter adapter;
+    private NewsWithHeaderAdapter adapter;
     private int nextPage = 2;
     private FirebaseAnalytics mFirebaseAnalytics;
     private DataRepository dataRepository;
@@ -86,26 +87,26 @@ public class SubcategoryFragment extends Fragment {
         bundle.putString("subcategory", subcategoryName);
         mFirebaseAnalytics.logEvent("android_komentar", bundle);
 
-        setupRecyclerView();
-
-        loadData();
-
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
             loadData();
         });
 
         binding.refresh.setOnClickListener(view1 -> {
-            //binding.progressBar.setVisibility(View.VISIBLE);
             setupRecyclerView();
             loadData();
         });
+
+        setupRecyclerView();
+        loadData();
     }
 
     private void setupRecyclerView() {
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
-        adapter = new NewsAdapter(new NewsListener() {
+        binding.recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new NewsWithHeaderAdapter(new NewsListener() {
             @Override
             public void onNewsClicked(int newsId, int[] newsListId) {
                 Intent i = new Intent(getContext(), NewsDetailActivity.class);
@@ -169,6 +170,8 @@ public class SubcategoryFragment extends Fragment {
             }
         }));
         binding.recyclerView.setAdapter(adapter);
+
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 
     private void loadData() {
@@ -186,7 +189,6 @@ public class SubcategoryFragment extends Fragment {
 
                 nextPage = 2;
                 binding.refresh.setVisibility(View.GONE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
@@ -197,7 +199,6 @@ public class SubcategoryFragment extends Fragment {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                //binding.progressBar.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
                 binding.shimmerViewContainer.setVisibility(View.GONE);
 

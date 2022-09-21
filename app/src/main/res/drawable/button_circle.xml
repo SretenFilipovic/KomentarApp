@@ -18,7 +18,7 @@
     <item >
         <shape>
             <corners android:radius="360dp"/>
-            <solid android:color="@color/blue"/>
+            <solid android:color="@color/blue_transparent"/>
         </shape>
     </item>
 
