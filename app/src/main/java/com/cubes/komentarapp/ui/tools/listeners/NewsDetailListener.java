@@ -10,4 +10,9 @@ public interface NewsDetailListener {
 
     void onNewsClicked(int newsId, String newsTitle, int[] newsListId);
 
+    void onShareNewsClicked(String newsUrl);
+
+    void onCommentNewsClicked(int newsId);
+
+    void onSaveNewsClicked(int newsId, String newsTitle);
 }

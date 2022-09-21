@@ -20,6 +20,7 @@ import com.cubes.komentarapp.ui.main.item.RvItemNewsLoading;
 import com.cubes.komentarapp.ui.main.item.RvItemNewsSmall;
 import com.cubes.komentarapp.ui.tools.listeners.LoadingNewsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
+import com.google.android.gms.ads.AdRequest;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,8 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
             binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
         } else if (viewType == R.layout.rv_item_adview){
             binding = RvItemAdviewBinding.inflate(inflater, parent, false);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            ((RvItemAdviewBinding) binding).adView.loadAd(adRequest);
         } else {
             binding = RvItemLoadingBinding.inflate(inflater, parent, false);
         }
@@ -108,5 +111,6 @@ public class NewsAdapter extends RecyclerView.Adapter<ViewHolder> {
         items.remove(items.size() - 1);
         notifyItemRemoved(items.size());
     }
+
 
 }

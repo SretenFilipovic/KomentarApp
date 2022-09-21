@@ -22,7 +22,6 @@ import com.cubes.komentarapp.databinding.RvItemNewsDetailWebViewBinding;
 import com.cubes.komentarapp.databinding.RvItemSmallNewsBinding;
 import com.cubes.komentarapp.ui.ViewHolder.ViewHolder;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetail;
-import com.cubes.komentarapp.ui.detail.item.RvItemDetailAdView;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailComments;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailCommentsButton;
 import com.cubes.komentarapp.ui.detail.item.RvItemDetailCommentsTitle;
@@ -33,6 +32,7 @@ import com.cubes.komentarapp.ui.detail.item.RvItemDetailWebView;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
+import com.google.android.gms.ads.AdRequest;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -73,6 +73,8 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
                 break;
             case R.layout.rv_item_adview:
                 binding = RvItemAdviewBinding.inflate(inflater, parent, false);
+                AdRequest adRequest = new AdRequest.Builder().build();
+                ((RvItemAdviewBinding) binding).adView.loadAd(adRequest);
                 break;
             default:
                 binding = RvItemSmallNewsBinding.inflate(inflater, parent, false);
@@ -107,10 +109,11 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         super.onViewDetachedFromWindow(holder);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setData(NewsDetail response, NewsDetailListener newsDetailListener, CommentsListener commentsListener, WebViewListener webViewListener) {
-        this.items.add(new RvItemDetailAdView());
+        //this.items.add(new RvItemDetailAdView());
         this.items.add(new RvItemDetailWebView(response, webViewListener));
-        this.items.add(new RvItemDetailAdView());
+        //this.items.add(new RvItemDetailAdView());
         this.items.add(new RvItemDetailTags(response.tags, newsDetailListener));
         this.items.add(new RvItemDetailCommentsTitle(response, newsDetailListener));
 
@@ -119,7 +122,7 @@ public class NewsDetailAdapter extends RecyclerView.Adapter<ViewHolder> {
         }
         this.items.add(new RvItemDetailCommentsButton(response, newsDetailListener));
 
-        this.items.add(new RvItemDetailAdView());
+        //this.items.add(new RvItemDetailAdView());
 
         this.items.add(new RvItemDetailRelatedNewsTitle());
         for (News news : response.relatedNews) {

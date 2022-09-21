@@ -12,21 +12,18 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/blue">
 
         <ImageView
             android:id="@+id/imageViewBack"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="@dimen/margin_main"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_back"
+            android:layout_marginStart="@dimen/margin_main"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -39,42 +36,78 @@
             android:textStyle="bold" />
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ImageView
-        android:id="@+id/imageViewHoroscope"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_main" />
+        android:id="@+id/backgroundImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_main"
-        android:text="@string/text_horoscope_sign"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/text_size_normal"
-        android:textStyle="bold" />
+        android:background="@drawable/weather_background"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/text_size_big"
+        android:layout_marginStart="@dimen/text_size_big"
+        android:layout_marginEnd="@dimen/text_size_big">
 
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_main"
-        android:text="@string/text_date_time"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/text_size_normal" />
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_main"
+            android:shadowColor="@color/black"
+            android:shadowDx="1.5"
+            android:shadowDy="1.3"
+            android:shadowRadius="1.6"
+            android:text="@string/text_horoscope_sign"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_biggest"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_main"
-        android:text="@string/text_description_example"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_normal" />
+        <ImageView
+            android:id="@+id/imageViewHoroscope"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_main"
+            android:background="@drawable/horoscope_sign_background"/>
+
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_main"
+            android:shadowColor="@color/black"
+            android:shadowDx="1.5"
+            android:shadowDy="1.3"
+            android:shadowRadius="1.6"
+            android:text="@string/text_date_time"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_main"
+            android:shadowColor="@color/black"
+            android:shadowDx="1.5"
+            android:shadowDy="1.3"
+            android:shadowRadius="1.6"
+            android:text="@string/text_description_example"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+    </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

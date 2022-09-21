@@ -64,7 +64,6 @@ public class HeadNewsSliderFragment extends Fragment {
         binding.textViewTitle.setText(newsTitle);
         Picasso.get().load(newsImage).into(binding.imageViewNews);
 
-
         binding.imageViewNews.setOnClickListener(view1 -> {
             Intent i = new Intent(getContext(), NewsDetailActivity.class);
             i.putExtra("news", newsId);

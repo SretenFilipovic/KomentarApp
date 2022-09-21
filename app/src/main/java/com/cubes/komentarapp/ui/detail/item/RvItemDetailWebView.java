@@ -1,10 +1,8 @@
 package com.cubes.komentarapp.ui.detail.item;
 
-import android.os.Build;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import androidx.annotation.RequiresApi;
 
 import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
@@ -28,7 +26,6 @@ public class RvItemDetailWebView implements RvItemDetail {
         return R.layout.rv_item_news_detail_web_view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     public void bind(ViewHolder holder) {
 
@@ -39,13 +36,13 @@ public class RvItemDetailWebView implements RvItemDetail {
         binding.webView.loadUrl(url);
 
         binding.webView.setWebViewClient(new WebViewClient(){
-
             @Override
             public void onPageCommitVisible(WebView view, String url) {
                 super.onPageCommitVisible(view, url);
                 listener.onWebViewLoaded();
             }
         });
+
     }
 
 }

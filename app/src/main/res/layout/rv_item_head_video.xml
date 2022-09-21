@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blue"
@@ -10,11 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_main"
         android:layout_marginEnd="@dimen/margin_main"
-        android:layout_marginBottom="@dimen/margin_main"
-        android:clickable="true"
-        android:elevation="@dimen/margin_big"
-        android:focusable="true"
-        android:foreground="@drawable/card_click_effect">
+        android:layout_marginBottom="@dimen/margin_main">
+
+        <View
+            android:id="@+id/anchor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/popup_width"
+            android:layout_marginBottom="@dimen/popup_height"
+            android:layout_gravity="end|bottom"/>
 
         <ImageView
             android:id="@+id/imageView"
@@ -79,6 +84,18 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/showMore"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="@dimen/margin_small"
+            android:src="@drawable/ic_show_more"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_gravity="bottom|end"
+            app:tint="@color/white" />
+
 
     </androidx.cardview.widget.CardView>
 

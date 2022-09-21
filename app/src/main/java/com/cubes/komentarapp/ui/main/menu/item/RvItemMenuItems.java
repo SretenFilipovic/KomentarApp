@@ -31,6 +31,7 @@ public class RvItemMenuItems implements RvItemMenu {
         binding.textViewCurrency.setOnClickListener(view -> listener.onCurrencyClicked());
         binding.textViewHoroscope.setOnClickListener(view -> listener.onHoroscopeClicked());
         binding.textViewWeather.setOnClickListener(view -> listener.onWeatherClicked());
+        binding.textMyNews.setOnClickListener(view -> listener.onMyNewsClicked());
 
         binding.switchNotifications.setChecked(isOn);
         binding.switchNotifications.setOnCheckedChangeListener((compoundButton, b) -> listener.onNotificationClicked(b));

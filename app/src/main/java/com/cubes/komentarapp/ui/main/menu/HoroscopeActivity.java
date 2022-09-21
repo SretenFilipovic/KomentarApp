@@ -17,9 +17,7 @@ import com.squareup.picasso.Picasso;
 public class HoroscopeActivity extends AppCompatActivity {
 
     private ActivityHoroscopeBinding binding;
-    private Horoscope horoscope;
     private DataRepository dataRepository;
-
 
 
     @Override
@@ -31,6 +29,9 @@ public class HoroscopeActivity extends AppCompatActivity {
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         dataRepository = appContainer.dataRepository;
 
+
+        Picasso.get().load("https://cdn.pixabay.com/photo/2022/06/08/05/47/stars-7249785_960_720.jpg").into(binding.backgroundImg);
+
         binding.imageViewBack.setOnClickListener(view -> finish());
 
         loadData();
@@ -41,8 +42,7 @@ public class HoroscopeActivity extends AppCompatActivity {
 
         dataRepository.loadHoroscopeData(new DataRepository.HoroscopeResponseListener() {
             @Override
-            public void onResponse(Horoscope response) {
-                horoscope = response;
+            public void onResponse(Horoscope horoscope) {
 
                 binding.textViewTitle.setText(R.string.text_horoscope);
                 binding.textViewName.setText(horoscope.name);

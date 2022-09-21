@@ -49,10 +49,7 @@ public class CommentsActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        binding.refresh.setOnClickListener(view -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
-            loadData();
-        });
+        binding.refresh.setOnClickListener(view -> loadData());
 
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
@@ -69,8 +66,8 @@ public class CommentsActivity extends AppCompatActivity {
         adapter = new CommentsAdapter();
         binding.recyclerView.setAdapter(adapter);
 
-        if (PrefConfig.readListFromPref(CommentsActivity.this) != null) {
-            votes = (ArrayList<Vote>) PrefConfig.readListFromPref(CommentsActivity.this);
+        if (PrefConfig.readVoteListFromPref(CommentsActivity.this) != null) {
+            votes = (ArrayList<Vote>) PrefConfig.readVoteListFromPref(CommentsActivity.this);
         }
 
         adapter.setCommentListener(new CommentsListener() {
@@ -91,7 +88,7 @@ public class CommentsActivity extends AppCompatActivity {
                         Vote vote = new Vote(comment.id, true);
                         votes.add(vote);
 
-                        PrefConfig.writeListInPref(CommentsActivity.this, votes);
+                        PrefConfig.writeVoteListInPref(CommentsActivity.this, votes);
 
                         adapter.commentUpvoted(comment.id);
 
@@ -115,7 +112,7 @@ public class CommentsActivity extends AppCompatActivity {
                         Vote vote = new Vote(comment.id, false);
                         votes.add(vote);
 
-                        PrefConfig.writeListInPref(CommentsActivity.this, votes);
+                        PrefConfig.writeVoteListInPref(CommentsActivity.this, votes);
 
                         adapter.commentDownvoted(comment.id);
 
@@ -133,6 +130,10 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void loadData() {
+
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
         dataRepository.loadCommentsData(newsId, new DataRepository.CommentsResponseListener() {
             @Override
             public void onResponse(ArrayList<Comments> response) {
@@ -140,9 +141,10 @@ public class CommentsActivity extends AppCompatActivity {
                 setCommentData(response);
 
                 binding.refresh.setVisibility(View.GONE);
-                binding.progressBar.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.pullToRefresh.setRefreshing(false);
+
+                binding.shimmerViewContainer.setVisibility(View.GONE);
 
                 Log.d("COMMENT", "Comment load data success");
             }
@@ -150,7 +152,8 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Throwable t) {
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+
                 binding.pullToRefresh.setRefreshing(false);
 
                 Toast.makeText(CommentsActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();

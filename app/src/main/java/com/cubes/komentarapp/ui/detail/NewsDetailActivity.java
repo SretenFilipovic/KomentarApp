@@ -3,23 +3,32 @@ package com.cubes.komentarapp.ui.detail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.cubes.komentarapp.R;
+import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.databinding.ActivityNewsDetailBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.tools.MethodsClass;
+import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
+import com.wajahatkarim3.easyflipviewpager.CardFlipPageTransformer2;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class NewsDetailActivity extends AppCompatActivity implements DetailListener {
 
     private int newsId;
     private String newsUrl;
+    private String newsTitle;
     private ActivityNewsDetailBinding binding;
+    private ArrayList<MyNews> myNewsList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,10 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
 
         NewsDetailViewPagerAdapter adapter = new NewsDetailViewPagerAdapter(this, newsIdList);
         binding.viewPager.setAdapter(adapter);
+
+        CardFlipPageTransformer2 bookFlipPageTransformer = new CardFlipPageTransformer2();
+        bookFlipPageTransformer.setScalable(false);
+        binding.viewPager.setPageTransformer(bookFlipPageTransformer);
 
         for (int i = 0; i < newsIdList.length; i++) {
             if (newsId == newsIdList[i]) {
@@ -56,21 +69,38 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
             startActivity(i);
         });
 
+        binding.imageViewSave.setOnClickListener(view -> {
+            MyNews myNews = new MyNews(newsId, newsTitle);
+
+            if (PrefConfig.readMyNewsListFromPref(NewsDetailActivity.this) != null){
+                myNewsList = (ArrayList<MyNews>) PrefConfig.readMyNewsListFromPref(NewsDetailActivity.this);
+
+                for (int i = 0; i<myNewsList.size(); i++){
+                    if (myNews.id == myNewsList.get(i).id){
+                        Toast.makeText(NewsDetailActivity.this, "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
+            myNewsList.add(myNews);
+            PrefConfig.writeMyNewsListInPref(NewsDetailActivity.this, myNewsList);
+            Toast.makeText(NewsDetailActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+        });
 
         binding.swipeLeft.setVisibility(View.VISIBLE);
         binding.swipeRight.setVisibility(View.VISIBLE);
         MethodsClass.animationSwipe(binding.swipeLeft, 0, -30);
         MethodsClass.animationSwipe(binding.swipeRight, 0, 30);
 
-
-        reduceDragSensitivity(5);
+        reduceDragSensitivity(4);
     }
 
 
     @Override
-    public void onDetailResponseListener(int newsId, String newsUrl) {
+    public void onDetailResponseListener(int newsId, String newsUrl, String newsTitle) {
         this.newsId = newsId;
         this.newsUrl = newsUrl;
+        this.newsTitle = newsTitle;
     }
 
     private void reduceDragSensitivity(int sensitivity) {

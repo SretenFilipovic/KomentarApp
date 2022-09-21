@@ -4,22 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationSet;
-import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cubes.komentarapp.data.model.domain.Comments;
+import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
 import com.cubes.komentarapp.data.model.domain.Vote;
 import com.cubes.komentarapp.data.source.datarepository.DataRepository;
@@ -33,7 +31,6 @@ import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
 import com.cubes.komentarapp.ui.tools.listeners.NewsDetailListener;
-import com.cubes.komentarapp.ui.tools.listeners.WebViewListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -50,6 +47,8 @@ public class NewsDetailFragment extends Fragment {
     private DetailListener detailListener;
     private FirebaseAnalytics analytics;
     private DataRepository dataRepository;
+    private ArrayList<MyNews> myNewsList = new ArrayList<>();
+
 
     public NewsDetailFragment() {
     }
@@ -95,19 +94,7 @@ public class NewsDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.nestedScroll.setOnScrollChangeListener((View.OnScrollChangeListener) (view1, i, i1, i2, i3) -> {
-                int length = binding.nestedScroll.getChildAt(0).getHeight() - binding.nestedScroll.getHeight();
-
-                binding.progressIndicator.setMax(length);
-                binding.progressIndicator.setProgress(i1);
-            });
-        }
-
-        binding.refresh.setOnClickListener(view1 -> {
-            binding.progressBar.setVisibility(View.VISIBLE);
-            loadData();
-        });
+        binding.refresh.setOnClickListener(view1 -> loadData());
 
         binding.pullToRefresh.setOnRefreshListener(() -> {
             setupRecyclerView();
@@ -121,13 +108,16 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        detailListener.onDetailResponseListener(newsId, newsUrl);
+        detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle);
     }
 
     private void loadData() {
 
-        if (PrefConfig.readListFromPref(getActivity()) != null) {
-            votes = (ArrayList<Vote>) PrefConfig.readListFromPref(getActivity());
+        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.startShimmerAnimation();
+
+        if (PrefConfig.readVoteListFromPref(getActivity()) != null) {
+            votes = (ArrayList<Vote>) PrefConfig.readVoteListFromPref(getActivity());
         }
 
         dataRepository.getNewsDetails(newsId, new DataRepository.NewsDetailListener() {
@@ -140,7 +130,7 @@ public class NewsDetailFragment extends Fragment {
                 newsUrl = response.url;
                 newsTitle = response.title;
 
-                detailListener.onDetailResponseListener(newsId, newsUrl);
+                detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("news", newsTitle);
@@ -177,6 +167,44 @@ public class NewsDetailFragment extends Fragment {
                         i.putExtra("newsTitle", newsTitle);
                         startActivity(i);
                     }
+
+                    @Override
+                    public void onShareNewsClicked(String newsUrl) {
+                        Intent i = new Intent();
+                        i.setAction(Intent.ACTION_SEND);
+                        i.putExtra(Intent.EXTRA_TEXT, newsUrl);
+                        i.setType("text/plain");
+                        startActivity(Intent.createChooser(i, null));
+                    }
+
+                    @Override
+                    public void onCommentNewsClicked(int newsId) {
+                        Intent i = new Intent(getContext(), CommentsActivity.class);
+                        i.putExtra("news", newsId);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onSaveNewsClicked(int newsId, String newsTitle) {
+
+                        MyNews myNews = new MyNews(newsId, newsTitle);
+
+                        if (PrefConfig.readMyNewsListFromPref(requireActivity()) != null){
+                            myNewsList = (ArrayList<MyNews>) PrefConfig.readMyNewsListFromPref(requireActivity());
+
+                            for (int i = 0; i<myNewsList.size(); i++){
+                                if (myNews.id == myNewsList.get(i).id){
+                                    Toast.makeText(getContext(), "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+
+                        }
+                        myNewsList.add(myNews);
+                        PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+                        Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+
+                    }
                 }, new CommentsListener() {
                     @Override
                     public void onReplyClicked(Comments comment) {
@@ -195,7 +223,7 @@ public class NewsDetailFragment extends Fragment {
                                 Vote vote = new Vote(comment.id, true);
                                 votes.add(vote);
 
-                                PrefConfig.writeListInPref(getActivity(), votes);
+                                PrefConfig.writeVoteListInPref(getActivity(), votes);
 
                                 adapter.commentUpvoted(comment.id);
 
@@ -219,7 +247,7 @@ public class NewsDetailFragment extends Fragment {
                                 Vote vote = new Vote(comment.id, false);
                                 votes.add(vote);
 
-                                PrefConfig.writeListInPref(getActivity(), votes);
+                                PrefConfig.writeVoteListInPref(getActivity(), votes);
 
                                 adapter.commentDownvoted(comment.id);
 
@@ -233,13 +261,12 @@ public class NewsDetailFragment extends Fragment {
                             }
                         });
                     }
-                }, new WebViewListener() {
-                    @Override
-                    public void onWebViewLoaded() {
-                        binding.recyclerView.setVisibility(View.VISIBLE);
-                        binding.refresh.setVisibility(View.GONE);
-                        binding.progressBar.setVisibility(View.GONE);
-                    }
+                }, () -> {
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    binding.refresh.setVisibility(View.GONE);
+
+                    binding.shimmerViewContainer.setVisibility(View.GONE);
+                    binding.shimmerViewContainer.stopShimmerAnimation();
                 });
 
                 binding.pullToRefresh.setRefreshing(false);
@@ -253,7 +280,7 @@ public class NewsDetailFragment extends Fragment {
                 Toast.makeText(getContext(), "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
                 binding.refresh.setVisibility(View.VISIBLE);
-                binding.progressBar.setVisibility(View.GONE);
+                binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.pullToRefresh.setRefreshing(false);
 
                 Log.d("DETAIL", "Detail load data failure");
@@ -262,11 +289,12 @@ public class NewsDetailFragment extends Fragment {
     }
 
     private void  setupRecyclerView(){
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerView.setLayoutManager(layoutManager);
         adapter = new NewsDetailAdapter();
         binding.recyclerView.setAdapter(adapter);
 
-        binding.recyclerView.setItemViewCacheSize(20);
+        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 
 }

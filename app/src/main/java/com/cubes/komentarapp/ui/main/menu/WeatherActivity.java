@@ -15,6 +15,8 @@ import com.cubes.komentarapp.di.AppContainer;
 import com.cubes.komentarapp.di.MyApplication;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+
 public class WeatherActivity extends AppCompatActivity {
 
     private ActivityWeatherBinding binding;
@@ -32,6 +34,28 @@ public class WeatherActivity extends AppCompatActivity {
         dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
+
+        Calendar calendar = Calendar.getInstance();
+        int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay >= 5 && timeOfDay < 8){
+            binding.backgroundImg.setImageResource(R.drawable.time_morning);
+        }
+        else if(timeOfDay >= 8 && timeOfDay < 12){
+            binding.backgroundImg.setImageResource(R.drawable.time_before_noon);
+        }
+        else if(timeOfDay >= 12 && timeOfDay < 16){
+            binding.backgroundImg.setImageResource(R.drawable.time_afternoon);
+        }
+        else if(timeOfDay >= 16 && timeOfDay < 18){
+            binding.backgroundImg.setImageResource(R.drawable.time_before_dusk);
+        }
+        else if(timeOfDay >= 18 && timeOfDay < 22){
+            binding.backgroundImg.setImageResource(R.drawable.time_dusk);
+        }
+        else {
+            binding.backgroundImg.setImageResource(R.drawable.time_night);
+        }
 
         loadData();
     }

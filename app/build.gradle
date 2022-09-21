@@ -66,6 +66,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
     implementation 'com.google.firebase:firebase-messaging:23.0.7'
 
+    // page turning animacije
+    implementation 'com.wajahatkarim:easyflipviewpager:2.0.1'
 
-
+    // shimmer animacija
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 }
