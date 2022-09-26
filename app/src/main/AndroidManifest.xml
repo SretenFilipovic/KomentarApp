@@ -30,7 +30,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.main.menu.HoroscopeActivity"
+            android:name=".ui.main.horoscope.HoroscopeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

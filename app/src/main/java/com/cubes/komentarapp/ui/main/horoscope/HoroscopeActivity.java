@@ -1,7 +1,8 @@
-package com.cubes.komentarapp.ui.main.menu;
+package com.cubes.komentarapp.ui.main.horoscope;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,8 @@ public class HoroscopeActivity extends AppCompatActivity {
 
         binding.imageViewBack.setOnClickListener(view -> finish());
 
+        binding.refresh.setOnClickListener(view -> loadData());
+
         loadData();
 
     }
@@ -50,6 +53,8 @@ public class HoroscopeActivity extends AppCompatActivity {
                 binding.textViewDescription.setText(horoscope.horoscope);
                 Picasso.get().load(horoscope.imageUrl).into(binding.imageViewHoroscope);
 
+                binding.linearLayoutAries.setVisibility(View.VISIBLE);
+                binding.refresh.setVisibility(View.GONE);
                 Log.d("HOROSCOPE", "Horoscope load data success");
             }
 
@@ -57,6 +62,8 @@ public class HoroscopeActivity extends AppCompatActivity {
             public void onFailure(Throwable t) {
                 Toast.makeText(HoroscopeActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
 
+                binding.linearLayoutAries.setVisibility(View.GONE);
+                binding.refresh.setVisibility(View.VISIBLE);
                 Log.d("HOROSCOPE", "Horoscope load data failure");
             }
         });

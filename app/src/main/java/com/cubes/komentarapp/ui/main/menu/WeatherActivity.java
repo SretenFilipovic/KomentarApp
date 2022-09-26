@@ -3,6 +3,7 @@ package com.cubes.komentarapp.ui.main.menu;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,8 @@ public class WeatherActivity extends AppCompatActivity {
         dataRepository = appContainer.dataRepository;
 
         binding.imageViewBack.setOnClickListener(view -> finish());
+
+        binding.refresh.setOnClickListener(view -> loadData());
 
         Calendar calendar = Calendar.getInstance();
         int timeOfDay = calendar.get(Calendar.HOUR_OF_DAY);
@@ -98,14 +101,17 @@ public class WeatherActivity extends AppCompatActivity {
                 binding.textViewTempDay6.setText(weather.day7.tempMax + " / " + weather.day7.tempMin);
                 Picasso.get().load(weather.day7.iconUrl).into(binding.imageViewIconDay6);
 
-                Log.d("WEATHER", "Weather load data success");
+                binding.linearLayoutWeather.setVisibility(View.VISIBLE);
+                binding.refresh.setVisibility(View.GONE);
 
+                Log.d("WEATHER", "Weather load data success");
             }
 
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(WeatherActivity.this, "Došlo je do greške.", Toast.LENGTH_SHORT).show();
-
+                binding.linearLayoutWeather.setVisibility(View.GONE);
+                binding.refresh.setVisibility(View.VISIBLE);
                 Log.d("WEATHER", "Weather load data failure");
             }
         });

@@ -72,7 +72,7 @@
                     android:layout_marginEnd="@dimen/text_size_big"
                     android:layout_marginBottom="@dimen/margin_main"
                     android:background="@drawable/button_circle"
-                    android:text="@string/to_the_top"
+                    android:text="@string/arrow_up"
                     android:textColor="@drawable/button_text_color"
                     android:textSize="30sp"
                     android:textStyle="bold" />

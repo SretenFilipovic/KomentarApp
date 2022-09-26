@@ -60,7 +60,7 @@
         android:layout_height="50dp"
         android:background="@drawable/button_circle"
         android:layout_gravity="bottom|end"
-        android:text="@string/to_the_top"
+        android:text="@string/arrow_up"
         android:textColor="@drawable/button_text_color"
         android:textSize="30sp"
         android:textStyle="bold"

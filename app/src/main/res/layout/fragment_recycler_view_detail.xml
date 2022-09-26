@@ -52,16 +52,13 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <Button
+    <ImageButton
         android:id="@+id/scrollToTop"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/button_circle"
         android:layout_gravity="bottom|end"
-        android:text="@string/to_the_top"
-        android:textColor="@drawable/button_text_color"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:src="@drawable/ic_up_down"
         android:layout_marginEnd="@dimen/text_size_big"
         android:layout_marginBottom="@dimen/margin_main" />
 

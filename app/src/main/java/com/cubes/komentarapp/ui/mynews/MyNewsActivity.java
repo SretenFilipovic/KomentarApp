@@ -33,7 +33,6 @@ public class MyNewsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.imageViewBack.setOnClickListener(view -> finish());
-        binding.pullToRefresh.setOnRefreshListener(this::setupRecyclerView);
 
         ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -46,7 +45,6 @@ public class MyNewsActivity extends AppCompatActivity {
             }
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
             }
         };
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -91,15 +89,11 @@ public class MyNewsActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(adapter);
 
-        binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
-
         if (myNewsList.size() == 0) {
             binding.textViewNoNews.setVisibility(View.VISIBLE);
         } else {
             binding.textViewNoNews.setVisibility(View.GONE);
         }
-
-        binding.pullToRefresh.setRefreshing(false);
     }
 
 }

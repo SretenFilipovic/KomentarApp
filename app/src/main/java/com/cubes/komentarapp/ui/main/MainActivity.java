@@ -27,7 +27,7 @@ import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.main.home.HomeFragment;
 import com.cubes.komentarapp.ui.main.latest.LatestFragment;
 import com.cubes.komentarapp.ui.main.menu.CurrencyActivity;
-import com.cubes.komentarapp.ui.main.menu.HoroscopeActivity;
+import com.cubes.komentarapp.ui.main.horoscope.HoroscopeActivity;
 import com.cubes.komentarapp.ui.main.menu.MenuAdapter;
 import com.cubes.komentarapp.ui.main.menu.WeatherActivity;
 import com.cubes.komentarapp.ui.main.search.SearchFragment;
