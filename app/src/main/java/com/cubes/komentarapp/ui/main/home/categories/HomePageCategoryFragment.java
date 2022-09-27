@@ -22,6 +22,7 @@ import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
 import com.cubes.komentarapp.ui.main.NewsWithHeaderAdapter;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -137,7 +138,9 @@ public class HomePageCategoryFragment extends Fragment {
 
                     for (int i = 0; i<myNewsList.size(); i++){
                         if (myNews.id == myNewsList.get(i).id){
-                            Toast.makeText(getContext(), "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                            myNewsList.remove(myNewsList.get(i));
+                            PrefConfig.writeMyNewsListInPref(requireActivity(), myNewsList);
+                            Toast.makeText(getContext(), "Uspešno ste izbacili vest iz liste.", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -146,6 +149,12 @@ public class HomePageCategoryFragment extends Fragment {
                 PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
                 Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
             }
+
+            @Override
+            public boolean onShowMoreClicked(int newsId) {
+                return MethodsClass.isSaved(newsId, requireActivity());
+            }
+
         }, () -> dataRepository.loadCategoryNewsData(categoryId, nextPage, new DataRepository.NewsResponseListener() {
             @Override
             public void onResponse(ArrayList<News> response) {

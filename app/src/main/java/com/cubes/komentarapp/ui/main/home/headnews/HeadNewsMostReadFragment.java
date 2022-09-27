@@ -16,6 +16,7 @@ import com.cubes.komentarapp.data.model.domain.News;
 import com.cubes.komentarapp.databinding.FragmentMostReadNewsBinding;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.detail.NewsDetailActivity;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.NewsListener;
 
@@ -92,6 +93,11 @@ public class HeadNewsMostReadFragment extends Fragment {
                 MyNews myNews = new MyNews(newsId, newsTitle);
                 myNewsList.add(myNews);
                 PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
+            }
+
+            @Override
+            public boolean onShowMoreClicked(int newsId) {
+                return MethodsClass.isSaved(newsId, requireActivity());
             }
         });
 

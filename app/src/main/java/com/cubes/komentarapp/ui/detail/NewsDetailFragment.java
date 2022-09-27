@@ -13,9 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.cubes.komentarapp.R;
 import com.cubes.komentarapp.data.model.domain.Comments;
 import com.cubes.komentarapp.data.model.domain.MyNews;
 import com.cubes.komentarapp.data.model.domain.NewsDetail;
@@ -27,6 +25,7 @@ import com.cubes.komentarapp.di.MyApplication;
 import com.cubes.komentarapp.ui.comments.CommentsActivity;
 import com.cubes.komentarapp.ui.comments.PostCommentActivity;
 import com.cubes.komentarapp.ui.tags.TagActivity;
+import com.cubes.komentarapp.ui.tools.MethodsClass;
 import com.cubes.komentarapp.ui.tools.PrefConfig;
 import com.cubes.komentarapp.ui.tools.listeners.CommentsListener;
 import com.cubes.komentarapp.ui.tools.listeners.DetailListener;
@@ -44,6 +43,7 @@ public class NewsDetailFragment extends Fragment {
     private int newsId;
     private String newsUrl;
     private String newsTitle;
+    private boolean isSaved;
     private DetailListener detailListener;
     private FirebaseAnalytics analytics;
     private DataRepository dataRepository;
@@ -108,7 +108,9 @@ public class NewsDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle);
+
+        isSaved = MethodsClass.isSaved(newsId, requireActivity());
+        detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle, isSaved);
     }
 
     private void loadData() {
@@ -129,8 +131,9 @@ public class NewsDetailFragment extends Fragment {
                 newsId = response.id;
                 newsUrl = response.url;
                 newsTitle = response.title;
+                isSaved = MethodsClass.isSaved(response.id, requireActivity());
 
-                detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle);
+                detailListener.onDetailResponseListener(newsId, newsUrl, newsTitle, isSaved);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("news", newsTitle);
@@ -189,12 +192,14 @@ public class NewsDetailFragment extends Fragment {
 
                         MyNews myNews = new MyNews(newsId, newsTitle);
 
-                        if (PrefConfig.readMyNewsListFromPref(requireActivity()) != null){
+                        if (PrefConfig.readMyNewsListFromPref(requireActivity()) != null) {
                             myNewsList = (ArrayList<MyNews>) PrefConfig.readMyNewsListFromPref(requireActivity());
 
-                            for (int i = 0; i<myNewsList.size(); i++){
-                                if (myNews.id == myNewsList.get(i).id){
-                                    Toast.makeText(getContext(), "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                            for (int i = 0; i < myNewsList.size(); i++) {
+                                if (myNews.id == myNewsList.get(i).id) {
+                                    myNewsList.remove(myNewsList.get(i));
+                                    PrefConfig.writeMyNewsListInPref(requireActivity(), myNewsList);
+                                    Toast.makeText(getContext(), "Uspešno ste izbacili vest iz liste.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }
@@ -204,6 +209,11 @@ public class NewsDetailFragment extends Fragment {
                         PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
                         Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
 
+                    }
+
+                    @Override
+                    public boolean onShowMoreClicked(int newsId) {
+                        return MethodsClass.isSaved(newsId, requireActivity());
                     }
                 }, new CommentsListener() {
                     @Override
@@ -288,7 +298,7 @@ public class NewsDetailFragment extends Fragment {
         });
     }
 
-    private void  setupRecyclerView(){
+    private void setupRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.recyclerView.setLayoutManager(layoutManager);
         adapter = new NewsDetailAdapter();
@@ -297,4 +307,6 @@ public class NewsDetailFragment extends Fragment {
         binding.scrollToTop.setOnClickListener(view12 -> layoutManager.smoothScrollToPosition(binding.recyclerView, null, 0));
     }
 
+
 }
+

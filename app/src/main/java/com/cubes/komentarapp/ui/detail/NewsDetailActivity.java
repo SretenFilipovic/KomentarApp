@@ -26,6 +26,7 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
     private int newsId;
     private String newsUrl;
     private String newsTitle;
+    private boolean isSaved;
     private ActivityNewsDetailBinding binding;
     private ArrayList<MyNews> myNewsList = new ArrayList<>();
 
@@ -45,6 +46,8 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
         CardFlipPageTransformer2 bookFlipPageTransformer = new CardFlipPageTransformer2();
         bookFlipPageTransformer.setScalable(false);
         binding.viewPager.setPageTransformer(bookFlipPageTransformer);
+
+        //binding.viewPager.setOffscreenPageLimit(1);
 
         for (int i = 0; i < newsIdList.length; i++) {
             if (newsId == newsIdList[i]) {
@@ -69,6 +72,12 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
             startActivity(i);
         });
 
+        if (isSaved) {
+            binding.imageViewSave.setImageResource(R.drawable.ic_bookmark_filled);
+        } else {
+            binding.imageViewSave.setImageResource(R.drawable.ic_bookmark);
+        }
+
         binding.imageViewSave.setOnClickListener(view -> {
             MyNews myNews = new MyNews(newsId, newsTitle);
 
@@ -77,13 +86,17 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
 
                 for (int i = 0; i<myNewsList.size(); i++){
                     if (myNews.id == myNewsList.get(i).id){
-                        Toast.makeText(NewsDetailActivity.this, "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                        myNewsList.remove(myNewsList.get(i));
+                        PrefConfig.writeMyNewsListInPref(NewsDetailActivity.this, myNewsList);
+                        binding.imageViewSave.setImageResource(R.drawable.ic_bookmark);
+                        Toast.makeText(NewsDetailActivity.this, "Uspešno ste izbacili vest iz liste.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
             }
             myNewsList.add(myNews);
             PrefConfig.writeMyNewsListInPref(NewsDetailActivity.this, myNewsList);
+            binding.imageViewSave.setImageResource(R.drawable.ic_bookmark_filled);
             Toast.makeText(NewsDetailActivity.this, "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
         });
 
@@ -97,10 +110,17 @@ public class NewsDetailActivity extends AppCompatActivity implements DetailListe
 
 
     @Override
-    public void onDetailResponseListener(int newsId, String newsUrl, String newsTitle) {
+    public void onDetailResponseListener(int newsId, String newsUrl, String newsTitle, boolean isSaved) {
         this.newsId = newsId;
         this.newsUrl = newsUrl;
         this.newsTitle = newsTitle;
+        this.isSaved = isSaved;
+
+        if (isSaved) {
+            binding.imageViewSave.setImageResource(R.drawable.ic_bookmark_filled);
+        } else {
+            binding.imageViewSave.setImageResource(R.drawable.ic_bookmark);
+        }
     }
 
     private void reduceDragSensitivity(int sensitivity) {

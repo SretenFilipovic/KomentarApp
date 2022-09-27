@@ -53,6 +53,12 @@ public class MyNewsActivity extends AppCompatActivity {
         setupRecyclerView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupRecyclerView();
+    }
+
     private void setupRecyclerView() {
 
         if (PrefConfig.readMyNewsListFromPref(this) != null) {

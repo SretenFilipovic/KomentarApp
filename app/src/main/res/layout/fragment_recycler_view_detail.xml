@@ -59,7 +59,7 @@
         android:background="@drawable/button_circle"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_up_down"
-        android:layout_marginEnd="@dimen/text_size_big"
+        android:layout_marginEnd="@dimen/text_size_biggest"
         android:layout_marginBottom="@dimen/margin_main" />
 
 </FrameLayout>

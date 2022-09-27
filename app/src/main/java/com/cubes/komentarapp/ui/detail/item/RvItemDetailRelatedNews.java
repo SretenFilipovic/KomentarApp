@@ -61,6 +61,13 @@ public class RvItemDetailRelatedNews implements RvItemDetail {
             });
 
             ImageView save = layout.findViewById(R.id.btnBookmark);
+            if (listener.onShowMoreClicked(news.id)){
+                save.setImageResource(R.drawable.ic_bookmark_filled);
+            }
+            else {
+                save.setImageResource(R.drawable.ic_bookmark);
+            }
+
             save.setOnClickListener(view12 -> {
                 listener.onSaveNewsClicked(news.id, news.title);
                 popupWindow.dismiss();

@@ -148,7 +148,9 @@ public class SearchFragment extends Fragment {
 
                     for (int i = 0; i<myNewsList.size(); i++){
                         if (myNews.id == myNewsList.get(i).id){
-                            Toast.makeText(getContext(), "Ova vest je već sačuvana.", Toast.LENGTH_SHORT).show();
+                            myNewsList.remove(myNewsList.get(i));
+                            PrefConfig.writeMyNewsListInPref(requireActivity(), myNewsList);
+                            Toast.makeText(getContext(), "Uspešno ste izbacili vest iz liste.", Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -156,6 +158,11 @@ public class SearchFragment extends Fragment {
                 myNewsList.add(myNews);
                 PrefConfig.writeMyNewsListInPref(getActivity(), myNewsList);
                 Toast.makeText(getContext(), "Uspešno ste sačuvali vest.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public boolean onShowMoreClicked(int newsId) {
+                return MethodsClass.isSaved(newsId, requireActivity());
             }
         },() -> dataRepository.loadSearchData(String.valueOf(binding.editText.getText()), nextPage, new DataRepository.NewsResponseListener() {
             @Override

@@ -9,4 +9,6 @@ public interface NewsListener {
     void onCommentNewsClicked(int newsId);
 
     void onSaveNewsClicked(int newsId, String newsTitle);
+
+    boolean onShowMoreClicked(int newsId);
 }

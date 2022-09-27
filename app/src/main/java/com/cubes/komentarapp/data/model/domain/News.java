@@ -10,5 +10,4 @@ public class News {
     public String createdAt;
     public String url;
 
-
 }

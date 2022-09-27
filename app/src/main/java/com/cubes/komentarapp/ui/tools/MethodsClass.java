@@ -65,6 +65,18 @@ public class MethodsClass {
         return MethodsClass.initNewsIdList(getAllNews(response));
     }
 
+    public static boolean isSaved(int newsId, Activity activity) {
+        if (PrefConfig.readMyNewsListFromPref(activity) != null) {
+
+            for (int i = 0; i<PrefConfig.readMyNewsListFromPref(activity).size(); i++) {
+                if (newsId == PrefConfig.readMyNewsListFromPref(activity).get(i).id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager manager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
